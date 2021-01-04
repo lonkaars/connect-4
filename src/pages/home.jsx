@@ -1,9 +1,12 @@
-function home() {
+import NavBar from '../components/navbar';
+
+function HomePage() {
 	return (
-		<body>
-			<div>banaan</div>
-		</body>
+		<div>
+			<NavBar />
+			<div>Zalige content op deze pagina yo</div>
+		</div>
 	);
 }
 
-export default home;
+export default HomePage;

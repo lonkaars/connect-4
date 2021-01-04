@@ -1,8 +1,8 @@
 :root {
-	--text-color: #FCFFFD;
-	--page-background-color: #FCFFFD;
+	--text: #FCFFFD;
+	--page-background: #FCFFFD;
 
-	--background-color: #5D737E;
+	--background: #5D737E;
 	--background-alt: #81949E;
 
 	--disk-a: #E16D82;
