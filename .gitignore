@@ -16,6 +16,7 @@ database/*.db
 
 # node / ts
 *.js
+*.d.ts
 node_modules/
 
 # eslint
