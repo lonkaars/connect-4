@@ -6,7 +6,7 @@ export function LogoDark() {
 				<circle cx="6.5" cy="6.5" r="4.5" fill="var(--disk-b)"/>
 				<circle cx="6.5" cy="17.5" r="4.5" fill="var(--disk-a)"/>
 				<circle cx="17.5" cy="17.5" r="4.5" fill="var(--disk-b)"/>
-				<circle cx="17.5" cy="6.5" r="3.5" stroke="var(--text)" stroke-width="2"/>
+				<circle cx="17.5" cy="6.5" r="3.5" stroke="var(--text)" strokeWidth="2"/>
 			</svg>
 		</div>
 	);
@@ -20,7 +20,7 @@ export function LogoLight() {
 				<circle cx="6.5" cy="6.5" r="4.5" fill="var(--disk-b)"/>
 				<circle cx="6.5" cy="17.5" r="4.5" fill="var(--disk-a)"/>
 				<circle cx="17.5" cy="17.5" r="4.5" fill="var(--disk-b)"/>
-				<circle cx="17.5" cy="6.5" r="3.5" stroke="var(--background)" stroke-width="2"/>
+				<circle cx="17.5" cy="6.5" r="3.5" stroke="var(--background)" strokeWidth="2"/>
 			</svg>
 		</div>
 	);

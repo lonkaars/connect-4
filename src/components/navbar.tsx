@@ -38,7 +38,7 @@ var NavBarSettingsAreaStyle: CSSProperties = {
 	left: 0
 }
 
-function NavBar() {
+export function NavBar() {
 	return (
 		<div className="navbar" style={NavBarStyle}>
 			<div style={NavBarItemStyle}><LogoDark/></div>
@@ -54,4 +54,3 @@ function NavBar() {
 	);
 }
 
-export default NavBar;
