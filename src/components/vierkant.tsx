@@ -6,7 +6,8 @@ var VierkantStyle: CSSProperties = {
 	borderRadius: 8,
 	color: "var(--text)",
 	margin: 6, // geen margin collapse = 12px marge
-	display: "inline-block"
+	display: "inline-block",
+	position: "relative"
 }
 
 export class Vierkant extends Component {
