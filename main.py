@@ -6,8 +6,3 @@ app = Flask(__name__)
 def testroute():
     return "It's working!"
 
-def main():
-    print("Hello world!")
-
-if __name__ == "__main__":
-    main()
