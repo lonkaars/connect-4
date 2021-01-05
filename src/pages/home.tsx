@@ -7,6 +7,9 @@ import { Vierkant } from '../components/vierkant';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import ExtensionIcon from '@material-ui/icons/Extension';
 
+import Icon from '@mdi/react';
+import { mdiRobotExcited } from '@mdi/js';
+
 var GameModeIconStyle: CSSProperties = {
 	fontSize: 64,
 	display: "inline-block",
@@ -47,7 +50,7 @@ function HomePage() {
 					<div style={SquareSize}></div>
 				</Vierkant>
 				<Vierkant>
-					<VideogameAssetIcon style={GameModeIconStyle}/>
+					<Icon path={mdiRobotExcited} style={GameModeIconStyle}/>
 					<span style={GameModeTextStyle}>Tegen computer</span>
 					<div style={SquareSize}></div>
 				</Vierkant>
