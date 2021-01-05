@@ -48,7 +48,7 @@ var RightAlignedTableColumn: CSSProperties = {
 	paddingRight: 16
 }
 
-function HomePage() {
+export default function HomePage() {
 	return (
 		<div>
 			<NavBar />
@@ -133,4 +133,3 @@ function HomePage() {
 	);
 }
 
-export default HomePage;

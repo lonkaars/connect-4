@@ -48,7 +48,7 @@ export function NavBar() {
 			<a href="/" style={NavBarItemStyle}><SearchIcon/></a>
 
 			<div style={NavBarSettingsAreaStyle}>
-				<a href="/" style={NavBarItemStyle}><SettingsIcon/></a>
+				<a href="/settings" style={NavBarItemStyle}><SettingsIcon/></a>
 			</div>
 		</div>
 	);
