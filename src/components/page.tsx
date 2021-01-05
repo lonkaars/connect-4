@@ -7,8 +7,11 @@ var CenteredPageStyle: CSSProperties = {
 
 export class CenteredPage extends Component {
 	render () {
-		return <div style={CenteredPageStyle}>
-			<div style={{margin: "0 6px"}}> {this.props.children} </div>
+		return <div className="CenteredPageOuter" style={CenteredPageStyle}>
+		<div className="CenteredPageInner" style={{
+			margin: "0 6px",
+			lineHeight: 0
+		}}> {this.props.children} </div>
 		</div>;
 	}
 }

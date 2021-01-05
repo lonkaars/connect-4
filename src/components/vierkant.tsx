@@ -1,20 +1,24 @@
-import { Component, CSSProperties } from "react";
+import { ReactNode } from "react";
 
-var VierkantStyle: CSSProperties = {
-	padding: 24,
-	backgroundColor: "var(--background)",
-	borderRadius: 8,
-	color: "var(--text)",
-	margin: 6, // geen margin collapse = 12px marge
-	display: "inline-block",
-	position: "relative"
+interface VierkantProps {
+	href?: string;
+	width?: string;
+	height?: string;
+	children?: ReactNode;
 }
 
-export class Vierkant extends Component {
-	render () {
-		return <div style={VierkantStyle}>
-			{this.props.children}
-		</div>
-	}
+export function Vierkant(props: VierkantProps) {
+	return <a style={{
+		padding: 24,
+		backgroundColor: "var(--background)",
+		borderRadius: 8,
+		color: "var(--text)",
+		margin: 6, // geen margin collapse = 12px marge
+		display: "inline-block",
+		position: "relative",
+		boxSizing: "border-box",
+		width: props.width ? props.width : undefined,
+		height: props.height ? props.height : undefined,
+	}} href={props.href}>{props.children}</a>
 }
 

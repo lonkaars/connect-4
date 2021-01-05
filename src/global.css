@@ -25,15 +25,27 @@ body {
 }
 
 /* font size */
-html {
-	font-size: 14px;
-}
+html { font-size: 14px; }
 
 /* link color fix */
-a {
-	color: var(--text);
+a { color: var(--text); }
+
+/* centering misschien */
+.CenteredPageInner { text-align: center; }
+.CenteredPageInner > * { text-align: left; }
+
+/* line height reset */
+h1, h2, p, span, td, th {
+	margin: 0;
+	line-height: 1.2;
 }
 
-p {
-	margin: 6px 0;
+/* table groottes met percentages werkt nu */
+table { table-layout: fixed; }
+
+/* table styles */
+td, th {
+	padding: 4px;
+	font-size: 15px;
 }
+
