@@ -1,7 +1,7 @@
 import { Component, CSSProperties } from 'react';
 
 var CenteredPageStyle: CSSProperties = {
-	maxWidth: 783,
+	maxWidth: 802,
 	margin: "0 auto"
 }
 
@@ -14,7 +14,7 @@ export class CenteredPage extends Component {
 }
 
 var PageTitleStyle: CSSProperties = {
-	color: "var(--background)",
+	color: "var(--text-alt)",
 	marginLeft: 6,
 	marginTop: 32,
 	marginBottom: 64,
