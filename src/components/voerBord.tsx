@@ -28,12 +28,6 @@ export function VoerBord(props: VoerBordProps) {
 							border: "2px solid var(--background-alt)",
 							opacity: .5
 						}}/>
-						<div style={{
-							position: "absolute",
-							top: 2, left: 2, right: 2, bottom: 2,
-							backgroundColor: "var(--disk-a)",
-							borderRadius: 999999
-						}}/>
 					</td>
 				))}
 			</tr>

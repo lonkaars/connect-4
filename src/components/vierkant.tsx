@@ -1,9 +1,10 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 interface VierkantProps {
 	href?: string;
 	width?: string;
 	height?: string;
+	style?: CSSProperties;
 	children?: ReactNode;
 }
 
@@ -19,6 +20,7 @@ export function Vierkant(props: VierkantProps) {
 		boxSizing: "border-box",
 		width: props.width ? props.width : undefined,
 		height: props.height ? props.height : undefined,
+		...props.style
 	}} href={props.href}>{props.children}</a>
 }
 
