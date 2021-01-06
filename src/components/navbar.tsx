@@ -43,7 +43,7 @@ export function NavBar() {
 		<div className="navbar" style={NavBarStyle}>
 			<div style={NavBarItemStyle}><LogoDark/></div>
 			<a href="/" style={NavBarItemStyle}><Home/></a>
-			<a href="/" style={NavBarItemStyle}><VideogameAssetIcon/></a>
+			<a href="/game" style={NavBarItemStyle}><VideogameAssetIcon/></a>
 			<a href="/" style={NavBarItemStyle}><ExtensionIcon/></a>
 			<a href="/" style={NavBarItemStyle}><SearchIcon/></a>
 

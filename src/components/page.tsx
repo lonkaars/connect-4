@@ -1,31 +1,30 @@
-import { Component, CSSProperties } from 'react';
+import { Component, ReactNode } from 'react';
 
-var CenteredPageStyle: CSSProperties = {
-	maxWidth: 802,
-	margin: "0 auto"
+interface CenteredPageProps {
+	width?: number;
+	children?: ReactNode;
 }
 
-export class CenteredPage extends Component {
-	render () {
-		return <div className="CenteredPageOuter" style={CenteredPageStyle}>
-		<div className="CenteredPageInner" style={{
-			margin: "0 6px",
-			lineHeight: 0
-		}}> {this.props.children} </div>
-		</div>;
-	}
-}
-
-var PageTitleStyle: CSSProperties = {
-	color: "var(--text-alt)",
-	marginLeft: 6,
-	marginTop: 32,
-	marginBottom: 64,
-	fontSize: 25
+export function CenteredPage (props: CenteredPageProps) {
+	return <div className="CenteredPageOuter" style={{
+		maxWidth: props.width,
+		margin: "0 auto"
+	}}>
+	<div className="CenteredPageInner" style={{
+		margin: "0 6px",
+		lineHeight: 0
+	}}> {props.children} </div>
+	</div>;
 }
 
 export class PageTitle extends Component {
 	render () {
-		return <h1 style={PageTitleStyle}>{this.props.children}</h1>;
+		return <h1 style={{
+			color: "var(--text-alt)",
+			marginLeft: 6,
+			marginTop: 32,
+			marginBottom: 64,
+			fontSize: 25
+		}}>{this.props.children}</h1>;
 	}
 }

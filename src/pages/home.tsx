@@ -51,10 +51,10 @@ var RightAlignedTableColumn: CSSProperties = {
 export default function HomePage() {
 	return (
 		<div>
-			<NavBar />
-			<CenteredPage>
+			<NavBar/>
+			<CenteredPage width={802}>
 				<PageTitle>4 op een rij</PageTitle>
-				<Vierkant href="/">
+				<Vierkant href="/game">
 					<VideogameAssetIcon style={GameModeIconStyle}/>
 					<span style={GameModeTextStyle}>Nieuw spel</span>
 					<div style={SquareSize}></div>

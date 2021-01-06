@@ -6,8 +6,8 @@ import { Vierkant } from '../components/vierkant';
 export default function SettingsPage() {
 	return (
 		<div>
-			<NavBar />
-			<CenteredPage>
+			<NavBar/>
+			<CenteredPage width={802}>
 				<PageTitle>Instellingen</PageTitle>
 				<Vierkant width="calc(100% - 12px)">
 					<h2>Account</h2>
