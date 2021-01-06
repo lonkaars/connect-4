@@ -10,10 +10,10 @@ export function CenteredPage (props: CenteredPageProps) {
 		maxWidth: props.width,
 		margin: "0 auto"
 	}}>
-	<div className="CenteredPageInner" style={{
-		margin: "0 6px",
-		lineHeight: 0
-	}}> {props.children} </div>
+		<div className="CenteredPageInner" style={{
+			margin: "0 6px",
+			lineHeight: 0
+		}}>{props.children}</div>
 	</div>;
 }
 

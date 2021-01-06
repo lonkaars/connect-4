@@ -10,7 +10,7 @@ export function AccountAvatar(props: AccountAvatarProps) {
 		backgroundImage: props.image,
 		backgroundSize: "cover",
 		display: "inline-block"
-	}}></div>;
+	}}/>;
 }
 
 
