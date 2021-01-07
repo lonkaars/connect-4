@@ -8,6 +8,7 @@ interface VierkantProps {
 	height?: string;
 	style?: CSSProperties;
 	children?: ReactNode;
+	className?: string;
 }
 
 export function Vierkant(props: VierkantProps) {
@@ -23,7 +24,7 @@ export function Vierkant(props: VierkantProps) {
 		width: props.width ? props.width : undefined,
 		height: props.height ? props.height : undefined,
 		...props.style
-	}} href={props.href}>{props.children}</a>
+	}} href={props.href} className={props.className}>{props.children}</a>
 }
 
 interface ButtonProps {

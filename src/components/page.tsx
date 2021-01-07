@@ -1,8 +1,9 @@
-import { Component, ReactNode } from 'react';
+import { Component, CSSProperties, ReactNode } from 'react';
 
 interface CenteredPageProps {
 	width?: number;
 	children?: ReactNode;
+	style?: CSSProperties;
 }
 
 export function CenteredPage (props: CenteredPageProps) {
@@ -12,7 +13,8 @@ export function CenteredPage (props: CenteredPageProps) {
 	}}>
 		<div className="CenteredPageInner" style={{
 			margin: "0 6px",
-			lineHeight: 0
+			lineHeight: 0,
+			...props.style
 		}}>{props.children}</div>
 	</div>;
 }

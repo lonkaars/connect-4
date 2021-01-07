@@ -61,5 +61,6 @@ input::placeholder {
 :focus { outline: none; }
 
 /* icon size fix */
-.navbar svg { font-size: 24px; }
+.navbar svg,
+.gameBar svg { font-size: 24px; }
 
