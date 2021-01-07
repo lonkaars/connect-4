@@ -5,13 +5,13 @@ import { CenteredPage } from '../components/page';
 import { VoerBord } from '../components/voerBord';
 import { DialogBox } from '../components/dialogBox';
 import { CurrentGameSettings } from '../components/gameSettings';
-import { Button } from '../components/ui';
+import { Button, SearchBar } from '../components/ui';
 
 import WifiTetheringRoundedIcon from '@material-ui/icons/WifiTetheringRounded';
 import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 
 var InviteButtonStyle: CSSProperties = {
-	backgroundColor: "var(--text)",
+	backgroundColor: "var(--page-background)",
 	height: 160,
 	padding: 12
 }
@@ -30,7 +30,7 @@ var InviteButtonLabelStyle: CSSProperties = {
 	left: "50%",
 	transform: "translateX(-50%)",
 	textAlign: "center",
-	color: "var(--background)",
+	color: "var(--text-alt)",
 	width: 136,
 	fontSize: 20
 }
@@ -64,6 +64,7 @@ export default function GamePage() {
 							<h2 style={InviteButtonLabelStyle}>Uitnodigen via link</h2>
 						</Button>
 					</div>
+					<SearchBar label="Zoeken in vriendenlijst"/>
 				</DialogBox>
 			</CenteredPage>
 		</div>

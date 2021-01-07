@@ -12,7 +12,7 @@ export function CurrentGameSettings(/*props: CurrentGameSettingsProps*/) {
 		height: 80
 	}}>
 		<p style={{
-			opacity: .6,
+			opacity: .75,
 			fontStyle: "italic",
 			userSelect: "none",
 			position: "absolute",
@@ -40,7 +40,8 @@ export function CurrentGameSettings(/*props: CurrentGameSettingsProps*/) {
 				width: 85,
 				verticalAlign: "middle",
 				textAlign: "center",
-				transform: "translateY(-50%)"
+				transform: "translateY(-50%)",
+				userSelect: "none"
 			}}>Spelregels aanpassen</span>
 		</Button>
 	</div>;

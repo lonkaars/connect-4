@@ -53,3 +53,35 @@ export function Button(props: ButtonProps) {
 	</div>;
 }
 
+interface SearchBarProps {
+	label?: string;
+}
+
+export function SearchBar(props: SearchBarProps) {
+	return <div style={{
+		marginTop: 24,
+		borderRadius: 8,
+		overflow: "hidden",
+		width: "100%"
+	}}>
+		<input type="text" placeholder={props.label} spellCheck={false} style={{
+			padding: 12,
+			border: 0,
+			width: "calc(100% - 24px - 40px)",
+			fontSize: 14,
+			backgroundColor: "var(--page-background)",
+			color: "var(--text-alt)",
+			borderBottomLeftRadius: 8,
+			borderTopLeftRadius: 8
+		}}/>
+		<div style={{
+			width: 40,
+			height: 40,
+			backgroundColor: "var(--disk-a)",
+			display: "inline-block",
+			verticalAlign: "top",
+			position: "relative"
+		}}></div>
+	</div>
+}
+
