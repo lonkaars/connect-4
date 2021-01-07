@@ -32,7 +32,8 @@ var InviteButtonLabelStyle: CSSProperties = {
 	textAlign: "center",
 	color: "var(--text-alt)",
 	width: 136,
-	fontSize: 20
+	fontSize: 20,
+	userSelect: "none"
 }
 
 export default function GamePage() {

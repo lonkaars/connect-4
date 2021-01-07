@@ -30,7 +30,7 @@ export function NavBar() {
 			left: 0,
 
 			overflow: "hidden",
-			whiteSpace: "nowrap",
+			whiteSpace: "nowrap"
 		}}>
 			<div style={NavBarItemStyle}><LogoDark/></div>
 			<a href="/" style={NavBarItemStyle}><Home/></a>

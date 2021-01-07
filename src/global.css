@@ -25,7 +25,10 @@ body {
 }
 
 /* font size */
-html { font-size: 14px; }
+html {
+	font-size: 14px;
+	font-family: "Inter";
+}
 
 /* link color fix */
 a { color: var(--text); }
@@ -53,4 +56,10 @@ input::placeholder {
 	font-style: italic;
 	opacity: .8;
 }
+
+/* remove chrome's ugly :focus outline */
+:focus { outline: none; }
+
+/* icon size fix */
+.navbar svg { font-size: 24px; }
 

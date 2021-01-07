@@ -1,5 +1,7 @@
 import { CSSProperties, ReactNode } from "react";
 
+import SearchIcon from '@material-ui/icons/Search';
+
 interface VierkantProps {
 	href?: string;
 	width?: string;
@@ -67,21 +69,29 @@ export function SearchBar(props: SearchBarProps) {
 		<input type="text" placeholder={props.label} spellCheck={false} style={{
 			padding: 12,
 			border: 0,
-			width: "calc(100% - 24px - 40px)",
+			width: "calc(100% - 24px - 41px)",
 			fontSize: 14,
 			backgroundColor: "var(--page-background)",
 			color: "var(--text-alt)",
 			borderBottomLeftRadius: 8,
-			borderTopLeftRadius: 8
+			borderTopLeftRadius: 8,
+			fontFamily: "Inter"
 		}}/>
 		<div style={{
-			width: 40,
-			height: 40,
+			width: 41,
+			height: 41,
 			backgroundColor: "var(--disk-a)",
 			display: "inline-block",
 			verticalAlign: "top",
 			position: "relative"
-		}}></div>
+		}}>
+			<SearchIcon style={{
+				fontSize: 24,
+				position: "absolute",
+				top: "50%", left: "50%",
+				transform: "translate(-50%, -50%)"
+			}}/>
+		</div>
 	</div>
 }
 
