@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Vierkant } from './vierkant';
+import { Vierkant } from './ui';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 

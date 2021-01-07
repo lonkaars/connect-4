@@ -1,6 +1,6 @@
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
-import { Vierkant } from '../components/vierkant';
+import { Vierkant } from '../components/ui';
 /* import { AccountAvatar } from '../components/account'; */
 
 export default function SettingsPage() {
