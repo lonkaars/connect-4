@@ -57,7 +57,7 @@ Om dit project te starten moet je 2 terminals gebruiken die afzonderlijk de flas
 # term 1
 
 # windows / powershell
-.\venv\bin\Activate.ps1
+.\venv\Scripts\Activate.ps1
 
 # linux / posix
 source venv/bin/activate
