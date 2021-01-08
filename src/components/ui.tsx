@@ -54,23 +54,35 @@ export function Button(props: {
 	</div>;
 }
 
-export function Input(props: { label?: string }) {
+export function Input(props: {
+	label?: string,
+	style?: CSSProperties,
+	type?: string
+}) {
+	return <input type={props.type || "text"} placeholder={props.label} spellCheck={false} style={{
+		padding: 12,
+		border: 0,
+		width: "calc(100% - 24px)",
+		fontSize: 14,
+		backgroundColor: "var(--page-background)",
+		color: "var(--text-alt)",
+		borderRadius: 8,
+		fontFamily: "Inter",
+		...props.style
+	}}/>
+}
+
+export function SearchBar(props: { label?: string }) {
 	return <div style={{
 		marginTop: 24,
 		borderRadius: 8,
 		overflow: "hidden",
 		width: "100%"
 	}}>
-		<input type="text" placeholder={props.label} spellCheck={false} style={{
-			padding: 12,
-			border: 0,
+		<Input label={props.label} style={{
 			width: "calc(100% - 24px - 41px)",
-			fontSize: 14,
-			backgroundColor: "var(--page-background)",
-			color: "var(--text-alt)",
-			borderBottomLeftRadius: 8,
-			borderTopLeftRadius: 8,
-			fontFamily: "Inter"
+			borderTopRightRadius: 0,
+			borderBottomRightRadius: 0
 		}}/>
 		<div style={{
 			width: 41,
@@ -91,13 +103,17 @@ export function Input(props: { label?: string }) {
 }
 
 export class CheckBox extends Component<{
-	state?: boolean
+	state?: boolean,
+	style?: CSSProperties
 }> {
 	state = { on: this.props.state || false }
 	public toggle = () => this.setState({ on: !this.state.on })
 
 	render() {
-		return <div onClick={this.toggle}>
+		return <div onClick={this.toggle} style={{
+			...this.props.style,
+			display: "inline-block"
+		}}>
 		{
 			this.state.on ?
 			<CheckBoxIcon style={{ fontSize: 24 }}/> :

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Button, Vierkant, CheckBox } from './ui';
+import { Button, Vierkant, CheckBox, Input } from './ui';
 import { DialogBox } from './dialogBox';
 
 import BuildRoundedIcon from '@material-ui/icons/BuildRounded';
@@ -46,18 +46,29 @@ export function CurrentGameSettings(/*props: CurrentGameSettingsProps*/) {
 	</div>;
 }
 
-interface GameSettingsSectionProps {
+function GameSettingsSection(props: {
 	children?: ReactNode;
 	title: string;
 	state: boolean;
-}
-
-function GameSettingsSection(props: GameSettingsSectionProps) {
+}) {
 	return <Vierkant style={{
 		backgroundColor: "var(--background-alt)",
-		width: "calc(100% - 12px)"
+		width: "calc(100% - 12px)",
+		padding: 16
 	}}>
-	<div>{props.children}</div>
+	<span style={{
+		verticalAlign: "top",
+		fontSize: 14,
+		fontWeight: 600
+	}}>{props.title}</span>
+	<CheckBox state={props.state} style={{
+		verticalAlign: "top",
+		float: "right",
+		margin: -3
+	}}/>
+	<div style={{
+		marginTop: 16
+	}}>{props.children}</div>
 	</Vierkant>
 }
 
@@ -68,8 +79,22 @@ export function EditGameSettings() {
 			maxHeight: 500,
 			overflowY: "scroll"
 		}}>
-			<CheckBox state={false}/>
 			<GameSettingsSection title="Tijdslimiet" state={false}>
+				<div style={{
+					display: "grid",
+					gridTemplateColumns: "1fr 1fr 1fr",
+					gridGap: 16,
+					marginBottom: 16
+				}}>
+					<Input type="number" label="min"/>
+					<Input type="number" label="sec"/>
+					<Input type="number" label="plus"/>
+				</div>
+				<CheckBox state={false}/>
+				<span style={{
+					verticalAlign: "super",
+					marginLeft: 4
+				}}>Timer gebruiken voor bijde spelers</span>
 			</GameSettingsSection>
 		</div>
 	</DialogBox>;
