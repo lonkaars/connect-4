@@ -1,11 +1,9 @@
-// interface CurrentGameSettingsProps {
-// gameID: string;
-// }
+import { ReactNode } from 'react';
 
-import { Button } from './ui';
+import { Button, Vierkant, CheckBox } from './ui';
+import { DialogBox } from './dialogBox';
 
 import BuildRoundedIcon from '@material-ui/icons/BuildRounded';
-import {DialogBox} from './dialogBox';
 
 export function CurrentGameSettings(/*props: CurrentGameSettingsProps*/) {
 	return <div style={{
@@ -46,7 +44,21 @@ export function CurrentGameSettings(/*props: CurrentGameSettingsProps*/) {
 			}}>Spelregels aanpassen</span>
 		</Button>
 	</div>;
+}
 
+interface GameSettingsSectionProps {
+	children?: ReactNode;
+	title: string;
+	state: boolean;
+}
+
+function GameSettingsSection(props: GameSettingsSectionProps) {
+	return <Vierkant style={{
+		backgroundColor: "var(--background-alt)",
+		width: "calc(100% - 12px)"
+	}}>
+	<div>{props.children}</div>
+	</Vierkant>
 }
 
 export function EditGameSettings() {
@@ -56,16 +68,9 @@ export function EditGameSettings() {
 			maxHeight: 500,
 			overflowY: "scroll"
 		}}>
-			<span>Hier is een scrollende pagina in een dialoogvenster</span>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+			<CheckBox state={false}/>
+			<GameSettingsSection title="Tijdslimiet" state={false}>
+			</GameSettingsSection>
 		</div>
 	</DialogBox>;
 }

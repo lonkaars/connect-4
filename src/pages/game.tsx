@@ -5,7 +5,7 @@ import { CenteredPage } from '../components/page';
 import { VoerBord } from '../components/voerBord';
 import { DialogBox } from '../components/dialogBox';
 import { CurrentGameSettings } from '../components/gameSettings';
-import { Button, SearchBar } from '../components/ui';
+import { Button, Input } from '../components/ui';
 import { GameBar } from '../components/gameBar';
 
 import WifiTetheringRoundedIcon from '@material-ui/icons/WifiTetheringRounded';
@@ -73,7 +73,7 @@ export default function GamePage() {
 							<h2 style={InviteButtonLabelStyle}>Uitnodigen via link</h2>
 						</Button>
 					</div>
-					<SearchBar label="Zoeken in vriendenlijst"/>
+					<Input label="Zoeken in vriendenlijst"/>
 				</DialogBox>
 			</CenteredPage>
 		</div>

@@ -1,17 +1,17 @@
-import { CSSProperties, ReactNode } from "react";
+import { Component, CSSProperties, ReactNode } from "react";
 
 import SearchIcon from '@material-ui/icons/Search';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
-interface VierkantProps {
+export function Vierkant(props: {
 	href?: string;
 	width?: string;
 	height?: string;
 	style?: CSSProperties;
 	children?: ReactNode;
-	className?: string;
-}
-
-export function Vierkant(props: VierkantProps) {
+	className?: string; })
+{
 	return <a style={{
 		padding: 24,
 		backgroundColor: "var(--background)",
@@ -27,14 +27,12 @@ export function Vierkant(props: VierkantProps) {
 	}} href={props.href} className={props.className}>{props.children}</a>
 }
 
-interface ButtonProps {
+export function Button(props: {
 	text?: string;
 	children?: ReactNode;
 	style?: CSSProperties;
-	onclick?: (() => void);
-}
-
-export function Button(props: ButtonProps) {
+	onclick?: (() => void); })
+{
 	return <div onClick={props.onclick} style={{
 		padding: props.text ? 8 : 16,
 		textAlign: props.text ? "center" : "left",
@@ -56,11 +54,7 @@ export function Button(props: ButtonProps) {
 	</div>;
 }
 
-interface SearchBarProps {
-	label?: string;
-}
-
-export function SearchBar(props: SearchBarProps) {
+export function Input(props: { label?: string }) {
 	return <div style={{
 		marginTop: 24,
 		borderRadius: 8,
@@ -95,4 +89,23 @@ export function SearchBar(props: SearchBarProps) {
 		</div>
 	</div>
 }
+
+export class CheckBox extends Component<{
+	state?: boolean
+}> {
+	state = { on: this.props.state || false }
+	public toggle = () => this.setState({ on: !this.state.on })
+
+	render() {
+		return <div onClick={this.toggle}>
+		{
+			this.state.on ?
+			<CheckBoxIcon style={{ fontSize: 24 }}/> :
+			<CheckBoxOutlineBlankIcon style={{ fontSize: 24 }}/>
+		}
+		</div>;
+	}
+}
+
+
 
