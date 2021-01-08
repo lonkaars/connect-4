@@ -64,3 +64,7 @@ input::placeholder {
 .navbar svg,
 .gameBar svg { font-size: 24px; }
 
+/* scroll balken */
+::-webkit-scrollbar-track { background-color: var(--background) !important; }
+::-webkit-scrollbar-thumb { background-color: var(--background-alt) !important; }
+

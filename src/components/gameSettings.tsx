@@ -5,6 +5,7 @@
 import { Button } from './ui';
 
 import BuildRoundedIcon from '@material-ui/icons/BuildRounded';
+import {DialogBox} from './dialogBox';
 
 export function CurrentGameSettings(/*props: CurrentGameSettingsProps*/) {
 	return <div style={{
@@ -46,4 +47,25 @@ export function CurrentGameSettings(/*props: CurrentGameSettingsProps*/) {
 		</Button>
 	</div>;
 
+}
+
+export function EditGameSettings() {
+	return <DialogBox title="Spelregels aanpassen">
+		<div style={{
+			marginTop: 24,
+			maxHeight: 500,
+			overflowY: "scroll"
+		}}>
+			<span>Hier is een scrollende pagina in een dialoogvenster</span>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab qui, quod rerum temporibus dolorem repellendus eos pariatur velit doloribus necessitatibus dignissimos blanditiis mollitia alias expedita neque earum iure modi aspernatur.</p>
+		</div>
+	</DialogBox>;
 }
