@@ -42,6 +42,13 @@ Een voorbeeld van de database is te vinden op [Google Docs](https://docs.google.
 4. Maak een python virtual environment en installeer pip modules:
 	```sh
 	python -m venv venv
+	
+	# windows / powershell
+	.\venv\Scripts\Activate.ps1
+
+	# linux / posix
+	source venv/bin/activate
+
 	pip install -r requirements.txt
 	```
 5. Installeer node modules:
