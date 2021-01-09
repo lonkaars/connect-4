@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 
 import { Button, Vierkant, CheckBox, Input } from './ui';
 import { DialogBox } from './dialogBox';
@@ -50,11 +50,14 @@ function GameSettingsSection(props: {
 	children?: ReactNode;
 	title: string;
 	state: boolean;
+	noMarginBottom?: boolean;
 }) {
 	return <Vierkant style={{
 		backgroundColor: "var(--background-alt)",
-		width: "calc(100% - 12px)",
-		padding: 16
+		width: "100%",
+		padding: 16,
+		margin: 0,
+		marginBottom: props.noMarginBottom ? 0 : 24
 	}}>
 	<span style={{
 		verticalAlign: "top",
@@ -66,10 +69,25 @@ function GameSettingsSection(props: {
 		float: "right",
 		margin: -3
 	}}/>
-	<div style={{
-		marginTop: 16
-	}}>{props.children}</div>
+	<div>{props.children}</div>
 	</Vierkant>
+}
+
+function GameRule(props: {
+	title: string;
+	description: string;
+	style?: CSSProperties;
+}) {
+	return <div style={{
+		backgroundColor: "var(--page-background)",
+		borderRadius: 8,
+		padding: "16px 0",
+		textAlign: "center",
+		...props.style
+	}}>
+		<h1 style={{ color: "var(--disk-a)", fontSize: 42 }}>{props.title}</h1>
+		<p style={{ color: "var(--text-alt)", maxWidth: 250, margin: "0 auto" }}>{props.description}</p>
+	</div>;
 }
 
 export function EditGameSettings() {
@@ -77,14 +95,15 @@ export function EditGameSettings() {
 		<div style={{
 			marginTop: 24,
 			maxHeight: 500,
-			overflowY: "scroll"
+			overflowY: "scroll",
+			borderRadius: 8
 		}}>
 			<GameSettingsSection title="Tijdslimiet" state={false}>
 				<div style={{
 					display: "grid",
 					gridTemplateColumns: "1fr 1fr 1fr",
 					gridGap: 16,
-					marginBottom: 16
+					margin: "16px 0"
 				}}>
 					<Input type="number" label="min"/>
 					<Input type="number" label="sec"/>
@@ -96,6 +115,20 @@ export function EditGameSettings() {
 					marginLeft: 4
 				}}>Timer gebruiken voor bijde spelers</span>
 			</GameSettingsSection>
+			<GameSettingsSection title="Regelset" state={false}>
+				<div style={{
+					display: "grid",
+					gridTemplateColumns: "1fr 1fr",
+					gridGap: 16,
+					margin: "16px 0"
+				}}>
+					<GameRule title="+2" description="Extra kolommen"/>
+					<GameRule title="+4" description="Extra kolommen"/>
+				</div>
+				<GameRule style={{ marginBottom: 16 }} title="Gravity" description="De zwaartekracht draait soms"/>
+				<GameRule title="Flashlight" description="Het veld wordt opgelicht door de vallende fiches"/>
+			</GameSettingsSection>
+			<GameSettingsSection title="Gerangschikt spel" state={true} noMarginBottom/>
 		</div>
 	</DialogBox>;
 }
