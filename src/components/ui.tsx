@@ -112,7 +112,8 @@ export class CheckBox extends Component<{
 	render() {
 		return <div onClick={this.toggle} style={{
 			...this.props.style,
-			display: "inline-block"
+			display: "inline-block",
+			cursor: "pointer"
 		}}>
 		{
 			this.state.on ?
