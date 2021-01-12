@@ -1,8 +1,9 @@
 from flask import Flask
-
 app = Flask(__name__)
 
-@app.route("/test")
-def testroute():
-    return "It's working!"
+from status import status
+from user.info import info
+
+app.register_blueprint(status, url_prefix='/api')
+app.register_blueprint(info, url_prefix='/api/user')
 
