@@ -69,13 +69,13 @@ Een voorbeeld van de database is te vinden op [Google Docs](https://docs.google.
 ### Windows (git bash)
 
 ```
-./venv/Scripts/activate
+source venv/Scripts/activate
 ```
 
 ### Linux (bash/zsh/sh)
 
 ```
-./venv/bin/activate
+source venv/bin/activate
 ```
 
 Als je het goed gedaan hebt krijg je een nieuwe prompt te zien met `(venv)` er voor.
