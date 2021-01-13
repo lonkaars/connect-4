@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from main import cursor, connection
 from randid import new_uuid
+import passwords
 import time
 import json
 
@@ -20,8 +21,8 @@ def index():
            return "", 400
 
     user_id = new_uuid()
-    password_salt = "salt"
-    password_hash = "hash"
+    password_salt = passwords.salt()
+    password_hash = passwords.password_hash(password, password_salt)
     registered = int( time.time() * 1000 )
 
     cursor.execute("insert into users values (?, ?, ?, NULL, ?, ?, ?, NULL, FALSE, \"user\", \"{}\", NULL, \"online\") ",
