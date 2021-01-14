@@ -1,24 +1,51 @@
 #!/bin/sh
 
+username="test_$RANDOM"
+email="$username@example.com"
+password=$(echo $RANDOM | base64)
+
 signup () {
 	curl -X POST \
 		-H "Content-Type: application/json" \
-		-d '{
-		"username": "gert",
-		"email": "gert@example.com",
-		"password": "password123"
-		}' \
+		-d "{
+		\"username\": \"$username\",
+		\"email\": \"$email\",
+		\"password\": \"$password\"
+		}" \
 		localhost:5000/api/auth/signup
 }
 
-login () {
+login_username () {
 	curl -X POST \
 		-H "Content-Type: application/json" \
-		-d '{
-		"email": "gert@example.com",
-		"password": "password123"
-		}' \
+		-d "{
+		\"email\": \"$username\",
+		\"password\": \"$password\"
+		}" \
 		localhost:5000/api/auth/login
 }
 
-login
+login_email () {
+	curl -X POST \
+		-H "Content-Type: application/json" \
+		-d "{
+		\"email\": \"$email\",
+		\"password\": \"$password\"
+		}" \
+		localhost:5000/api/auth/login
+}
+
+# login_token () {
+# 	curl -X POST \
+# 		-H "Content-Type: application/json" \
+# 		-d "{
+# 		\"user_id\": \"2dc82ac3-e3c1-4a0e-b024-c6224107ff59\",
+# 		\"token\": \"beda7848ac601d80ac88bfc629d13ed6dc27dabd29a3e1db5b2a93839bd6dd3c79e25ea939d13789fdec74edafa18b4040d39729c282f28f82f366d44b5455cd8e3c28b59da2c397ff4e637a99c3ccbea4af00828ab7094b5285b8f900e31e833b5e55994e68e3de7e7fbeb02adc74231f63173e84f7e22aef97f9c7bfd920a1\"
+# 		}" \
+# 		localhost:5000/api/auth/token
+# }
+
+signup
+login_email
+login_username
+

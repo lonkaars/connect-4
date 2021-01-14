@@ -13,9 +13,11 @@ from status import status
 from user.info import info
 from auth.signup import signup
 from auth.login import login
+from auth.login_token import token
 
 app.register_blueprint(status, url_prefix='/api')
 app.register_blueprint(info, url_prefix='/api/user')
 app.register_blueprint(signup, url_prefix='/api/auth')
 app.register_blueprint(login, url_prefix='/api/auth')
+app.register_blueprint(token, url_prefix='/api/auth')
 

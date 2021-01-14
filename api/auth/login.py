@@ -1,10 +1,7 @@
 from flask import Blueprint, request
-from main import cursor, connection
-from randid import new_uuid
+from main import cursor
 import auth.token as token
 import passwords
-import time
-import json
 
 login = Blueprint('login', __name__)
 

@@ -4,7 +4,6 @@ from randid import new_uuid
 import auth.token as token
 import passwords
 import time
-import json
 
 signup = Blueprint('signup', __name__)
 
