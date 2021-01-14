@@ -1,4 +1,4 @@
-from main import cursor
+from main import cursor, connection
 import hashlib
 import secrets
 import json
@@ -15,6 +15,7 @@ def modify_tokens(user_id, formatted_token, remove):
     temp_tokens = valid_tokens(user_id)
     temp_tokens.remove(formatted_token) if remove else temp_tokens.append(formatted_token)
     cursor.execute("update users set valid_tokens = ? where user_id = ?", [json.dumps(temp_tokens), user_id])
+    connection.commit()
 
 def add_token(user_id, formatted_token):
     modify_tokens(user_id, formatted_token, False)
@@ -23,8 +24,10 @@ def revoke_token(user_id, formatted_token):
     modify_tokens(user_id, formatted_token, True)
 
 def hash_token(token):
-    token["token"] = hashlib.sha256(str(token["token"]).encode()).hexdigest()
-    return token
+    return {
+            "token": hashlib.sha256(str(token["token"]).encode()).hexdigest(),
+            "expirationDate": token["expirationDate"]
+            }
 
 def generate_token():
     return {

@@ -28,12 +28,11 @@ def index():
         return {"error": "email_taken"}, 403
 
     user_id = new_uuid()
-    password_salt = passwords.salt()
-    password_hash = passwords.password_hash(password, password_salt)
+    password_hash = passwords.password_hash(password)
     registered = int( time.time() * 1000 )
 
-    cursor.execute("insert into users values (?, ?, ?, NULL, ?, ?, ?, \"[]\", FALSE, \"user\", \"{}\", NULL, \"online\") ",
-            (user_id, username, email, password_salt, password_hash, registered))
+    cursor.execute("insert into users values (?, ?, ?, NULL, ?, ?, \"[]\", FALSE, \"user\", \"{}\", NULL, \"online\") ",
+            (user_id, username, email, password_hash, registered))
     connection.commit()
 
     new_token = token.generate_token()

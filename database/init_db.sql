@@ -5,7 +5,6 @@ create table users (
 	username varchar(35) not null,
 	email text not null,
 	country text,
-	password_salt text not null,
 	password_hash text not null,
 	registered integer not null,
 	valid_tokens text,
