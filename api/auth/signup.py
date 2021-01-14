@@ -20,6 +20,12 @@ def index():
        not password:
            return "", 400
 
+    if cursor.execute("select username from users where username = ?", [username]).fetchone():
+        return {"error": "username_taken"}, 403
+
+    if cursor.execute("select email from users where email = ?", [email]).fetchone():
+        return {"error": "email_taken"}, 403
+
     user_id = new_uuid()
     password_salt = passwords.salt()
     password_hash = passwords.password_hash(password, password_salt)
