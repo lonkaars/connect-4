@@ -16,6 +16,7 @@ ENV/
 
 # database
 database/*.db
+database/*.db-journal
 
 # node / ts
 *.js
