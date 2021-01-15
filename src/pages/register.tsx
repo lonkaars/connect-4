@@ -1,6 +1,72 @@
 import { NavBar } from '../components/navbar';
-import { CenteredPage, PageTitle } from '../components/page';
+import { CenteredPage } from '../components/page';
 import { Vierkant, Input, Button } from '../components/ui';
+
+import { v4 as uuidv4 } from 'uuid';
+import { validate as validateEmail } from 'email-validator';
+import axios from 'axios';
+
+var ids = {
+	username: uuidv4(),
+	email: uuidv4(),
+	password: uuidv4()
+}
+
+function submitRegister() {
+	var formData = {
+		username: (document.getElementById(ids.username) as HTMLInputElement).value,
+		email: (document.getElementById(ids.email) as HTMLInputElement).value,
+		password: (document.getElementById(ids.password) as HTMLInputElement).value
+	}
+
+	if ( !formData.username ||
+	   	 !formData.email ||
+		 !formData.password ) {
+		alert("Vul alsjeblieft alle velden in!");
+		return;
+	}
+
+	var passwordRegex: RegExp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$/;
+	/*
+	 * ^ 				Begin string
+	 * (?=.*[A-Z]) 		Minimaal één hoofdletter
+	 * (?=.*[a-z]) 		Minimaal één kleine letter
+	 * (?=.*[0-9]) 		Minimaal één getal
+	 * .{8,} 			Minimaal acht tekens in lengte
+	 * $ 				Ende string
+	 * https://stackoverflow.com/questions/5142103/regex-to-validate-password-strength
+	 */
+
+	//TODO: alert -> react toast / material-ui snackbar
+	if ( formData.username.length > 35 ) {
+		alert("Je gebruikersnaam kan maximaal 35 tekens lang zijn!");
+	}
+
+	if ( !validateEmail(formData.email) ) {
+		alert("Voer alsjeblieft een geldig e-mail adres in!");
+	}
+
+	//TODO: wachtwoord max 72 tekens ivm bcrypt
+	if ( !formData.password.match(passwordRegex) ) {
+		alert("Je wachtwoord moet minimaal 8 tekens lang zijn en een hoofdletter, kleine letter, en een nummer bevatten!");
+	}
+	
+	axios({
+		method: "post",
+		url: `${window.location.origin}/api/auth/signup`,
+		headers: {"content-type": "application/json"},
+		data: formData
+	})
+	.then(() => {
+		//TODO: email verificatie
+		// redirect naar home, automatische login
+		window.location.pathname = "/";
+	})
+	.catch(error => {
+		alert("Er is iets fout gegaan!");
+		console.log(error);
+	});
+}
 
 export default function RegisterPage() {
 	return (
@@ -15,10 +81,10 @@ export default function RegisterPage() {
 					textAlign: "center"
 				}}>
 					<Vierkant>
-						<Input label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
-						<Input label="email" style={{ marginBottom: 12 }}></Input>
-						<Input label="wachtwoord" type="password"></Input>
-						<Button text="Registreren" style={{ marginTop: 24 }}></Button>
+						<Input id={ids.username} label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
+						<Input id={ids.email} label="email" style={{ marginBottom: 12 }}></Input>
+						<Input id={ids.password} label="wachtwoord" type="password"></Input>
+						<Button text="Registreren" style={{ marginTop: 24 }} onclick={submitRegister}></Button>
 					</Vierkant>
 				</div>
 			</CenteredPage>

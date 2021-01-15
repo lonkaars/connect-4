@@ -49,7 +49,7 @@ export function NavBar() {
 				<div style={{
 					width: 24,
 					height: 24,
-					background: "#888888",
+					/* background: "#888888", */
 					borderRadius: 12
 				}}>
 					<PersonIcon/>

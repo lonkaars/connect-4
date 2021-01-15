@@ -1,5 +1,5 @@
 import { NavBar } from '../components/navbar';
-import { CenteredPage, PageTitle } from '../components/page';
+import { CenteredPage } from '../components/page';
 import { Vierkant, Input, Button } from '../components/ui';
 
 export default function LoginPage() {

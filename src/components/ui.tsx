@@ -57,9 +57,10 @@ export function Button(props: {
 export function Input(props: {
 	label?: string,
 	style?: CSSProperties,
-	type?: string
+	type?: string,
+	id?: string
 }) {
-	return <input type={props.type || "text"} placeholder={props.label} spellCheck={false} style={{
+	return <input id={props.id} type={props.type || "text"} placeholder={props.label} spellCheck={false} style={{
 		padding: 12,
 		border: 0,
 		width: "calc(100% - 24px)",
