@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, make_response
 from main import cursor
 import auth.token as token
 import passwords
