@@ -40,15 +40,18 @@ function submitRegister() {
 	//TODO: alert -> react toast / material-ui snackbar
 	if ( formData.username.length > 35 ) {
 		alert("Je gebruikersnaam kan maximaal 35 tekens lang zijn!");
+		return;
 	}
 
 	if ( !validateEmail(formData.email) ) {
 		alert("Voer alsjeblieft een geldig e-mail adres in!");
+		return;
 	}
 
 	//TODO: wachtwoord max 72 tekens ivm bcrypt
 	if ( !formData.password.match(passwordRegex) ) {
 		alert("Je wachtwoord moet minimaal 8 tekens lang zijn en een hoofdletter, kleine letter, en een nummer bevatten!");
+		return;
 	}
 	
 	axios({

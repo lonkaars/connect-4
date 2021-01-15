@@ -42,6 +42,7 @@ export function Button(props: {
 		cursor: "pointer",
 		position: "relative",
 		textDecoration: "none",
+		display: "block",
 		...props.style
 	}}>
 	{ 
