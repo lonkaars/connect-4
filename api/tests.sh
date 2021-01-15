@@ -35,6 +35,15 @@ login_email () {
 		localhost:5000/api/auth/login
 }
 
+user_info () {
+	curl -X GET \
+		-H "Content-Type: application/json" \
+		-d '{
+		"username": "loekaars"
+		}' \
+		localhost:5000/api/user/info
+}
+
 # login_token () {
 # 	curl -X POST \
 # 		-H "Content-Type: application/json" \
@@ -45,7 +54,5 @@ login_email () {
 # 		localhost:5000/api/auth/token
 # }
 
-signup
-login_email
-login_username
+user_info
 
