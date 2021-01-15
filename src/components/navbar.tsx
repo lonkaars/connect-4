@@ -7,6 +7,7 @@ import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PersonIcon from '@material-ui/icons/Person';
 
 var NavBarItemStyle: CSSProperties = {
 	margin: 12,
@@ -41,8 +42,19 @@ export function NavBar() {
 			<div style={{
 				position: "absolute",
 				bottom: -4,
-				left: 0
+				left: 0,
+				backgroundColor: "var(--background)"
 			}}>
+			<a href="/login" style={NavBarItemStyle}>
+				<div style={{
+					width: 24,
+					height: 24,
+					background: "#888888",
+					borderRadius: 12
+				}}>
+					<PersonIcon/>
+				</div>
+			</a>
 				<a href="/settings" style={NavBarItemStyle}><SettingsIcon/></a>
 			</div>
 		</div>

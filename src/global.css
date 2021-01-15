@@ -19,16 +19,16 @@ html, body {
 }
 
 /* navbar fix */
-body {
-	padding-left: 48px;
-	background-color: var(--page-background);
-}
+body { padding-left: 48px; }
 
-/* font size */
+/* font */
 html {
 	font-size: 14px;
 	font-family: "Inter";
 }
+
+/* background color */
+html { background-color: var(--page-background); }
 
 /* link color fix */
 a { color: var(--text); }
