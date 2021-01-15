@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from main import cursor
+from auth.login_token import token_login
 
 info = Blueprint('info', __name__)
 
@@ -9,10 +10,14 @@ def index():
 
     username = data.get("username") or ""
     id = data.get("id") or ""
+    token = request.cookies.get("token") or ""
 
     if not username and \
-       not id:
+       not id and \
+       not token:
            return "", 400
+
+    if token: id = token_login(token)[0]
 
     if username:
         user = cursor.execute("select username, user_id, country, type, registered, avatar from users where username = ?", [username]).fetchone()
