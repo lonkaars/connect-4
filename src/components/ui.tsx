@@ -31,15 +31,17 @@ export function Button(props: {
 	text?: string;
 	children?: ReactNode;
 	style?: CSSProperties;
+	href?: string;
 	onclick?: (() => void); })
 {
-	return <div onClick={props.onclick} style={{
+	return <a onClick={props.onclick} href={props.href} style={{
 		padding: props.text ? 8 : 16,
 		textAlign: props.text ? "center" : "left",
 		borderRadius: 8,
 		backgroundColor: "var(--disk-a)",
 		cursor: "pointer",
 		position: "relative",
+		textDecoration: "none",
 		...props.style
 	}}>
 	{ 
@@ -51,7 +53,7 @@ export function Button(props: {
 			: undefined
 	}
 	{ props.children }
-	</div>;
+	</a>;
 }
 
 export function Input(props: {

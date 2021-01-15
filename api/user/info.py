@@ -1,12 +1,14 @@
 from flask import Blueprint, request
 from main import cursor
 from auth.login_token import token_login
+import json
 
 info = Blueprint('info', __name__)
 
-@info.route('/info')
+@info.route('/info', methods = ['GET', 'POST'])
 def index():
-    data = request.get_json()
+    data_string = request.data or "{}"
+    data = json.loads(data_string)
 
     username = data.get("username") or ""
     id = data.get("id") or ""

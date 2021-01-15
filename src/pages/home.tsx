@@ -1,8 +1,10 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, Component } from 'react';
+import axios from 'axios';
+import { userInfo } from '../api';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
-import { Vierkant } from '../components/ui';
+import { Vierkant, Button } from '../components/ui';
 import { AccountAvatar } from '../components/account';
 
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
@@ -48,9 +50,33 @@ var RightAlignedTableColumn: CSSProperties = {
 	paddingRight: 16
 }
 
-export default function HomePage() {
-	return (
-		<div>
+export default class HomePage extends Component {
+	state: {
+		info: userInfo,
+		loggedIn: boolean
+	} = {
+		info: {},
+		loggedIn: document.cookie.includes("token")
+	}
+	
+	getUserInfo () {
+		axios.request<userInfo>({
+			method: "get",
+			url: `${window.location.origin}/api/user/info`,
+			headers: {"content-type": "application/json"}
+		})
+		.then(request => this.setState({ info: request.data }))
+		.catch(console.log);
+	}
+
+	constructor(props: {}) {
+		super(props);
+
+		if(this.state.loggedIn) this.getUserInfo()
+	}
+
+	render () {
+		return <div>
 			<NavBar/>
 			<CenteredPage width={802}>
 				<PageTitle>4 op een rij</PageTitle>
@@ -69,8 +95,34 @@ export default function HomePage() {
 					<span style={GameModeTextStyle}>Tegen computer</span>
 					<div style={SquareSize}></div>
 				</Vierkant>
-				<Vierkant href="/">
-					<div style={{ position: "relative", width: 280, height: 90 }}>
+				<Vierkant href={ this.state.loggedIn ? "/account" : undefined } style={{ verticalAlign: "top" }}>
+					<div style={{
+						position: "relative",
+						width: 280,
+						height: 90,
+						textAlign: "center",
+						display: this.state.loggedIn ? "none" : "inline-block"
+					}}>
+						<span style={{
+							userSelect: "none",
+							marginBottom: 8,
+							display: "inline-block"
+						}}>Log in of maak een account aan om je scores op te slaan en toegang te krijgen tot meer functies</span>
+						<div style={{
+							display: "grid",
+							gridGap: 24,
+							gridTemplateColumns: "1fr 1fr"
+						}}>
+							<Button href="/login" text="Inloggen"/>
+							<Button href="/register" text="Registreren" style={{ backgroundColor: "var(--background-alt)" }}/>
+						</div>
+					</div>
+					<div style={{
+						position: "relative",
+						width: 280,
+						height: 90,
+						display: this.state.loggedIn ? "inline-block" : "none"
+					}}>
 						<div style={{
 							position: "absolute",
 							top: 0, left: 0,
@@ -89,7 +141,7 @@ export default function HomePage() {
 								whiteSpace: "nowrap",
 								overflow: "hidden",
 								textOverflow: "ellipsis",
-							}}>Gebruikersnaam</h2>
+							}}>{this.state.info.username}</h2>
 							<p style={{ marginTop: 6 }}>Score: 400</p>
 							<p style={{ position: "absolute", bottom: 0, left: 0 }}>
 								<span style={{ color: "var(--disk-b-text)" }}>0 W</span>
@@ -130,6 +182,6 @@ export default function HomePage() {
 				</Vierkant>
 			</CenteredPage>
 		</div>
-	);
+	}
 }
 

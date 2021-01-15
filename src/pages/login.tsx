@@ -59,7 +59,7 @@ export default function LoginPage() {
 							display: "grid",
 							gridTemplateColumns: "1fr 1fr"
 						}}>
-						<Button text="Registreren" style={{ backgroundColor: "var(--background-alt)" }} onclick={() => window.location.pathname = "/register"}></Button>
+							<Button href="/register" text="Registreren" style={{ backgroundColor: "var(--background-alt)"}}></Button>
 							<Button text="Inloggen" onclick={submitLogin}></Button>
 						</div>
 					</Vierkant>
