@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, make_response
 from main import cursor, connection
 from randid import new_uuid
 import auth.token as token
@@ -37,4 +37,7 @@ def index():
     new_token = token.generate_token()
     token.add_token(user_id, token.hash_token(new_token))
 
-    return new_token, 200
+    res = make_response("", 200)
+    res.set_cookie("token", new_token["token"], expires = int(new_token["expireDate"] / 1000))
+
+    return res
