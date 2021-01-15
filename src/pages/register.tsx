@@ -81,10 +81,12 @@ export default function RegisterPage() {
 					textAlign: "center"
 				}}>
 					<Vierkant>
-						<Input id={ids.username} label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
-						<Input id={ids.email} label="email" style={{ marginBottom: 12 }}></Input>
-						<Input id={ids.password} label="wachtwoord" type="password"></Input>
-						<Button text="Registreren" style={{ marginTop: 24 }} onclick={submitRegister}></Button>
+						<form>
+							<Input id={ids.username} label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
+							<Input id={ids.email} label="email" style={{ marginBottom: 12 }}></Input>
+							<Input id={ids.password} label="wachtwoord" type="password"></Input>
+							<Button text="Registreren" style={{ marginTop: 24 }} onclick={submitRegister}></Button>
+						</form>
 					</Vierkant>
 				</div>
 			</CenteredPage>

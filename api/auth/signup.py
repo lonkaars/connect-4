@@ -38,6 +38,6 @@ def index():
     token.add_token(user_id, token.hash_token(new_token))
 
     res = make_response("", 200)
-    res.set_cookie("token", new_token["token"], expires = int(new_token["expireDate"] / 1000))
+    res.set_cookie("token", new_token["token"], expires = int(new_token["expirationDate"] / 1000))
 
     return res
