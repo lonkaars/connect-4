@@ -26,7 +26,7 @@ export class PageTitle extends Component {
 			marginLeft: 6,
 			marginTop: 32,
 			marginBottom: 64,
-			fontSize: 25
+			fontSize: 25,
 		}}>{this.props.children}</h1>;
 	}
 }

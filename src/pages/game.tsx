@@ -46,7 +46,7 @@ export default function GamePage() {
 					position: "relative",
 					top: "50%",
 					transform: "translateY(-50%)",
-					maxWidth: "calc(100vh - 12px)",
+					maxWidth: "100vh",
 					margin: "0 auto"
 				}}>
 					<VoerBord width={7} height={6}/>

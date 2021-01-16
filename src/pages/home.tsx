@@ -6,6 +6,7 @@ import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
 import { Vierkant, Button } from '../components/ui';
 import { AccountAvatar } from '../components/account';
+import { ToastArea, Toast } from '../components/toast';
 
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import ExtensionIcon from '@material-ui/icons/Extension';
@@ -78,6 +79,10 @@ export default class HomePage extends Component {
 	render () {
 		return <div>
 			<NavBar/>
+			<ToastArea>
+				<Toast text="Gert" icon={<VideogameAssetIcon style={{ fontSize: 32 }}/>}/>
+				<Toast text="Gert"/>
+			</ToastArea>
 			<CenteredPage width={802}>
 				<PageTitle>4 op een rij</PageTitle>
 				<Vierkant href="/game">
@@ -105,16 +110,19 @@ export default class HomePage extends Component {
 					}}>
 						<span style={{
 							userSelect: "none",
-							marginBottom: 8,
-							display: "inline-block"
+							display: "inline-block",
+							position: "absolute",
+							left: 0, right: 0, top: 0
 						}}>Log in of maak een account aan om je scores op te slaan en toegang te krijgen tot meer functies</span>
 						<div style={{
 							display: "grid",
 							gridGap: 24,
-							gridTemplateColumns: "1fr 1fr"
+							gridTemplateColumns: "1fr 1fr",
+							position: "absolute",
+							left: 0, right: 0, bottom: 0
 						}}>
-							<Button href="/login" text="Inloggen"/>
 							<Button href="/register" text="Registreren" style={{ backgroundColor: "var(--background-alt)" }}/>
+							<Button href="/login" text="Inloggen"/>
 						</div>
 					</div>
 					<div style={{
@@ -153,7 +161,7 @@ export default class HomePage extends Component {
 						</div>
 					</div>
 				</Vierkant>
-				<Vierkant width="calc(100% - 12px)">
+				<Vierkant width="calc(100% - 12px)" style={{ display: this.state.loggedIn ? "block" : "none" }}>
 					<h2>Recente partijen</h2>
 					<table width="100%" style={{ marginTop: "16px", textAlign: "center" }}>
 						<tr>
