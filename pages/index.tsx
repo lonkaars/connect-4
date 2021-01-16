@@ -1,6 +1,6 @@
-import { CSSProperties, Component } from 'react';
+import { CSSProperties, Component, useEffect } from 'react';
 import axios from 'axios';
-import { userInfo } from '../api';
+import { userInfo } from '../api/api';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
@@ -57,7 +57,7 @@ export default class HomePage extends Component {
 		loggedIn: boolean
 	} = {
 		info: {},
-		loggedIn: document.cookie.includes("token")
+		loggedIn: false
 	}
 	
 	getUserInfo () {
@@ -73,7 +73,10 @@ export default class HomePage extends Component {
 	constructor(props: {}) {
 		super(props);
 
-		if(this.state.loggedIn) this.getUserInfo()
+		useEffect(() => {
+			this.setState({ loggedIn: document.cookie.includes("token") })
+			if(this.state.loggedIn) this.getUserInfo()
+		})
 	}
 
 	render () {
