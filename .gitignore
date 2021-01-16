@@ -20,6 +20,7 @@ database/*.db-journal
 
 # node / ts
 *.js
+!next.config.js
 *.d.ts
 node_modules/
 
