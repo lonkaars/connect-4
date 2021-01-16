@@ -63,20 +63,19 @@ export default class HomePage extends Component {
 	getUserInfo () {
 		axios.request<userInfo>({
 			method: "get",
-			url: `${window.location.origin}/api/user/info`,
+			url: `/api/user/info`,
 			headers: {"content-type": "application/json"}
 		})
-		.then(request => this.setState({ info: request.data }))
+		.then(request => this.setState({
+			info: request.data,
+			loggedIn: request.data == {}
+		}))
 		.catch(console.log);
 	}
 
 	constructor(props: {}) {
 		super(props);
-
-		useEffect(() => {
-			this.setState({ loggedIn: document.cookie.includes("token") })
-			if(this.state.loggedIn) this.getUserInfo()
-		})
+		this.getUserInfo();
 	}
 
 	render () {
