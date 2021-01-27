@@ -68,7 +68,7 @@ export default class HomePage extends Component {
 		})
 		.then(request => this.setState({
 			info: request.data,
-			loggedIn: request.data == {}
+			loggedIn: request.status == 200
 		}))
 		.catch(console.log);
 	}
