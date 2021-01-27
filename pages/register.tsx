@@ -6,17 +6,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { validate as validateEmail } from 'email-validator';
 import axios from 'axios';
 
-var ids = {
-	username: uuidv4(),
-	email: uuidv4(),
-	password: uuidv4()
-}
-
 function submitRegister() {
 	var formData = {
-		username: (document.getElementById(ids.username) as HTMLInputElement).value,
-		email: (document.getElementById(ids.email) as HTMLInputElement).value,
-		password: (document.getElementById(ids.password) as HTMLInputElement).value
+		username: (document.getElementById("username") as HTMLInputElement).value,
+		email: (document.getElementById("email") as HTMLInputElement).value,
+		password: (document.getElementById("password") as HTMLInputElement).value
 	}
 
 	if ( !formData.username ||
@@ -85,9 +79,9 @@ export default function RegisterPage() {
 				}}>
 					<Vierkant>
 						<form>
-							<Input id={ids.username} label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
-							<Input id={ids.email} label="email" style={{ marginBottom: 12 }}></Input>
-							<Input id={ids.password} label="wachtwoord" type="password"></Input>
+							<Input id="username" label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
+							<Input id="email" label="email" style={{ marginBottom: 12 }}></Input>
+							<Input id="password" label="wachtwoord" type="password"></Input>
 							<Button text="Registreren" style={{ marginTop: 24 }} onclick={submitRegister}></Button>
 						</form>
 					</Vierkant>
