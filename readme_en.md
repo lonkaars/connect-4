@@ -2,7 +2,7 @@
 
 ## This is a school project using Python and SQL
 
-Note to English spreakers: most of this project is in Dutch (commit messages, documents etc.). I'll try to maintain this after the assignment deadline because I think this is a pretty cool project, and I'll be fixing issues/merging pr's after the deadline aswell. I think the deadline is January 25th though I'm not sure about this.
+Note to English spreakers: most of this project is in Dutch (commit messages, documents etc.). I'll try to maintain this after the assignment deadline because I think this is a pretty cool project, and I'll be fixing issues/merging pr's after the deadline aswell. I think the deadline is ~January 25th~ sometime in March? though I'm not sure about this.
 
 ## Things that we'd like to have working:
 
@@ -27,6 +27,7 @@ Note to English spreakers: most of this project is in Dutch (commit messages, do
 
 - [Flask](https://flask.palletsprojects.com/) for the http server and REST API
 - [ReactJS](https://reactjs.org/) to create the website
+- [NextJS](https://nextjs.org/) for static page routing
 - [socket.io](https://socket.io/) for bidirecitonal communication during a game
 - [SQLite](https://sqlite.org/index.html) for the database
 

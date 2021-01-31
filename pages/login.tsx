@@ -5,15 +5,10 @@ import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
 import { Vierkant, Input, Button } from '../components/ui';
 
-var ids = {
-	email: uuidv4(),
-	password: uuidv4()
-}
-
 function submitLogin() {
 	var formData = {
-		email: (document.getElementById(ids.email) as HTMLInputElement).value,
-		password: (document.getElementById(ids.password) as HTMLInputElement).value
+		email: (document.getElementById("email") as HTMLInputElement).value,
+		password: (document.getElementById("password") as HTMLInputElement).value
 	}
 
 	if ( !formData.email ||
@@ -51,8 +46,8 @@ export default function LoginPage() {
 					textAlign: "center"
 				}}>
 					<Vierkant>
-						<Input id={ids.email} label="email of gebruikersnaam" style={{ marginBottom: 12 }}></Input>
-						<Input id={ids.password} label="wachtwoord" type="password"></Input>
+						<Input id="email" label="email of gebruikersnaam" style={{ marginBottom: 12 }}></Input>
+						<Input id="password" label="wachtwoord" type="password"></Input>
 						<div style={{
 							marginTop: 24,
 							gridGap: 24,

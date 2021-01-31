@@ -41,8 +41,8 @@ export class Toast extends Component<{
 			boxShadow: "0 8px 12px -4px #00000033",
 			backgroundColor:
 				this.props.type === "normal" ? "var(--background)" :
-				this.props.type === "confirmation" ? "var(--disk-a)" :
-				this.props.type === "error" ? "var(--disk-b)" : "var(--background)",
+				this.props.type === "confirmation" ? "var(--disk-b)" :
+				this.props.type === "error" ? "var(--disk-a)" : "var(--background)",
 			...this.props.style
 		}}>
 		{

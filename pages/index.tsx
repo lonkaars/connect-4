@@ -1,6 +1,6 @@
 import { CSSProperties, Component } from 'react';
 import axios from 'axios';
-import { userInfo } from '../api';
+import { userInfo } from '../api/api';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
@@ -57,31 +57,34 @@ export default class HomePage extends Component {
 		loggedIn: boolean
 	} = {
 		info: {},
-		loggedIn: document.cookie.includes("token")
+		loggedIn: false
 	}
 	
 	getUserInfo () {
 		axios.request<userInfo>({
 			method: "get",
-			url: `${window.location.origin}/api/user/info`,
+			url: `/api/user/info`,
 			headers: {"content-type": "application/json"}
 		})
-		.then(request => this.setState({ info: request.data }))
+		.then(request => this.setState({
+			info: request.data,
+			loggedIn: request.status == 200
+		}))
 		.catch(console.log);
 	}
 
 	constructor(props: {}) {
 		super(props);
-
-		if(this.state.loggedIn) this.getUserInfo()
+		this.getUserInfo();
 	}
 
 	render () {
 		return <div>
 			<NavBar/>
 			<ToastArea>
-				<Toast text="Gert" icon={<VideogameAssetIcon style={{ fontSize: 32 }}/>}/>
-				<Toast text="Gert"/>
+				<Toast text="Met icoon" icon={<VideogameAssetIcon style={{ fontSize: 32 }}/>}/>
+				<Toast text="Confirmation" type="confirmation"/>
+				<Toast text="Error" type="error"/>
 			</ToastArea>
 			<CenteredPage width={802}>
 				<PageTitle>4 op een rij</PageTitle>

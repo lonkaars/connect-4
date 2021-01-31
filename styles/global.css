@@ -67,3 +67,6 @@ input::placeholder {
 /* scroll balken */
 ::-webkit-scrollbar { width: 0 !important; }
 
+/* material-ui default state */
+svg.MuiSvgIcon-root { transition: none !important; }
+
