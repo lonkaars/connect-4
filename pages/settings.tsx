@@ -26,7 +26,6 @@ export default function SettingsPage() {
 					<h2 style={SettingsSectionHeaderStyle}>Standaard spelregels</h2>
 					<CurrentGameSettings/>
 				</Vierkant>
-				<EditGameSettings/>
 			</CenteredPage>
 		</div>
 	);
