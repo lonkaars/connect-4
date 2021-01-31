@@ -1,6 +1,6 @@
 PRAGMA foreign_keys = ON;
 
-create table users (
+create table if not exists users (
 	user_id text primary key not null,
 	username varchar(35) not null,
 	email text not null,
@@ -15,7 +15,7 @@ create table users (
 	presence text
 );
 
-create table games (
+create table if not exists games (
 	game_id text primary key not null,
 	parent_game text,
 	moves text,
@@ -28,11 +28,12 @@ create table games (
 	rating_delta_player_2 integer,
 	ranked boolean,
 	status text not null,
+	ruleset text not null,
 	foreign key(player_1_id) references users(user_id),
 	foreign key(player_2_id) references users(user_id)
 );
 
-create table social (
+create table if not exists social (
 	user_id text not null,
 	friends text,
 	blocked text,

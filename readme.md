@@ -25,6 +25,7 @@
 
 - [Flask](https://flask.palletsprojects.com/) voor de http server en de REST api
 - [ReactJS](https://reactjs.org/) om de website mee te maken
+- [NextJS](https://nextjs.org/) om meerdere pagina's te hebben met reactjs
 - [socket.io](https://socket.io/) voor de communicatie tussen de clients en de server tijdens een potje
 - [SQLite](https://sqlite.org/index.html) voor de database
 
