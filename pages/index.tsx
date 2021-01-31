@@ -1,4 +1,4 @@
-import { CSSProperties, Component, useEffect } from 'react';
+import { CSSProperties, Component } from 'react';
 import axios from 'axios';
 import { userInfo } from '../api/api';
 
@@ -82,8 +82,9 @@ export default class HomePage extends Component {
 		return <div>
 			<NavBar/>
 			<ToastArea>
-				<Toast text="Gert" icon={<VideogameAssetIcon style={{ fontSize: 32 }}/>}/>
-				<Toast text="Gert"/>
+				<Toast text="Met icoon" icon={<VideogameAssetIcon style={{ fontSize: 32 }}/>}/>
+				<Toast text="Confirmation" type="confirmation"/>
+				<Toast text="Error" type="error"/>
 			</ToastArea>
 			<CenteredPage width={802}>
 				<PageTitle>4 op een rij</PageTitle>
