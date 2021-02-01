@@ -96,7 +96,7 @@ flask run
 
 # term 2
 
-yarn dev # dit opent automatisch de website in je browser
+yarn dev
 ```
 
 ## Hoe API endpoints testen
