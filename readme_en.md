@@ -1,5 +1,7 @@
 # PO connect-4
 
+<div style="text-align: center;"><img src="./banner.png"/></div>
+
 ## This is a school project using Python and SQL
 
 Note to English spreakers: most of this project is in Dutch (commit messages, documents etc.). I'll try to maintain this after the assignment deadline because I think this is a pretty cool project, and I'll be fixing issues/merging pr's after the deadline aswell. I think the deadline is ~January 25th~ sometime in March? though I'm not sure about this.
