@@ -98,7 +98,7 @@ flask run
 
 # term 2
 
-yarn dev # this will open the react page in your browser
+yarn dev
 ```
 
 ## How to test API endpoints
