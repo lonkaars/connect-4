@@ -120,10 +120,15 @@ function GameSettingsSection(props: {
 </GameSettingsSection>
 */
 
-export class EditGameSettings extends Component<{
+type editGameSettingsProps = {
 	parentState: { editGameRulesDialogVisible: boolean; };
 	hideEditGameRules: () => void;
-}> {
+};
+
+export class EditGameSettings extends Component<editGameSettingsProps> {
+	constructor(props: editGameSettingsProps) {
+		super(props);
+	}
 
 	render () {
 		return <DialogBox title="Spelregels aanpassen" style={{
@@ -143,9 +148,9 @@ export class EditGameSettings extends Component<{
 						gridGap: 16,
 						margin: "16px 0"
 					}}>
-						<Input type="number" label="min"/>
-						<Input type="number" label="sec"/>
-						<Input type="number" label="plus"/>
+						<Input type="number" label="min" min={0} max={60}/>
+						<Input type="number" label="sec" min={0} max={60}/>
+						<Input type="number" label="plus" min={0}/>
 					</div>
 					<CheckBox state={false}/>
 					<span style={{
