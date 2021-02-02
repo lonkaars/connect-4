@@ -65,8 +65,9 @@ function GameSettingsSection(props: {
 	title: string;
 	state: boolean;
 	noMarginBottom?: boolean;
+	id: string;
 }) {
-	return <Vierkant style={{
+	return <Vierkant id={props.id} style={{
 		backgroundColor: "var(--background-alt)",
 		width: "100%",
 		padding: 16,
@@ -78,7 +79,7 @@ function GameSettingsSection(props: {
 		fontSize: 14,
 		fontWeight: 600
 	}}>{props.title}</span>
-	<CheckBox state={props.state} style={{
+	<CheckBox state={props.state} id={`${props.id}_enabled`} style={{
 		verticalAlign: "top",
 		float: "right",
 		margin: -3
@@ -141,16 +142,16 @@ export class EditGameSettings extends Component<editGameSettingsProps> {
 				overflowY: "scroll",
 				borderRadius: 8,
 			}}>
-				<GameSettingsSection title="Tijdslimiet" state={false}>
+				<GameSettingsSection title="Tijdslimiet" state={false} id="timelimit">
 					<div style={{
 						display: "grid",
 						gridTemplateColumns: "1fr 1fr 1fr",
 						gridGap: 16,
 						margin: "16px 0"
 					}}>
-						<Input type="number" label="min" min={0} max={60}/>
-						<Input type="number" label="sec" min={0} max={60}/>
-						<Input type="number" label="plus" min={0}/>
+						<Input id="timelimit_minutes" type="number" label="min" min={0} max={60}/>
+						<Input id="timelimit_seconds" type="number" label="sec" min={0} max={60}/>
+						<Input id="timelimit_addmove" type="number" label="plus" min={0}/>
 					</div>
 					<CheckBox state={false}/>
 					<span style={{
@@ -158,8 +159,12 @@ export class EditGameSettings extends Component<editGameSettingsProps> {
 						marginLeft: 4
 					}}>Timer gebruiken voor bijde spelers</span>
 				</GameSettingsSection>
-				<GameSettingsSection title="Gerangschikt spel" state={true} noMarginBottom/>
+				<GameSettingsSection title="Gerangschikt spel" state={true} id="ranked" noMarginBottom/>
 			</div>
+			<Button style={{
+				textAlign: "center",
+				marginTop: 24
+			}}>Instellingen opslaan</Button>
 		</DialogBox>;
 	}
 }

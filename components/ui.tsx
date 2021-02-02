@@ -10,8 +10,9 @@ export function Vierkant(props: {
 	height?: string;
 	style?: CSSProperties;
 	children?: ReactNode;
-	className?: string; })
-{
+	className?: string;
+	id?: string;
+}) {
 	return <a style={{
 		padding: 24,
 		backgroundColor: "var(--background)",
@@ -24,7 +25,7 @@ export function Vierkant(props: {
 		width: props.width ? props.width : undefined,
 		height: props.height ? props.height : undefined,
 		...props.style
-	}} href={props.href} className={props.className}>{props.children}</a>
+	}} href={props.href} className={props.className} id={props.id}>{props.children}</a>
 }
 
 export function Button(props: {
@@ -32,9 +33,10 @@ export function Button(props: {
 	children?: ReactNode;
 	style?: CSSProperties;
 	href?: string;
-	onclick?: (() => void); })
-{
-	return <a onClick={props.onclick} href={props.href} style={{
+	onclick?: (() => void);
+	id?: string;
+}) {
+	return <a onClick={props.onclick} href={props.href} id={props.id} style={{
 		padding: props.text ? 8 : 16,
 		textAlign: props.text ? "center" : "left",
 		borderRadius: 8,
@@ -115,14 +117,15 @@ export function SearchBar(props: { label?: string }) {
 }
 
 export class CheckBox extends Component<{
-	state?: boolean,
-	style?: CSSProperties
+	state?: boolean;
+	style?: CSSProperties;
+	id?: string;
 }> {
 	state = { on: this.props.state || false }
 	public toggle = () => this.setState({ on: !this.state.on })
 
 	render() {
-		return <div onClick={this.toggle} style={{
+		return <div onClick={this.toggle} id={this.props.id} className={this.state.on ? "on" : "off"} style={{
 			...this.props.style,
 			display: "inline-block",
 			cursor: "pointer"
