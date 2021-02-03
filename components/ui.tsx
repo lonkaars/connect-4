@@ -66,6 +66,7 @@ export function Input(props: {
 	id?: string;
 	min?: number;
 	max?: number;
+	value?: string|number;
 }) {
 	return <input
 	id={props.id}
@@ -73,6 +74,7 @@ export function Input(props: {
 	min={props.min} max={props.max}
 	placeholder={props.label}
 	spellCheck={false}
+	value={props.value}
 	style={{
 		padding: 12,
 		border: 0,

@@ -5,15 +5,37 @@ import { DialogBox } from './dialogBox';
 
 import BuildRoundedIcon from '@material-ui/icons/BuildRounded';
 
+type ruleset = {
+	timelimit: {
+		enabled: boolean;
+		minutes?: number;
+		seconds?: number;
+		addmove?: number;
+		shared: boolean;
+	},
+	ranked: boolean;
+};
+
+type CurrentGameSettingsStateType = {
+	editGameRulesDialogVisible: boolean;
+	ruleset: ruleset;
+}
+
 export class CurrentGameSettings extends Component {
-	state: {
-		editGameRulesDialogVisible: boolean;
-	} = {
-		editGameRulesDialogVisible: false
+	state: CurrentGameSettingsStateType = {
+		editGameRulesDialogVisible: false,
+		ruleset: { // default ruleset (should be replaced in this.constructor())
+			timelimit: {
+				enabled: false,
+				shared: false
+			},
+			ranked: false
+		}
 	}
 
 	showEditGameRules = () => this.setState({ editGameRulesDialogVisible: true });
 	hideEditGameRules = () => this.setState({ editGameRulesDialogVisible: false });
+	setGameRules = (newRules: ruleset) => this.setState({ ruleset: newRules });
 
 	render() {
 		return <div style={{
@@ -32,7 +54,6 @@ export class CurrentGameSettings extends Component {
 				transform: "translateY(-50%)"
 			}}>
 				Geen tijdslimiet<br/>
-				Standaardregels<br/>
 				Gerangschikt
 			</p>
 			<Button style={{
@@ -55,7 +76,7 @@ export class CurrentGameSettings extends Component {
 					userSelect: "none"
 				}}>Spelregels aanpassen</span>
 			</Button>
-			<EditGameSettings parentState={this.state} hideEditGameRules={this.hideEditGameRules}/>
+			<EditGameSettings parentState={this.state} hideEditGameRules={this.hideEditGameRules} setGameRules={this.setGameRules}/>
 		</div>;
 	}
 }
@@ -122,13 +143,15 @@ function GameSettingsSection(props: {
 */
 
 type editGameSettingsProps = {
-	parentState: { editGameRulesDialogVisible: boolean; };
+	parentState: CurrentGameSettingsStateType;
 	hideEditGameRules: () => void;
+	setGameRules: (newRules: ruleset) => void;
 };
 
 export class EditGameSettings extends Component<editGameSettingsProps> {
 	constructor(props: editGameSettingsProps) {
 		super(props);
+		console.log(this.props.parentState)
 	}
 
 	render () {
@@ -142,28 +165,42 @@ export class EditGameSettings extends Component<editGameSettingsProps> {
 				overflowY: "scroll",
 				borderRadius: 8,
 			}}>
-				<GameSettingsSection title="Tijdslimiet" state={false} id="timelimit">
+				<GameSettingsSection title="Tijdslimiet" state={this.props.parentState.ruleset.timelimit.enabled} id="timelimit">
 					<div style={{
 						display: "grid",
 						gridTemplateColumns: "1fr 1fr 1fr",
 						gridGap: 16,
 						margin: "16px 0"
 					}}>
-						<Input id="timelimit_minutes" type="number" label="min" min={0} max={60}/>
-						<Input id="timelimit_seconds" type="number" label="sec" min={0} max={60}/>
-						<Input id="timelimit_addmove" type="number" label="plus" min={0}/>
+						<Input id="timelimit_minutes" type="number" label="min" min={0} max={60} value={this.props.parentState.ruleset.timelimit.minutes}/>
+						<Input id="timelimit_seconds" type="number" label="sec" min={0} max={60} value={this.props.parentState.ruleset.timelimit.seconds}/>
+						<Input id="timelimit_addmove" type="number" label="plus" min={0} value={this.props.parentState.ruleset.timelimit.addmove}/>
 					</div>
-					<CheckBox state={false}/>
+					<CheckBox id="timelimit_shared" state={this.props.parentState.ruleset.timelimit.shared}/>
 					<span style={{
 						verticalAlign: "super",
 						marginLeft: 4
 					}}>Timer gebruiken voor bijde spelers</span>
 				</GameSettingsSection>
-				<GameSettingsSection title="Gerangschikt spel" state={true} id="ranked" noMarginBottom/>
+				<GameSettingsSection title="Gerangschikt spel" state={this.props.parentState.ruleset.ranked} id="ranked" noMarginBottom/>
 			</div>
 			<Button style={{
 				textAlign: "center",
 				marginTop: 24
+			}} onclick={() => {
+				var rules: ruleset = {
+					timelimit: {
+						enabled: document.getElementById("timelimit_enabled").classList.contains("on"),
+						minutes: Number((document.getElementById("timelimit_minutes") as HTMLInputElement).value),
+						seconds: Number((document.getElementById("timelimit_seconds") as HTMLInputElement).value),
+						addmove: Number((document.getElementById("timelimit_addmove") as HTMLInputElement).value),
+						shared: document.getElementById("timelimit_shared").classList.contains("on"),
+					},
+					ranked: document.getElementById("ranked_enabled").classList.contains("on")
+				}
+				this.props.setGameRules(rules);
+				this.props.hideEditGameRules();
+				console.log(rules)
 			}}>Instellingen opslaan</Button>
 		</DialogBox>;
 	}

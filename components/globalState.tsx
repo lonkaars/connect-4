@@ -4,7 +4,7 @@ type globalState = {
 	gameSettings: {
 		timeLimit: {
 			on: boolean;
-			time: Number;
+			time: number;
 			useForBoth: boolean;
 		}
 		rankedGame: boolean;
