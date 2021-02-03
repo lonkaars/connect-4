@@ -38,6 +38,12 @@ export class CurrentGameSettings extends Component {
 	setGameRules = (newRules: ruleset) => this.setState({ ruleset: newRules });
 
 	render() {
+		var timelimit_str = this.state.ruleset.timelimit.enabled ?
+			`${this.state.ruleset.timelimit.minutes}m${this.state.ruleset.timelimit.seconds}s plus ${this.state.ruleset.timelimit.addmove}` :
+			"Geen tijdslimiet"
+		var ranked_str = this.state.ruleset.ranked ?
+			"Gerangschikt" :
+			"Niet gerangschikt"
 		return <div style={{
 			position: "relative",
 			height: 80,
@@ -53,8 +59,8 @@ export class CurrentGameSettings extends Component {
 				left: 0,
 				transform: "translateY(-50%)"
 			}}>
-				Geen tijdslimiet<br/>
-				Gerangschikt
+				{timelimit_str}<br/>
+				{ranked_str}
 			</p>
 			<Button style={{
 				width: 150,

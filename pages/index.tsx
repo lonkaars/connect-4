@@ -70,7 +70,7 @@ export default class HomePage extends Component {
 			info: request.data,
 			loggedIn: request.status == 200
 		}))
-		.catch(console.log);
+		.catch(() => {});
 	}
 
 	constructor(props: {}) {

@@ -74,7 +74,7 @@ export function Input(props: {
 	min={props.min} max={props.max}
 	placeholder={props.label}
 	spellCheck={false}
-	value={props.value}
+	defaultValue={props.value ? String(props.value) : ""}
 	style={{
 		padding: 12,
 		border: 0,
