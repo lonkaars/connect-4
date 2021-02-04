@@ -16,10 +16,17 @@ export type ruleset = {
 		shared: boolean;
 	},
 	ranked: boolean;
-};
+}
+
+export type userColors = {
+	diskA: string;
+	diskB: string;
+	background: string;
+}
 
 export interface userPreferences {
 	darkMode?: boolean;
 	ruleset?: ruleset;
+	userColors?: userColors;
 }
 

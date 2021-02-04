@@ -162,11 +162,6 @@ type editGameSettingsProps = {
 };
 
 export class EditGameSettings extends Component<editGameSettingsProps> {
-	constructor(props: editGameSettingsProps) {
-		super(props);
-		console.log(this.props.parentState)
-	}
-
 	render () {
 		return <DialogBox title="Spelregels aanpassen" style={{
 			margin: 0,
@@ -213,7 +208,6 @@ export class EditGameSettings extends Component<editGameSettingsProps> {
 				}
 				this.props.setGameRules(rules);
 				this.props.hideEditGameRules();
-				console.log(rules)
 			}}>Instellingen opslaan</Button>
 		</DialogBox>;
 	}
