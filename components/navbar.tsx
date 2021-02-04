@@ -1,4 +1,5 @@
-import { CSSProperties } from "react";
+import { CSSProperties, Component } from "react";
+/* import axios from "axios"; */
 
 import { LogoDark } from "../components/logo";
 
@@ -8,6 +9,7 @@ import ExtensionIcon from '@material-ui/icons/Extension';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/Person';
+import {AccountAvatar} from "./account";
 
 var NavBarItemStyle: CSSProperties = {
 	margin: 12,
@@ -15,9 +17,22 @@ var NavBarItemStyle: CSSProperties = {
 	display: "block"
 }
 
-export function NavBar() {
-	return (
-		<div className="navbar" style={{
+export class NavBar extends Component {
+	state: {
+		loggedIn: boolean
+	} = {
+		loggedIn: false
+	}
+	
+	constructor(props: {}) {
+		super(props);
+
+		if (typeof window === "undefined") return; // return if run on server
+		this.state.loggedIn = document.cookie.includes("token");
+	}
+
+	render () {
+		return <div className="navbar" style={{
 			width: 48,
 			height: "100%",
 
@@ -45,19 +60,16 @@ export function NavBar() {
 				left: 0,
 				backgroundColor: "var(--background)"
 			}}>
-			<a href="/login" style={NavBarItemStyle}>
-				<div style={{
-					width: 24,
-					height: 24,
-					/* background: "#888888", */
-					borderRadius: 12
-				}}>
+			<a href={this.state.loggedIn ? "/account" : "/login"} style={NavBarItemStyle}>
+				{
+					this.state.loggedIn ?
+					<AccountAvatar size={24} dummy round/> :
 					<PersonIcon/>
-				</div>
+				}
 			</a>
 				<a href="/settings" style={NavBarItemStyle}><SettingsIcon/></a>
 			</div>
 		</div>
-	);
+	}
 }
 

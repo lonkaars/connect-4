@@ -109,7 +109,6 @@ export function SearchBar(props: { label?: string }) {
 			position: "relative"
 		}}>
 			<SearchIcon style={{
-				fontSize: 24,
 				position: "absolute",
 				top: "50%", left: "50%",
 				transform: "translate(-50%, -50%)"
@@ -134,8 +133,8 @@ export class CheckBox extends Component<{
 		}}>
 		{
 			this.state.on ?
-			<CheckBoxIcon style={{ fontSize: 24 }}/> :
-			<CheckBoxOutlineBlankIcon style={{ fontSize: 24 }}/>
+			<CheckBoxIcon/> :
+			<CheckBoxOutlineBlankIcon/>
 		}
 		</div>;
 	}

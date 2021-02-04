@@ -18,12 +18,14 @@ html, body {
 	padding: 0;
 }
 
+/* global font zize */
+p, b, i, span, td, th { font-size: 15px; }
+
 /* navbar fix */
 body { padding-left: 48px; }
 
 /* font */
 html {
-	font-size: 14px;
 	font-family: "Inter";
 }
 
@@ -59,10 +61,6 @@ input::placeholder {
 
 /* remove chrome's ugly :focus outline */
 :focus { outline: none; }
-
-/* icon size fix */
-.navbar svg,
-.gameBar svg { font-size: 24px; }
 
 /* scroll balken */
 ::-webkit-scrollbar { width: 0 !important; }

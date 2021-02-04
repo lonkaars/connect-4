@@ -6,7 +6,6 @@ import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
 import { Vierkant, Button } from '../components/ui';
 import { AccountAvatar } from '../components/account';
-import { ToastArea, Toast } from '../components/toast';
 
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import ExtensionIcon from '@material-ui/icons/Extension';
@@ -66,11 +65,11 @@ export default class HomePage extends Component {
 			url: `/api/user/info`,
 			headers: {"content-type": "application/json"}
 		})
-		.then(request => this.setState({
-			info: request.data,
-			loggedIn: request.status == 200
-		}))
+		.then(request => this.setState({ info: request.data }))
 		.catch(() => {});
+
+		if (typeof window === "undefined") return; // return if run on server
+		this.state.loggedIn = document.cookie.includes("token");
 	}
 
 	constructor(props: {}) {
@@ -81,11 +80,6 @@ export default class HomePage extends Component {
 	render () {
 		return <div>
 			<NavBar/>
-			<ToastArea>
-				<Toast text="Met icoon" icon={<VideogameAssetIcon style={{ fontSize: 32 }}/>}/>
-				<Toast text="Confirmation" type="confirmation"/>
-				<Toast text="Error" type="error"/>
-			</ToastArea>
 			<CenteredPage width={802}>
 				<PageTitle>4 op een rij</PageTitle>
 				<Vierkant href="/game">
@@ -115,6 +109,7 @@ export default class HomePage extends Component {
 							userSelect: "none",
 							display: "inline-block",
 							position: "absolute",
+							fontSize: 14,
 							left: 0, right: 0, top: 0
 						}}>Log in of maak een account aan om je scores op te slaan en toegang te krijgen tot meer functies</span>
 						<div style={{
@@ -139,7 +134,7 @@ export default class HomePage extends Component {
 							top: 0, left: 0,
 							...SquareSize
 						}}>
-							<AccountAvatar size={90} image="url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fblogs.agu.org%2Fwildwildscience%2Ffiles%2F2017%2F09%2FCapture-1.png&f=1&nofb=1)"/>
+							<AccountAvatar size={90} dummy/>
 						</div>
 						<div style={{
 							position: "absolute",
