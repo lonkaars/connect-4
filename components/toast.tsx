@@ -69,7 +69,7 @@ export class Toast extends Component<{
 					display: "inline-block",
 					cursor: "pointer"
 				}} onClick={this.close}>
-					<CloseIcon style={{ fontSize: 24 }}/>
+					<CloseIcon/>
 				</div>
 			</div>
 		}
