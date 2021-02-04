@@ -1,20 +1,12 @@
 import { ReactNode, Component } from 'react';
+import axios from 'axios';
 
 import { Button, Vierkant, CheckBox, Input } from './ui';
 import { DialogBox } from './dialogBox';
+import { ruleset, userPreferences } from '../api/api';
 
 import BuildRoundedIcon from '@material-ui/icons/BuildRounded';
 
-type ruleset = {
-	timelimit: {
-		enabled: boolean;
-		minutes?: number;
-		seconds?: number;
-		addmove?: number;
-		shared: boolean;
-	},
-	ranked: boolean;
-};
 
 type CurrentGameSettingsStateType = {
 	editGameRulesDialogVisible: boolean;
@@ -24,13 +16,28 @@ type CurrentGameSettingsStateType = {
 export class CurrentGameSettings extends Component {
 	state: CurrentGameSettingsStateType = {
 		editGameRulesDialogVisible: false,
-		ruleset: { // default ruleset (should be replaced in this.constructor())
+		ruleset: {
 			timelimit: {
 				enabled: false,
 				shared: false
 			},
 			ranked: false
 		}
+	}
+
+	constructor(props: {}) {
+		super(props);
+
+		if (typeof window === "undefined") return; // return if run on server
+
+		axios.request<userPreferences>({
+			method: "get",
+			url: `/api/user/preferences`,
+			headers: {"content-type": "application/json"}
+		})
+		//FIXME: this assumes the request ruleset has all properties of a ruleset
+		.then(request => this.setState({ ruleset: request.data.ruleset || this.state.ruleset }))
+		.catch(() => {});
 	}
 
 	showEditGameRules = () => this.setState({ editGameRulesDialogVisible: true });

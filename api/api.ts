@@ -7,3 +7,19 @@ export interface userInfo {
 	username?: string,
 };
 
+export type ruleset = {
+	timelimit: {
+		enabled: boolean;
+		minutes?: number;
+		seconds?: number;
+		addmove?: number;
+		shared: boolean;
+	},
+	ranked: boolean;
+};
+
+export interface userPreferences {
+	darkMode?: boolean;
+	ruleset?: ruleset;
+}
+
