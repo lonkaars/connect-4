@@ -5,7 +5,7 @@ import { Button, Vierkant, CheckBox, Input } from './ui';
 import { DialogBox } from './dialogBox';
 import { ruleset, userPreferences } from '../api/api';
 
-import BuildRoundedIcon from '@material-ui/icons/BuildRounded';
+import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 
 
 type CurrentGameSettingsStateType = {
@@ -76,7 +76,7 @@ export class CurrentGameSettings extends Component {
 				right: 0,
 				transform: "translateY(-50%)"
 			}} onclick={this.showEditGameRules}>
-				<BuildRoundedIcon style={{ fontSize: 48 }}/>
+				<BuildOutlinedIcon style={{ fontSize: 48 }}/>
 				<span style={{
 					fontWeight: 600,
 					position: "absolute",
