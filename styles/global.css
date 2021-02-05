@@ -40,7 +40,7 @@ a { color: var(--text); }
 .CenteredPageInner > * { text-align: left; }
 
 /* line height reset */
-h1, h2, p, span, td, th {
+h1, h2, p, b, span, td, th {
 	margin: 0;
 	line-height: 1.2;
 }
