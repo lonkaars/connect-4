@@ -59,6 +59,29 @@ export function Button(props: {
 	</a>;
 }
 
+export function IconLabelButton(props: {
+	text: string;
+	icon: ReactNode;
+	onclick?: () => void;
+}) {
+	return <Button onclick={props.onclick} style={{
+		display: "inline-block",
+		verticalAlign: "top",
+		padding: 8,
+		float: "right",
+		marginLeft: 12
+	}}>
+		{props.icon}
+		<span style={{
+			display: "inline-block",
+			verticalAlign: "top",
+			fontWeight: 500,
+			marginLeft: 8,
+			marginTop: 3, marginBottom: 3, marginRight: 3
+		}}>{props.text}</span>
+	</Button>
+}
+
 export function Input(props: {
 	label?: string;
 	style?: CSSProperties;
