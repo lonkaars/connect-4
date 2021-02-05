@@ -19,7 +19,7 @@ export class AccountAvatar extends Component<AccountAvatarProps> {
 			backgroundImage: image,
 			backgroundSize: "cover",
 			display: "inline-block",
-			borderRadius: this.props.size / 2 * Number(this.props.round)
+			borderRadius: this.props.size / 2 * Number(this.props.round || 0)
 		}}/>;
 	}
 }
