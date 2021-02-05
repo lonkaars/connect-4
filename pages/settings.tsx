@@ -1,8 +1,8 @@
-import { CSSProperties, ReactNode } from 'react';
+import { CSSProperties } from 'react';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
-import { Vierkant, Button } from '../components/ui';
+import { Vierkant, IconLabelButton } from '../components/ui';
 import { AccountAvatar } from '../components/account';
 import { CurrentGameSettings } from '../components/gameSettings';
 
@@ -15,28 +15,6 @@ var SettingsSubsectionStyle: CSSProperties = {
 	minHeight: 40
 };
 
-function SettingsPageButton(props: {
-	text: string;
-	icon: ReactNode;
-	onclick?: () => void;
-}) {
-	return <Button onclick={props.onclick} style={{
-		display: "inline-block",
-		verticalAlign: "top",
-		padding: 8,
-		float: "right",
-		marginLeft: 12
-	}}>
-		{props.icon}
-		<span style={{
-			display: "inline-block",
-			verticalAlign: "top",
-			marginLeft: 8,
-			marginTop: 3, marginBottom: 3
-		}}>{props.text}</span>
-	</Button>
-}
-
 export default function SettingsPage() {
 	return (
 		<div>
@@ -47,25 +25,25 @@ export default function SettingsPage() {
 					<h2>Account</h2>
 					<div style={SettingsSubsectionStyle}>
 						<AccountAvatar size={100} dummy/>
-						<SettingsPageButton text="Profielfoto veranderen" icon={<EditOutlinedIcon/>}/>
+						<IconLabelButton text="Profielfoto veranderen" icon={<EditOutlinedIcon/>}/>
 					</div>
 					<div style={SettingsSubsectionStyle}>
-						<SettingsPageButton text="Bewerken" icon={<EditOutlinedIcon/>}/>
+						<IconLabelButton text="Bewerken" icon={<EditOutlinedIcon/>}/>
 						<div style={{ display: "block" }}>
 							<b>Gebruikersnaam</b>
 							<p>Hier staat hij dan</p>
 						</div>
 					</div>
 					<div style={SettingsSubsectionStyle}>
-						<SettingsPageButton text="Bewerken" icon={<EditOutlinedIcon/>}/>
-						<SettingsPageButton text="Onthullen" icon={<VisibilityOutlinedIcon/>}/>
+						<IconLabelButton text="Bewerken" icon={<EditOutlinedIcon/>}/>
+						<IconLabelButton text="Onthullen" icon={<VisibilityOutlinedIcon/>}/>
 						<div style={{ display: "block" }}>
 							<b>Email</b>
 							<p>******@example.com</p>
 						</div>
 					</div>
 					<div style={SettingsSubsectionStyle}>
-						<SettingsPageButton text="Bewerken" icon={<EditOutlinedIcon/>}/>
+						<IconLabelButton text="Bewerken" icon={<EditOutlinedIcon/>}/>
 						<div style={{ display: "block" }}>
 							<b>Wachtwoord</b>
 						</div>
