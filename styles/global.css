@@ -18,6 +18,15 @@ html, body {
 	padding: 0;
 }
 
+/* subsection font size */
+h2 { font-size: 20px; }
+
+/* subsubsection font size */
+h3 {
+	font-size: .9rem;
+	padding-bottom: 6px;
+}
+
 /* global font zize */
 p, b, i, span, td, th { font-size: 15px; }
 
@@ -25,9 +34,7 @@ p, b, i, span, td, th { font-size: 15px; }
 body { padding-left: 48px; }
 
 /* font */
-html {
-	font-family: "Inter";
-}
+html { font-family: "Inter"; }
 
 /* background color */
 html { background-color: var(--page-background); }
@@ -40,7 +47,7 @@ a { color: var(--text); }
 .CenteredPageInner > * { text-align: left; }
 
 /* line height reset */
-h1, h2, p, b, span, td, th {
+h1, h2, h3, p, b, span, td, th {
 	margin: 0;
 	line-height: 1.2;
 }

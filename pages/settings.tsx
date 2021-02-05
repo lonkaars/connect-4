@@ -2,7 +2,7 @@ import { CSSProperties } from 'react';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
-import { Vierkant, IconLabelButton } from '../components/ui';
+import { Vierkant, IconLabelButton, CheckBox } from '../components/ui';
 import { AccountAvatar } from '../components/account';
 import { CurrentGameSettings } from '../components/gameSettings';
 
@@ -30,7 +30,7 @@ export default function SettingsPage() {
 					<div style={SettingsSubsectionStyle}>
 						<IconLabelButton text="Bewerken" icon={<EditOutlinedIcon/>}/>
 						<div style={{ display: "block" }}>
-							<b>Gebruikersnaam</b>
+							<h3>Gebruikersnaam</h3>
 							<p>Hier staat hij dan</p>
 						</div>
 					</div>
@@ -38,19 +38,31 @@ export default function SettingsPage() {
 						<IconLabelButton text="Bewerken" icon={<EditOutlinedIcon/>}/>
 						<IconLabelButton text="Onthullen" icon={<VisibilityOutlinedIcon/>}/>
 						<div style={{ display: "block" }}>
-							<b>Email</b>
+							<h3>Email</h3>
 							<p>******@example.com</p>
 						</div>
 					</div>
 					<div style={SettingsSubsectionStyle}>
 						<IconLabelButton text="Bewerken" icon={<EditOutlinedIcon/>}/>
 						<div style={{ display: "block" }}>
-							<b>Wachtwoord</b>
+							<h3>Wachtwoord</h3>
 						</div>
 					</div>
 				</Vierkant>
 				<Vierkant style={SettingsSectionStyle}>
 					<h2>Kleuren</h2>
+					<div style={SettingsSubsectionStyle}>
+						<h3>Schijfjes</h3>
+					</div>
+					<div style={SettingsSubsectionStyle}>
+						<h3>Achtergrond</h3>
+					</div>
+					<div style={SettingsSubsectionStyle}>
+						<div style={{ float: "right" }}>
+							<CheckBox/>
+						</div>
+						<h3>Donkere modus</h3>
+					</div>
 				</Vierkant>
 				<Vierkant style={SettingsSectionStyle}>
 					<h2>Standaard spelregels</h2>
