@@ -27,11 +27,14 @@ export class NavBar extends Component {
 	constructor(props: {}) {
 		super(props);
 
-		if (typeof window === "undefined") return; // return if run on server
-		this.state.loggedIn = document.cookie.includes("token");
 	}
 
 	render () {
+		if (typeof window !== "undefined") { // hot garbage but werks :tada:
+			var loggedIn = document.cookie.includes("token");
+			if (this.state.loggedIn != loggedIn)
+				this.setState({ loggedIn });
+		}
 		return <div className="navbar" style={{
 			width: 48,
 			height: "100%",
@@ -60,13 +63,13 @@ export class NavBar extends Component {
 				left: 0,
 				backgroundColor: "var(--background)"
 			}}>
-			<a href={this.state.loggedIn ? "/account" : "/login"} style={NavBarItemStyle}>
-				{
-					this.state.loggedIn ?
-					<AccountAvatar size={24} dummy round/> :
-					<PersonIcon/>
-				}
-			</a>
+				<a href={this.state.loggedIn ? "/account" : "/login"} style={NavBarItemStyle}>
+					{
+						this.state.loggedIn ?
+						<AccountAvatar size={24} dummy round/> :
+						<PersonIcon/>
+					}
+				</a>
 				<a href="/settings" style={NavBarItemStyle}><SettingsIcon/></a>
 			</div>
 		</div>

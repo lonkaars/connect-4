@@ -9,7 +9,6 @@ import { CurrentGameSettings } from '../components/gameSettings';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 
-var SettingsSectionStyle: CSSProperties = { width: "calc(100% - 12px)" };
 var SettingsSubsectionStyle: CSSProperties = {
 	marginTop: 24,
 	minHeight: 40
@@ -21,7 +20,7 @@ export default function SettingsPage() {
 			<NavBar/>
 			<CenteredPage width={802}>
 				<PageTitle>Instellingen</PageTitle>
-				<Vierkant style={SettingsSectionStyle}>
+				<Vierkant fullwidth>
 					<h2>Account</h2>
 					<div style={SettingsSubsectionStyle}>
 						<AccountAvatar size={100} dummy/>
@@ -49,7 +48,7 @@ export default function SettingsPage() {
 						</div>
 					</div>
 				</Vierkant>
-				<Vierkant style={SettingsSectionStyle}>
+				<Vierkant fullwidth>
 					<h2>Kleuren</h2>
 					<div style={SettingsSubsectionStyle}>
 						<h3>Schijfjes</h3>
@@ -64,7 +63,7 @@ export default function SettingsPage() {
 						<h3>Donkere modus</h3>
 					</div>
 				</Vierkant>
-				<Vierkant style={SettingsSectionStyle}>
+				<Vierkant fullwidth>
 					<h2>Standaard spelregels</h2>
 					<div style={SettingsSubsectionStyle}>
 						<CurrentGameSettings/>
