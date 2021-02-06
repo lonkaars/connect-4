@@ -12,6 +12,7 @@ export function Vierkant(props: {
 	children?: ReactNode;
 	className?: string;
 	id?: string;
+	fullwidth?: boolean;
 }) {
 	return <a style={{
 		padding: 24,
@@ -22,7 +23,10 @@ export function Vierkant(props: {
 		display: "inline-block",
 		position: "relative",
 		boxSizing: "border-box",
-		width: props.width ? props.width : undefined,
+		width:
+			props.width ? props.width :
+			props.fullwidth ? "calc(100% - 12px)" :
+			undefined,
 		height: props.height ? props.height : undefined,
 		...props.style
 	}} href={props.href} className={props.className} id={props.id}>{props.children}</a>

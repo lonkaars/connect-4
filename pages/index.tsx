@@ -159,7 +159,7 @@ export default class HomePage extends Component {
 						</div>
 					</div>
 				</Vierkant>
-				<Vierkant width="calc(100% - 12px)" style={{ display: this.state.loggedIn ? "block" : "none" }}>
+				<Vierkant fullwidth style={{ display: this.state.loggedIn ? "block" : "none" }}>
 					<h2>Recente partijen</h2>
 					<table width="100%" style={{ marginTop: "16px", textAlign: "center" }}>
 						<tr>
@@ -182,7 +182,7 @@ export default class HomePage extends Component {
 						</tr>
 					</table>
 				</Vierkant>
-				<Vierkant width="calc(100% - 12px)">
+				<Vierkant fullwidth>
 					<h2>Nieuws ofzo</h2>
 					<p style={{ margin: "6px 0" }}>Chess.com heeft heel veel troep waar niemand naar kijkt</p>
 				</Vierkant>
