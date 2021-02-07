@@ -1,7 +1,12 @@
+import Icon from '@mdi/react';
+
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
-import { Vierkant } from '../components/ui';
+import { Vierkant, IconLabelButton } from '../components/ui';
 import { AccountAvatar } from '../components/account';
+
+import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
+import { mdiAccountCancelOutline } from '@mdi/js';
 
 export default function AccountPage() {
 	return (
@@ -30,10 +35,26 @@ export default function AccountPage() {
 					}}>
 						<div style={{
 							width: 40,
-							height: 30,
+							height: 27,
 							backgroundColor: "#ff00ff",
-							verticalAlign: "bottom"
+							position: "absolute",
+							left: 0, bottom: 0
 						}}></div>
+						<IconLabelButton icon={<PersonAddOutlinedIcon/>} text="Vriendschapsverzoek"/>
+						<IconLabelButton icon={<Icon size={1} path={mdiAccountCancelOutline}/>} text="Blokkeren"/>
+					</div>
+				</Vierkant>
+				<Vierkant fullwidth>
+					<div style={{
+						display: "grid",
+						gridTemplateColumns: "repeat(5, 1fr)",
+						gridGap: 12
+					}}>
+						<div> <span>gert</span> </div>
+						<div> <span>gert</span> </div>
+						<div> <span>gert</span> </div>
+						<div> <span>gert</span> </div>
+						<div> <span>gert</span> </div>
 					</div>
 				</Vierkant>
 			</CenteredPage>
