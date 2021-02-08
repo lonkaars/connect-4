@@ -41,16 +41,6 @@ var SquareSize: CSSProperties = {
 	height: 90
 }
 
-var LeftAlignedTableColumn: CSSProperties = {
-	textAlign: "left",
-	paddingLeft: 16
-}
-
-var RightAlignedTableColumn: CSSProperties = {
-	textAlign: "right",
-	paddingRight: 16
-}
-
 export default class HomePage extends Component {
 	state: {
 		info: userInfo,
@@ -59,8 +49,14 @@ export default class HomePage extends Component {
 		info: {},
 		loggedIn: false
 	}
-	
-	getUserInfo () {
+
+	constructor(props: {}) {
+		super(props);
+
+		if (typeof window === "undefined") return; // return if run on server
+		this.state.loggedIn = document.cookie.includes("token");
+
+		if (this.state.loggedIn == false) return; // don't request user info if not logged in
 		axios.request<userInfo>({
 			method: "get",
 			url: `/api/user/info`,
@@ -68,14 +64,6 @@ export default class HomePage extends Component {
 		})
 		.then(request => this.setState({ info: request.data }))
 		.catch(() => {});
-
-		if (typeof window === "undefined") return; // return if run on server
-		this.state.loggedIn = document.cookie.includes("token");
-	}
-
-	constructor(props: {}) {
-		super(props);
-		this.getUserInfo();
 	}
 
 	render () {
