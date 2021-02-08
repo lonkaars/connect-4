@@ -5,6 +5,7 @@ import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
 import { Vierkant, IconLabelButton } from '../components/ui';
 import { AccountAvatar } from '../components/account';
+import RecentGames from '../components/recentGames';
 
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined';
@@ -90,18 +91,21 @@ export default function AccountPage() {
 				</div>
 			</Vierkant>
 			<InfoSection>
-				<InfoModule icon={<Icon size={1} path={mdiCheckboxBlankCircle}/>} label="Online"/>
+				<InfoModule icon={<Icon size={1} path={mdiCheckboxBlankCircle} color="var(--disk-b-text)"/>} label="Online"/>
 				<InfoModule icon={<AssignmentIndOutlinedIcon/>} label="Lid sinds 14 december 2020"/>
 				<InfoModule icon={<PeopleOutlineOutlinedIcon/>} label="2 vrienden"/>
 				<InfoModule icon={<Icon size={1} path={mdiEarth}/>} label="Nederland"/>
 			</InfoSection>
 			<InfoSection>
-				<InfoModule icon={<ArrowUpwardOutlinedIcon/>} label="4 keer gewonnen"/>
+				<InfoModule icon={<ArrowUpwardOutlinedIcon style={{ color: "var(--disk-b-text)" }}/>} label="4 keer gewonnen"/>
 				<InfoModule icon={<Icon size={1} path={mdiEqual}/>} label="2 keer gelijkspel"/>
-				<InfoModule icon={<ArrowDownwardOutlinedIcon/>} label="2 keer verloren"/>
+				<InfoModule icon={<ArrowDownwardOutlinedIcon style={{ color: "var(--disk-a-text)" }}/>} label="2 keer verloren"/>
 				<InfoModule icon={<Icon size={1} path={mdiClipboardTextOutline}/>} label="Score: 400"/>
 				<InfoModule icon={<Icon size={1} path={mdiGamepadSquareOutline}/>} label="6 potjes"/>
 			</InfoSection>
+			<Vierkant>
+				<RecentGames/>
+			</Vierkant>
 		</CenteredPage>
 	</div>
 }
