@@ -75,3 +75,7 @@ input::placeholder {
 /* material-ui default state */
 svg.MuiSvgIcon-root { transition: none !important; }
 
+input::placeholder { opacity: .75; }
+input.dark::placeholder { color: var(--text); }
+input.light::placeholder { color: var(--text-alt); }
+
