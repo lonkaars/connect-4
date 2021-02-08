@@ -94,6 +94,7 @@ export function Input(props: {
 	min?: number;
 	max?: number;
 	value?: string|number;
+	dark?: boolean;
 }) {
 	return <input
 	id={props.id}
@@ -102,6 +103,7 @@ export function Input(props: {
 	placeholder={props.label}
 	spellCheck={false}
 	defaultValue={props.value ? String(props.value) : ""}
+	className={props.dark ? "dark" : "light"}
 	style={{
 		padding: 12,
 		border: 0,

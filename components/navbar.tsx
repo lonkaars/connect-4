@@ -26,7 +26,6 @@ export class NavBar extends Component {
 	
 	constructor(props: {}) {
 		super(props);
-
 	}
 
 	render () {
@@ -55,7 +54,7 @@ export class NavBar extends Component {
 			<a href="/" style={NavBarItemStyle}><Home/></a>
 			<a href="/game" style={NavBarItemStyle}><VideogameAssetIcon/></a>
 			<a href="/" style={NavBarItemStyle}><ExtensionIcon/></a>
-			<a href="/" style={NavBarItemStyle}><SearchIcon/></a>
+			<a href="/search" style={NavBarItemStyle}><SearchIcon/></a>
 
 			<div style={{
 				position: "absolute",
