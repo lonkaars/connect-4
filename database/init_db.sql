@@ -4,6 +4,7 @@ create table if not exists users (
 	user_id text primary key not null,
 	username varchar(35) not null,
 	email text not null,
+	status text,
 	country text,
 	password_hash text not null,
 	registered integer not null,
