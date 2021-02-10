@@ -45,8 +45,8 @@ export default function LoginPage() {
 					textAlign: "center"
 				}}>
 					<Vierkant>
-						<Input id="email" label="email of gebruikersnaam" style={{ marginBottom: 12 }}></Input>
-						<Input id="password" label="wachtwoord" type="password"></Input>
+						<Input autocomplete="username" id="email" label="email of gebruikersnaam" style={{ marginBottom: 12 }}></Input>
+						<Input autocomplete="current-password" id="password" label="wachtwoord" type="password"></Input>
 						<div style={{
 							marginTop: 24,
 							gridGap: 24,

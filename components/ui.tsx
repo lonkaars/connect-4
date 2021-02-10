@@ -95,6 +95,7 @@ export function Input(props: {
 	max?: number;
 	value?: string|number;
 	dark?: boolean;
+	autocomplete?: string;
 }) {
 	return <input
 	id={props.id}
@@ -104,6 +105,7 @@ export function Input(props: {
 	spellCheck={false}
 	defaultValue={props.value ? String(props.value) : ""}
 	className={props.dark ? "dark" : "light"}
+	autoComplete={props.autocomplete}
 	style={{
 		padding: 12,
 		border: 0,
