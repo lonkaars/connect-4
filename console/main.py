@@ -8,10 +8,18 @@ EMPTY = Fore.LIGHTBLACK_EX + "_" + Fore.RESET
 
 class bord:
     def __init__(self, w, h):
-        self.board = [[EMPTY for x in range(w)] for u in range(h)]
+        self.width = w
+        self.height = h
+        self.board = [[EMPTY for x in range(self.width)] for u in range(self.height)]
 
     def print(self):
         print("\n".join(["  ".join(y) for y in self.board]))
+
+    def outside_board(self, coords):
+        return coords[0] < 0 or \
+               coords[1] < 0 or \
+               coords[0] > self.width - 1 or \
+               coords[1] > self.height - 1
 
     def drop_fisje(self, column, disc):
         row = -1
