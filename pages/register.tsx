@@ -1,12 +1,14 @@
+import axios from 'axios';
+import { validate as validateEmail } from 'email-validator';
+import { FormEvent } from 'react';
+
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
 import { Vierkant, Input, Button } from '../components/ui';
 
-import { v4 as uuidv4 } from 'uuid';
-import { validate as validateEmail } from 'email-validator';
-import axios from 'axios';
+function submitRegister(event?: FormEvent<HTMLFormElement>) {
+	event.preventDefault();
 
-function submitRegister() {
 	var formData = {
 		username: (document.getElementById("username") as HTMLInputElement).value,
 		email: (document.getElementById("email") as HTMLInputElement).value,
@@ -78,11 +80,12 @@ export default function RegisterPage() {
 					textAlign: "center"
 				}}>
 					<Vierkant>
-						<form>
+						<form onSubmit={submitRegister}>
 							<Input autocomplete="username" id="username" label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
 							<Input autocomplete="email" id="email" label="email" style={{ marginBottom: 12 }}></Input>
 							<Input autocomplete="new-password" id="password" label="wachtwoord" type="password"></Input>
 							<Button text="Registreren" style={{ marginTop: 24 }} onclick={submitRegister}></Button>
+							<input type="submit" style={{ display: "none" }}/>
 						</form>
 					</Vierkant>
 				</div>
