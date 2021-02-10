@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react';
+import * as cookies from 'react-cookies';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
@@ -8,6 +9,7 @@ import { CurrentGameSettings } from '../components/gameSettings';
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 
 var SettingsSubsectionStyle: CSSProperties = {
 	marginTop: 24,
@@ -67,6 +69,21 @@ export default function SettingsPage() {
 					<h2>Standaard spelregels</h2>
 					<div style={SettingsSubsectionStyle}>
 						<CurrentGameSettings/>
+					</div>
+				</Vierkant>
+				<Vierkant fullwidth>
+					<h2>Uitloggen</h2>
+					<div style={{
+						width: "100%",
+						textAlign: "center"
+					}}>
+						<IconLabelButton icon={<ExitToAppOutlinedIcon/>} text="Uitloggen" style={{
+							float: "none",
+							marginLeft: 0
+						}} onclick={() => {
+							cookies.remove("token")
+							window.location.pathname = "/";
+						}}/>
 					</div>
 				</Vierkant>
 			</CenteredPage>
