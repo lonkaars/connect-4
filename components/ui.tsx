@@ -67,13 +67,15 @@ export function IconLabelButton(props: {
 	text: string;
 	icon: ReactNode;
 	onclick?: () => void;
+	style?: CSSProperties;
 }) {
 	return <Button onclick={props.onclick} style={{
 		display: "inline-block",
 		verticalAlign: "top",
 		padding: 8,
 		float: "right",
-		marginLeft: 12
+		marginLeft: 12,
+		...props.style
 	}}>
 		{props.icon}
 		<span style={{
