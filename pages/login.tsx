@@ -1,10 +1,13 @@
 import axios from 'axios';
+import { FormEvent } from 'react';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
 import { Vierkant, Input, Button } from '../components/ui';
 
-function submitLogin() {
+function submitLogin(event?: FormEvent<HTMLFormElement>) {
+	event.preventDefault();
+
 	var formData = {
 		email: (document.getElementById("email") as HTMLInputElement).value,
 		password: (document.getElementById("password") as HTMLInputElement).value
@@ -45,17 +48,20 @@ export default function LoginPage() {
 					textAlign: "center"
 				}}>
 					<Vierkant>
-						<Input autocomplete="username" id="email" label="email of gebruikersnaam" style={{ marginBottom: 12 }}></Input>
-						<Input autocomplete="current-password" id="password" label="wachtwoord" type="password"></Input>
-						<div style={{
-							marginTop: 24,
-							gridGap: 24,
-							display: "grid",
-							gridTemplateColumns: "1fr 1fr"
-						}}>
-							<Button href="/register" text="Registreren" style={{ backgroundColor: "var(--background-alt)"}}></Button>
-							<Button text="Inloggen" onclick={submitLogin}></Button>
-						</div>
+						<form onSubmit={submitLogin}>
+							<Input autocomplete="username" id="email" label="email of gebruikersnaam" style={{ marginBottom: 12 }}></Input>
+							<Input autocomplete="current-password" id="password" label="wachtwoord" type="password"></Input>
+							<div style={{
+								marginTop: 24,
+								gridGap: 24,
+								display: "grid",
+								gridTemplateColumns: "1fr 1fr"
+							}}>
+								<Button href="/register" text="Registreren" style={{ backgroundColor: "var(--background-alt)"}}></Button>
+								<Button text="Inloggen" onclick={submitLogin}></Button>
+							</div>
+							<input type="submit" style={{ display: "none" }}/>
+						</form>
 					</Vierkant>
 				</div>
 			</CenteredPage>
