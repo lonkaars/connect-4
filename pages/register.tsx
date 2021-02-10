@@ -79,9 +79,9 @@ export default function RegisterPage() {
 				}}>
 					<Vierkant>
 						<form>
-							<Input id="username" label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
-							<Input id="email" label="email" style={{ marginBottom: 12 }}></Input>
-							<Input id="password" label="wachtwoord" type="password"></Input>
+							<Input autocomplete="username" id="username" label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
+							<Input autocomplete="email" id="email" label="email" style={{ marginBottom: 12 }}></Input>
+							<Input autocomplete="new-password" id="password" label="wachtwoord" type="password"></Input>
 							<Button text="Registreren" style={{ marginTop: 24 }} onclick={submitRegister}></Button>
 						</form>
 					</Vierkant>
