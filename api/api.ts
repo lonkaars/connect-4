@@ -1,5 +1,6 @@
 export interface userInfo {
 	avatar?: string|null,
+	status?: string|null,
 	coutry?: string|null,
 	id?: string,
 	registered?: number,
