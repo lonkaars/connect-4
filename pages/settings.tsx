@@ -3,7 +3,7 @@ import * as cookies from 'react-cookies';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
-import { Vierkant, IconLabelButton, CheckBox } from '../components/ui';
+import { Vierkant, IconLabelButton, CheckBox, ColorPicker } from '../components/ui';
 import { AccountAvatar } from '../components/account';
 import { CurrentGameSettings } from '../components/gameSettings';
 
@@ -53,14 +53,23 @@ export default function SettingsPage() {
 				<Vierkant fullwidth>
 					<h2>Kleuren</h2>
 					<div style={SettingsSubsectionStyle}>
-						<h3>Schijfjes</h3>
+						<ColorPicker/>
+						<ColorPicker/>
+						<div style={{ display: "block" }}>
+							<h3>Schijfjes</h3>
+						</div>
 					</div>
 					<div style={SettingsSubsectionStyle}>
-						<h3>Achtergrond</h3>
+						<ColorPicker/>
+						<div style={{ display: "block" }}>
+							<h3>Achtergrond</h3>
+						</div>
 					</div>
 					<div style={SettingsSubsectionStyle}>
 						<div style={{ float: "right" }}>
-							<CheckBox/>
+							<CheckBox state={typeof window !== "undefined" && document.getElementsByTagName("html")[0].classList.contains("dark")} onclick={
+								(state) => document.getElementsByTagName("html")[0].classList[state ? "add" : "remove"]("dark")
+							}/>
 						</div>
 						<h3>Donkere modus</h3>
 					</div>

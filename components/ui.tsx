@@ -3,6 +3,7 @@ import { Component, CSSProperties, ReactNode } from "react";
 import SearchIcon from '@material-ui/icons/Search';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 export function Vierkant(props: {
 	href?: string;
@@ -154,9 +155,13 @@ export class CheckBox extends Component<{
 	state?: boolean;
 	style?: CSSProperties;
 	id?: string;
+	onclick?: (state: boolean) => void;
 }> {
 	state = { on: this.props.state || false }
-	public toggle = () => this.setState({ on: !this.state.on })
+	public toggle = () => {
+		this.setState({ on: !this.state.on });
+		this.props.onclick && this.props.onclick(!this.state.on);
+	}
 
 	render() {
 		return <div onClick={this.toggle} id={this.props.id} className={this.state.on ? "on" : "off"} style={{
@@ -173,5 +178,51 @@ export class CheckBox extends Component<{
 	}
 }
 
+export class ColorPicker extends Component<{
+	style?: CSSProperties;
+}> {
+	state: {
+		color: string;
+		dark: boolean;
+	} = {
+		color: "#012345",
+		dark: true
+	}
 
+	render() {
+		return <Button style={{
+			display: "inline-block",
+			verticalAlign: "top",
+			padding: 6,
+			float: "right",
+			marginLeft: 12,
+			color: this.state.dark ? "var(--text)" : "var(--text-alt)",
+			borderColor: this.state.dark ? "var(--text)" : "var(--text-alt)",
+			borderWidth: 2,
+			borderStyle: "solid",
+			backgroundColor: this.state.color,
+			...this.props.style
+		}}>
+			<div>
+				<EditOutlinedIcon/>
+				<div style={{
+					width: 150,
+					height: 24,
+					display: "inline-block",
+					textAlign: "center",
+					verticalAlign: "top",
+					position: "relative"
+				}}>
+					<span style={{
+						position: "absolute",
+						top: "50%", left: "50%",
+						transform: "translate(-50%, -50%)",
+						fontWeight: 600,
+						fontFeatureSettings: '"tnum", "ss01"'
+					}}>{this.state.color}</span>
+				</div>
+			</div>
+		</Button>
+	}
+}
 
