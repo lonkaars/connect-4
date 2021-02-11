@@ -40,7 +40,7 @@ export function NavBar() {
 		<div style={NavBarItemStyle}><LogoDark/></div>
 		<a href="/" style={NavBarItemStyle}><Home/></a>
 		<a href="/game" style={NavBarItemStyle}><VideogameAssetIcon/></a>
-		<a href="/" style={NavBarItemStyle}><ExtensionIcon/></a>
+		{ false && <a href="/" style={NavBarItemStyle}><ExtensionIcon/></a> }
 		<a href="/search" style={NavBarItemStyle}><SearchIcon/></a>
 
 		<div style={{
