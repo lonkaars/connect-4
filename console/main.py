@@ -22,7 +22,6 @@ class bord:
                coords[1] > self.width - 1
 
     def recursive_solve(self, coords, check_for, direction, current_length):
-        # print(f"recursive_solve call: (coords: {coords}, check_for: {check_for}, direction: {direction}, current_length: {current_length})")
         new_position = (
                 coords[0] + direction[0],
                 coords[1] + direction[1]
@@ -30,8 +29,6 @@ class bord:
         if self.outside_board(new_position) or self.board[new_position[0]][new_position[1]] != check_for:
             return current_length
         else:
-            # print(f"recursion level increase: {coords} -> {new_position} delta{direction}")
-            # print(f"because (outside_board: {self.outside_board(new_position)}, content: \"{self.board[new_position[0]][new_position[1]]}\")")
             return self.recursive_solve(new_position, check_for, direction, current_length + 1)
 
     def check_win(self, coords):
@@ -54,7 +51,21 @@ class bord:
                 values[2] + values[6],
                 values[3] + values[7]
                 ]
-        return any(i >= 3 for i in joined_directions)
+        won = any(i >= 3 for i in joined_directions)
+        if won:
+            for i, value in enumerate(joined_directions):
+                if value >= 3:
+                    start_pos = (
+                            coords[0] + directions[i][0] * values[i],
+                            coords[1] + directions[i][1] * values[i],
+                            )
+                    end_pos = (
+                            coords[0] + directions[i+4][0] * values[i+4],
+                            coords[1] + directions[i+4][1] * values[i+4],
+                            )
+                    print(start_pos, end_pos)
+
+        return won
 
     def drop_fisje(self, column, disc):
         for row, value in enumerate(self.board):
@@ -66,7 +77,7 @@ class bord:
 
 def main():
     disc_a = True
-    gert = bord(7, 6)
+    gert = bord(11, 8)
     while True:
         gert.print()
         column = int(input("column?: ")) - 1
