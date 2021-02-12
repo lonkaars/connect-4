@@ -54,5 +54,23 @@ user_info () {
 # 		localhost:5000/api/auth/token
 # }
 
-user_info
+new_game () {
+	curl -X POST \
+		-H "Content-Type: application/json" \
+		-d '{
+			"user_id": "4577c119-c768-4ad5-afec-b53a5c19baf4",
+			"settings": {
+				"ranked": true,
+				"timelimit": {
+					"minutes": 5,
+					"seconds": 30,
+					"enabled": true,
+					"shared": "false"
+				}
+			}
+		}' \
+		localhost:5000/game/new
+}
+
+new_game
 

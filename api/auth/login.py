@@ -15,7 +15,7 @@ def index():
     if not email or \
        not password:
            return "", 400
-    
+
     user_id = None
     user_id = user_id or cursor.execute("select user_id from users where email = ?", [email]).fetchone()
     user_id = user_id or cursor.execute("select user_id from users where username = ?", [email]).fetchone()

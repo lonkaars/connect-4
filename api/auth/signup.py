@@ -26,7 +26,7 @@ def index():
     if cursor.execute("select email from users where email = ?", [email]).fetchone():
         return {"error": "email_taken"}, 403
 
-    user_id = new_uuid()
+    user_id = new_uuid("users")
     password_hash = passwords.password_hash(password)
     registered = int( time.time() * 1000 )
 
