@@ -13,7 +13,7 @@ class bord:
         self.board = [[EMPTY for x in range(self.width)] for u in range(self.height)]
 
     def print(self):
-        print("\n".join(["  ".join(y) for y in self.board]))
+        print("\n".join(["  ".join(self.board[y]) for y in range(len(self.board) -1, -1, -1)]))
 
     def outside_board(self, coords):
         return coords[0] < 0 or \
@@ -32,6 +32,13 @@ class bord:
 def main():
     disc_a = True
     gert = bord(7, 6)
+    gert.board[0][0] = "x"
+    gert.board[1][0] = DISC_A
+    gert.board[2][0] = DISC_A
+    gert.board[3][0] = DISC_A
+    gert.board[0][1] = DISC_B
+    gert.board[0][2] = DISC_B
+    gert.board[0][3] = DISC_B
     while True:
         gert.print()
         column = int(input("column?: ")) - 1
