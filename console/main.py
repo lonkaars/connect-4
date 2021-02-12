@@ -18,27 +18,47 @@ class bord:
     def outside_board(self, coords):
         return coords[0] < 0 or \
                coords[1] < 0 or \
-               coords[0] > self.width - 1 or \
-               coords[1] > self.height - 1
+               coords[0] > self.height - 1 or \
+               coords[1] > self.width - 1
+
+    def recursive_solve(self, coords, check_for, direction, current_length):
+        new_position = (
+                coords[0] + direction[0],
+                coords[1] + direction[1]
+                )
+        if self.outside_board(new_position) or self.board[new_position[1]][new_position[0]] != check_for:
+            return current_length
+        else:
+            return self.recursive_solve(new_position, check_for, direction, current_length + 1)
+
+    def check_win(self, coords):
+        directions = [
+                ( 0,  1),
+                ( 1,  1),
+                ( 1,  0),
+                ( 1, -1),
+                ( 0, -1),
+                (-1, -1),
+                (-1,  0),
+                (-1,  1)
+                ]
+        values = list()
+        for direction in directions:
+            values.append(self.recursive_solve(coords, self.board[coords[0]][coords[1]], direction, 0))
 
     def drop_fisje(self, column, disc):
-        row = -1
-        for r in range(len(self.board)):
-            if self.board[r][column] != EMPTY:
-                row = r - 1
-                break
-        self.board[row][column] = disc
+        for row in self.board:
+            print(row)
+        for row, value in enumerate(self.board):
+            if self.board[row][column] == EMPTY:
+                self.board[row][column] = disc
+                self.check_win((row, column))
+                return
 
 def main():
     disc_a = True
     gert = bord(7, 6)
-    gert.board[0][0] = "x"
-    gert.board[1][0] = DISC_A
-    gert.board[2][0] = DISC_A
-    gert.board[3][0] = DISC_A
-    gert.board[0][1] = DISC_B
-    gert.board[0][2] = DISC_B
-    gert.board[0][3] = DISC_B
+    gert.board[0][2] = DISC_A
     while True:
         gert.print()
         column = int(input("column?: ")) - 1
