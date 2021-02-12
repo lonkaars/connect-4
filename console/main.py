@@ -22,43 +22,51 @@ class bord:
                coords[1] > self.width - 1
 
     def recursive_solve(self, coords, check_for, direction, current_length):
+        # print(f"recursive_solve call: (coords: {coords}, check_for: {check_for}, direction: {direction}, current_length: {current_length})")
         new_position = (
                 coords[0] + direction[0],
                 coords[1] + direction[1]
                 )
-        if self.outside_board(new_position) or self.board[new_position[1]][new_position[0]] != check_for:
+        if self.outside_board(new_position) or self.board[new_position[0]][new_position[1]] != check_for:
             return current_length
         else:
+            # print(f"recursion level increase: {coords} -> {new_position} delta{direction}")
+            # print(f"because (outside_board: {self.outside_board(new_position)}, content: \"{self.board[new_position[0]][new_position[1]]}\")")
             return self.recursive_solve(new_position, check_for, direction, current_length + 1)
 
     def check_win(self, coords):
         directions = [
-                ( 0,  1),
-                ( 1,  1),
                 ( 1,  0),
-                ( 1, -1),
-                ( 0, -1),
-                (-1, -1),
+                ( 1,  1),
+                ( 0,  1),
+                (-1,  1),
                 (-1,  0),
-                (-1,  1)
+                (-1, -1),
+                ( 0, -1),
+                ( 1, -1)
                 ]
         values = list()
         for direction in directions:
             values.append(self.recursive_solve(coords, self.board[coords[0]][coords[1]], direction, 0))
+        joined_directions = [
+                values[0] + values[4],
+                values[1] + values[5],
+                values[2] + values[6],
+                values[3] + values[7]
+                ]
+        return any(i >= 3 for i in joined_directions)
 
     def drop_fisje(self, column, disc):
-        for row in self.board:
-            print(row)
         for row, value in enumerate(self.board):
             if self.board[row][column] == EMPTY:
                 self.board[row][column] = disc
-                self.check_win((row, column))
+                won = self.check_win((row, column))
+                print(won)
                 return
 
 def main():
     disc_a = True
     gert = bord(7, 6)
-    gert.board[0][2] = DISC_A
     while True:
         gert.print()
         column = int(input("column?: ")) - 1
