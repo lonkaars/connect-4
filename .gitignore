@@ -30,3 +30,6 @@ node_modules/
 # next.js
 .next/
 
+# voerbak
+console/voerbak
+
