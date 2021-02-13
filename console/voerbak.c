@@ -23,20 +23,15 @@ void printBoard(int board[], int width, int height) {
 }
 
 int recursiveSolve(int board[], int width, int height, int pos, int checkFor, int direction, int currentLength) {
-	printf("recursiveSolve call\n");
 	int overflow = (pos % width) + direction;
-	printf("overflow: %d\n", overflow);
 	if (overflow == width || overflow == -1)
 		return currentLength;
 	int newPos = pos + direction;
-	printf("newPos: %d\n", newPos);
 	if (newPos < 0 || newPos > width * height - 1)
 		return currentLength;
 	if (board[newPos] != checkFor)
 		return currentLength;
-	printf("recursion increase\n");
-	/* exit(0); */
-	return recursiveSolve(board, width, height, pos, checkFor, direction, currentLength + 1);
+	return recursiveSolve(board, width, height, newPos, checkFor, direction, currentLength + 1);
 }
 
 bool checkWin(int board[], int width, int height, int pos) {
@@ -79,7 +74,8 @@ void dropFisje(int board[], int width, int height, int column, int disc) {
 		if (board[pos] == 0) {
 			board[pos] = disc;
 			bool won = checkWin(board, width, height, pos);
-			/* printf("%d", won); */
+			printf(won ? "true" : "false");
+			printf("\n");
 			return;
 		}
 	}
@@ -95,9 +91,8 @@ int main() {
 	bool player_1 = true;
 	int move = 0;
 	while (scanf("%d", &move) == 1) {
+		if (move == 0) break;
 		dropFisje(board, width, height, move - 1, player_1 + 1);
-		printf("New board:\n");
-		printBoard(board, width, height);
 		player_1 = !player_1;
 	}
 	printBoard(board, width, height);
