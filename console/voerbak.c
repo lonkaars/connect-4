@@ -8,6 +8,12 @@
 #define EMPTY  "\x1b[90m_\x1b[39m"
 
 void printBoard(int board[], int width, int height) {
+	for (int i = 0; i < width * height; i++)
+		printf("%d", board[i]);
+	printf("\n");
+}
+
+void printHumanBoard(int board[], int width, int height) {
 	for (int y = height - 1; y > -1; y--) {
 		for (int x = 0; x < width; x++) {
 			int val = board[x + y * width];
@@ -60,8 +66,11 @@ bool checkWin(int board[], int width, int height, int pos) {
 	bool won = false;
 	for (int i = 0; i < 4; i++) {
 		if (joinedValues[i] >= 3) {
-			won = true;
-			break;
+			won = won || true;
+
+			int start_pos = pos + directions[i+0] * values[i+0];
+			int end_pos =   pos + directions[i+4] * values[i+4];
+			printf("w:%d-%d\n", start_pos, end_pos);
 		}
 	}
 
@@ -74,8 +83,6 @@ void dropFisje(int board[], int width, int height, int column, int disc) {
 		if (board[pos] == 0) {
 			board[pos] = disc;
 			bool won = checkWin(board, width, height, pos);
-			printf(won ? "true" : "false");
-			printf("\n");
 			return;
 		}
 	}
@@ -92,10 +99,11 @@ int main() {
 	int move = 0;
 	while (scanf("%d", &move) == 1) {
 		if (move == 0) break;
+		if (move < 1 || move > width) continue;
 		dropFisje(board, width, height, move - 1, player_1 + 1);
+		printBoard(board, width, height);
 		player_1 = !player_1;
 	}
-	printBoard(board, width, height);
 
 	return 0;
 }
