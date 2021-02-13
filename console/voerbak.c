@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <memory.h>
+#include <stdbool.h>
 
 #define DISC_A "\x1b[31mo\x1b[39m"
 #define DISC_B "\x1b[34mo\x1b[39m"
@@ -20,6 +21,18 @@ void printBoard(int board[], int width, int height) {
 	}
 }
 
+void dropFisje(int board[], int width, int height, int column, int disc) {
+	for (int row = 0; row < height; row++) {
+		int pos = column + row * width;
+		if (board[pos] == 0) {
+			board[pos] = disc;
+			/* bool won = checkWin(board, width. height, pos); */
+			/* printf("%d", won); */
+			return;
+		}
+	}
+}
+
 int main() {
 	int width, height;
 	scanf("%d %d", &width, &height);
@@ -27,8 +40,12 @@ int main() {
 	int board[width * height];
 	memset(board, 0, sizeof board);
 
-	board[2] = 1;
-	board[3] = 2;
+	bool player_1 = true;
+	int move = 0;
+	while (scanf("%d", &move) == 1) {
+		dropFisje(board, width, height, move - 1, player_1 + 1);
+		player_1 = !player_1;
+	}
 	printBoard(board, width, height);
 
 	return 0;
