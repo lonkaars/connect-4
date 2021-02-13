@@ -75,6 +75,8 @@ def main():
     while True:
         gert.print()
         column = int(input("column?: ")) - 1
+        if column not in range(gert.width):
+            continue
         os.system("clear")
         gert.drop_fisje(column, DISC_A if disc_a else DISC_B)
         disc_a = not disc_a
