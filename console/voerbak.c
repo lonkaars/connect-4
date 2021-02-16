@@ -3,30 +3,11 @@
 #include <memory.h>
 #include <stdbool.h>
 
-#define DISC_A "\x1b[31mo\x1b[39m"
-#define DISC_B "\x1b[34mo\x1b[39m"
-#define EMPTY  "\x1b[90m_\x1b[39m"
-
 void printBoard(int board[], int width, int height) {
 	for (int i = 0; i < width * height; i++)
 		printf("%d", board[i]);
 	printf("\n");
 	fflush(stdout);
-}
-
-void printHumanBoard(int board[], int width, int height) {
-	for (int y = height - 1; y > -1; y--) {
-		for (int x = 0; x < width; x++) {
-			int val = board[x + y * width];
-			char *print =
-				val == 0 ? EMPTY :
-				val == 1 ? DISC_A :
-				val == 2 ? DISC_B :
-				EMPTY;
-			printf("%s  ", print);
-		}
-		printf("\n");
-	}
 }
 
 int recursiveSolve(int board[], int width, int height, int pos, int checkFor, int direction, int currentLength) {
