@@ -1,10 +1,12 @@
 from flask import Blueprint, request, make_response
-from flask_socketio import SocketIO, emit, disconnect
+from flask_socketio import SocketIO, emit, disconnect, Namespace
 from main import socketio
 import time
 import json
 
-@socketio.on("connect", namespace="/game/socket")
-def connect():
-    print("connected")
+class GameSocketNamespace(Namespace):
+    def connect(self):
+        print("connection")
+
+socketio.on_namespace(GameSocketNamespace("/game/socket"))
 
