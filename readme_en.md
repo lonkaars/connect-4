@@ -94,7 +94,7 @@ In order to start this project you'll need two terminal windows to start the fla
 
 # activate virtual environment
 
-flask run
+python3 api/main.py
 
 # term 2
 

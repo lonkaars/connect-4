@@ -92,7 +92,7 @@ Om dit project te starten moet je 2 terminals gebruiken die afzonderlijk de flas
 
 # activeer virtual environment
 
-flask run
+python3 api/main.py
 
 # term 2
 

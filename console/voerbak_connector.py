@@ -18,6 +18,7 @@ class bord:
     def __init__(self, w, h):
         self.width = w
         self.height = h
+        self.player_1 = True
         self.board = "0" * (w * h)
         self.win_positions = []
         self.process = subprocess.Popen(["./voerbak"],
@@ -38,6 +39,9 @@ class bord:
                 log.info(f"won: {buffer[2:].split('-')}")
             elif buffer.startswith("e:"):
                 log.warning(buffer[2:])
+            elif buffer.startswith("m:"):
+                substr = buffer[2:]
+                self.player_1 = True if substr == "true" else False
             buffer = self.get_output()
         self.board = buffer
 
@@ -60,6 +64,7 @@ class bord:
 def main():
     gert = bord(7, 6)
     while True:
+        print(gert.player_1)
         if len(gert.win_positions) > 0:
             print(f"won: {gert.win_positions}")
             exit(0)

@@ -105,9 +105,14 @@ int main() {
 	while (scanf("%d", &move) == 1) {
 		if (move == 0) break;
 		if (move < 1 || move > width) continue;
+
 		bool dropSuccess = dropFisje(board, width, height, move - 1, player_1 + 1);
-		printBoard(board, width, height);
+
 		player_1 = player_1 ^ dropSuccess; // only flip turns on successful drop
+		printf("m:%s\n", player_1 ? "true" : "false");
+		fflush(stdout);
+
+		printBoard(board, width, height);
 	}
 
 	return 0;
