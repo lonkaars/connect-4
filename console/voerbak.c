@@ -79,15 +79,18 @@ bool checkWin(int board[], int width, int height, int pos) {
 	return won;
 }
 
-void dropFisje(int board[], int width, int height, int column, int disc) {
+bool dropFisje(int board[], int width, int height, int column, int disc) {
 	for (int row = 0; row < height; row++) {
 		int pos = column + row * width;
 		if (board[pos] == 0) {
 			board[pos] = disc;
 			bool won = checkWin(board, width, height, pos);
-			return;
+			return true; // success
 		}
 	}
+	printf("e:full\n");
+	fflush(stdout);
+	return false; // unsuccessful drop on board full
 }
 
 int main() {
@@ -102,9 +105,9 @@ int main() {
 	while (scanf("%d", &move) == 1) {
 		if (move == 0) break;
 		if (move < 1 || move > width) continue;
-		dropFisje(board, width, height, move - 1, player_1 + 1);
+		bool dropSuccess = dropFisje(board, width, height, move - 1, player_1 + 1);
 		printBoard(board, width, height);
-		player_1 = !player_1;
+		player_1 = player_1 ^ dropSuccess; // only flip turns on successful drop
 	}
 
 	return 0;

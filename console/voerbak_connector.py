@@ -1,11 +1,18 @@
 from colorama import Fore
+import logging as log
 import subprocess
 import os
+
+VERBOSE = log.ERROR
+log.basicConfig(format="[ %(levelname)s ]: %(message)s", level=VERBOSE)
 
 DISC_SHAPE = "o"
 DISC_A = Fore.RED + DISC_SHAPE + Fore.RESET
 DISC_B = Fore.BLUE + DISC_SHAPE + Fore.RESET
 EMPTY = Fore.LIGHTBLACK_EX + "_" + Fore.RESET
+
+VOERBAK_LOCATION = "./voerbak"
+if os.name == "nt": VOERBAK_LOCATION += ".exe"
 
 class bord:
     def __init__(self, w, h):
@@ -16,16 +23,23 @@ class bord:
         self.process = subprocess.Popen(["./voerbak"],
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE)
+                stderr=None)
         self.process.stdin.write(bytearray(f"{w} {h}\n", "utf-8"))
         self.process.stdin.flush()
 
+    def get_output(self):
+        return self.process.stdout.readline().decode()[:-1]
+
     def update_board(self):
-        buffer = self.process.stdout.readline()
-        while buffer.decode().startswith("w"):
-            self.win_positions.append(buffer.decode()[2:-1].split("-"))
-            buffer = self.process.stdout.readline()
-        self.board = buffer.decode()
+        buffer = self.get_output()
+        while not buffer.isdigit():
+            if buffer.startswith("w:"):
+                self.win_positions.append(buffer[2:].split("-"))
+                log.info(f"won: {buffer[2:].split('-')}")
+            elif buffer.startswith("e:"):
+                log.warning(buffer[2:])
+            buffer = self.get_output()
+        self.board = buffer
 
     def print(self):
         for y in range(self.height -1, -1, -1):
@@ -46,14 +60,14 @@ class bord:
 def main():
     gert = bord(7, 6)
     while True:
-        # gert.print()
-        column = int(input("column?: "))
+        if len(gert.win_positions) > 0:
+            print(f"won: {gert.win_positions}")
+            exit(0)
+        gert.print()
+        column = int(input("column?: ")) - 1
         if column not in range(gert.width):
             continue
-        # os.system("clear")
-        gert.drop_fisje(column)
-        gert.print()
-        print(gert.win_positions)
+        gert.drop_fisje(column + 1)
 
 if __name__ == "__main__":
     main()
