@@ -1,5 +1,5 @@
 from flask import Blueprint, request, make_response
-from main import cursor, connection
+from db import cursor, connection
 from randid import new_uuid
 import auth.token as token
 import passwords
