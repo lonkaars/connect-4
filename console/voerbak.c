@@ -11,6 +11,7 @@ void printBoard(int board[], int width, int height) {
 	for (int i = 0; i < width * height; i++)
 		printf("%d", board[i]);
 	printf("\n");
+	fflush(stdout);
 }
 
 void printHumanBoard(int board[], int width, int height) {
@@ -71,6 +72,7 @@ bool checkWin(int board[], int width, int height, int pos) {
 			int start_pos = pos + directions[i+0] * values[i+0];
 			int end_pos =   pos + directions[i+4] * values[i+4];
 			printf("w:%d-%d\n", start_pos, end_pos);
+			fflush(stdout);
 		}
 	}
 
