@@ -1,4 +1,4 @@
-from main import cursor, connection
+from db import cursor, connection
 import hashlib
 import secrets
 import json

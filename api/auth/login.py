@@ -1,5 +1,5 @@
 from flask import Blueprint, request, make_response
-from main import cursor
+from db import cursor
 import auth.token as token
 import passwords
 

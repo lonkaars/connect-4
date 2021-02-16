@@ -1,4 +1,4 @@
-from main import cursor
+from db import cursor
 import uuid
 
 tables = {

@@ -41,7 +41,7 @@ user_info () {
 		-d '{
 		"username": "loekaars"
 		}' \
-		localhost:5000/api/user/info
+		localhost:5000/user/info
 }
 
 # login_token () {
