@@ -87,7 +87,7 @@ If you did this step correctly you should see `(venv)` prefixed to your prompt.
 
 ## How to start
 
-In order to start this project you'll need two terminal windows to start the flask and react server seperately:
+In order to start this project you'll need three terminal windows to start the flask server, react server, and nginx seperately:
 
 ```sh
 # term 1
