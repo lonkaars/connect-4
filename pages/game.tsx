@@ -6,6 +6,13 @@ import * as cookies from 'react-cookies';
 
 var socket = io("http://localhost:2080/api/game/socket/");
 
+socket.on("connect", () => {
+	console.log("connect")
+})
+socket.on("disconnect", () => {
+	console.log("disconnect")
+})
+
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
 import { VoerBord } from '../components/voerBord';
@@ -52,12 +59,21 @@ class VoerGame extends Component<VoerGameProps> {
 		super(props);
 	}
 
-	board = [...Array(7 * 6)].map(() => 0);
+	width = 7;
+	height = 6;
+
+	state: {
+		userID: string;
+	} = {
+		userID: ""
+	}
+
+	board = [...Array(this.width * this.height)].map(() => 0);
 	userID = "";
 
 	move(column: number) {
 		console.log(column)
-		if(this.userID == "") {
+		if(this.state.userID == "") {
 			axios.request<userInfo>({
 				method: "get",
 				url: `/api/user/info`,
@@ -66,6 +82,11 @@ class VoerGame extends Component<VoerGameProps> {
 			.then(request => this.setState({ userID: request.data.id }))
 			.catch(() => {});
 		}
+		console.log("emitted this", {
+			move: column,
+			token: cookies.load("token"),
+			gameID: "fortnite"
+		})
 		socket.emit("new_move", {
 			move: column,
 			token: cookies.load("token"),
@@ -81,7 +102,7 @@ class VoerGame extends Component<VoerGameProps> {
 			maxWidth: "100vh",
 			margin: "0 auto"
 		}}>
-			<VoerBord width={7} height={6} onMove={m => this.move(Number(m))}/>
+			<VoerBord width={this.width} height={this.height} onMove={m => this.move(m % this.width + 1)}/>
 			<GameBar/>
 		</div>
 	}
