@@ -1,4 +1,10 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, Component } from 'react';
+import { io } from 'socket.io-client';
+import axios from 'axios';
+import { userInfo } from '../api/api';
+import * as cookies from 'react-cookies';
+
+var socket = io("http://localhost:5000/game/socket");
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
@@ -37,22 +43,57 @@ var InviteButtonLabelStyle: CSSProperties = {
 	userSelect: "none"
 }
 
+interface VoerGameProps {
+
+}
+
+class VoerGame extends Component<VoerGameProps> {
+	constructor(props: VoerGameProps) {
+		super(props);
+	}
+
+	board = [...Array(7 * 6)].map(() => 0);
+	userID = "";
+
+	move(column: number) {
+		console.log(column)
+		if(this.userID == "") {
+			axios.request<userInfo>({
+				method: "get",
+				url: `/api/user/info`,
+				headers: {"content-type": "application/json"}
+			})
+			.then(request => this.setState({ userID: request.data.id }))
+			.catch(() => {});
+		}
+		socket.emit("new_move", {
+			move: column,
+			token: cookies.load("token"),
+			gameID: "fortnite"
+		})
+	}
+
+	render() {
+		return <div style={{
+			position: "relative",
+			top: "50%",
+			transform: "translateY(-50%)",
+			maxWidth: "100vh",
+			margin: "0 auto"
+		}}>
+			<VoerBord width={7} height={6}/>
+			<GameBar/>
+		</div>
+	}
+}
+
 export default function GamePage() {
 	return (
 		<div>
 			<NavBar/>
 			<CenteredPage width={900} style={{ height: "100vh" }}>
-				<div style={{
-					position: "relative",
-					top: "50%",
-					transform: "translateY(-50%)",
-					maxWidth: "100vh",
-					margin: "0 auto"
-				}}>
-					<VoerBord width={7} height={6}/>
-					<GameBar/>
-				</div>
-				<DialogBox title="Nieuw spel">
+				<VoerGame/>
+				{false && <DialogBox title="Nieuw spel">
 					<CurrentGameSettings/>
 					<div style={{
 						marginTop: 24,
@@ -76,7 +117,7 @@ export default function GamePage() {
 						</Button>
 					</div>
 					<SearchBar label="Zoeken in vriendenlijst"/>
-				</DialogBox>
+				</DialogBox>}
 			</CenteredPage>
 		</div>
 	);
