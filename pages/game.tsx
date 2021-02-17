@@ -4,7 +4,7 @@ import axios from 'axios';
 import { userInfo } from '../api/api';
 import * as cookies from 'react-cookies';
 
-var socket = io("http://localhost:5000/game/socket");
+var socket = io("http://localhost:2080/api/game/socket/");
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
@@ -81,7 +81,7 @@ class VoerGame extends Component<VoerGameProps> {
 			maxWidth: "100vh",
 			margin: "0 auto"
 		}}>
-			<VoerBord width={7} height={6}/>
+			<VoerBord width={7} height={6} onMove={m => this.move(Number(m))}/>
 			<GameBar/>
 		</div>
 	}
