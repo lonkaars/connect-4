@@ -1,18 +1,17 @@
-interface VoerBordProps {
+export function VoerBord(props: {
 	width: number;
 	height: number;
-}
-
-export function VoerBord(props: VoerBordProps) {
+	onMove: (move: string) => void;
+}) {
 	return <table style={{
 		borderSpacing: 8,
 		width: "100%"
 	}}>
 		<tbody>
 			{
-				[...Array(props.height)].map(() => (
+				[...Array(props.height).keys()].map((row) => (
 					<tr>
-						{[...Array(props.width)].map(() => (
+						{[...Array(props.width).keys()].map((column) => (
 							<td style={{
 								position: "relative",
 								width: "100%",
@@ -27,7 +26,10 @@ export function VoerBord(props: VoerBordProps) {
 									top: 0, left: 0, right: 0, bottom: 0,
 									borderRadius: 6,
 									border: "2px solid var(--background-alt)",
-									opacity: .5
+									opacity: .5,
+									cursor: "pointer"
+								}} id={`pos-${(props.height - row - 1) * props.width + column}`} onClick={event => {
+									props.onMove((event.target as HTMLElement).id.split("-")[1])
 								}}/>
 							</td>
 						))}
