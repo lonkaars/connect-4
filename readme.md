@@ -85,7 +85,7 @@ Als je het goed gedaan hebt krijg je een nieuwe prompt te zien met `(venv)` er v
 
 ## Hoe starten
 
-Om dit project te starten moet je 2 terminals gebruiken die afzonderlijk de flask server en de react server starten:
+Om dit project te starten moet je 3 terminals gebruiken die afzonderlijk de flask server en de react server starten:
 
 ```sh
 # term 1
@@ -97,14 +97,18 @@ python3 api/main.py
 # term 2
 
 yarn dev
+
+# term 3
+
+sudo nginx -c $PWD/nginx.conf # dit werkt alleen op unix (ik moet nog ooit gaan testen op windows)
 ```
 
 ## Hoe API endpoints testen
 ```sh
 # Als je alleen de flask server draait:
-curl http://localhost:5000/api/<endpoint>
+curl http://localhost:5000/<endpoint>
 
-# Als de react server draait:
-curl http://localhost:3000/api/<endpoint>
+# Als nginx ook draait:
+curl http://localhost:2080/api/<endpoint>
 ```
 
