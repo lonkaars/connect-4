@@ -56,7 +56,7 @@ export function GameBar() {
 				<span style={{
 					color: "var(--text)",
 					fontSize: 20,
-					opacity: .75
+					opacity: .75 - .75
 				}}>0-0</span>
 			</div>
 			<div style={{ ...GameBarAlignStyle, float: "right" }}>
