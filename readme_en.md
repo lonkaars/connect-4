@@ -99,14 +99,18 @@ python3 api/main.py
 # term 2
 
 yarn dev
+
+# term 3
+
+sudo nginx -c $PWD/nginx.conf # this only works on unix (i'm going to test on windows later)
 ```
 
 ## How to test API endpoints
 ```sh
 # If you're running the standalone flask server:
-curl http://localhost:5000/api/<endpoint>
+curl http://localhost:5000/<endpoint>
 
-# If you're running flask and react at the same time:
-curl http://localhost:3000/api/<endpoint>
+# If you're running flask and nginx at the same time:
+curl http://localhost:2080/api/<endpoint>
 ```
 
