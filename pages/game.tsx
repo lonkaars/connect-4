@@ -1,17 +1,10 @@
 import { CSSProperties, Component } from 'react';
-import { io } from 'socket.io-client';
+import { io as socket } from 'socket.io-client';
 import axios from 'axios';
 import { userInfo } from '../api/api';
 import * as cookies from 'react-cookies';
 
-var socket = io("http://localhost:2080/api/game/socket/");
-
-socket.on("connect", () => {
-	console.log("connect")
-})
-socket.on("disconnect", () => {
-	console.log("disconnect")
-})
+var io = socket("http://localhost:2080/api/game/socket/");
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
@@ -57,6 +50,14 @@ interface VoerGameProps {
 class VoerGame extends Component<VoerGameProps> {
 	constructor(props: VoerGameProps) {
 		super(props);
+
+		io.on("connect", () => {
+			console.log("connect")
+			io.emit("resign", {"cool": "data"});
+		})
+		io.on("disconnect", () => {
+			console.log("disconnect")
+		})
 	}
 
 	width = 7;
@@ -87,7 +88,7 @@ class VoerGame extends Component<VoerGameProps> {
 			token: cookies.load("token"),
 			gameID: "fortnite"
 		})
-		socket.emit("new_move", {
+		io.emit("new_move", {
 			move: column,
 			token: cookies.load("token"),
 			gameID: "fortnite"

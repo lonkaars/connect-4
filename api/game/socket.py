@@ -19,7 +19,7 @@ class game:
         self.board.drop_fisje(column)
 
 def run(app):
-    io = SocketIO(app)
+    io = SocketIO(app, cors_allowed_origins="*")
 
     @io.on("new_move", namespace)
     def new_move(data):
