@@ -11,7 +11,7 @@ DISC_A = Fore.RED + DISC_SHAPE + Fore.RESET
 DISC_B = Fore.BLUE + DISC_SHAPE + Fore.RESET
 EMPTY = Fore.LIGHTBLACK_EX + "_" + Fore.RESET
 
-VOERBAK_LOCATION = "./voerbak"
+VOERBAK_LOCATION = os.path.dirname(__file__) + "/voerbak"
 if os.name == "nt": VOERBAK_LOCATION += ".exe"
 
 class bord:
@@ -21,7 +21,7 @@ class bord:
         self.player_1 = True
         self.board = "0" * (w * h)
         self.win_positions = []
-        self.process = subprocess.Popen(["./voerbak"],
+        self.process = subprocess.Popen([VOERBAK_LOCATION],
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=None)
