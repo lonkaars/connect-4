@@ -59,6 +59,10 @@ class VoerGame extends Component<VoerGameProps> {
 		this.io.on("disconnect", () => {
 			console.log("disconnect")
 		})
+		this.io.on("fieldUpdate", (data: { field: string }) => {
+			for(let i = 0; i < data.field.length; i++)
+				document.getElementById(`pos-${i}`).parentNode.children.item(1).classList.add(`state-${data.field[i]}`);
+		})
 	}
 
 	io: Socket;
@@ -76,7 +80,6 @@ class VoerGame extends Component<VoerGameProps> {
 	userID = "";
 
 	move(column: number) {
-		console.log(column)
 		if(this.state.userID == "") {
 			axios.request<userInfo>({
 				method: "get",
@@ -86,12 +89,7 @@ class VoerGame extends Component<VoerGameProps> {
 			.then(request => this.setState({ userID: request.data.id }))
 			.catch(() => {});
 		}
-		console.log("emitted this", {
-			move: column,
-			token: cookies.load("token"),
-			gameID: "fortnite"
-		})
-		this.io.emit("new_move", {
+		this.io.emit("newMove", {
 			move: column,
 			token: cookies.load("token"),
 			gameID: "fortnite"

@@ -1,9 +1,18 @@
+function Disc() {
+	return <div className="disk" style={{
+		position: "absolute",
+		top: 0, left: 0, right: 0, bottom: 0,
+		borderRadius: 999999,
+		margin: 3
+	}}/>
+}
+
 export function VoerBord(props: {
 	width: number;
 	height: number;
 	onMove: (move: number) => void;
 }) {
-	return <table style={{
+	return <table className="voerBord" style={{
 		borderSpacing: 8,
 		width: "100%"
 	}}>
@@ -21,6 +30,7 @@ export function VoerBord(props: {
 									display: "block",
 									marginTop: "100%"
 								}}/>
+								<Disc/>
 								<div style={{
 									position: "absolute",
 									top: 0, left: 0, right: 0, bottom: 0,
