@@ -1,11 +1,9 @@
 from flask import Blueprint, request, make_response
-from flask_socketio import SocketIO, emit, disconnect, emit
+from flask_socketio import SocketIO, emit, Namespace
 from game.voerbak_connector import bord
 from db import cursor
 import time
 import json
-
-namespace = "/game/socket"
 
 class game:
     def __init__(self, game_id):
@@ -21,12 +19,14 @@ class game:
 def run(app):
     io = SocketIO(app, cors_allowed_origins="*")
 
-    @io.on("new_move", namespace)
-    def new_move(data):
-        print(data)
+    namespace = "/game/socket/"
+    @io.on("connect", namespace)
+    def connect():
+        print("new connection", namespace)
 
-    @io.on("resign", namespace)
-    def resign(data):
+    @io.on("new_move")
+    def connect(data):
+        print("new_move")
         print(data)
 
     io.run(app, host="127.0.0.1", port=5000, debug=True)
