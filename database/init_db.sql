@@ -29,6 +29,7 @@ create table if not exists games (
 	rating_delta_player_2 integer,
 	status text not null,
 	ruleset text not null,
+	private boolean not null,
 	foreign key(player_1_id) references users(user_id),
 	foreign key(player_2_id) references users(user_id)
 );

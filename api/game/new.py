@@ -19,7 +19,7 @@ def index():
     game_id = new_uuid("games")
     timestamp = int( time.time() * 1000 )
 
-    cursor.execute("insert into games values (?, NULL, NULL, ?, NULL, NULL, ?, NULL, NULL, NULL, \"wait_for_opponent\", ?) ", (game_id, user_id, timestamp, json.dumps(game_settings)))
+    cursor.execute("insert into games values (?, NULL, NULL, ?, NULL, NULL, ?, NULL, NULL, NULL, \"wait_for_opponent\", ?, TRUE) ", (game_id, user_id, timestamp, json.dumps(game_settings)))
     connection.commit()
 
     return { "id": game_id }, 200

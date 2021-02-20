@@ -1,48 +1,48 @@
 #!/bin/sh
 
-username="test_$RANDOM"
-email="$username@example.com"
-password=$(echo $RANDOM | base64)
+# username="test_$RANDOM"
+# email="$username@example.com"
+# password=$(echo $RANDOM | base64)
 
-signup () {
-	curl -X POST \
-		-H "Content-Type: application/json" \
-		-d "{
-		\"username\": \"$username\",
-		\"email\": \"$email\",
-		\"password\": \"$password\"
-		}" \
-		localhost:5000/api/auth/signup
-}
+# signup () {
+# 	curl -X POST \
+# 		-H "Content-Type: application/json" \
+# 		-d "{
+# 		\"username\": \"$username\",
+# 		\"email\": \"$email\",
+# 		\"password\": \"$password\"
+# 		}" \
+# 		localhost:5000/api/auth/signup
+# }
 
-login_username () {
-	curl -X POST \
-		-H "Content-Type: application/json" \
-		-d "{
-		\"email\": \"$username\",
-		\"password\": \"$password\"
-		}" \
-		localhost:5000/api/auth/login
-}
+# login_username () {
+# 	curl -X POST \
+# 		-H "Content-Type: application/json" \
+# 		-d "{
+# 		\"email\": \"$username\",
+# 		\"password\": \"$password\"
+# 		}" \
+# 		localhost:5000/api/auth/login
+# }
 
-login_email () {
-	curl -X POST \
-		-H "Content-Type: application/json" \
-		-d "{
-		\"email\": \"$email\",
-		\"password\": \"$password\"
-		}" \
-		localhost:5000/api/auth/login
-}
+# login_email () {
+# 	curl -X POST \
+# 		-H "Content-Type: application/json" \
+# 		-d "{
+# 		\"email\": \"$email\",
+# 		\"password\": \"$password\"
+# 		}" \
+# 		localhost:5000/api/auth/login
+# }
 
-user_info () {
-	curl -X GET \
-		-H "Content-Type: application/json" \
-		-d '{
-		"username": "loekaars"
-		}' \
-		localhost:5000/user/info
-}
+# user_info () {
+# 	curl -X GET \
+# 		-H "Content-Type: application/json" \
+# 		-d '{
+# 		"username": "loekaars"
+# 		}' \
+# 		localhost:5000/user/info
+# }
 
 # login_token () {
 # 	curl -X POST \
@@ -54,23 +54,40 @@ user_info () {
 # 		localhost:5000/api/auth/token
 # }
 
-new_game () {
+# new_game () {
+# 	curl -X POST \
+# 		-H "Content-Type: application/json" \
+# 		-d '{
+# 			"user_id": "4577c119-c768-4ad5-afec-b53a5c19baf4",
+# 			"settings": {
+# 				"ranked": true,
+# 				"timelimit": {
+# 					"minutes": 5,
+# 					"seconds": 30,
+# 					"enabled": true,
+# 					"shared": "false"
+# 				}
+# 			}
+# 		}' \
+# 		localhost:5000/game/new
+# }
+
+random_game_1 () {
 	curl -X POST \
 		-H "Content-Type: application/json" \
-		-d '{
-			"user_id": "4577c119-c768-4ad5-afec-b53a5c19baf4",
-			"settings": {
-				"ranked": true,
-				"timelimit": {
-					"minutes": 5,
-					"seconds": 30,
-					"enabled": true,
-					"shared": "false"
-				}
-			}
-		}' \
-		localhost:5000/game/new
+		-d '{ "user_id": "e6162c82-3e60-4479-ac96-a1af508e49c4" }' \
+		localhost:2080/api/game/random
 }
 
-new_game
+random_game_2 () {
+	curl -X POST \
+		-H "Content-Type: application/json" \
+		-d '{ "user_id": "de960155-7d58-46b3-a4f6-7d33aa034ad9" }' \
+		localhost:2080/api/game/random
+}
+
+sleep 3
+random_game_1
+sleep 10
+random_game_2
 

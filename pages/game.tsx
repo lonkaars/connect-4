@@ -98,7 +98,7 @@ class VoerGame extends Component<VoerGameProps> {
 			maxWidth: "100vh",
 			margin: "0 auto"
 		}}>
-			<VoerBord width={this.width} height={this.height} onMove={m => this.move(m % this.width + 1)}/>
+			<VoerBord width={this.width} height={this.height} onMove={m => this.move(m % this.width + 1)} active={this.state.outcome == -1}/>
 			<GameBar turn={this.state.turn}/>
 			<GameOutcomeDialog outcome={this.state.outcome} visible={this.state.outcome != -1}/>
 		</div>
@@ -133,11 +133,11 @@ function GameOutcomeDialog(props: {
 					6 Optimale zetten<br/>
 					0 Blunders
 			</p> }
-			<IconLabelButton text="Opnieuw spelen" icon={<RefreshIcon/>} style={{
+			{ false && <IconLabelButton text="Opnieuw spelen" icon={<RefreshIcon/>} style={{
 				float: "none",
 				marginTop: 24,
 				padding: "12px 32px"
-			}}/>
+			}}/> }
 		</div>
 	</DialogBox>
 }
@@ -168,13 +168,35 @@ var InviteButtonLabelStyle: CSSProperties = {
 	userSelect: "none"
 }
 
-export default function GamePage() {
-	return (
-		<div>
+export default class GamePage extends Component {
+	constructor(props: {}) {
+		super(props);
+
+		if (typeof window === "undefined") return;
+		if (document.cookie.includes("token") == false) return;
+		axios.request<userInfo>({
+			method: "get",
+			url: `/api/user/info`,
+			headers: {"content-type": "application/json"}
+		})
+		.then(request => this.setState({ userID: request.data.id }))
+		.catch(() => {});
+	}
+
+	state: {
+		userID: string;
+		gameID: string;
+	} = {
+		userID: "",
+		gameID: "",
+	}
+
+	render() {
+		return <div>
 			<NavBar/>
 			<CenteredPage width={900} style={{ height: "100vh" }}>
 				<VoerGame/>
-				{false && <DialogBox title="Nieuw spel">
+				{true && <DialogBox title="Nieuw spel">
 					<CurrentGameSettings/>
 					<div style={{
 						marginTop: 24,
@@ -182,7 +204,16 @@ export default function GamePage() {
 						gridTemplateColumns: "1fr 1fr",
 						gridGap: 24
 					}}>
-						<Button style={InviteButtonStyle}>
+						<Button style={InviteButtonStyle} onclick={() => {
+							axios.request<{ id: string }>({
+								method: "post",
+								url: "/api/game/random",
+								headers: {"content-type": "application/json"},
+								data: { user_id: this.state.userID }
+							})
+							.then(request => this.setState({ gameID: request.data.id }))
+							.catch(() => {});
+						}}>
 							<WifiTetheringRoundedIcon style={{
 								color: "var(--disk-b)",
 								...InviteButtonIconStyle
@@ -198,9 +229,10 @@ export default function GamePage() {
 						</Button>
 					</div>
 					<SearchBar label="Zoeken in vriendenlijst"/>
+					<p>{this.state.gameID}</p>
 				</DialogBox>}
 			</CenteredPage>
 		</div>
-	);
+	}
 }
 
