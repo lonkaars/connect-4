@@ -20,6 +20,7 @@ class bord:
         self.height = h
         self.player_1 = True
         self.board = "0" * (w * h)
+        self.board_full = False
         self.win_positions = []
         self.process = subprocess.Popen([VOERBAK_LOCATION],
                 stdin=subprocess.PIPE,
@@ -42,6 +43,8 @@ class bord:
             elif buffer.startswith("m:"):
                 substr = buffer[2:]
                 self.player_1 = True if substr == "true" else False
+            elif buffer.startswith("d:"):
+                self.board_full = True
             buffer = self.get_output()
         self.board = buffer
 

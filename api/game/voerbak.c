@@ -60,6 +60,12 @@ bool checkWin(int board[], int width, int height, int pos) {
 	return won;
 }
 
+bool boardFull(int board[], int width, int height) {
+	for (int i = 0; i < width * height; i++)
+		if (board[i] == 0) return false;
+	return true;
+}
+
 bool dropFisje(int board[], int width, int height, int column, int disc) {
 	for (int row = 0; row < height; row++) {
 		int pos = column + row * width;
@@ -92,6 +98,11 @@ int main() {
 		player_1 = player_1 ^ dropSuccess; // only flip turns on successful drop
 		printf("m:%s\n", player_1 ? "true" : "false");
 		fflush(stdout);
+
+		if (boardFull(board, width, height)) {
+			printf("d:full\n");
+			fflush(stdout);
+		}
 
 		printBoard(board, width, height);
 	}
