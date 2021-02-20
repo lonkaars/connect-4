@@ -17,6 +17,12 @@ class game:
         # if not self.board.player_1 == player_1_move: return
         self.board.drop_fisje(column)
         self.io.emit("fieldUpdate", { "field": self.board.board })
+        self.io.emit("turnUpdate", { "player1": self.board.player_1 })
+        if len(self.board.win_positions) > 0 or self.board.board_full:
+            self.io.emit("finish", {
+                "winPositions": self.board.win_positions,
+                "boardFull": self.board.board_full
+                })
 
 def run(app):
     io = SocketIO(app, cors_allowed_origins="*")
@@ -30,7 +36,9 @@ def run(app):
     @io.on("newMove")
     def new_move(data):
         # json_data = json.loads(data)
-        games[0].move(data["token"], data["move"])
+        game = games[0]
+        if(len(game.board.win_positions) > 0 or game.board.board_full): return
+        game.move(data["token"], data["move"])
 
     io.run(app, host="127.0.0.1", port=5000, debug=True)
 
