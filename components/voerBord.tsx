@@ -11,6 +11,7 @@ export function VoerBord(props: {
 	width: number;
 	height: number;
 	onMove: (move: number) => void;
+	active: boolean;
 }) {
 	return <table className="voerBord" style={{
 		borderSpacing: 8,
@@ -37,7 +38,7 @@ export function VoerBord(props: {
 									borderRadius: 6,
 									border: "2px solid var(--background-alt)",
 									opacity: .5,
-									cursor: "pointer"
+									cursor: props.active ? "pointer" : "default"
 								}} id={`pos-${(props.height - row - 1) * props.width + column}`} onClick={event => {
 									props.onMove(Number((event.target as HTMLElement).id.split("-")[1]))
 								}}/>

@@ -32,12 +32,17 @@ class bord:
     def get_output(self):
         return self.process.stdout.readline().decode()[:-1]
 
+    def kill_voerbak(self):
+        self.process.stdin.write(bytearray("0", "utf-8"))
+        self.process.stdin.flush()
+
     def update_board(self):
         buffer = self.get_output()
         while not buffer.isdigit():
             if buffer.startswith("w:"):
                 self.win_positions.append(buffer[2:].split("-"))
                 log.info(f"won: {buffer[2:].split('-')}")
+                self.kill_voerbak()
             elif buffer.startswith("e:"):
                 log.warning(buffer[2:])
             elif buffer.startswith("m:"):
@@ -45,6 +50,7 @@ class bord:
                 self.player_1 = True if substr == "true" else False
             elif buffer.startswith("d:"):
                 self.board_full = True
+                self.kill_voerbak()
             buffer = self.get_output()
         self.board = buffer
 
