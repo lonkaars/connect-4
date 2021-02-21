@@ -33,8 +33,8 @@ def index():
         timestamp = int( time.time() * 1000 )
         cursor.execute("update games set player_2_id = ?, status = \"in_progress\", timestamp = ? where game_id = ?", (user_id, timestamp, game_id))
         connection.commit()
-        games[game_id] = game(game_id, io)
-        print("random.py")
-        print(games)
+
+        players = cursor.execute("select player_1_id, player_2_id from games where game_id = ?", [game_id]).fetchone()
+        games[game_id] = game(game_id, io, players[0], players[1])
 
     return { "id": game_id }, 200
