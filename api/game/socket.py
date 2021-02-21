@@ -1,9 +1,13 @@
 from flask import Blueprint, request, make_response
 from flask_socketio import SocketIO, emit, Namespace
 from game.voerbak_connector import bord
+from auth.login_token import token_login
 from db import cursor
 import time
 import json
+from socket_io import io
+
+games = {}
 
 class game:
     def __init__(self, game_id, io):
@@ -24,21 +28,13 @@ class game:
                 "boardFull": self.board.board_full
                 })
 
-def run(app):
-    io = SocketIO(app, cors_allowed_origins="*")
-    games = [game("test_game", io)]
-
-    namespace = "/game/socket/"
-    @io.on("connect", namespace)
-    def connect():
-        print("connect")
-
-    @io.on("newMove")
-    def new_move(data):
-        # json_data = json.loads(data)
-        game = games[0]
-        if(len(game.board.win_positions) > 0 or game.board.board_full): return
-        game.move(data["token"], data["move"])
-
-    io.run(app, host="127.0.0.1", port=5000, debug=True)
+@io.on("newMove")
+def new_move(data):
+    print("socket.py")
+    print(games)
+    print(data)
+    game = games[data["game_id"]]
+    if(len(game.board.win_positions) > 0 or game.board.board_full): return
+    user_id = token_login(data["token"])[0]
+    game.move(user_id, data["move"])
 

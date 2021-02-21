@@ -61,7 +61,8 @@ function LoginOrRegisterBox() {
 			display: "inline-block",
 			position: "absolute",
 			fontSize: 14,
-			left: 0, right: 0, top: 0
+			left: 0, right: 0, top: 0,
+			margin: "0 100px"
 		}}>Log in of maak een account aan om je scores op te slaan en toegang te krijgen tot meer functies</span>
 		<div style={{
 			display: "grid",
