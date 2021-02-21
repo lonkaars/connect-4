@@ -17,7 +17,8 @@ import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 interface VoerGameProps {
-
+	gameID: string;
+	token: string;
 }
 
 class VoerGame extends Component<VoerGameProps> {
@@ -71,22 +72,12 @@ class VoerGame extends Component<VoerGameProps> {
 	};
 
 	board = [...Array(this.width * this.height)].map(() => 0);
-	userID = "";
 
 	move(column: number) {
-		if(this.state.userID == "") {
-			axios.request<userInfo>({
-				method: "get",
-				url: `/api/user/info`,
-				headers: {"content-type": "application/json"}
-			})
-			.then(request => this.setState({ userID: request.data.id }))
-			.catch(() => {});
-		}
 		this.io.emit("newMove", {
 			move: column,
-			token: cookies.load("token"),
-			gameID: "fortnite"
+			token: this.props.token,
+			game_id: this.props.gameID
 		});
 	}
 
@@ -172,30 +163,33 @@ export default class GamePage extends Component {
 	constructor(props: {}) {
 		super(props);
 
-		if (typeof window === "undefined") return;
-		if (document.cookie.includes("token") == false) return;
-		axios.request<userInfo>({
-			method: "get",
-			url: `/api/user/info`,
-			headers: {"content-type": "application/json"}
-		})
-		.then(request => this.setState({ userID: request.data.id }))
-		.catch(() => {});
+		/* if (typeof window === "undefined") return; */
+		/* if (document.cookie.includes("token") == false) return; */
+		/* axios.request<userInfo>({ */
+		/* 	method: "get", */
+		/* 	url: `/api/user/info`, */
+		/* 	headers: {"content-type": "application/json"} */
+		/* }) */
+		/* .then(request => this.setState({ */
+		/* 	user: request.data, */
+		/* 	token: cookies.load("token") */
+		/* })) */
+		/* .catch(() => {}); */
 	}
 
 	state: {
-		userID: string;
 		gameID: string;
+		token: string;
 	} = {
-		userID: "",
 		gameID: "",
+		token: "",
 	}
 
 	render() {
 		return <div>
 			<NavBar/>
 			<CenteredPage width={900} style={{ height: "100vh" }}>
-				<VoerGame/>
+				<VoerGame gameID={this.state.gameID} token={this.state.token}/>
 				{true && <DialogBox title="Nieuw spel">
 					<CurrentGameSettings/>
 					<div style={{
@@ -209,9 +203,12 @@ export default class GamePage extends Component {
 								method: "post",
 								url: "/api/game/random",
 								headers: {"content-type": "application/json"},
-								data: { user_id: this.state.userID }
+								data: {}
 							})
-							.then(request => this.setState({ gameID: request.data.id }))
+							.then(request => this.setState({
+								gameID: request.data.id,
+								token: cookies.load("token")
+							}))
 							.catch(() => {});
 						}}>
 							<WifiTetheringRoundedIcon style={{
@@ -229,7 +226,10 @@ export default class GamePage extends Component {
 						</Button>
 					</div>
 					<SearchBar label="Zoeken in vriendenlijst"/>
-					<p>{this.state.gameID}</p>
+					<code>
+					{this.state.gameID}
+					{this.state.token}
+					</code>
 				</DialogBox>}
 			</CenteredPage>
 		</div>
