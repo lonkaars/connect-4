@@ -92,13 +92,14 @@ class VoerGame extends Component<VoerGameProps> {
 		}}>
 			<VoerBord width={this.width} height={this.height} onMove={m => this.move(m % this.width + 1)} active={this.props.active == true && this.state.outcome == -1}/>
 			<GameBar turn={this.state.turn} player1={this.props.player1}/>
-			<GameOutcomeDialog outcome={this.state.outcome} visible={this.state.outcome != -1}/>
+			<GameOutcomeDialog outcome={this.state.outcome} player={this.props.player1 ? 1 : 2} visible={this.state.outcome != -1}/>
 		</div>
 	}
 }
 
 function GameOutcomeDialog(props: {
 	outcome: number;
+	player: number;
 	visible: boolean;
 }) {
 	return <DialogBox title="Speluitkomst" style={{ display: props.visible ? "inline-block" : "none" }}>
@@ -109,15 +110,15 @@ function GameOutcomeDialog(props: {
 			<h2 style={{
 				color:
 					props.outcome == 0 ? "var(--text)" :
-					props.outcome == 1 ? "var(--disk-a-text)" :
-					props.outcome == 2 ? "var(--disk-b-text)" :
+					props.outcome == props.player ? "var(--disk-a-text)" :
+					props.outcome != props.player ? "var(--disk-b-text)" :
 					"var(--text)",
 				opacity: props.outcome == 0 ? .75 : 1,
 				marginTop: 8
 			}}>{
 				props.outcome == 0 ? "Gelijkspel" :
-				props.outcome == 1 ? "Verloren" :
-				props.outcome == 2 ? "Gewonnen" :
+				props.outcome == props.player ? "Verloren" :
+				props.outcome != props.player ? "Gewonnen" :
 				"???"
 			}</h2>
 			{ false && <p style={{ marginTop: 24 }}>
