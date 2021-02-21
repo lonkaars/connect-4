@@ -26,7 +26,7 @@ def index():
     if len(public_games) == 0:
         game_id = new_uuid("games")
 
-        cursor.execute("insert into games values (?, NULL, NULL, ?, NULL, NULL, 0, NULL, NULL, NULL, \"wait_for_opponent\", \"default\", FALSE) ", (game_id, user_id))
+        cursor.execute("insert into games values (?, NULL, \"\", ?, NULL, NULL, 0, NULL, NULL, NULL, \"wait_for_opponent\", \"default\", FALSE) ", (game_id, user_id))
         connection.commit()
         player_1 = True
     else:
