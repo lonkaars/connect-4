@@ -1,7 +1,6 @@
 import { CSSProperties, Component } from 'react';
 import { io as socket, Socket } from 'socket.io-client';
 import axios from 'axios';
-import { userInfo } from '../api/api';
 import * as cookies from 'react-cookies';
 
 import { NavBar } from '../components/navbar';
@@ -19,6 +18,8 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 interface VoerGameProps {
 	gameID: string;
 	token: string;
+	active: boolean;
+	player1: boolean;
 }
 
 class VoerGame extends Component<VoerGameProps> {
@@ -89,8 +90,8 @@ class VoerGame extends Component<VoerGameProps> {
 			maxWidth: "100vh",
 			margin: "0 auto"
 		}}>
-			<VoerBord width={this.width} height={this.height} onMove={m => this.move(m % this.width + 1)} active={this.state.outcome == -1}/>
-			<GameBar turn={this.state.turn}/>
+			<VoerBord width={this.width} height={this.height} onMove={m => this.move(m % this.width + 1)} active={this.props.active == true && this.state.outcome == -1}/>
+			<GameBar turn={this.state.turn} player1={this.props.player1}/>
 			<GameOutcomeDialog outcome={this.state.outcome} visible={this.state.outcome != -1}/>
 		</div>
 	}
@@ -162,35 +163,28 @@ var InviteButtonLabelStyle: CSSProperties = {
 export default class GamePage extends Component {
 	constructor(props: {}) {
 		super(props);
-
-		/* if (typeof window === "undefined") return; */
-		/* if (document.cookie.includes("token") == false) return; */
-		/* axios.request<userInfo>({ */
-		/* 	method: "get", */
-		/* 	url: `/api/user/info`, */
-		/* 	headers: {"content-type": "application/json"} */
-		/* }) */
-		/* .then(request => this.setState({ */
-		/* 	user: request.data, */
-		/* 	token: cookies.load("token") */
-		/* })) */
-		/* .catch(() => {}); */
 	}
 
 	state: {
 		gameID: string;
 		token: string;
+		player1: boolean;
 	} = {
 		gameID: "",
 		token: "",
+		player1: true
 	}
 
 	render() {
 		return <div>
 			<NavBar/>
 			<CenteredPage width={900} style={{ height: "100vh" }}>
-				<VoerGame gameID={this.state.gameID} token={this.state.token}/>
-				{true && <DialogBox title="Nieuw spel">
+				<VoerGame
+				active={!!this.state.gameID}
+				gameID={this.state.gameID}
+				token={this.state.token}
+				player1={this.state.player1}/>
+				<DialogBox title="Nieuw spel" style={{ display: !this.state.gameID ? "inline-block" : "none" }}>
 					<CurrentGameSettings/>
 					<div style={{
 						marginTop: 24,
@@ -199,7 +193,7 @@ export default class GamePage extends Component {
 						gridGap: 24
 					}}>
 						<Button style={InviteButtonStyle} onclick={() => {
-							axios.request<{ id: string }>({
+							axios.request<{ id: string, player_1: boolean }>({
 								method: "post",
 								url: "/api/game/random",
 								headers: {"content-type": "application/json"},
@@ -207,6 +201,7 @@ export default class GamePage extends Component {
 							})
 							.then(request => this.setState({
 								gameID: request.data.id,
+								player1: request.data.player_1,
 								token: cookies.load("token")
 							}))
 							.catch(() => {});
@@ -226,11 +221,7 @@ export default class GamePage extends Component {
 						</Button>
 					</div>
 					<SearchBar label="Zoeken in vriendenlijst"/>
-					<code>
-					{this.state.gameID}
-					{this.state.token}
-					</code>
-				</DialogBox>}
+				</DialogBox>
 			</CenteredPage>
 		</div>
 	}
