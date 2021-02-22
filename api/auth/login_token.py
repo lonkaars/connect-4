@@ -17,3 +17,5 @@ def index():
     if not auth_token: return "", 400
 
     return "", 200 if token_login(auth_token) else 401
+
+dynamic_route = ["/auth", token]

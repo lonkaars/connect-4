@@ -41,3 +41,5 @@ def index():
     res.set_cookie("token", new_token["token"], expires = int(new_token["expirationDate"] / 1000))
 
     return res
+
+dynamic_route = ["/auth", signup]
