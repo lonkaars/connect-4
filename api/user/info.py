@@ -35,3 +35,5 @@ def index():
         "registered": user[4],
         "avatar": user[5],
     }
+
+dynamic_route = ["/user", info]

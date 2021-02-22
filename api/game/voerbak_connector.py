@@ -1,10 +1,7 @@
 from colorama import Fore
-import logging as log
+import log
 import subprocess
 import os
-
-VERBOSE = log.ERROR
-log.basicConfig(format="[ %(levelname)s ]: %(message)s", level=VERBOSE)
 
 DISC_SHAPE = "o"
 DISC_A = Fore.RED + DISC_SHAPE + Fore.RESET

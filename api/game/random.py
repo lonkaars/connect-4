@@ -42,3 +42,5 @@ def index():
         player_1 = False
 
     return { "id": game_id, "player_1": player_1 }, 200
+
+dynamic_route = ["/game", random_game]
