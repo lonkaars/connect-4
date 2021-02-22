@@ -10,16 +10,14 @@ void printBoard(int board[], int width, int height) {
 	fflush(stdout);
 }
 
-int recursiveSolve(int board[], int width, int height, int pos, int checkFor, int direction, int currentLength) {
-	int overflow = (pos % width) + direction;
-	if (overflow == width || overflow == -1)
-		return currentLength;
+int recursiveSolve(int board[], int width, int height, int pos, int checkFor, int direction, int d_index, int currentLength) {
 	int newPos = pos + direction;
-	if (newPos < 0 || newPos > width * height - 1)
-		return currentLength;
-	if (board[newPos] != checkFor)
-		return currentLength;
-	return recursiveSolve(board, width, height, newPos, checkFor, direction, currentLength + 1);
+	if (newPos > width * height - 1 || newPos < 0) return currentLength;
+	int row = pos % width;
+	if (row == width && d_index >= 1 && d_index <= 3) return currentLength;
+	if (row == 0 && d_index >= 5 && d_index <= 7) return currentLength;
+	if (board[newPos] != checkFor) return currentLength;
+	return recursiveSolve(board, width, height, newPos, checkFor, direction, d_index, currentLength + 1);
 }
 
 bool checkWin(int board[], int width, int height, int pos) {
@@ -36,7 +34,7 @@ bool checkWin(int board[], int width, int height, int pos) {
 
 	int values[8];
 	for (int i = 0; i < 8; i++)
-		values[i] = recursiveSolve(board, width, height, pos, board[pos], directions[i], 0);
+		values[i] = recursiveSolve(board, width, height, pos, board[pos], directions[i], i, 0);
 
 	int joinedValues[4] = {
 		values[0] + values[4],

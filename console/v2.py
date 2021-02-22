@@ -1,5 +1,6 @@
 from colorama import Fore
 import os
+import time
 
 DISC_SHAPE = "o"
 DISC_A = Fore.RED + DISC_SHAPE + Fore.RESET
@@ -60,6 +61,26 @@ class bord:
                     self.board[end_pos] = "x"
         return won
 
+    def debug(self, pos):
+        self.board[pos] = "x"
+        directions = [
+                self.width,      # 0: north
+                self.width + 1,  # 1: northeast
+                1,               # 2: east
+                -self.width + 1, # 3: southeast
+                -self.width,     # 4: south
+                -self.width - 1, # 5: southwest
+                -1,              # 6: west
+                self.width - 1,  # 7: northwest
+                ]
+
+        for index, direction in enumerate(directions):
+            new_position = pos + direction
+            if new_position > len(self.board) - 1 or new_position < 0: continue
+            if index in range(1, 4) and pos % self.width == self.width -1: continue
+            if index in range(5, 8) and pos % self.width == 0: continue
+            self.board[new_position] = "o"
+
     def drop_fisje(self, column, disc):
         for row in range(self.height):
             pos = column + row * self.width
@@ -72,14 +93,12 @@ class bord:
 def main():
     disc_a = True
     gert = bord(7, 6)
-    while True:
+    for x in range(len(gert.board)):
+        gert = bord(7, 6)
+        gert.debug(x)
         gert.print()
-        column = int(input("column?: ")) - 1
-        if column not in range(gert.width):
-            continue
-        os.system("clear")
-        gert.drop_fisje(column, DISC_A if disc_a else DISC_B)
-        disc_a = not disc_a
+        print("\n\n", end='')
+        time.sleep(0.1)
 
 if __name__ == "__main__":
     main()
