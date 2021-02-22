@@ -16,5 +16,6 @@ for file in files:
     mod = importlib.import_module(file)
     if not hasattr(mod, "dynamic_route"): continue
     app.register_blueprint(mod.dynamic_route[1], url_prefix=mod.dynamic_route[0])
-    log.info(f"dynamically routing {mod.dynamic_route[0]}{mod.dynamic_route[1].import_name}")
+    path = (mod.dynamic_route[0] + "/" + mod.dynamic_route[1].name).replace('//', '/')
+    log.info(f"dynamically routing {path}")
 
