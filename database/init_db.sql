@@ -23,13 +23,16 @@ create table if not exists games (
 	player_1_id text not null,
 	player_2_id text,
 	outcome text,
-	timestamp integer,
+	created integer,
+	started integer,
+	last_activity integer,
 	duration integer,
 	rating_delta_player_1 integer,
 	rating_delta_player_2 integer,
 	status text not null,
 	ruleset text not null,
 	private boolean not null,
+	debug boolean not null,
 	foreign key(player_1_id) references users(user_id),
 	foreign key(player_2_id) references users(user_id)
 );

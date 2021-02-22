@@ -23,16 +23,17 @@ def index():
 
     public_games = cursor.execute("select game_id from games where private = FALSE and status = \"wait_for_opponent\"").fetchall()
 
+    timestamp = int( time.time() * 1000 )
+
     if len(public_games) == 0:
         game_id = new_uuid("games")
 
-        cursor.execute("insert into games values (?, NULL, \"\", ?, NULL, NULL, 0, NULL, NULL, NULL, \"wait_for_opponent\", \"default\", FALSE) ", (game_id, user_id))
+        cursor.execute("insert into games values (?, NULL, \"\", ?, NULL, NULL, ?, NULL, ?, NULL, NULL, NULL, \"wait_for_opponent\", \"default\", FALSE, FALSE) ", (game_id, user_id, timestamp, timestamp))
         connection.commit()
         player_1 = True
     else:
         game_id = random.choice(public_games)[0]
-        timestamp = int( time.time() * 1000 )
-        cursor.execute("update games set player_2_id = ?, status = \"in_progress\", timestamp = ? where game_id = ?", (user_id, timestamp, game_id))
+        cursor.execute("update games set player_2_id = ?, status = \"in_progress\", started = ?, last_activity = ? where game_id = ?", (user_id, timestamp, timestamp, game_id))
         connection.commit()
 
         players = cursor.execute("select player_1_id, player_2_id from games where game_id = ?", [game_id]).fetchone()
