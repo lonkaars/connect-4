@@ -31,7 +31,8 @@ class game:
                 "boardFull": self.board.board_full
                 })
 
-        cursor.execute("update games set moves = moves || ? || ',' where game_id = ?", [column, self.game_id])
+        now = int( time.time() * 1000 )
+        cursor.execute("update games set last_activity = ?, moves = moves || ? || ',' where game_id = ?", [now, column, self.game_id])
         connection.commit()
 
         if self.board.board_full:
