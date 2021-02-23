@@ -6,24 +6,25 @@
 struct Board {
 	int width;
 	int height;
+	int length;
 	int* board;
 };
 
 void printBoard(struct Board *b) {
-	for (int i = 0; i < b->width * b->height; i++)
+	for (int i = 0; i < b->length; i++)
 		printf("%d", b->board[i]);
 	printf("\n");
 	fflush(stdout);
 }
 
-int recursiveSolve(struct Board *b, int pos, int checkFor, int direction, int d_index, int currentLength) {
+int recursiveSolve(struct Board *b, int pos, int direction, int d_index, int currentLength) {
 	int newPos = pos + direction;
-	if (newPos > b->width * b->height - 1 || newPos < 0) return currentLength;
+	if (newPos > b->length - 1 || newPos < 0) return currentLength;
 	int row = pos % b->width;
 	if (row == b->width && d_index >= 1 && d_index <= 3) return currentLength;
 	if (row == 0 && d_index >= 5 && d_index <= 7) return currentLength;
-	if (b->board[newPos] != checkFor) return currentLength;
-	return recursiveSolve(b, newPos, checkFor, direction, d_index, currentLength + 1);
+	if (b->board[newPos] != b->board[pos]) return currentLength;
+	return recursiveSolve(b, newPos, direction, d_index, currentLength + 1);
 }
 
 bool checkWin(struct Board *b, int pos) {
@@ -40,7 +41,7 @@ bool checkWin(struct Board *b, int pos) {
 
 	int values[8];
 	for (int i = 0; i < 8; i++)
-		values[i] = recursiveSolve(b, pos, b->board[pos], directions[i], i, 0);
+		values[i] = recursiveSolve(b, pos, directions[i], i, 0);
 
 	int joinedValues[4] = {
 		values[0] + values[4],
@@ -65,7 +66,7 @@ bool checkWin(struct Board *b, int pos) {
 }
 
 bool boardFull(struct Board *b) {
-	for (int i = 0; i < b->width * b->height; i++)
+	for (int i = 0; i < b->length; i++)
 		if (b->board[i] == 0) return false;
 	return true;
 }
@@ -87,18 +88,18 @@ bool dropFisje(struct Board *b, int column, int disc) {
 int main() {
 	int width, height;
 	scanf("%d %d", &width, &height);
+
 	struct Board *gameBoard = malloc(sizeof(struct Board));
 	gameBoard->board = malloc(sizeof(int) * (width * height - 1));
 	gameBoard->width = width;
 	gameBoard->height = height;
-
-	/* memset(gameBoard->board, 0, sizeof gameBoard->board); */
+	gameBoard->length = width * height;
 
 	bool player_1 = true;
 	int move = 0;
 	while (scanf("%d", &move) == 1) {
 		if (move == 0) break;
-		if (move < 1 || move > width) continue;
+		if (move < 1 || move > gameBoard->width) continue;
 
 		bool dropSuccess = dropFisje(gameBoard, move - 1, player_1 + 1);
 
