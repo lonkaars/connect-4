@@ -79,7 +79,6 @@ bool dropFisje(int board[], int width, int height, int column, int disc) {
 }
 
 int main() {
-	printf("voerbak v2\n");
 	int width, height;
 	scanf("%d %d", &width, &height);
 
