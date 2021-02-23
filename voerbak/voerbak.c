@@ -3,38 +3,44 @@
 #include <memory.h>
 #include <stdbool.h>
 
-void printBoard(int board[], int width, int height) {
-	for (int i = 0; i < width * height; i++)
-		printf("%d", board[i]);
+struct Board {
+	int width;
+	int height;
+	int* board;
+};
+
+void printBoard(struct Board *b) {
+	for (int i = 0; i < b->width * b->height; i++)
+		printf("%d", b->board[i]);
 	printf("\n");
 	fflush(stdout);
 }
 
-int recursiveSolve(int board[], int width, int height, int pos, int checkFor, int direction, int d_index, int currentLength) {
+int recursiveSolve(struct Board *b, int pos, int checkFor, int direction, int d_index, int currentLength) {
 	int newPos = pos + direction;
-	if (newPos > width * height - 1 || newPos < 0) return currentLength;
-	int row = pos % width;
-	if (row == width && d_index >= 1 && d_index <= 3) return currentLength;
+	if (newPos > b->width * b->height - 1 || newPos < 0) return currentLength;
+	int row = pos % b->width;
+	if (row == b->width && d_index >= 1 && d_index <= 3) return currentLength;
 	if (row == 0 && d_index >= 5 && d_index <= 7) return currentLength;
-	if (board[newPos] != checkFor) return currentLength;
-	return recursiveSolve(board, width, height, newPos, checkFor, direction, d_index, currentLength + 1);
+	if (b->board[newPos] != checkFor) return currentLength;
+	return recursiveSolve(b, newPos, checkFor, direction, d_index, currentLength + 1);
 }
 
-bool checkWin(int board[], int width, int height, int pos) {
+bool checkWin(struct Board *b, int pos) {
 	int directions[8] = {
-		width,      // north
-		width + 1,  // northeast
+		b->width,      // north
+		b->width + 1,  // northeast
 		1,          // east
-		-width + 1, // southeast
-		-width,     // south
-		-width -1,  // southwest
+		-b->width + 1, // southeast
+		-b->width,     // south
+		-b->width -1,  // southwest
 		-1,         // west
-		width -1    // northwest
+		b->width -1    // northwest
 	};
 
 	int values[8];
 	for (int i = 0; i < 8; i++)
-		values[i] = recursiveSolve(board, width, height, pos, board[pos], directions[i], i, 0);
+		values[i] = recursiveSolve(b, pos, b->board[pos], directions[i], i, 0);
 
 	int joinedValues[4] = {
 		values[0] + values[4],
@@ -58,18 +64,18 @@ bool checkWin(int board[], int width, int height, int pos) {
 	return won;
 }
 
-bool boardFull(int board[], int width, int height) {
-	for (int i = 0; i < width * height; i++)
-		if (board[i] == 0) return false;
+bool boardFull(struct Board *b) {
+	for (int i = 0; i < b->width * b->height; i++)
+		if (b->board[i] == 0) return false;
 	return true;
 }
 
-bool dropFisje(int board[], int width, int height, int column, int disc) {
-	for (int row = 0; row < height; row++) {
-		int pos = column + row * width;
-		if (board[pos] == 0) {
-			board[pos] = disc;
-			bool won = checkWin(board, width, height, pos);
+bool dropFisje(struct Board *b, int column, int disc) {
+	for (int row = 0; row < b->height; row++) {
+		int pos = column + row * b->width;
+		if (b->board[pos] == 0) {
+			b->board[pos] = disc;
+			bool won = checkWin(b, pos);
 			return true; // success
 		}
 	}
@@ -81,9 +87,12 @@ bool dropFisje(int board[], int width, int height, int column, int disc) {
 int main() {
 	int width, height;
 	scanf("%d %d", &width, &height);
+	struct Board *gameBoard = malloc(sizeof(struct Board));
+	gameBoard->board = malloc(sizeof(int) * (width * height - 1));
+	gameBoard->width = width;
+	gameBoard->height = height;
 
-	int board[width * height];
-	memset(board, 0, sizeof board);
+	/* memset(gameBoard->board, 0, sizeof gameBoard->board); */
 
 	bool player_1 = true;
 	int move = 0;
@@ -91,18 +100,18 @@ int main() {
 		if (move == 0) break;
 		if (move < 1 || move > width) continue;
 
-		bool dropSuccess = dropFisje(board, width, height, move - 1, player_1 + 1);
+		bool dropSuccess = dropFisje(gameBoard, move - 1, player_1 + 1);
 
 		player_1 = player_1 ^ dropSuccess; // only flip turns on successful drop
 		printf("m:%s\n", player_1 ? "true" : "false");
 		fflush(stdout);
 
-		if (boardFull(board, width, height)) {
+		if (boardFull(gameBoard)) {
 			printf("d:full\n");
 			fflush(stdout);
 		}
 
-		printBoard(board, width, height);
+		printBoard(gameBoard);
 	}
 
 	return 0;
