@@ -1,51 +1,31 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <memory.h>
 #include <stdbool.h>
+#include <memory.h>
 
 #include "voerbak.h"
 #include "win.h"
+#include "board.h"
+#include "messages.h"
+#include "argparse.h"
 
-void printBoard(Board *b) {
-	for (int i = 0; i < b->length; i++)
-		printf("%d", b->board[i]);
-	printf("\n");
-	fflush(stdout);
-}
+#define EMPTY ""
 
-bool boardFull(Board *b) {
-	for (int i = 0; i < b->length; i++)
-		if (b->board[i] == 0) return false;
-	return true;
-}
+int main(int argc, char* argv[]) {
+	struct arguments arguments = argparse(argc, argv);
 
-bool dropFisje(Board *b, int column, int disc) {
-	for (int row = 0; row < b->height; row++) {
-		int pos = column + row * b->width;
-		if (b->board[pos] == 0) {
-			b->board[pos] = disc;
-			bool won = checkWin(b, pos);
-			return true; // success
-		}
-	}
-	printf("e:full\n");
-	fflush(stdout);
-	return false; // unsuccessful drop on board full
-}
-
-int main() {
-	int width, height;
-	scanf("%d %d", &width, &height);
-
-	Board *gameBoard = malloc(sizeof(Board));
-	gameBoard->board = malloc(sizeof(int) * (width * height - 1));
-	gameBoard->width = width;
-	gameBoard->height = height;
-	gameBoard->length = width * height;
+	Board *gameBoard = createBoard(arguments.width, arguments.height);
 
 	bool player_1 = true;
 	int move = 0;
-	while (scanf("%d", &move) == 1) {
+	char* message = malloc(1); // this is weird and i don't understand it but it prevents a segmentation fault or something
+	strcpy(message, EMPTY);
+	while (scanf("%d", &move) == 1 || scanf("%s", message) == 1) {
+		if (strlen(message) != 0) {
+			parseMessage(message, arguments.verbosity);
+
+			strcpy(message, EMPTY); // clear message
+			continue;
+		}
+
 		if (move == 0) break;
 		if (move < 1 || move > gameBoard->width) continue;
 

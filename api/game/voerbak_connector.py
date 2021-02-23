@@ -19,11 +19,10 @@ class bord:
         self.board = "0" * (w * h)
         self.board_full = False
         self.win_positions = []
-        self.process = subprocess.Popen([VOERBAK_LOCATION],
+        self.process = subprocess.Popen([VOERBAK_LOCATION, f"-w {w}", f"-h {h}"],
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=None)
-        self.process.stdin.write(bytearray(f"{w} {h}\n", "utf-8"))
         self.process.stdin.flush()
 
     def get_output(self):

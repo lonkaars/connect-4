@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "voerbak.h"
+#include "board.h"
 
 /**
  * @brief Get length of longest streak with same color from `pos` in direction `direction`

@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "voerbak.h"
+#include "board.h"
 
 int winCheckRecursive(Board *b, int pos, int direction, int d_index, int currentLength) {
 	int newPos = pos + direction;
