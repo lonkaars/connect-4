@@ -8,7 +8,7 @@ DISC_A = Fore.RED + DISC_SHAPE + Fore.RESET
 DISC_B = Fore.BLUE + DISC_SHAPE + Fore.RESET
 EMPTY = Fore.LIGHTBLACK_EX + "_" + Fore.RESET
 
-VOERBAK_LOCATION = os.path.dirname(__file__) + "/voerbak"
+VOERBAK_LOCATION = os.path.join(os.getcwd(), "voerbak/", "voerbak")
 if os.name == "nt": VOERBAK_LOCATION += ".exe"
 
 class bord:
