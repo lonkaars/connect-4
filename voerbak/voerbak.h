@@ -2,7 +2,5 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
- * @brief Main function
- */
+/** @brief Main function */
 int main();
