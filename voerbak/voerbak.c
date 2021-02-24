@@ -10,8 +10,11 @@
 
 #define EMPTY ""
 
+int verbosity = 0;
+
 int main(int argc, char* argv[]) {
 	struct arguments arguments = argparse(argc, argv);
+	verbosity = arguments.verbosity;
 
 	Board *gameBoard = createBoard(arguments.width, arguments.height);
 
@@ -22,7 +25,7 @@ int main(int argc, char* argv[]) {
 	strcpy(message, EMPTY);
 	while (scanf("%d", &move) == 1 || scanf("%s", message) == 1) {
 		if (strlen(message) != 0) {
-			parseMessage(message, arguments.verbosity);
+			parseMessage(message);
 
 			strcpy(message, EMPTY); // clear message
 			continue;

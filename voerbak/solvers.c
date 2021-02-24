@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "board.h"
+#include "voerbak.h"
 
 #include "diewertje.h"
 
