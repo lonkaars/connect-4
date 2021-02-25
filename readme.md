@@ -45,20 +45,31 @@ An example database can be found on [Google Docs](https://docs.google.com/spread
 0. `git clone https://github.com/lonkaars/po-4-op-een-rij`
 1. Make sure you have [python](https://python.org/downloads) (with pip and venv) installed.
 2. Make sure you have [nodejs](https://nodejs.org/en/download) (with npm) installed.
-2. Make sure you have [nginx](https://nginx.org/en/) installed.
-3. Install typescript, react-scripts and yarn:
+3. Make sure you have [nginx](https://nginx.org/en/) installed.
+4. Make sure you have [make](https://www.gnu.org/software/make/) and the gnu c compilers [gcc](https://gcc.gnu.org/) installed (most distro's will have these by default).
+5. Install typescript, react-scripts and yarn:
 	```sh
 	npm i -g typescript yarn
 	```
-4. Create a new python virtual environment and install pip modules:
+6. Create a new python virtual environment and install pip modules:
 	```sh
 	python -m venv venv
 	source venv/bin/activate
 	pip install -r requirements.txt
 	```
-5. Install node modules:
+7. Install node modules:
 	```sh
 	yarn
+	```
+8. Build voerbak:
+	```sh
+	cd voerbak
+	make
+	```
+9. Initialize database:
+	```sh
+	cd database
+	./init_db.sh
 	```
 
 ## How to start
