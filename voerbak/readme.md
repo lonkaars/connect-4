@@ -44,8 +44,9 @@ Message reference:
 
 type|name|messages
 -|-|-
-e|errors|full = column is full
 d|draw|full = board is full
+e|errors|full = column is full
+m|move|true|false = if it's player 1's move
 w|win|int-int = board indices where 4 was connected
 
 ## Command-line arguments
