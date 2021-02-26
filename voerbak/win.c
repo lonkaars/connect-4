@@ -44,8 +44,11 @@ bool checkWin(Board *b, int pos) {
 
 			int start_pos = pos + directions[i+0] * values[i+0];
 			int end_pos =   pos + directions[i+4] * values[i+4];
-			printf("w:%d-%d\n", start_pos, end_pos);
-			fflush(stdout);
+
+			if (verbosity >= 0) {
+				printf("w:%d-%d\n", start_pos, end_pos);
+				fflush(stdout);
+			}
 		}
 	}
 

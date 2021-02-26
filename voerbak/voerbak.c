@@ -36,11 +36,21 @@ int main(int argc, char* argv[]) {
 		if (move == 0) break;
 		if (move < 1 || move > gameBoard->width) continue;
 
-		bool dropSuccess = dropFisje(gameBoard, move - 1, player_1 + 1);
+		int drop = dropFisje(gameBoard, move - 1, player_1 + 1);
 
-		player_1 = player_1 ^ dropSuccess; // only flip turns on successful drop
-		!cpu_2 && printf("m:%s\n", player_1 ? "true" : "false");
-		fflush(stdout);
+		if (drop == -1) {
+			printBoard(gameBoard);
+			continue;
+		}
+
+		player_1 = !player_1; // only flip turns on successful drop
+
+		bool won = checkWin(gameBoard, drop);
+
+		if (verbosity >= 0 ) {
+			cpu_2 == false && printf("m:%s\n", player_1 ? "true" : "false");
+			fflush(stdout);
+		}
 
 		if (boardFull(gameBoard)) {
 			printf("d:full\n");

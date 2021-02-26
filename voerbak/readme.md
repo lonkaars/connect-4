@@ -12,6 +12,8 @@ Voerbak uses a 1-dimensional array for storing the playfield, and it's printed a
 7|8|9|10|11|12|13
 0|1|2|3|4|5|6
 
+Voerbak is used in this project using api/game/voerbak_connector.py
+
 ## Building
 
 ```sh
@@ -54,7 +56,7 @@ w|win|int-int = board indices where 4 was connected
 ```sh
 $ ./voerbak --help
 Usage: voerbak [OPTION...] arguments
-Connect 4 game solver
+Connect 4 engine
 
   -c, --solver=NAME          Solver used for computing moves (unset is two
                              humans playing)
@@ -71,8 +73,4 @@ for any corresponding short options.
 
 Report bugs to https://github.com/lonkaars/po-4-op-een-rij/.
 ```
-
-
-
-
 

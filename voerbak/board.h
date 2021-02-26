@@ -27,6 +27,15 @@ typedef struct {
 Board* createBoard(int, int);
 
 /**
+ * @brief Create a copy of board
+ *
+ * @param board Original board
+ *
+ * @return Pointer to new board
+ */
+Board* createCopy(Board*);
+
+/**
  * @brief Print the board array
  */
 void printBoard(Board*);
@@ -41,7 +50,7 @@ bool boardFull(Board*);
 /**
  * @brief Drop a disc into the board
  *
- * @return `true` if drop was successful, `false` if column full
+ * @return New disc position or -1 if disc wasn't dropped
  */
-bool dropFisje(Board*, int, int);
+int dropFisje(Board*, int, int);
 

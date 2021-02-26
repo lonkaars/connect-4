@@ -5,7 +5,7 @@
 
 const char *argp_program_version = "2.1.3";
 const char *argp_program_bug_address = "https://github.com/lonkaars/po-4-op-een-rij/";
-static char doc[] = "Connect 4 game solver";
+static char doc[] = "Connect 4 engine";
 static char args_doc[] = "arguments";
 static struct argp_option options[] = { 
 	{ "width",		'w',	"WIDTH",	0,	"Field width (columns)"},
