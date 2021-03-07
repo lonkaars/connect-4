@@ -19,7 +19,7 @@ def index():
         print("a temporary user should be set up here")
 
     if not user_id and token:
-        user_id = token_login(token)[0]
+        user_id = token_login(token)
 
     public_games = cursor.execute("select game_id from games where private = FALSE and status = \"wait_for_opponent\"").fetchall()
 

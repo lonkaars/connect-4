@@ -8,6 +8,7 @@ import json
 from socket_io import io
 
 games = {}
+listeners = {}
 
 class game:
     def __init__(self, game_id, io, player_1_id, player_2_id):
@@ -17,16 +18,21 @@ class game:
         self.player_1_id = player_1_id
         self.player_2_id = player_2_id
 
+    def send(self, message, data):
+        if not self.game_id in listeners: return
+        for listener in listeners[self.game_id]:
+            self.io.emit(message, data, room=listener)
+
     def move(self, user_id, column):
         if user_id != self.player_1_id and user_id != self.player_2_id: return
         move = self.player_1_id if self.board.player_1 else self.player_2_id
         if user_id != move: return
 
         self.board.drop_fisje(column)
-        self.io.emit("fieldUpdate", { "field": self.board.board })
-        self.io.emit("turnUpdate", { "player1": self.board.player_1 })
+        self.send("fieldUpdate", { "field": self.board.board })
+        self.send("turnUpdate", { "player1": self.board.player_1 })
         if len(self.board.win_positions) > 0 or self.board.board_full:
-            self.io.emit("finish", {
+            self.send("finish", {
                 "winPositions": self.board.win_positions,
                 "boardFull": self.board.board_full
                 })
@@ -56,6 +62,7 @@ class game:
 
 @io.on("newMove")
 def new_move(data):
+    print(request.sid)
     if not data["game_id"] or \
        not data["move"] or \
        not data["token"]: return
@@ -63,7 +70,7 @@ def new_move(data):
 
     game = games[data["game_id"]]
     if(len(game.board.win_positions) > 0 or game.board.board_full): return
-    user_id = token_login(data["token"])[0]
+    user_id = token_login(data["token"])
     game.move(user_id, data["move"])
 
 @io.on("resign")
@@ -74,4 +81,10 @@ def resign(data):
 
     game = games[data["game_id"]]
     game.move(user_id, data["move"])
+
+@io.on("registerGameListener")
+def register_game_listener(data):
+    if not data["game_id"]: return
+    if not data["game_id"] in listeners: listeners[data["game_id"]] = set()
+    listeners[data["game_id"]].add(request.sid)
 

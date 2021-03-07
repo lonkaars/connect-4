@@ -29,6 +29,7 @@ var GameBarAlignStyle: CSSProperties = {
 export function GameBar(props: {
 	turn: boolean;
 	player1: boolean;
+	active: boolean;
 }) {
 	return <Vierkant className="gameBar" style={{
 		padding: 8,
@@ -48,7 +49,11 @@ export function GameBar(props: {
 					margin: 12,
 					verticalAlign: "top",
 					display: "inline-block"
-				}}>{ props.turn == props.player1 ? "Jouw beurt" : "Tegenstander" }</h2>
+				}}>{
+					!props.active ? "Wachten op tegenstander..." :
+					props.turn == props.player1 ?
+					"Jouw beurt" : "Tegenstander"
+					}</h2>
 			</div>
 			<div style={{
 				...GameBarAlignStyle,

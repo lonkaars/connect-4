@@ -19,7 +19,7 @@ def index():
        not token:
            return "", 400
 
-    if token: id = token_login(token)[0]
+    if token: id = token_login(token)
 
     if username:
         user = cursor.execute("select username, user_id, country, type, registered, avatar from users where username = ?", [username]).fetchone()

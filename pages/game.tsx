@@ -64,12 +64,14 @@ class VoerGame extends Component<VoerGameProps> {
 		winPositions: Array<Array<number>>;
 		outcome: number;
 		board: Array<number>;
+		saidHello: boolean;
 	} = {
 		userID: "",
 		turn: true,
 		winPositions: [],
 		outcome: -1,
 		board: [],
+		saidHello: false,
 	};
 
 	board = [...Array(this.width * this.height)].map(() => 0);
@@ -83,6 +85,7 @@ class VoerGame extends Component<VoerGameProps> {
 	}
 
 	render() {
+		this.props.active && this.io.emit("registerGameListener", { game_id: this.props.gameID });
 		return <div style={{
 			position: "relative",
 			top: "50%",
@@ -91,7 +94,7 @@ class VoerGame extends Component<VoerGameProps> {
 			margin: "0 auto"
 		}}>
 			<VoerBord width={this.width} height={this.height} onMove={m => this.move(m % this.width + 1)} active={this.props.active == true && this.state.outcome == -1}/>
-			<GameBar turn={this.state.turn} player1={this.props.player1}/>
+			<GameBar turn={this.state.turn} player1={this.props.player1} active={this.props.active}/>
 			<GameOutcomeDialog outcome={this.state.outcome} player={this.props.player1 ? 1 : 2} visible={this.state.outcome != -1}/>
 		</div>
 	}
