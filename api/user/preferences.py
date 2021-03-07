@@ -11,14 +11,12 @@ def index():
     token = request.cookies.get("token") or ""
 
     if not token: return "", 401
-    login = token_login(token)
+    login = token_login(token) or ""
 
     if not login: return "", 403
 
-    user_prefs = cursor.execute("SELECT preferences FROM users WHERE user_id = ?", [login]).fetchone()
-    return {
-        "preferences": user_prefs[0]
-    }
+    user_prefs = cursor.execute("select preferences from users where user_id = ?", [login]).fetchone()
+    return { "preferences": user_prefs[0] }, 200
 
 dynamic_route = ["/user", preferences]
 

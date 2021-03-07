@@ -33,4 +33,5 @@ node_modules/
 # voerbak
 voerbak/voerbak
 voerbak/*.o
+voerbak/tests/*
 
