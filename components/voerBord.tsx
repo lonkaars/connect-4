@@ -20,13 +20,13 @@ export function VoerBord(props: {
 		<tbody>
 			{
 				[...Array(props.height).keys()].map((row) => (
-					<tr>
+					<tr key={`r-${row}`}>
 						{[...Array(props.width).keys()].map((column) => (
 							<td style={{
 								position: "relative",
 								width: "100%",
 								padding: 0
-							}}>
+							}} key={`c-${row}x${column}`}>
 								<div style={{
 									display: "block",
 									marginTop: "100%"
