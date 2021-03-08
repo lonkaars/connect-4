@@ -6,18 +6,18 @@ import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import NavigateNextRoundedIcon from '@material-ui/icons/NavigateNextRounded';
 import NavigateBeforeRoundedIcon from '@material-ui/icons/NavigateBeforeRounded';
 
-interface GameBarModuleProps {
+function GameBarModule(props: {
 	children?: ReactNode;
-}
-
-function GameBarModule(props: GameBarModuleProps) {
+	onclick?: () => void;
+}) {
 	return <Vierkant style={{
 		backgroundColor: "var(--background-alt)",
 		padding: 12,
 		borderRadius: 6,
 		margin: 0,
-		verticalAlign: "top"
-	}}>{props.children}</Vierkant>
+		verticalAlign: "top",
+		cursor: props.onclick ? "pointer" : "default"
+	}} onclick={props.onclick}>{props.children}</Vierkant>
 }
 
 var GameBarSpacer = () => <div style={{ width: 8, display: "inline-block" }}></div>;
@@ -30,6 +30,7 @@ export function GameBar(props: {
 	turn: boolean;
 	player1: boolean;
 	active: boolean;
+	resignFunction: () => void;
 }) {
 	return <Vierkant className="gameBar" style={{
 		padding: 8,
@@ -79,7 +80,7 @@ export function GameBar(props: {
 					}}>00:00</span>
 				</GameBarModule>
 				<GameBarSpacer/>
-				<GameBarModule>
+				<GameBarModule onclick={props.resignFunction}>
 					<ExitToAppRoundedIcon/>
 				</GameBarModule>
 				<GameBarSpacer/>

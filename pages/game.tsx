@@ -51,6 +51,10 @@ class VoerGame extends Component<VoerGameProps> {
 			if (data.boardFull) outcome = 0;
 			this.setState({ outcome });
 		});
+
+		this.io.on("resign", () => {
+			alert("resign")
+		});
 	}
 
 	io: Socket;
@@ -93,9 +97,22 @@ class VoerGame extends Component<VoerGameProps> {
 			maxWidth: "100vh",
 			margin: "0 auto"
 		}}>
-			<VoerBord width={this.width} height={this.height} onMove={m => this.move(m % this.width + 1)} active={this.props.active == true && this.state.outcome == -1}/>
-			<GameBar turn={this.state.turn} player1={this.props.player1} active={this.props.active}/>
-			<GameOutcomeDialog outcome={this.state.outcome} player={this.props.player1 ? 1 : 2} visible={this.state.outcome != -1}/>
+			<VoerBord
+				width={this.width} height={this.height}
+				onMove={m => this.move(m % this.width + 1)}
+				active={this.props.active == true && this.state.outcome == -1}
+			/>
+			<GameBar
+				turn={this.state.turn}
+				player1={this.props.player1}
+				active={this.props.active}
+				resignFunction={() => {this.io.emit("resign", { game_id: this.props.gameID })}}
+			/>
+			<GameOutcomeDialog
+				outcome={this.state.outcome}
+				player={this.props.player1 ? 1 : 2}
+				visible={this.state.outcome != -1}
+			/>
 		</div>
 	}
 }
@@ -167,6 +184,9 @@ var InviteButtonLabelStyle: CSSProperties = {
 export default class GamePage extends Component {
 	constructor(props: {}) {
 		super(props);
+
+		if (typeof document === "undefined") return;
+		// gert
 	}
 
 	state: {

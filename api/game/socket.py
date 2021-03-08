@@ -32,6 +32,8 @@ class game:
         self.send("fieldUpdate", { "field": self.board.board })
         self.send("turnUpdate", { "player1": self.board.player_1 })
         if len(self.board.win_positions) > 0 or self.board.board_full:
+            winner = self.board.board[int(self.board.win_positions[0][0])]
+            self.close("finished", "w" if winner == "2" else "l")
             self.send("finish", {
                 "winPositions": self.board.win_positions,
                 "boardFull": self.board.board_full
@@ -44,6 +46,12 @@ class game:
         if self.board.board_full:
             self.close("finished", "d")
 
+    def resign(self):
+        self.board.kill_voerbak()
+        self.send("resign", "")
+        self.close("resign", "d")
+
+
     def close(self, new_status, outcome):
         cursor.execute(" ".join([
             "update games set",
@@ -53,16 +61,18 @@ class game:
             "outcome = ?",
             "where game_id = ?"
             ]), [
-                int( time.time() * 1000 ) - cursor.execute("select timestamp from games where game_id = ?", [self.game_id]).fetchone()[0],
+                int( time.time() * 1000 ) - cursor.execute("select started from games where game_id = ?", [self.game_id]).fetchone()[0],
                 new_status,
                 outcome,
                 self.game_id
                 ])
         connection.commit()
 
+        games.pop(self.game_id)
+        listeners.pop(self.game_id)
+
 @io.on("newMove")
 def new_move(data):
-    print(request.sid)
     if not data["game_id"] or \
        not data["move"] or \
        not data["token"]: return
@@ -76,11 +86,17 @@ def new_move(data):
 @io.on("resign")
 def resign(data):
     if not data["game_id"] or \
-       not data["token"]: return
+       not request.cookies.get("token"): return
     if not data["game_id"] in games: return
 
-    game = games[data["game_id"]]
-    game.move(user_id, data["move"])
+    user_id = token_login(request.cookies.get("token"))
+    if not user_id: return
+
+    if games[data["game_id"]].player_1_id != user_id and \
+       games[data["game_id"]].player_2_id != user_id:
+        return
+
+    games[data["game_id"]].resign()
 
 @io.on("registerGameListener")
 def register_game_listener(data):

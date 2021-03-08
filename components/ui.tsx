@@ -14,6 +14,7 @@ export function Vierkant(props: {
 	className?: string;
 	id?: string;
 	fullwidth?: boolean;
+	onclick?: () => void;
 }) {
 	return <a style={{
 		padding: 24,
@@ -30,7 +31,12 @@ export function Vierkant(props: {
 			undefined,
 		height: props.height ? props.height : undefined,
 		...props.style
-	}} href={props.href} className={props.className} id={props.id}>{props.children}</a>
+	}}
+	href={props.href}
+	className={props.className}
+	id={props.id}
+	onClick={props.onclick}
+	>{props.children}</a>
 }
 
 export function Button(props: {
