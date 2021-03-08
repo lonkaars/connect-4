@@ -32,19 +32,19 @@ class game:
         self.send("fieldUpdate", { "field": self.board.board })
         self.send("turnUpdate", { "player1": self.board.player_1 })
         if len(self.board.win_positions) > 0 or self.board.board_full:
-            winner = self.board.board[int(self.board.win_positions[0][0])]
-            self.close("finished", "w" if winner == "2" else "l")
+            outcome = "d"
+            if not self.board.board_full:
+                winner = self.board.board[int(self.board.win_positions[0][0])]
+                outcome = "w" if winner == "2" else "l"
             self.send("finish", {
                 "winPositions": self.board.win_positions,
                 "boardFull": self.board.board_full
                 })
+            self.close("finished", outcome)
 
         now = int( time.time() * 1000 )
         cursor.execute("update games set last_activity = ?, moves = moves || ? || ',' where game_id = ?", [now, column, self.game_id])
         connection.commit()
-
-        if self.board.board_full:
-            self.close("finished", "d")
 
     def resign(self):
         self.board.kill_voerbak()

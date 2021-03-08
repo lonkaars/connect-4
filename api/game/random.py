@@ -4,7 +4,7 @@ from randid import new_uuid
 import time
 import json
 import random
-from game.socket import io, games, game
+from game.socket import io, game, games, listeners
 from auth.login_token import token_login
 
 random_game = Blueprint('random', __name__)
@@ -25,6 +25,8 @@ def index():
 
     timestamp = int( time.time() * 1000 )
 
+    game_started = False
+
     if len(public_games) == 0:
         game_id = new_uuid("games")
 
@@ -39,8 +41,11 @@ def index():
         players = cursor.execute("select player_1_id, player_2_id from games where game_id = ?", [game_id]).fetchone()
         games[game_id] = game(game_id, io, players[0], players[1])
 
-        player_1 = False
+        games[game_id].send("gameStart", "");
 
-    return { "id": game_id, "player_1": player_1 }, 200
+        player_1 = False
+        game_started = True
+
+    return { "id": game_id, "player_1": player_1, "game_started": game_started }, 200
 
 dynamic_route = ["/game", random_game]

@@ -1,7 +1,8 @@
-import { CSSProperties, Component } from 'react';
-import { io as socket, Socket } from 'socket.io-client';
+import { CSSProperties, useState, useEffect } from 'react';
+import { io as socket } from 'socket.io-client';
 import axios from 'axios';
 import * as cookies from 'react-cookies';
+import { useRouter } from 'next/router';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
@@ -15,106 +16,86 @@ import WifiTetheringRoundedIcon from '@material-ui/icons/WifiTetheringRounded';
 import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
-interface VoerGameProps {
+var io = socket();
+
+function VoerGame(props: {
 	gameID: string;
-	token: string;
 	active: boolean;
 	player1: boolean;
-}
+}) {
+	var width = 7;
+	var height = 6;
 
-class VoerGame extends Component<VoerGameProps> {
-	constructor(props: VoerGameProps) {
-		super(props);
+	var [ioListeners, setIoListeners] = useState(false);
+	var [turn, setTurn] = useState(true);
+	// var [winPositions, setWinPositions] = useState<Array<Array<number>>>([]);
+	var [outcome, setOutcome] = useState(-1);
+	var [board, setBoard] = useState<Array<number>>([...Array(width * height)].map(() => 0));
 
-		if (typeof document === "undefined") return;
-		this.io = socket();
+	useEffect(() => {
+		if (ioListeners) return;
 
-		this.io.on("connect", () => console.log("connect"));
-		this.io.on("disconnect", () => console.log("disconnect"));
+		io.on("connect", () => console.log("connect"));
+		io.on("disconnect", () => console.log("disconnect"));
 
-		this.io.on("fieldUpdate", (data: { field: string }) => {
-			this.setState({ board: data.field.split("").map(i => Number(i)) });
+		io.on("fieldUpdate", (data: { field: string }) => {
+			setBoard(data.field.split("").map(i => Number(i))); //FIXME: Doesn't work for some fucking reason
+			console.log(board);
+			console.log(data.field.split("").map(i => Number(i)));
 			for(let i = 0; i < data.field.length; i++)
 				document.getElementById(`pos-${i}`).parentNode.children.item(1).classList.add(`state-${data.field[i]}`);
 		});
 
-		this.io.on("turnUpdate", (data: { player1: boolean }) => this.setState({ turn: data.player1 }));
+		io.on("turnUpdate", (data: { player1: boolean }) => setTurn(data.player1));
 
-		this.io.on("finish", (data: {
-			winPositions: Array<Array<number>>
-			boardFull: boolean }) => {
+		io.on("finish", (data: {
+				winPositions: Array<Array<number>>
+				boardFull: boolean
+				winner: number
+			}) => {
+			// setWinPositions(data.winPositions);
 
-			this.setState({ winPositions: data.winPositions });
-
-			var outcome = -1;
-			if (data.winPositions.length > 0) outcome = this.state.board[data.winPositions[0][0]];
-			if (data.boardFull) outcome = 0;
-			this.setState({ outcome });
+			if (data.boardFull) setOutcome(0);
+			if (data.winPositions.length > 0) setOutcome(board[data.winPositions[0][0]]);
 		});
 
-		this.io.on("resign", () => {
+		io.on("resign", () => {
 			alert("resign")
 		});
-	}
 
-	io: Socket;
+		setIoListeners(true);
+	});
 
-	width = 7;
-	height = 6;
-
-	state: {
-		userID: string;
-		turn: boolean;
-		winPositions: Array<Array<number>>;
-		outcome: number;
-		board: Array<number>;
-		saidHello: boolean;
-	} = {
-		userID: "",
-		turn: true,
-		winPositions: [],
-		outcome: -1,
-		board: [],
-		saidHello: false,
-	};
-
-	board = [...Array(this.width * this.height)].map(() => 0);
-
-	move(column: number) {
-		this.io.emit("newMove", {
-			move: column,
-			token: this.props.token,
-			game_id: this.props.gameID
-		});
-	}
-
-	render() {
-		this.props.active && this.io.emit("registerGameListener", { game_id: this.props.gameID });
-		return <div style={{
-			position: "relative",
-			top: "50%",
-			transform: "translateY(-50%)",
-			maxWidth: "100vh",
-			margin: "0 auto"
-		}}>
-			<VoerBord
-				width={this.width} height={this.height}
-				onMove={m => this.move(m % this.width + 1)}
-				active={this.props.active == true && this.state.outcome == -1}
-			/>
-			<GameBar
-				turn={this.state.turn}
-				player1={this.props.player1}
-				active={this.props.active}
-				resignFunction={() => {this.io.emit("resign", { game_id: this.props.gameID })}}
-			/>
-			<GameOutcomeDialog
-				outcome={this.state.outcome}
-				player={this.props.player1 ? 1 : 2}
-				visible={this.state.outcome != -1}
-			/>
-		</div>
-	}
+	return <div style={{
+		position: "relative",
+		top: "50%",
+		transform: "translateY(-50%)",
+		maxWidth: "100vh",
+		margin: "0 auto"
+	}}>
+		<VoerBord
+			width={width} height={height}
+			onMove={move => {
+				io.emit("newMove", {
+					move: move % width + 1,
+					token: cookies.load("token"),
+					game_id: props.gameID
+				});
+			}}
+			active={props.active && outcome == -1}
+		/>
+		<GameBar
+			turn={turn}
+			player1={props.player1}
+			active={props.active}
+			resignFunction={() => {this.io.emit("resign", { game_id: props.gameID })}}
+		/>
+		<GameOutcomeDialog
+			outcome={outcome}
+			player={props.player1 ? 1 : 2}
+			visible={outcome != -1}
+		/>
+	</div>
 }
 
 function GameOutcomeDialog(props: {
@@ -181,73 +162,85 @@ var InviteButtonLabelStyle: CSSProperties = {
 	userSelect: "none"
 }
 
-export default class GamePage extends Component {
-	constructor(props: {}) {
-		super(props);
+export default function GamePage() {
+	var [ioListeners, setIoListeners] = useState(false);
+	var [gameID, setGameID] = useState("");
+	var [player1, setPlayer1] = useState(true);
+	var [active, setActive] = useState(false);
+	var gameIDUrl = useRouter().query["id"] as string;
 
-		if (typeof document === "undefined") return;
-		// gert
+	if (gameIDUrl && gameIDUrl != gameID) {
+		// join game
+		axios.request<{ id: string, player_1: boolean }>({
+			method: "post",
+			url: "/api/game/accept",
+			headers: {"content-type": "application/json"},
+			data: { id: gameIDUrl }
+		})
+		.then(() => {
+			setActive(true);
+			io.emit("registerGameListener", { game_id: gameIDUrl });
+		})
+		.catch(() => {});
+
+		setGameID(gameIDUrl);
 	}
 
-	state: {
-		gameID: string;
-		token: string;
-		player1: boolean;
-	} = {
-		gameID: "",
-		token: "",
-		player1: true
-	}
+	useEffect(() => {
+		if (ioListeners) return;
 
-	render() {
-		return <div>
-			<NavBar/>
-			<CenteredPage width={900} style={{ height: "100vh" }}>
-				<VoerGame
-				active={!!this.state.gameID}
-				gameID={this.state.gameID}
-				token={this.state.token}
-				player1={this.state.player1}/>
-				<DialogBox title="Nieuw spel" style={{ display: !this.state.gameID ? "inline-block" : "none" }}>
-					<CurrentGameSettings/>
-					<div style={{
-						marginTop: 24,
-						display: "grid",
-						gridTemplateColumns: "1fr 1fr",
-						gridGap: 24
+		io.on("gameStart", () => setActive(true));
+
+		setIoListeners(true);
+	});
+
+	return <div>
+		<NavBar/>
+		<CenteredPage width={900} style={{ height: "100vh" }}>
+			<VoerGame
+			active={active}
+			gameID={gameID}
+			player1={player1}/>
+			<DialogBox title="Nieuw spel" style={{ display: gameIDUrl || gameID ? "none" : "inline-block" }}>
+				<CurrentGameSettings/>
+				<div style={{
+					marginTop: 24,
+					display: "grid",
+					gridTemplateColumns: "1fr 1fr",
+					gridGap: 24
+				}}>
+					<Button style={InviteButtonStyle} onclick={() => {
+						axios.request<{ id: string, player_1: boolean, game_started: boolean }>({
+							method: "post",
+							url: "/api/game/random",
+							headers: {"content-type": "application/json"},
+							data: {}
+						})
+						.then(response => {
+							setGameID(response.data.id);
+							setPlayer1(response.data.player_1);
+							io.emit("registerGameListener", { game_id: response.data.id });
+							if (response.data.game_started) setActive(true);
+						})
+						.catch(() => {});
 					}}>
-						<Button style={InviteButtonStyle} onclick={() => {
-							axios.request<{ id: string, player_1: boolean }>({
-								method: "post",
-								url: "/api/game/random",
-								headers: {"content-type": "application/json"},
-								data: {}
-							})
-							.then(request => this.setState({
-								gameID: request.data.id,
-								player1: request.data.player_1,
-								token: cookies.load("token")
-							}))
-							.catch(() => {});
-						}}>
-							<WifiTetheringRoundedIcon style={{
-								color: "var(--disk-b)",
-								...InviteButtonIconStyle
-							}}/>
-							<h2 style={InviteButtonLabelStyle}>Willekeurige speler</h2>
-						</Button>
-						<Button style={InviteButtonStyle}>
-							<LinkRoundedIcon style={{
-								color: "var(--disk-a)",
-								...InviteButtonIconStyle
-							}}/>
-							<h2 style={InviteButtonLabelStyle}>Uitnodigen via link</h2>
-						</Button>
-					</div>
-					<SearchBar label="Zoeken in vriendenlijst"/>
-				</DialogBox>
-			</CenteredPage>
-		</div>
-	}
+						<WifiTetheringRoundedIcon style={{
+							color: "var(--disk-b)",
+							...InviteButtonIconStyle
+						}}/>
+						<h2 style={InviteButtonLabelStyle}>Willekeurige speler</h2>
+					</Button>
+					<Button style={InviteButtonStyle}>
+						<LinkRoundedIcon style={{
+							color: "var(--disk-a)",
+							...InviteButtonIconStyle
+						}}/>
+						<h2 style={InviteButtonLabelStyle}>Uitnodigen via link</h2>
+					</Button>
+				</div>
+				<SearchBar label="Zoeken in vriendenlijst"/>
+			</DialogBox>
+		</CenteredPage>
+	</div>
 }
 
