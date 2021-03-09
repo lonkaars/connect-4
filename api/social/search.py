@@ -5,7 +5,7 @@ import json
 
 search = Blueprint('search', __name__)
 
-@search.route('/search', methods = ['GET', 'POST'])
+@search.route('/search', methods = ['POST'])
 def index():
     data_string = request.data or "{}"
     data = json.loads(data_string)
