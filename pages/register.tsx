@@ -34,8 +34,8 @@ function submitRegister(event?: FormEvent<HTMLFormElement>) {
 	 */
 
 	//TODO: alert -> react toast / material-ui snackbar
-	if ( formData.username.length > 35 ) {
-		alert("Je gebruikersnaam kan maximaal 35 tekens lang zijn!");
+	if ( formData.username.length < 3 || formData.username.length > 35 ) {
+		alert("Je gebruikersnaam moet tussen de 3 en 35 tekens lang zijn!");
 		return;
 	}
 

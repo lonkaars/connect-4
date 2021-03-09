@@ -4,6 +4,19 @@ from randid import new_uuid
 import auth.token as token
 import passwords
 import time
+import re
+
+def validate_username(username):
+    return len(username) in range(3, 35 + 1)
+
+def validate_email(email):
+    #TODO: use node_modules/email-validator/index.js
+    return len(email) > 1 and \
+        "@" in email
+
+def validate_password(password):
+    passwordRegex = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$" # r"" = raw string
+    return re.match(passwordRegex, password)
 
 signup = Blueprint('signup', __name__)
 
@@ -19,6 +32,11 @@ def index():
        not email or \
        not password:
            return "", 400
+
+    if not validate_username(username) or \
+       not validate_email(email) or \
+       not validate_password(password):
+           return {"error": "form_data_invalid"}, 403
 
     if cursor.execute("select username from users where username = ?", [username]).fetchone():
         return {"error": "username_taken"}, 403
