@@ -30,7 +30,11 @@ class game:
 
         self.board.drop_fisje(column)
         self.send("fieldUpdate", { "field": self.board.board })
-        self.send("turnUpdate", { "player1": self.board.player_1 })
+
+        now = int( time.time() * 1000 )
+        cursor.execute("update games set last_activity = ?, moves = moves || ? || ',' where game_id = ?", [now, column, self.game_id])
+        connection.commit()
+
         if len(self.board.win_positions) > 0 or self.board.board_full:
             outcome = "d"
             if not self.board.board_full:
@@ -41,16 +45,14 @@ class game:
                 "boardFull": self.board.board_full
                 })
             self.close("finished", outcome)
+            return
 
-        now = int( time.time() * 1000 )
-        cursor.execute("update games set last_activity = ?, moves = moves || ? || ',' where game_id = ?", [now, column, self.game_id])
-        connection.commit()
+        self.send("turnUpdate", { "player1": self.board.player_1 })
 
     def resign(self):
         self.board.kill_voerbak()
         self.send("resign", "")
         self.close("resign", "d")
-
 
     def close(self, new_status, outcome):
         cursor.execute(" ".join([
