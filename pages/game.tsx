@@ -86,7 +86,7 @@ function VoerGame(props: {
 			turn={turn}
 			player1={props.player1}
 			active={props.active}
-			resignFunction={() => {this.io.emit("resign", { game_id: props.gameID })}}
+			resignFunction={() => {io.emit("resign", { game_id: props.gameID })}}
 		/>
 		<GameOutcomeDialog
 			outcome={outcome}

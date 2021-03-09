@@ -72,7 +72,6 @@ export default function AccountPage() {
 	var [user, setUser] = useState<userInfo>();
 	var [ownPage, setOwnPage] = useState(false);
 
-	typeof window !== "undefined" && console.log(new URLSearchParams(window.location.search).get("id"))
 	useEffect(() => {(async() => {
 		if (gotData) return;
 		if (typeof window === "undefined") return;
