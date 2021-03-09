@@ -101,7 +101,13 @@ function GameOutcomeDialog(props: {
 	player: number;
 	visible: boolean;
 }) {
-	return <DialogBox title="Speluitkomst" style={{ display: props.visible ? "inline-block" : "none" }}>
+	return <DialogBox
+		title="Speluitkomst"
+		style={{ display: props.visible ? "inline-block" : "none" }}
+		onclick={() => {
+			window.history.replaceState(null, null, "/");
+			window.location.reload();
+		}}>
 		<div style={{
 			width: "100%",
 			textAlign: "center"
@@ -196,10 +202,13 @@ export default function GamePage() {
 		<NavBar/>
 		<CenteredPage width={900} style={{ height: "100vh" }}>
 			<VoerGame
-			active={active}
-			gameID={gameID}
-			player1={player1}/>
-			<DialogBox title="Nieuw spel" style={{ display: gameIDUrl || gameID ? "none" : "inline-block" }}>
+				active={active}
+				gameID={gameID}
+				player1={player1}/>
+			<DialogBox
+				title="Nieuw spel"
+				style={{ display: gameIDUrl || gameID ? "none" : "inline-block" }}
+				onclick={() => { window.history.go(-1); }}>
 				<CurrentGameSettings/>
 				<div style={{
 					marginTop: 24,
@@ -216,6 +225,7 @@ export default function GamePage() {
 						})
 						.then(response => {
 							setGameID(response.data.id);
+							window.history.replaceState(null, null, "?id=" + response.data.id);
 							setPlayer1(response.data.player_1);
 							io.emit("registerGameListener", { game_id: response.data.id });
 							if (response.data.game_started) setActive(true);
