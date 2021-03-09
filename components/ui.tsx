@@ -105,6 +105,7 @@ export function Input(props: {
 	value?: string|number;
 	dark?: boolean;
 	autocomplete?: string;
+	autofocus?: boolean;
 }) {
 	return <input
 	id={props.id}
@@ -115,6 +116,7 @@ export function Input(props: {
 	defaultValue={props.value ? String(props.value) : ""}
 	className={props.dark ? "dark" : "light"}
 	autoComplete={props.autocomplete}
+	autoFocus={props.autofocus}
 	style={{
 		padding: 12,
 		border: 0,

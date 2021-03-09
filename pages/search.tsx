@@ -32,7 +32,7 @@ function SearchResults(props: { userList: Array<userInfo> }) {
 function SearchResult(props: { user: userInfo }) {
 	return <Vierkant style={{
 		padding: 12
-	}} fullwidth href={`/user?id=${props.user.id}`}>
+	}} fullwidth href={"/user?id=" + props.user.id}>
 		<div style={{ position: "relative" }}>
 			<AccountAvatar size={48} dummy/>
 			<div style={{
@@ -55,7 +55,7 @@ function SearchBar(props: {
 		marginBottom: 24
 	}}>
 		<form onSubmit={props.searchFunction}>
-			<Input id="searchBar" label="Zoeken voor gebruikers..." autocomplete="off" dark style={{
+			<Input id="searchBar" label="Zoeken voor gebruikers..." autocomplete="off" dark autofocus style={{
 				backgroundColor: "var(--background)",
 				color: "var(--text)",
 				padding: 14,

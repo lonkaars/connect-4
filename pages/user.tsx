@@ -1,7 +1,7 @@
 import { ReactNode, Children, useState, useEffect } from 'react';
 import Icon from '@mdi/react';
-import { useRouter } from 'next/router';
 import axios from 'axios';
+import useSWR from 'swr';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
@@ -15,6 +15,8 @@ import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined'
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
 import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
 import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import {
 	mdiAccountCancelOutline,
 	mdiEqual,
@@ -68,9 +70,10 @@ function InfoSection(props: { children: ReactNode }) {
 export default function AccountPage() {
 	var [gotData, setGotData] = useState(false);
 	var [user, setUser] = useState<userInfo>();
+	var [ownPage, setOwnPage] = useState(false);
 
 	typeof window !== "undefined" && console.log(new URLSearchParams(window.location.search).get("id"))
-	useEffect(() => {
+	useEffect(() => {(async() => {
 		if (gotData) return;
 		if (typeof window === "undefined") return;
 
@@ -78,20 +81,33 @@ export default function AccountPage() {
 		var loggedIn = document.cookie.includes("token");
 
 		if (id || loggedIn) {
-			axios.request<userInfo>({
-				method: id ? "post" : "get",
+			var self_id = "";
+			if (loggedIn) {
+				var selfReq = await axios.request<userInfo>({
+					method: "get",
+					url: `/api/user/info`,
+					headers: {"content-type": "application/json"}
+				});
+
+				self_id = selfReq?.data.id;
+			}
+
+			if (id == self_id || !id) setOwnPage(true);
+
+			var userReq = await axios.request<userInfo>({
+				method: "post",
 				url: `/api/user/info`,
 				headers: {"content-type": "application/json"},
-				data: id ? { id } : undefined
-			})
-			.then(request => setUser(request.data))
-			.catch(() => {});
+				data: { "id": id || self_id }
+			});
+
+			setUser(userReq.data);
 		} else {
 			window.history.go(-1);
 		}
 
 		setGotData(true);
-	})
+	})()})
 
 	return <div>
 		<NavBar/>
@@ -114,13 +130,33 @@ export default function AccountPage() {
 					height: "40px",
 					bottom: 24, left: 24 + 12 + 128, right: 24
 				}}>
-					<IconLabelButton icon={<PersonAddOutlinedIcon/>} text="Vriendschapsverzoek"/>
-					<IconLabelButton icon={<Icon size={1} path={mdiAccountCancelOutline}/>} text="Blokkeren"/>
+					{
+						ownPage ?
+						<div>
+							<IconLabelButton icon={<SettingsOutlinedIcon/>} text="Instellingen"/>
+							<IconLabelButton icon={<EditOutlinedIcon/>} text="Status bewerken"/>
+						</div> :
+						<div>
+							<IconLabelButton icon={<Icon size={1} path={mdiAccountCancelOutline}/>} text="Blokkeren"/>
+							<IconLabelButton icon={<PersonAddOutlinedIcon/>} text="Vriendschapsverzoek"/>
+						</div>
+					}
 				</div>
 			</Vierkant>
 			<InfoSection>
 				<InfoModule icon={<Icon size={1} path={mdiCheckboxBlankCircle} color="var(--disk-b-text)"/>} label="Online"/>
-				<InfoModule icon={<AssignmentIndOutlinedIcon/>} label="Lid sinds 14 december 2020"/>
+				<InfoModule icon={<AssignmentIndOutlinedIcon/>} label={ (() => {
+					var memberSince	= "Lid sinds";
+
+					var registered = new Date(user?.registered);
+					memberSince += " " + registered.toLocaleString("nl-nl", { month: "long", day: "numeric" });
+
+					var currentYear	= new Date().getFullYear();
+					var memberYear	= registered.getFullYear();
+					if (currentYear != memberYear) memberSince += " " + memberYear;
+
+					return memberSince;
+				})() }/>
 				<InfoModule icon={<PeopleOutlineOutlinedIcon/>} label="2 vrienden"/>
 				<InfoModule icon={<Icon size={1} path={mdiEarth}/>} label="Nederland"/>
 			</InfoSection>

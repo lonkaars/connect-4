@@ -81,7 +81,7 @@ export default function RegisterPage() {
 				}}>
 					<Vierkant>
 						<form onSubmit={submitRegister}>
-							<Input autocomplete="username" id="username" label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
+							<Input autofocus autocomplete="username" id="username" label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
 							<Input autocomplete="email" id="email" label="email" style={{ marginBottom: 12 }}></Input>
 							<Input autocomplete="new-password" id="password" label="wachtwoord" type="password"></Input>
 							<Button text="Registreren" style={{ marginTop: 24 }} onclick={submitRegister}></Button>

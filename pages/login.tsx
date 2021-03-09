@@ -49,7 +49,7 @@ export default function LoginPage() {
 				}}>
 					<Vierkant>
 						<form onSubmit={submitLogin}>
-							<Input autocomplete="username" id="email" label="email of gebruikersnaam" style={{ marginBottom: 12 }}></Input>
+							<Input autofocus autocomplete="username" id="email" label="email of gebruikersnaam" style={{ marginBottom: 12 }}></Input>
 							<Input autocomplete="current-password" id="password" label="wachtwoord" type="password"></Input>
 							<div style={{
 								marginTop: 24,
