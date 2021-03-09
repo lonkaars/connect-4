@@ -30,7 +30,7 @@ function VoerGame(props: {
 	var [turn, setTurn] = useState(true);
 	// var [winPositions, setWinPositions] = useState<Array<Array<number>>>([]);
 	var [outcome, setOutcome] = useState(-1);
-	var [board, setBoard] = useState<Array<number>>([...Array(width * height)].map(() => 0));
+	var board: Array<number> = [...Array(width * height)].map(() => 0);
 
 	useEffect(() => {
 		if (ioListeners) return;
@@ -39,9 +39,7 @@ function VoerGame(props: {
 		io.on("disconnect", () => console.log("disconnect"));
 
 		io.on("fieldUpdate", (data: { field: string }) => {
-			setBoard(data.field.split("").map(i => Number(i))); //FIXME: Doesn't work for some fucking reason
-			console.log(board);
-			console.log(data.field.split("").map(i => Number(i)));
+			board = data.field.split("").map(i => Number(i));
 			for(let i = 0; i < data.field.length; i++)
 				document.getElementById(`pos-${i}`).parentNode.children.item(1).classList.add(`state-${data.field[i]}`);
 		});
