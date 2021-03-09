@@ -72,22 +72,31 @@
 # 		localhost:5000/game/new
 # }
 
-random_game_1 () {
-	curl -X POST \
+# random_game_1 () {
+# 	curl -X POST \
+# 		-H "Content-Type: application/json" \
+# 		-d '{ "user_id": "e6162c82-3e60-4479-ac96-a1af508e49c4" }' \
+# 		localhost:2080/api/game/random
+# }
+
+# random_game_2 () {
+# 	curl -X POST \
+# 		-H "Content-Type: application/json" \
+# 		-d '{ "user_id": "de960155-7d58-46b3-a4f6-7d33aa034ad9" }' \
+# 		localhost:2080/api/game/random
+# }
+
+# sleep 3
+# random_game_1
+# sleep 10
+# random_game_2
+
+search () {
+	curl  \
 		-H "Content-Type: application/json" \
-		-d '{ "user_id": "e6162c82-3e60-4479-ac96-a1af508e49c4" }' \
-		localhost:2080/api/game/random
+		-d "{ \"query\": \"$1\" }" \
+		localhost:2080/api/social/search
 }
 
-random_game_2 () {
-	curl -X POST \
-		-H "Content-Type: application/json" \
-		-d '{ "user_id": "de960155-7d58-46b3-a4f6-7d33aa034ad9" }' \
-		localhost:2080/api/game/random
-}
-
-sleep 3
-random_game_1
-sleep 10
-random_game_2
+search loekaars
 
