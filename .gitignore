@@ -17,6 +17,7 @@ ENV/
 # database
 database/*.db
 database/*.db-journal
+database/*.sqlext
 
 # node / ts
 *.js

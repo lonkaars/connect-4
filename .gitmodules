@@ -1,0 +1,3 @@
+[submodule "database/SQLiteFuzzySearch"]
+	path = database/SQLiteFuzzySearch
+	url = https://github.com/igorski89/SQLiteFuzzySearch
