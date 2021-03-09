@@ -30,12 +30,12 @@ def index():
        not token:
            return "", 400
 
-    if token:
+    if token and not (username or user_id):
         user_id = token_login(token)
-    elif username:
+
+    if username and not user_id:
         temp_user_id = cursor.execute("select user_id from users where username = ?", [username]).fetchone()
-        if temp_user_id:
-            user_id = temp_user_id[0]
+        if len(temp_user_id) > 0: user_id = temp_user_id
 
     user = format_user(user_id)
 

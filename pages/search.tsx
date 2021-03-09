@@ -32,7 +32,7 @@ function SearchResults(props: { userList: Array<userInfo> }) {
 function SearchResult(props: { user: userInfo }) {
 	return <Vierkant style={{
 		padding: 12
-	}} fullwidth>
+	}} fullwidth href={`/user?id=${props.user.id}`}>
 		<div style={{ position: "relative" }}>
 			<AccountAvatar size={48} dummy/>
 			<div style={{

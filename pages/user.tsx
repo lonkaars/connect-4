@@ -1,10 +1,13 @@
-import { ReactNode, Children } from 'react';
+import { ReactNode, Children, useState, useEffect } from 'react';
 import Icon from '@mdi/react';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
 import { Vierkant, IconLabelButton } from '../components/ui';
 import { AccountAvatar } from '../components/account';
+import { userInfo } from '../api/api';
 import RecentGames from '../components/recentGames';
 
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
@@ -63,6 +66,33 @@ function InfoSection(props: { children: ReactNode }) {
 }
 
 export default function AccountPage() {
+	var [gotData, setGotData] = useState(false);
+	var [user, setUser] = useState<userInfo>();
+
+	typeof window !== "undefined" && console.log(new URLSearchParams(window.location.search).get("id"))
+	useEffect(() => {
+		if (gotData) return;
+		if (typeof window === "undefined") return;
+
+		var id = new URLSearchParams(window.location.search).get("id");
+		var loggedIn = document.cookie.includes("token");
+
+		if (id || loggedIn) {
+			axios.request<userInfo>({
+				method: id ? "post" : "get",
+				url: `/api/user/info`,
+				headers: {"content-type": "application/json"},
+				data: id ? { id } : undefined
+			})
+			.then(request => setUser(request.data))
+			.catch(() => {});
+		} else {
+			window.history.go(-1);
+		}
+
+		setGotData(true);
+	})
+
 	return <div>
 		<NavBar/>
 		<CenteredPage width={802}>
@@ -75,10 +105,8 @@ export default function AccountPage() {
 					marginLeft: 12,
 					width: "calc(100% - 128px - 12px)"
 				}}>
-					<h2 style={{ fontSize: 32 }}>Gebruikersnaam</h2>
-					<p style={{ marginTop: 6 }}>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-					</p>
+					<h2 style={{ fontSize: 32 }}>{user?.username}</h2>
+					<p style={{ marginTop: 6 }}>{user?.status}</p>
 				</div>
 				<div style={{
 					position: "absolute",

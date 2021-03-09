@@ -1,5 +1,4 @@
 import { CSSProperties, useEffect, useState } from "react";
-/* import axios from "axios"; */
 
 import { LogoDark } from "../components/logo";
 
@@ -9,7 +8,7 @@ import ExtensionIcon from '@material-ui/icons/Extension';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/Person';
-import {AccountAvatar} from "./account";
+import { AccountAvatar } from "./account";
 
 var NavBarItemStyle: CSSProperties = {
 	margin: 12,
@@ -49,7 +48,7 @@ export function NavBar() {
 			left: 0,
 			backgroundColor: "var(--background)"
 		}}>
-			<a href={loggedIn ? "/account" : "/login"} style={NavBarItemStyle}>
+			<a href={loggedIn ? "/user" : "/login"} style={NavBarItemStyle}>
 				{
 					loggedIn ?
 					<AccountAvatar size={24} dummy round/> :
