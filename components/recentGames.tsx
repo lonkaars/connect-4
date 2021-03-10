@@ -1,4 +1,7 @@
-import { CSSProperties, Component } from 'react';
+import { CSSProperties } from 'react';
+import friendlyTime from 'friendly-time';
+
+import { gameInfo, outcome } from '../api/api';
 
 var LeftAlignedTableColumn: CSSProperties = {
 	textAlign: "left",
@@ -10,39 +13,47 @@ var RightAlignedTableColumn: CSSProperties = {
 	paddingRight: 16
 }
 
-export default class RecentGames extends Component {
-	constructor(props: {
-		user?: string;
-	}) {
-		super(props);
-	}
+function GameOutcome(props: { outcome: outcome }) {
+	return <td style={{
+		color: {
+			"w": "var(--disk-b-text)",
+			"l": "var(--disk-a-text)",
+			"d": "var(--text)"
+		}[props.outcome],
+		opacity: props.outcome == "d" ? 0.75 : 1.0
+	}}>{
+		{
+			"w": "Gewonnen",
+			"l": "Verloren",
+			"d": "Gelijkspel"
+		}[props.outcome]
+	}</td>
+}
 
-	render () {
-		return <div>
-			<h2>Recente partijen</h2>
-			<table width="100%" style={{ marginTop: "16px", textAlign: "center" }}>
-				<tbody>
-					<tr>
-						<th style={{ width: "50%" }}>Tegenstander</th>
-						<th style={{ width: "20%" }}>Uitkomst</th>
-						<th style={{ width: "15%" }}>Zetten</th>
-						<th style={{ width: "15%" }}>Datum</th>
-					</tr>
-					<tr>
-						<td style={LeftAlignedTableColumn}>Naam hier</td>
-						<td style={{ color: "var(--disk-b-text)" }}>Gewonnen</td>
-						<td>7</td>
-						<td style={RightAlignedTableColumn}>Vandaag</td>
-					</tr>
-					<tr>
-						<td style={LeftAlignedTableColumn}>Nog meer namen</td>
-						<td style={{ opacity: .6 }}>Gelijkspel</td>
-						<td>42</td>
-						<td style={RightAlignedTableColumn}>Gisteren</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	}
+export default function RecentGames(props: { games?: Array<gameInfo> }) {
+	return <div>
+		<h2>Recente partijen</h2>
+		<table width="100%" style={{ marginTop: "16px", textAlign: "center" }}>
+			<tbody>
+				<tr>
+					<th style={{ width: "50%" }}>Tegenstander</th>
+					<th style={{ width: "15%" }}>Uitkomst</th>
+					<th style={{ width: "15%" }}>Zetten</th>
+					<th style={{ width: "20%" }}>Datum</th>
+				</tr>
+				{
+					props.games?.map(game => <tr>
+						<td style={LeftAlignedTableColumn}>{game.opponent}</td>
+						<GameOutcome outcome={game.outcome}/>
+						<td>{game.moves.length -1}</td>
+						<td style={RightAlignedTableColumn}>{(() => {
+							var timeCreated = new Date(game.created);
+							return friendlyTime(timeCreated);
+						})()}</td>
+					</tr>)
+				}
+			</tbody>
+		</table>
+	</div>
 }
 

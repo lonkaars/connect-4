@@ -109,6 +109,8 @@ export default function AccountPage() {
 				data: { "id": id || self_id }
 			});
 
+			console.log(userGamesReq.data)
+
 			setGameInfo(userGamesReq.data);
 		} else {
 			window.history.go(-1);
@@ -176,7 +178,7 @@ export default function AccountPage() {
 				<InfoModule icon={<Icon size={1} path={mdiGamepadSquareOutline}/>} label={ gameInfo?.totals.games + " potjes" }/>
 			</InfoSection>
 			<Vierkant>
-				<RecentGames/>
+				<RecentGames games={gameInfo?.games}/>
 			</Vierkant>
 		</CenteredPage>
 	</div>

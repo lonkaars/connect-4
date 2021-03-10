@@ -38,6 +38,8 @@ export interface userGameTotals {
     win: number;
 }
 
+export type outcome = "w" | "l" | "d";
+
 export interface userGames {
 	totals: userGameTotals;
 	games: Array<gameInfo>;
@@ -49,7 +51,7 @@ export interface gameInfo {
 	id: string;
 	moves: Array<number>;
 	opponent: string;
-	outcome: "w"|"l"|"d";
+	outcome: outcome;
 	parent?: string;
 	private: boolean;
 	rating?: number;

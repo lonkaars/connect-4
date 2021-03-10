@@ -25,7 +25,7 @@ def game_info(game_id, user_id = None):
         ]) + " from games where game_id = ?", [game_id]).fetchone()
     is_player_1 = game[4] != user_id
     outcome = "d" if game[5] == "d" else \
-        "w" if game[5] == "w" and is_player_1 else "d"
+        "w" if game[5] == "w" and is_player_1 else "l"
     return {
         "id": game[0],
         "parent": game[1],
@@ -70,7 +70,7 @@ def sum_games(user_id): #! SANITIZE USER_ID FIRST
     }
 
 def fetch_games(user_id, count):
-    game_ids = cursor.execute("select game_id from games where player_1_id = ? or player_2_id = ? order by created", [user_id, user_id]).fetchmany(count)
+    game_ids = cursor.execute("select game_id from games where player_1_id = ? or player_2_id = ? order by created desc", [user_id, user_id]).fetchmany(count)
     export = []
 
     for game_id in game_ids:
