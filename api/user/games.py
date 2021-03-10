@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from functools import reduce
 from db import cursor
 from auth.login_token import token_login
 from ruleset import resolve_ruleset
@@ -37,8 +38,25 @@ def game_info(game_id, user_id = None):
         "private": game[13],
     }
 
-def sum_games(user_id):
-    print('gert')
+def sum_games(user_id): #! SANITIZE USER_ID FIRST
+    wld_querys = [' '.join([
+        "select count(game_id)",
+        "from games",
+        "where",
+        f"(player_1_id = \"{user_id}\" or player_2_id = \"{user_id}\") and",
+        f"outcome = \"{x}\"",
+    ]) for x in ["w", "l", "d"]]
+
+    big_query = "select " + ", ".join([f"({query})" for query in wld_querys])
+
+    results = cursor.execute(big_query).fetchone()
+
+    return {
+            "win": results[0],
+            "lose": results[1],
+            "draw": results[2],
+            "games": reduce(lambda a, b: a + b, results)
+    }
 
 def fetch_games(user_id, count):
     game_ids = cursor.execute("select game_id from games where player_1_id = ? or player_2_id = ? order by created", [user_id, user_id]).fetchmany(count)
@@ -54,6 +72,7 @@ games = Blueprint('games', __name__)
 @games.route('/games', methods = ['GET', 'POST'])
 def index():
     print(fetch_games("4577c119-c768-4ad5-afec-b53a5c19baf4", 10))
+    print(sum_games("4577c119-c768-4ad5-afec-b53a5c19baf4"))
     return "", 200
 
 dynamic_route = ["/user", games]
