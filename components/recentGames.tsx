@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import friendlyTime from 'friendly-time';
 
-import { gameInfo, outcome } from '../api/api';
+import { gameInfo } from '../api/api';
 
 var LeftAlignedTableColumn: CSSProperties = {
 	textAlign: "left",
@@ -13,21 +13,29 @@ var RightAlignedTableColumn: CSSProperties = {
 	paddingRight: 16
 }
 
-function GameOutcome(props: { outcome: outcome }) {
+function GameOutcome(props: { game: gameInfo }) {
+	var gameStatus = (() => {
+		return {
+			"resign": () => "Opgegeven",
+			"wait_for_opponent": () => "Aan het wachten op een tegenstander",
+			"in_progress": () => "Bezig",
+			"finished": () => {
+				return {
+					"w": "Gewonnen",
+					"l": "Verloren",
+					"d": "Gelijkspel"
+				}[props.game.outcome]
+			},
+		}[props.game.status]();
+	})();
+	var outcome = props.game.outcome;
 	return <td style={{
-		color: {
-			"w": "var(--disk-b-text)",
-			"l": "var(--disk-a-text)",
-			"d": "var(--text)"
-		}[props.outcome],
-		opacity: props.outcome == "d" ? 0.75 : 1.0
-	}}>{
-		{
-			"w": "Gewonnen",
-			"l": "Verloren",
-			"d": "Gelijkspel"
-		}[props.outcome]
-	}</td>
+		color:
+			outcome == "w" ? "var(--disk-b-text)" :
+			outcome == "l" ? "var(--disk-a-text)" :
+			"var(--text)",
+		opacity: !["w", "l"].includes(outcome) ? 0.75 : 1.0
+	}}>{gameStatus}</td>
 }
 
 export default function RecentGames(props: { games?: Array<gameInfo> }) {
@@ -43,9 +51,9 @@ export default function RecentGames(props: { games?: Array<gameInfo> }) {
 				</tr>
 				{
 					props.games?.map(game => <tr>
-						<td style={LeftAlignedTableColumn}>{game.opponent.username}</td>
-						<GameOutcome outcome={game.outcome}/>
-						<td>{game.moves.length -1}</td>
+						<td style={LeftAlignedTableColumn}>{game.opponent?.username}</td>
+						<GameOutcome game={game}/>
+						<td>{Math.max(0, game.moves.length -1)}</td>
 						<td style={RightAlignedTableColumn}>{(() => {
 							var timeCreated = new Date(game.created);
 							return friendlyTime(timeCreated);

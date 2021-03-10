@@ -109,8 +109,6 @@ export default function AccountPage() {
 				data: { "id": id || self_id }
 			});
 
-			console.log(userGamesReq.data)
-
 			setGameInfo(userGamesReq.data);
 		} else {
 			window.history.go(-1);

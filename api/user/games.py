@@ -30,12 +30,13 @@ def game_info(game_id, user_id = None):
         "private",               # 13
         ]) + " from games where game_id = ?", [game_id]).fetchone()
     is_player_1 = game[4] != user_id
+    opponent = game[4] if is_player_1 else game[3]
     return {
         "id": game[0],
         "parent": game[1],
-        "moves": [int(move) for move in str(game[2]).split(",")],
-        "opponent": format_user(game[4] if is_player_1 else game[3]),
-        "outcome": outcome(game[5], is_player_1),
+        "moves": [] if len(game[2]) == 0 else [int(move) for move in str(game[2] + "0").split(",")],
+        "opponent": None if not opponent else format_user(opponent),
+        "outcome": None if not game[5] else outcome(game[5], is_player_1),
         "created": game[6],
         "started": game[7],
         "duration": game[8],
