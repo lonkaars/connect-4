@@ -4,14 +4,21 @@ from auth.login_token import token_login
 import json
 
 def format_user(user_id):
-    user = cursor.execute("select username, user_id, country, type, registered, avatar from users where user_id = ?", [user_id]).fetchone()
+    user = cursor.execute("select " + ", ".join([
+        "username",
+        "user_id",
+        "country",
+        "registered",
+        "avatar",
+        "status",
+    ]) + " from users where user_id = ?", [user_id]).fetchone()
     return {
         "username": user[0],
         "id": user[1],
         "country": user[2],
-        "type": user[3],
-        "registered": user[4],
-        "avatar": user[5],
+        "registered": user[3],
+        "avatar": user[4],
+        "status": user[5],
     }
 
 info = Blueprint('info', __name__)
