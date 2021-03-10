@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from db import cursor
 from auth.login_token import token_login
+import json
 
 preferences = Blueprint('preferences', __name__)
 
@@ -16,7 +17,7 @@ def index():
     if not login: return "", 403
 
     user_prefs = cursor.execute("select preferences from users where user_id = ?", [login]).fetchone()
-    return { "preferences": user_prefs[0] }, 200
+    return { "preferences": json.loads(user_prefs[0]) }, 200
 
 dynamic_route = ["/user", preferences]
 

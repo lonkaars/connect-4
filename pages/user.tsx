@@ -115,7 +115,7 @@ export default function AccountPage() {
 		}
 
 		setGotData(true);
-	})()})
+	})()});
 
 	return <div>
 		<NavBar/>
