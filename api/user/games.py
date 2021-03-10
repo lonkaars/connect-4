@@ -29,7 +29,7 @@ def game_info(game_id, user_id = None):
     return {
         "id": game[0],
         "parent": game[1],
-        "moves": [int(column) for move in str(game[2]).split(",")],
+        "moves": [int(move) for move in str(game[2]).split(",")],
         "opponent": game[3] if is_player_1 else game[4],
         "outcome": outcome,
         "created": game[6],
@@ -47,18 +47,25 @@ def sum_games(user_id): #! SANITIZE USER_ID FIRST
         "select count(game_id)",
         "from games",
         "where",
+        f"player_{x[0]}_id = \"{user_id}\" and",
+        f"outcome = \"{x[1]}\"",
+    ]) for x in [(1, "w"), (1, "l"), (2, "w"), (2, "l")]]
+    wld_querys.insert(0, ' '.join([
+        "select count(game_id)",
+        "from games",
+        "where",
         f"(player_1_id = \"{user_id}\" or player_2_id = \"{user_id}\") and",
-        f"outcome = \"{x}\"",
-    ]) for x in ["w", "l", "d"]]
+        "outcome = \"d\"",
+    ]))
 
     big_query = "select " + ", ".join([f"({query})" for query in wld_querys])
 
     results = cursor.execute(big_query).fetchone()
 
     return {
-            "win": results[0],
-            "lose": results[1],
-            "draw": results[2],
+            "draw": results[0],
+            "win": results[1] + results[4],
+            "lose": results[2] + results[3],
             "games": reduce(lambda a, b: a + b, results)
     }
 
