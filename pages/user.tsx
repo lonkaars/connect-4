@@ -141,7 +141,7 @@ export default function AccountPage() {
 					{
 						ownPage ?
 						<div>
-							<IconLabelButton icon={<SettingsOutlinedIcon/>} text="Instellingen"/>
+							<IconLabelButton icon={<SettingsOutlinedIcon/>} href="/settings" text="Instellingen"/>
 							<IconLabelButton icon={<EditOutlinedIcon/>} text="Status bewerken"/>
 						</div> :
 						<div>
