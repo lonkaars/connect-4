@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from functools import reduce
+from mergedeep import merge
 from db import cursor
 from auth.login_token import token_login
 from ruleset import resolve_ruleset
@@ -22,17 +23,20 @@ def game_info(game_id, user_id = None):
         "status",                # 12
         "private",               # 13
         ]) + " from games where game_id = ?", [game_id]).fetchone()
+    is_player_1 = game[4] != user_id
+    outcome = "d" if game[5] == "d" else \
+        "w" if game[5] == "w" and is_player_1 else "d"
     return {
         "id": game[0],
         "parent": game[1],
         "moves": game[2],
-        "opponent": game[3] if game[3] != user_id else game[4],
-        "outcome": game[5],
+        "opponent": game[3] if is_player_1 else game[4],
+        "outcome": outcome,
         "created": game[6],
         "started": game[7],
         "duration": game[8],
-        "rating": game[9] if game[3] != user_id else game[10],
-        "rating_opponent": game[10] if game[3] != user_id else game[9],
+        "rating": game[9] if is_player_1 else game[10],
+        "rating_opponent": game[10] if is_player_1 else game[9],
         "ruleset": resolve_ruleset(game[11]),
         "status": game[12],
         "private": game[13],
@@ -71,8 +75,26 @@ games = Blueprint('games', __name__)
 
 @games.route('/games', methods = ['GET', 'POST'])
 def index():
-    print(fetch_games("4577c119-c768-4ad5-afec-b53a5c19baf4", 10))
-    print(sum_games("4577c119-c768-4ad5-afec-b53a5c19baf4"))
-    return "", 200
+    data_string = request.data or "{}"
+    data = json.loads(data_string)
+
+    user_id = data.get("id") or ""
+    token = request.cookies.get("token") or ""
+
+    if not user_id and \
+       not token:
+           return "", 400
+
+    if not cursor.execute("select user_id from users where user_id = ?", [user_id]).fetchone(): return "", 403
+
+    if token and not user_id:
+        user_id = token_login(token)
+
+    export = {}
+    merge(export,
+          {"totals": sum_games(user_id)},
+          {"games": fetch_games(user_id, 20)})
+
+    return export, 200
 
 dynamic_route = ["/user", games]

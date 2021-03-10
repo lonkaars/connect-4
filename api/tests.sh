@@ -91,12 +91,21 @@
 # sleep 10
 # random_game_2
 
-search () {
-	curl  \
+# search () {
+# 	curl  \
+# 		-H "Content-Type: application/json" \
+# 		-d "{ \"query\": \"$1\" }" \
+# 		localhost:2080/api/social/search
+# }
+
+# search loekaars
+
+games () {
+	curl -X POST \
 		-H "Content-Type: application/json" \
-		-d "{ \"query\": \"$1\" }" \
-		localhost:2080/api/social/search
+		-d "{ \"id\": \"4577c119-c768-4ad5-afec-b53a5c19baf4\" }" \
+		localhost:2080/api/user/games
 }
 
-search loekaars
+games
 
