@@ -7,6 +7,11 @@ from user.info import format_user
 from ruleset import resolve_ruleset
 import json
 
+def outcome(outcome_str, player_1):
+    outcome_int = { "w": 1, "l": -1, "d": 0 }[outcome_str]
+    if not player_1: outcome_int *= -1
+    return { 1: "w", -1: "l", 0: "d" }[outcome_int]
+
 def game_info(game_id, user_id = None):
     game = cursor.execute("select " + ", ".join([
         "game_id",               # 0
@@ -25,14 +30,12 @@ def game_info(game_id, user_id = None):
         "private",               # 13
         ]) + " from games where game_id = ?", [game_id]).fetchone()
     is_player_1 = game[4] != user_id
-    outcome = "d" if game[5] == "d" else \
-        "w" if game[5] == "w" and is_player_1 else "l"
     return {
         "id": game[0],
         "parent": game[1],
         "moves": [int(move) for move in str(game[2]).split(",")],
         "opponent": format_user(game[4] if is_player_1 else game[3]),
-        "outcome": outcome,
+        "outcome": outcome(game[5], is_player_1),
         "created": game[6],
         "started": game[7],
         "duration": game[8],
@@ -93,10 +96,10 @@ def index():
        not token:
            return "", 400
 
-    if not cursor.execute("select user_id from users where user_id = ?", [user_id]).fetchone(): return "", 403
-
     if token and not user_id:
         user_id = token_login(token)
+
+    if not cursor.execute("select user_id from users where user_id = ?", [user_id]).fetchone(): return "", 403
 
     export = {}
     merge(export,

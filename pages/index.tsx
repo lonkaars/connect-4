@@ -1,6 +1,6 @@
-import { CSSProperties, Component } from 'react';
+import { CSSProperties, useState, useEffect } from 'react';
 import axios from 'axios';
-import { userInfo } from '../api/api';
+import { userInfo, userGameTotals, userGames } from '../api/api';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
@@ -79,6 +79,7 @@ function LoginOrRegisterBox() {
 
 function AccountBox(props: {
 	info: userInfo;
+	sumGameInfo: userGameTotals;
 }) {
 	return <div style={InnerLoginOrRegisterBoxStyle}>
 		<div style={{
@@ -100,91 +101,94 @@ function AccountBox(props: {
 				whiteSpace: "nowrap",
 				overflow: "hidden",
 				textOverflow: "ellipsis",
-			}}>{props.info.username}</h2>
+			}}>{props.info?.username}</h2>
 			<p style={{ marginTop: 6 }}>Score: 400</p>
 			<p style={{ position: "absolute", bottom: 0, left: 0 }}>
-				<span style={{ color: "var(--disk-b-text)" }}>0 W</span>
+				<span style={{ color: "var(--disk-b-text)" }}>{props.sumGameInfo?.win} W</span>
 				<span style={{ margin: "0 3px" }}>/</span>
-				<span style={{ color: "var(--disk-a-text)" }}>0 V</span>
+				<span style={{ color: "var(--disk-a-text)" }}>{props.sumGameInfo?.lose} V</span>
 				<span style={{ margin: "0 3px" }}>/</span>
-				<span style={{ opacity: .75 }}>0 G</span>
+				<span style={{ opacity: .75 }}>{props.sumGameInfo?.draw} G</span>
 			</p>
 		</div>
 	</div>
 }
 
-export default class HomePage extends Component {
-	state: {
-		info: userInfo,
-		loggedIn: boolean
-	} = {
-		info: {},
-		loggedIn: false
-	}
+export default function HomePage() {
+	var [gotData, setGotData] = useState(false);
+	var [loggedIn, setLoggedIn] = useState(false);
+	var [userInfo, setUserInfo] = useState<userInfo>();
+	var [gameInfo, setGameInfo] = useState<userGames>();
 
-	constructor(props: {}) {
-		super(props);
+	useEffect(() => {( async () => {
+		if (gotData) return;
 
 		if (typeof window === "undefined") return; // return if run on server
-		this.state.loggedIn = document.cookie.includes("token");
+		setLoggedIn(document.cookie.includes("token"));
 
-		if (this.state.loggedIn == false) return; // don't request user info if not logged in
-		axios.request<userInfo>({
+		if (!loggedIn) return; // don't request user info if not logged in
+		var userInfoReq = await axios.request<userInfo>({
 			method: "get",
 			url: `/api/user/info`,
 			headers: {"content-type": "application/json"}
 		})
-		.then(request => this.setState({ info: request.data }))
-		.catch(() => {});
-	}
+		setUserInfo(userInfoReq.data);
 
-	render () {
-		return <div>
-			<NavBar/>
-			<CenteredPage width={802}>
-				<PageTitle>4 op een rij</PageTitle>
-				<div>
-					<Vierkant href="/game">
-						<VideogameAssetIcon style={GameModeIconStyle}/>
-						<span style={GameModeTextStyle}>Nieuw spel</span>
+		var userGamesReq = await axios.request<userGames>({
+			method: "get",
+			url: `/api/user/games`,
+			headers: {"content-type": "application/json"}
+		})
+		setGameInfo(userGamesReq.data);
+
+		setGotData(true);
+	})()})
+
+	return <div>
+		<NavBar/>
+		<CenteredPage width={802}>
+			<PageTitle>4 op een rij</PageTitle>
+			<div>
+				<Vierkant href="/game">
+					<VideogameAssetIcon style={GameModeIconStyle}/>
+					<span style={GameModeTextStyle}>Nieuw spel</span>
+					<div style={SquareSize}></div>
+				</Vierkant>
+				{
+					false &&
+					<Vierkant href="/">
+						<ExtensionIcon style={GameModeIconStyle}/>
+						<span style={GameModeTextStyle}>Puzzels</span>
 						<div style={SquareSize}></div>
 					</Vierkant>
-					{
-						false &&
-						<Vierkant href="/">
-							<ExtensionIcon style={GameModeIconStyle}/>
-							<span style={GameModeTextStyle}>Puzzels</span>
-							<div style={SquareSize}></div>
-						</Vierkant>
-					}
-					{
-						false &&
-						<Vierkant href="/">
-							<Icon path={mdiRobotExcited} style={GameModeIconStyle}/>
-							<span style={GameModeTextStyle}>Tegen computer</span>
-							<div style={SquareSize}></div>
-						</Vierkant>
-					}
-					<Vierkant style={LoginOrRegisterBoxStyle}>
-						{
-							this.state.loggedIn ?
-							<AccountBox info={this.state.info}/> :
-							<LoginOrRegisterBox/>
-						}
-					</Vierkant>
-				</div>
+				}
 				{
-					this.state.loggedIn &&
-					<Vierkant fullwidth>
-						<RecentGames/>
+					false &&
+					<Vierkant href="/">
+						<Icon path={mdiRobotExcited} style={GameModeIconStyle}/>
+						<span style={GameModeTextStyle}>Tegen computer</span>
+						<div style={SquareSize}></div>
 					</Vierkant>
 				}
-				<Vierkant fullwidth>
-					<h2>Nieuws ofzo</h2>
-					<p style={{ margin: "6px 0" }}>Chess.com heeft heel veel troep waar niemand naar kijkt</p>
+				<Vierkant style={LoginOrRegisterBoxStyle}>
+					{
+						loggedIn ?
+						<AccountBox info={userInfo} sumGameInfo={gameInfo?.totals}/> :
+						<LoginOrRegisterBox/>
+					}
 				</Vierkant>
-			</CenteredPage>
-		</div>
-	}
+			</div>
+			{
+				loggedIn &&
+				<Vierkant fullwidth>
+					<RecentGames games={gameInfo?.games}/>
+				</Vierkant>
+			}
+			<Vierkant fullwidth>
+				<h2>Nieuws ofzo</h2>
+				<p style={{ margin: "6px 0" }}>Chess.com heeft heel veel troep waar niemand naar kijkt</p>
+			</Vierkant>
+		</CenteredPage>
+	</div>
 }
 
