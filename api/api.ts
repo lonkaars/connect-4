@@ -50,7 +50,7 @@ export interface gameInfo {
 	duration: number;
 	id: string;
 	moves: Array<number>;
-	opponent: string;
+	opponent: userInfo;
 	outcome: outcome;
 	parent?: string;
 	private: boolean;

@@ -43,7 +43,7 @@ export default function RecentGames(props: { games?: Array<gameInfo> }) {
 				</tr>
 				{
 					props.games?.map(game => <tr>
-						<td style={LeftAlignedTableColumn}>{game.opponent}</td>
+						<td style={LeftAlignedTableColumn}>{game.opponent.username}</td>
 						<GameOutcome outcome={game.outcome}/>
 						<td>{game.moves.length -1}</td>
 						<td style={RightAlignedTableColumn}>{(() => {

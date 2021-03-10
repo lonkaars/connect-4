@@ -3,6 +3,7 @@ from functools import reduce
 from mergedeep import merge
 from db import cursor
 from auth.login_token import token_login
+from user.info import format_user
 from ruleset import resolve_ruleset
 import json
 
@@ -30,7 +31,7 @@ def game_info(game_id, user_id = None):
         "id": game[0],
         "parent": game[1],
         "moves": [int(move) for move in str(game[2]).split(",")],
-        "opponent": game[3] if is_player_1 else game[4],
+        "opponent": format_user(game[4] if is_player_1 else game[3]),
         "outcome": outcome,
         "created": game[6],
         "started": game[7],
