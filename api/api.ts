@@ -31,3 +31,30 @@ export interface userPreferences {
 	userColors?: userColors;
 }
 
+export interface userGameTotals {
+    draw: number;
+    games: number;
+    lose: number;
+    win: number;
+}
+
+export interface userGames {
+	totals: userGameTotals;
+	games: Array<gameInfo>;
+}
+
+export interface gameInfo {
+	created: number;
+	duration: number;
+	id: string;
+	moves: Array<number>;
+	opponent: string;
+	outcome: "w"|"l"|"d";
+	parent?: string;
+	private: boolean;
+	rating?: number;
+	rating_opponent?: number;
+	ruleset: ruleset;
+	started: number;
+	status: "finished"|"in_progress"|"resign"|"wait_for_opponent";
+}

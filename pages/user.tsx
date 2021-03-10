@@ -1,13 +1,12 @@
 import { ReactNode, Children, useState, useEffect } from 'react';
 import Icon from '@mdi/react';
 import axios from 'axios';
-import useSWR from 'swr';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
 import { Vierkant, IconLabelButton } from '../components/ui';
 import { AccountAvatar } from '../components/account';
-import { userInfo } from '../api/api';
+import { userInfo, userGames } from '../api/api';
 import RecentGames from '../components/recentGames';
 
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
@@ -71,6 +70,7 @@ export default function AccountPage() {
 	var [gotData, setGotData] = useState(false);
 	var [user, setUser] = useState<userInfo>();
 	var [ownPage, setOwnPage] = useState(false);
+	var [gameInfo, setGameInfo] = useState<userGames>();
 
 	useEffect(() => {(async() => {
 		if (gotData) return;
@@ -101,6 +101,15 @@ export default function AccountPage() {
 			});
 
 			setUser(userReq.data);
+
+			var userGamesReq = await axios.request<userGames>({
+				method: "post",
+				url: `/api/user/games`,
+				headers: {"content-type": "application/json"},
+				data: { "id": id || self_id }
+			});
+
+			setGameInfo(userGamesReq.data);
 		} else {
 			window.history.go(-1);
 		}
@@ -160,11 +169,11 @@ export default function AccountPage() {
 				<InfoModule icon={<Icon size={1} path={mdiEarth}/>} label="Nederland"/>
 			</InfoSection>
 			<InfoSection>
-				<InfoModule icon={<ArrowUpwardOutlinedIcon style={{ color: "var(--disk-b-text)" }}/>} label="4 keer gewonnen"/>
-				<InfoModule icon={<Icon size={1} path={mdiEqual}/>} label="2 keer gelijkspel"/>
-				<InfoModule icon={<ArrowDownwardOutlinedIcon style={{ color: "var(--disk-a-text)" }}/>} label="2 keer verloren"/>
+				<InfoModule icon={<ArrowUpwardOutlinedIcon style={{ color: "var(--disk-b-text)" }}/>} label={ gameInfo?.totals.win + " keer gewonnen" }/>
+				<InfoModule icon={<Icon size={1} path={mdiEqual}/>} label={ gameInfo?.totals.draw + " keer gelijkspel" }/>
+				<InfoModule icon={<ArrowDownwardOutlinedIcon style={{ color: "var(--disk-a-text)" }}/>} label={ gameInfo?.totals.lose + " keer verloren" }/>
 				<InfoModule icon={<Icon size={1} path={mdiClipboardTextOutline}/>} label="Score: 400"/>
-				<InfoModule icon={<Icon size={1} path={mdiGamepadSquareOutline}/>} label="6 potjes"/>
+				<InfoModule icon={<Icon size={1} path={mdiGamepadSquareOutline}/>} label={ gameInfo?.totals.games + " potjes" }/>
 			</InfoSection>
 			<Vierkant>
 				<RecentGames/>

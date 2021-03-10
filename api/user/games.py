@@ -29,7 +29,7 @@ def game_info(game_id, user_id = None):
     return {
         "id": game[0],
         "parent": game[1],
-        "moves": game[2],
+        "moves": [int(column) for move in str(game[2]).split(",")],
         "opponent": game[3] if is_player_1 else game[4],
         "outcome": outcome,
         "created": game[6],
@@ -39,7 +39,7 @@ def game_info(game_id, user_id = None):
         "rating_opponent": game[10] if is_player_1 else game[9],
         "ruleset": resolve_ruleset(game[11]),
         "status": game[12],
-        "private": game[13],
+        "private": bool(game[13]),
     }
 
 def sum_games(user_id): #! SANITIZE USER_ID FIRST
