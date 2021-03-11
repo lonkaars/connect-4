@@ -1,4 +1,4 @@
-import { ReactNode, Component } from 'react';
+import { ReactNode, Component, CSSProperties } from 'react';
 import axios from 'axios';
 
 import { Button, Vierkant, CheckBox, Input } from './ui';
@@ -122,38 +122,22 @@ function GameSettingsSection(props: {
 	</Vierkant>
 }
 
-/* function GameRule(props: { */
-/* 	title: string; */
-/* 	description: string; */
-/* 	style?: CSSProperties; */
-/* }) { */
-/* 	return <div style={{ */
-/* 		backgroundColor: "var(--page-background)", */
-/* 		borderRadius: 8, */
-/* 		padding: "16px 0", */
-/* 		textAlign: "center", */
-/* 		...props.style */
-/* 	}}> */
-/* 		<h1 style={{ color: "var(--disk-a)", fontSize: 42 }}>{props.title}</h1> */
-/* 		<p style={{ color: "var(--text-alt)", maxWidth: 250, margin: "0 auto" }}>{props.description}</p> */
-/* 	</div>; */
-/* } */
-
-/*
-<GameSettingsSection title="Regelset" state={false}>
-	<div style={{
-		display: "grid",
-		gridTemplateColumns: "1fr 1fr",
-		gridGap: 16,
-		margin: "16px 0"
+function GameRule(props: {
+	title: string;
+	description: string;
+	style?: CSSProperties;
+}) {
+	return <div style={{
+		backgroundColor: "var(--page-background)",
+		borderRadius: 8,
+		padding: "16px 0",
+		textAlign: "center",
+		...props.style
 	}}>
-		<GameRule title="+2" description="Extra kolommen"/>
-		<GameRule title="+4" description="Extra kolommen"/>
-	</div>
-	<GameRule style={{ marginBottom: 16 }} title="Gravity" description="De zwaartekracht draait soms"/>
-	<GameRule title="Flashlight" description="Het veld wordt opgelicht door de vallende fiches"/>
-</GameSettingsSection>
-*/
+		<h1 style={{ color: "var(--disk-a)", fontSize: 42 }}>{props.title}</h1>
+		<p style={{ color: "var(--text-alt)", maxWidth: 250, margin: "0 auto" }}>{props.description}</p>
+	</div>;
+}
 
 type editGameSettingsProps = {
 	parentState: CurrentGameSettingsStateType;
@@ -190,6 +174,19 @@ export class EditGameSettings extends Component<editGameSettingsProps> {
 						marginLeft: 4
 					}}>Timer gebruiken voor bijde spelers</span>
 				</GameSettingsSection>
+				{ false && <GameSettingsSection title="Regelset" state={false}>
+					<div style={{
+						display: "grid",
+						gridTemplateColumns: "1fr 1fr",
+						gridGap: 16,
+						margin: "16px 0"
+					}}>
+						<GameRule title="+2" description="Extra kolommen"/>
+						<GameRule title="+4" description="Extra kolommen"/>
+					</div>
+					<GameRule style={{ marginBottom: 16 }} title="Gravity" description="De zwaartekracht draait soms"/>
+					<GameRule title="Flashlight" description="Het veld wordt opgelicht door de vallende fiches"/>
+				</GameSettingsSection> }
 				<GameSettingsSection title="Gerangschikt spel" state={this.props.parentState.ruleset.ranked} id="ranked" noMarginBottom/>
 			</div>
 			<Button style={{
