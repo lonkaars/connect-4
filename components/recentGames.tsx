@@ -41,27 +41,35 @@ function GameOutcome(props: { game: gameInfo }) {
 export default function RecentGames(props: { games?: Array<gameInfo> }) {
 	return <div>
 		<h2>Recente partijen</h2>
-		<table width="100%" style={{ marginTop: "16px", textAlign: "center" }}>
-			<tbody>
-				<tr>
-					<th style={{ width: "50%" }}>Tegenstander</th>
-					<th style={{ width: "15%" }}>Uitkomst</th>
-					<th style={{ width: "15%" }}>Zetten</th>
-					<th style={{ width: "20%" }}>Datum</th>
-				</tr>
-				{
-					props.games?.map(game => <tr>
-						<td style={LeftAlignedTableColumn}>{game.opponent?.username}</td>
-						<GameOutcome game={game}/>
-						<td>{Math.max(0, game.moves.length -1)}</td>
-						<td style={RightAlignedTableColumn}>{(() => {
-							var timeCreated = new Date(game.created);
-							return friendlyTime(timeCreated);
-						})()}</td>
-					</tr>)
-				}
-			</tbody>
-		</table>
+		{
+			props.games?.length > 0 ?
+			<table width="100%" style={{ marginTop: "16px", textAlign: "center" }}>
+				<tbody>
+					<tr>
+						<th style={{ width: "50%" }}>Tegenstander</th>
+						<th style={{ width: "15%" }}>Uitkomst</th>
+						<th style={{ width: "15%" }}>Zetten</th>
+						<th style={{ width: "20%" }}>Datum</th>
+					</tr>
+					{
+						props.games?.map(game => <tr>
+							<td style={LeftAlignedTableColumn}>{game.opponent?.username}</td>
+							<GameOutcome game={game}/>
+							<td>{Math.max(0, game.moves.length -1)}</td>
+							<td style={RightAlignedTableColumn}>{(() => {
+								var timeCreated = new Date(game.created);
+								return friendlyTime(timeCreated);
+							})()}</td>
+						</tr>)
+					}
+				</tbody>
+			</table> :
+			<h1 style={{
+				textAlign: "center",
+				opacity: .6,
+				margin: "32px 64px"
+			}}>Deze gebruiker heeft nog geen partijen gespeeld</h1>
+		}
 	</div>
 }
 

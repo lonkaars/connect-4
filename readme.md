@@ -4,7 +4,12 @@
 
 ## This is a school project using Python and SQL
 
-Some of this project's code is in Dutch (commit messages, documents etc.), along with the whole website. I'm planning on adding some form of localization system, and I'll try to maintain this after the assignment deadline because I think this is a pretty cool project. I'll also be fixing issues/merging pr's after the deadline. I think the deadline is ~January 25th~ sometime in March? though I'm not sure about this.
+Some of this project's code is in Dutch (commit messages, documents etc.),
+along with the whole website. I'm planning on adding some form of localization
+system, and I'll try to maintain this after the assignment deadline because I
+think this is a pretty cool project. I'll also be fixing issues/merging pr's
+after the deadline. ~I think the deadline is January 25th sometime in March?
+though I'm not sure about this.~ The deadline is March 19th.
 
 ## Things that we'd like to have working:
 
