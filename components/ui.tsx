@@ -1,4 +1,4 @@
-import { Component, CSSProperties, ReactNode, useState } from "react";
+import { Component, CSSProperties, ReactNode, useState, useEffect } from "react";
 
 import SearchIcon from '@material-ui/icons/Search';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -166,7 +166,15 @@ export function CheckBox(props: {
 	id?: string;
 	onclick?: (state: boolean) => void;
 }) {
-	var [on, setOn] = useState(props.state || false);
+	var [gotDefaultState, setGotDefaultState] = useState(false);
+	var [on, setOn] = useState(props.state);
+
+	useEffect(() => {
+		if (gotDefaultState) return;
+		setOn(props.state);
+		if (typeof props.state !== "undefined") setGotDefaultState(true);
+	});
+
 	var toggle = () => {
 		setOn(!on);
 		props.onclick && props.onclick(!on);
