@@ -41,7 +41,7 @@ function SearchResult(props: { user: userInfo }) {
 				left: 48 + 12
 			}}>
 				<b>{props.user.username}</b>
-				<p>{props.user.status || "Hey daar!, ik ben nieuw op deze website en heb nog geen status."}</p>
+				<p>{props.user.status}</p>
 			</div>
 		</div>
 	</Vierkant>;

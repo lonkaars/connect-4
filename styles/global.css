@@ -79,3 +79,14 @@ input::placeholder { opacity: .75; }
 input.dark::placeholder { color: var(--text); }
 input.light::placeholder { color: var(--text-alt); }
 
+/* editable field status */
+*[contenteditable] { border-color: var(--background-alt); }
+*[contenteditable="true"]:focus { border-color: var(--disk-a); }
+*[contenteditable="true"] {
+	background-color: var(--page-background);
+	padding: 6px;
+	border-radius: 6px;
+	border-style: solid;
+	border-width: 2px;
+}
+

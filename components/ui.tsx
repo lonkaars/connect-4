@@ -56,6 +56,7 @@ export function Button(props: {
 		position: "relative",
 		textDecoration: "none",
 		display: "block",
+		userSelect: "none",
 		...props.style
 	}}>
 	{ 

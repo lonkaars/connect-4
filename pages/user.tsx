@@ -16,6 +16,7 @@ import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
 import PeopleOutlineOutlinedIcon from '@material-ui/icons/PeopleOutlineOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
+import DoneOutlinedIcon from '@material-ui/icons/DoneOutlined';
 import {
 	mdiAccountCancelOutline,
 	mdiEqual,
@@ -71,6 +72,8 @@ export default function AccountPage() {
 	var [user, setUser] = useState<userInfo>();
 	var [ownPage, setOwnPage] = useState(false);
 	var [gameInfo, setGameInfo] = useState<userGames>();
+
+	var [editingStatus, setEditingStatus] = useState(false);
 
 	useEffect(() => {(async() => {
 		if (gotData) return;
@@ -130,7 +133,10 @@ export default function AccountPage() {
 					width: "calc(100% - 128px - 12px)"
 				}}>
 					<h2 style={{ fontSize: 32 }}>{user?.username}</h2>
-					<p style={{ marginTop: 6 }}>{user?.status}</p>
+					<p id="status" contentEditable={editingStatus ? "true" : "false"} style={{
+						marginTop: 6,
+						transitionDuration: ".3s"
+					}}>{user?.status}</p>
 				</div>
 				<div style={{
 					position: "absolute",
@@ -142,7 +148,25 @@ export default function AccountPage() {
 						ownPage ?
 						<div>
 							<IconLabelButton icon={<SettingsOutlinedIcon/>} href="/settings" text="Instellingen"/>
-							<IconLabelButton icon={<EditOutlinedIcon/>} text="Status bewerken"/>
+							{
+								!editingStatus ?
+								<IconLabelButton
+								icon={<EditOutlinedIcon/>}
+								text="Status bewerken"
+								onclick={() => setEditingStatus(true)}/> :
+								<IconLabelButton
+								icon={<DoneOutlinedIcon/>}
+								text="Status opslaan"
+								onclick={() => {
+									setEditingStatus(false)
+									axios.request({
+										method: "post",
+										url: `/api/user/updateStatus`,
+										headers: {"content-type": "application/json"},
+										data: { "status": document.getElementById("status").innerText }
+									});
+								}}/>
+							}
 						</div> :
 						<div>
 							<IconLabelButton icon={<Icon size={1} path={mdiAccountCancelOutline}/>} text="Blokkeren"/>
