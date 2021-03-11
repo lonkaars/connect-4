@@ -55,7 +55,7 @@ export function NavBar() {
 					<PersonIcon/>
 				}
 			</a>
-			<a href="/settings" style={NavBarItemStyle}><SettingsIcon/></a>
+			{ loggedIn && <a href="/settings" style={NavBarItemStyle}><SettingsIcon/></a> }
 		</div>
 	</div>
 }
