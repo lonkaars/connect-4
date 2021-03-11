@@ -1,4 +1,4 @@
-import { Component, CSSProperties, ReactNode } from "react";
+import { Component, CSSProperties, ReactNode, useState } from "react";
 
 import SearchIcon from '@material-ui/icons/Search';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -160,31 +160,29 @@ export function SearchBar(props: { label?: string }) {
 	</div>
 }
 
-export class CheckBox extends Component<{
+export function CheckBox(props: {
 	state?: boolean;
 	style?: CSSProperties;
 	id?: string;
 	onclick?: (state: boolean) => void;
-}> {
-	state = { on: this.props.state || false }
-	public toggle = () => {
-		this.setState({ on: !this.state.on });
-		this.props.onclick && this.props.onclick(!this.state.on);
+}) {
+	var [on, setOn] = useState(props.state || false);
+	var toggle = () => {
+		setOn(!on);
+		props.onclick && props.onclick(!on);
 	}
 
-	render() {
-		return <div onClick={this.toggle} id={this.props.id} className={this.state.on ? "on" : "off"} style={{
-			...this.props.style,
-			display: "inline-block",
-			cursor: "pointer"
-		}}>
-		{
-			this.state.on ?
-			<CheckBoxIcon/> :
-			<CheckBoxOutlineBlankIcon/>
-		}
-		</div>;
+	return <div onClick={toggle} id={props.id} className={on ? "on" : "off"} style={{
+		...props.style,
+		display: "inline-block",
+		cursor: "pointer"
+	}}>
+	{
+		on ?
+		<CheckBoxIcon/> :
+		<CheckBoxOutlineBlankIcon/>
 	}
+	</div>
 }
 
 export class ColorPicker extends Component<{

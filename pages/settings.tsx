@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useContext } from 'react';
 import * as cookies from 'react-cookies';
 
 import { NavBar } from '../components/navbar';
@@ -6,6 +6,7 @@ import { CenteredPage, PageTitle } from '../components/page';
 import { Vierkant, IconLabelButton, CheckBox, ColorPicker } from '../components/ui';
 import { AccountAvatar } from '../components/account';
 import { CurrentGameSettings } from '../components/gameSettings';
+import PreferencesContext from '../components/preferencesContext';
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
@@ -17,6 +18,8 @@ var SettingsSubsectionStyle: CSSProperties = {
 };
 
 export default function SettingsPage() {
+	var { preferences, updatePreference } = useContext(PreferencesContext);
+
 	return (
 		<div>
 			<NavBar/>
@@ -67,8 +70,8 @@ export default function SettingsPage() {
 					</div>
 					<div style={SettingsSubsectionStyle}>
 						<div style={{ float: "right" }}>
-							<CheckBox state={typeof window !== "undefined" && document.getElementsByTagName("html")[0].classList.contains("dark")} onclick={
-								(state) => document.getElementsByTagName("html")[0].classList[state ? "add" : "remove"]("dark")
+							<CheckBox state={preferences?.darkMode} onclick={
+								state => updatePreference({"darkMode": state})
 							}/>
 						</div>
 						<h3>Donkere modus</h3>
