@@ -127,19 +127,24 @@ export default function HomePage() {
 		setLoggedIn(document.cookie.includes("token"));
 
 		if (!loggedIn) return; // don't request user info if not logged in
-		var userInfoReq = await axios.request<userInfo>({
-			method: "get",
-			url: `/api/user/info`,
-			headers: {"content-type": "application/json"}
-		})
-		setUserInfo(userInfoReq.data);
 
-		var userGamesReq = await axios.request<userGames>({
-			method: "get",
-			url: `/api/user/games`,
-			headers: {"content-type": "application/json"}
-		})
-		setGameInfo(userGamesReq.data);
+		if (!userInfo) {
+			var userInfoReq = await axios.request<userInfo>({
+				method: "get",
+				url: `/api/user/info`,
+				headers: {"content-type": "application/json"}
+			})
+			setUserInfo(userInfoReq.data);
+		}
+
+		if (!gameInfo) {
+			var userGamesReq = await axios.request<userGames>({
+				method: "get",
+				url: `/api/user/games`,
+				headers: {"content-type": "application/json"}
+			})
+			setGameInfo(userGamesReq.data);
+		}
 
 		setGotData(true);
 	})()})

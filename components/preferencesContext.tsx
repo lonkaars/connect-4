@@ -27,14 +27,16 @@ export function PreferencesContextWrapper(props: { children?: ReactNode }) {
 			applyPreferences(local_prefs_json);
 		}
 
-		var preferencesReq = await axios.request<{ preferences: userPreferences; }>({
-			method: "get",
-			url: `/api/user/preferences`,
-			headers: {"content-type": "application/json"}
-		});
+		if (!preferences) {
+			var preferencesReq = await axios.request<{ preferences: userPreferences; }>({
+				method: "get",
+				url: `/api/user/preferences`,
+				headers: {"content-type": "application/json"}
+			});
 
-		window.localStorage.setItem("preferences", JSON.stringify(preferencesReq.data.preferences));
-		setPreferences(preferencesReq.data.preferences);
+			window.localStorage.setItem("preferences", JSON.stringify(preferencesReq.data.preferences));
+			setPreferences(preferencesReq.data.preferences);
+		}
 
 		setGotData(true);
 	})()});

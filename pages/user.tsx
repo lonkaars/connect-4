@@ -84,35 +84,36 @@ export default function AccountPage() {
 
 		if (id || loggedIn) {
 			var self_id = "";
-			if (loggedIn) {
+			if (loggedIn && !self_id) {
 				var selfReq = await axios.request<userInfo>({
 					method: "get",
 					url: `/api/user/info`,
 					headers: {"content-type": "application/json"}
 				});
-
 				self_id = selfReq?.data.id;
 			}
 
 			if (id == self_id || !id) setOwnPage(true);
 
-			var userReq = await axios.request<userInfo>({
-				method: "post",
-				url: `/api/user/info`,
-				headers: {"content-type": "application/json"},
-				data: { "id": id || self_id }
-			});
+			if (!user) {
+				var userReq = await axios.request<userInfo>({
+					method: "post",
+					url: `/api/user/info`,
+					headers: {"content-type": "application/json"},
+					data: { "id": id || self_id }
+				});
+				setUser(userReq.data);
+			}
 
-			setUser(userReq.data);
-
-			var userGamesReq = await axios.request<userGames>({
-				method: "post",
-				url: `/api/user/games`,
-				headers: {"content-type": "application/json"},
-				data: { "id": id || self_id }
-			});
-
-			setGameInfo(userGamesReq.data);
+			if (!gameInfo) {
+				var userGamesReq = await axios.request<userGames>({
+					method: "post",
+					url: `/api/user/games`,
+					headers: {"content-type": "application/json"},
+					data: { "id": id || self_id }
+				});
+				setGameInfo(userGamesReq.data);
+			}
 		} else {
 			window.history.go(-1);
 		}

@@ -74,10 +74,12 @@ function SearchBar(props: {
 }
 
 export default function HomePage() {
+	var [searched, setSearched] = useState(false);
 	var [results, setResults] = useState<Array<userInfo>>([]);
 	var getSearchResults = (event?: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		search(results => setResults(results));
+		setSearched(true);
 	}
 
 	return <div>
@@ -86,6 +88,12 @@ export default function HomePage() {
 			<PageTitle>Zoeken</PageTitle>
 			<SearchBar searchFunction={getSearchResults}/>
 			<SearchResults userList={results}/>
+			{ searched && results.length == 0 && <h1 style={{
+				opacity: .6,
+				color: "var(--text)",
+				textAlign: "center",
+				margin: "24px 32px"
+			}}>Geen zoekresultaten gevonden</h1> }
 		</CenteredPage>
 	</div>
 }
