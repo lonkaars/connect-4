@@ -84,6 +84,7 @@ input.light::placeholder { color: var(--text-alt); }
 *[contenteditable="true"]:focus { border-color: var(--disk-a); }
 *[contenteditable="true"] {
 	background-color: var(--page-background);
+	color: var(--text-alt);
 	padding: 6px;
 	border-radius: 6px;
 	border-style: solid;
