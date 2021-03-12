@@ -47,7 +47,7 @@ export function PreferencesContextWrapper(props: { children?: ReactNode }) {
 		applyPreferences(prefs);
 		axios.request({
 			method: "post",
-			url: `/api/user/updatePreferences`,
+			url: `/api/user/preferences`,
 			headers: {"content-type": "application/json"},
 			data: { "newPreferences": prefs }
 		});

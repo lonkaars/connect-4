@@ -1,7 +1,7 @@
 from flask import Blueprint
 from db import cursor
 
-status = Blueprint('status', __name__)
+status = Blueprint('server_status', __name__)
 
 @status.route('/status')
 def index():

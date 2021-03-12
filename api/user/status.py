@@ -3,9 +3,9 @@ from db import cursor, connection
 from auth.login_token import token_login
 import json
 
-updateStatus = Blueprint('updateStatus', __name__)
+status = Blueprint('user_status', __name__)
 
-@updateStatus.route('/updateStatus', methods = ['POST'])
+@status.route('/status', methods = ['POST'])
 def index():
     data = request.get_json()
 
@@ -23,5 +23,5 @@ def index():
 
     return "", 200
 
-dynamic_route = ["/user", updateStatus]
+dynamic_route = ["/user", status]
 

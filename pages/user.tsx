@@ -161,7 +161,7 @@ export default function AccountPage() {
 									setEditingStatus(false)
 									axios.request({
 										method: "post",
-										url: `/api/user/updateStatus`,
+										url: `/api/user/status`,
 										headers: {"content-type": "application/json"},
 										data: { "status": document.getElementById("status").innerText }
 									});
