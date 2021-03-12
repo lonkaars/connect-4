@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { PreferencesContextWrapper } from '../components/preferencesContext';
+import { ToastContextWrapper } from '../components/toast';
 
 import '../styles/global.css';
 import '../styles/dark.css';
@@ -12,7 +13,9 @@ export default function VierOpEenRijWebsite({ Component, pageProps }) {
 			<link rel="stylesheet" href="/font/stylesheet.css"/>
 		</Head>
 		<PreferencesContextWrapper>
-			<Component {...pageProps}/>
+			<ToastContextWrapper>
+				<Component {...pageProps}/>
+			</ToastContextWrapper>
 		</PreferencesContextWrapper>
 	</div>
 }

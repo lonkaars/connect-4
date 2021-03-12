@@ -1,4 +1,4 @@
-import { ReactNode, Children, useState, useEffect } from 'react';
+import { ReactNode, Children, useState, useEffect, useContext } from 'react';
 import Icon from '@mdi/react';
 import axios from 'axios';
 
@@ -8,6 +8,7 @@ import { Vierkant, IconLabelButton } from '../components/ui';
 import { AccountAvatar } from '../components/account';
 import { userInfo, userGames } from '../api/api';
 import RecentGames from '../components/recentGames';
+import { ToastContext } from '../components/toast';
 
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined';
@@ -72,8 +73,11 @@ export default function AccountPage() {
 	var [user, setUser] = useState<userInfo>();
 	var [ownPage, setOwnPage] = useState(false);
 	var [gameInfo, setGameInfo] = useState<userGames>();
+	var [loggedIn, setLoggedIn] = useState(false);
 
 	var [editingStatus, setEditingStatus] = useState(false);
+
+	var { toast } = useContext(ToastContext);
 
 	useEffect(() => {(async() => {
 		if (gotData) return;
@@ -81,6 +85,7 @@ export default function AccountPage() {
 
 		var id = new URLSearchParams(window.location.search).get("id");
 		var loggedIn = document.cookie.includes("token");
+		setLoggedIn(loggedIn);
 
 		if (id || loggedIn) {
 			var self_id = "";
@@ -137,7 +142,7 @@ export default function AccountPage() {
 					<p id="status" contentEditable={editingStatus ? "true" : "false"} style={{
 						marginTop: 6,
 						transitionDuration: ".3s"
-					}}>{user?.status}</p>
+					}} suppressContentEditableWarning={true}>{user?.status}</p>
 				</div>
 				<div style={{
 					position: "absolute",
@@ -145,7 +150,7 @@ export default function AccountPage() {
 					height: "40px",
 					bottom: 24, left: 24 + 12 + 128, right: 24
 				}}>
-					{
+					{ loggedIn && <div> {
 						ownPage ?
 						<div>
 							<IconLabelButton icon={<SettingsOutlinedIcon/>} href="/settings" text="Instellingen"/>
@@ -170,10 +175,18 @@ export default function AccountPage() {
 							}
 						</div> :
 						<div>
-							<IconLabelButton icon={<Icon size={1} path={mdiAccountCancelOutline}/>} text="Blokkeren"/>
-							<IconLabelButton icon={<PersonAddOutlinedIcon/>} text="Vriendschapsverzoek"/>
+							<IconLabelButton icon={<Icon size={1} path={mdiAccountCancelOutline}/>} text="Blokkeren" onclick={() => {
+								toast(`${user.username} geblokkeerd`,
+									  "confirmation",
+									  <Icon size={32 / 24} path={mdiAccountCancelOutline}/>)
+							}}/>
+							<IconLabelButton icon={<PersonAddOutlinedIcon/>} text="Vriendschapsverzoek" onclick={() => {
+								toast("Vriendschapsverzoek gestuurd",
+									  "confirmation",
+									  <PersonAddOutlinedIcon style={{ fontSize: 32 }}/>)
+							}}/>
 						</div>
-					}
+					}</div>}
 				</div>
 			</Vierkant>
 			<InfoSection>

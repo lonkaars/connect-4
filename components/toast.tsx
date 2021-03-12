@@ -1,10 +1,11 @@
-import { CSSProperties, ReactNode, Component } from "react";
+import { CSSProperties, ReactNode, useState, createContext } from "react";
 
 import CloseIcon from '@material-ui/icons/Close';
 
-export function ToastArea(props: {
+function ToastArea(props: {
 	style?: CSSProperties
 	children?: ReactNode
+	rerender?: boolean;
 }) {
 	return <div id="ToastArea" style={{
 		position: "fixed",
@@ -20,35 +21,32 @@ export function ToastArea(props: {
 	}}>{props.children}</div>
 }
 
-export class Toast extends Component<{
+function Toast(props: {
 	text?: string
 	icon?: ReactNode
 	children?: ReactNode
 	type?: "normal"|"confirmation"|"error"
 	style?: CSSProperties
-}> {
-	state = { render: true }
+}) {
+	var [visible, setVisibility] = useState(true);
 
-	close = () => this.setState({ render: false })
+	setTimeout(() => setVisibility(false), 10e3);
 
-	render () {
-		if (!this.state.render) return null;
-		return <div style={{
-			padding: 0,
-			marginBottom: 12,
-			borderRadius: 8,
-			boxShadow: "0 8px 12px -4px #00000033",
-			color:
-				this.props.type === "confirmation" ? "var(--background)" : "var(--text)",
-			backgroundColor:
-				this.props.type === "normal" ? "var(--background)" :
-				this.props.type === "confirmation" ? "var(--disk-b)" :
-				this.props.type === "error" ? "var(--disk-a)" : "var(--background)",
-			...this.props.style
-		}}>
+	return visible && <div style={{
+		padding: 0,
+		marginBottom: 12,
+		borderRadius: 8,
+		boxShadow: "0 8px 12px -4px #00000033",
+		color:
+			props.type === "confirmation" ? "var(--background)" : "var(--text)",
+		backgroundColor:
+			props.type === "normal" ? "var(--background)" :
+			props.type === "confirmation" ? "var(--disk-b)" :
+			props.type === "error" ? "var(--disk-a)" : "var(--background)",
+		...props.style
+	}}>
 		{
-			this.props.children ?
-			this.props.children :
+			props.children ||
 			<div style={{ lineHeight: 0 }}>
 				<div style={{
 					fontSize: 0,
@@ -56,24 +54,45 @@ export class Toast extends Component<{
 					display: "inline-block",
 					verticalAlign: "top",
 					width: 32, height: 32
-				}}>{this.props.icon}</div>
+				}}>{props.icon}</div>
 				<h2 style={{
 					margin: "20px 0",
 					display: "inline-block",
 					width: "calc(100% - 128px)",
 					verticalAlign: "top",
-					fontSize: 20
-				}}>{this.props.text}</h2>
+					fontSize: 20,
+					userSelect: "none"
+				}}>{props.text}</h2>
 				<div style={{
 					padding: 20,
 					display: "inline-block",
 					cursor: "pointer"
-				}} onClick={this.close}>
+				}} onClick={() => setVisibility(false)}>
 					<CloseIcon/>
 				</div>
 			</div>
 		}
-		</div>
-	}
+	</div>
+}
+
+export var ToastContext = createContext<{ toast?: (message: string,
+												   type: "confirmation"|"normal"|"error",
+												   icon?: ReactNode ) => void }>({});
+var toasts: Array<JSX.Element> = [];
+
+export function ToastContextWrapper(props: { children?: ReactNode }) {
+	var [dummyState, rerender] = useState(false);
+
+	return <ToastContext.Provider value={{ toast: (message: string,
+												   type: "confirmation"|"normal"|"error",
+												   icon?: ReactNode ) => {
+		toasts.push(<Toast type={type} text={message} icon={icon}/>);
+		rerender(!dummyState);
+	} }}>
+		{ props.children }
+		<ToastArea rerender={dummyState}>
+			{toasts}
+		</ToastArea>
+	</ToastContext.Provider>
 }
 
