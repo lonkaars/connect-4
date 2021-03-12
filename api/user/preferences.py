@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from db import cursor
+from db import cursor, connection
 from auth.login_token import token_login
 import json
 
