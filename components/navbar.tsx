@@ -1,9 +1,9 @@
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState, ReactNode } from "react";
 
 import { LogoDark } from "../components/logo";
 import { AccountAvatar } from "./account";
-import { userInfo } from "../api/api";
-import { Bubble, Vierkant, Button } from './ui';
+import { userInfo, gameInfo } from "../api/api";
+import { Bubble, Vierkant, IconLabelButton } from './ui';
 
 import Home from '@material-ui/icons/Home';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
@@ -11,11 +11,11 @@ import ExtensionIcon from '@material-ui/icons/Extension';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/Person';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 
-function FriendRequestsBubble(props: {
+function NotificationsArea(props: {
 	visible?: boolean;
 }) {
 	return props.visible && <Bubble style={{
@@ -30,7 +30,7 @@ function FriendRequestsBubble(props: {
 		bottom: 86,
 		transform: "translate(-100%, 100%) rotate(90deg)"
 	}}>
-		<h2 style={{ marginBottom: 24 }}>Vriendschapsverzoeken</h2>
+		<h2 style={{ marginBottom: 24 }}>Meldingen</h2>
 		<div style={{
 			overflowY: "scroll",
 			whiteSpace: "normal",
@@ -39,6 +39,7 @@ function FriendRequestsBubble(props: {
 		}}>
 			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
 			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
+			<GameInvite game={ {"id": "23489023908", "opponent": { "username": "gert" }} }/>
 			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
 			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
 			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
@@ -48,14 +49,16 @@ function FriendRequestsBubble(props: {
 }
 
 var FriendRequestButtonStyle: CSSProperties = {
-	display: "inline-block",
-	padding: 12,
 	borderRadius: 6,
-	marginLeft: 6
+	display: "inline-block",
+	marginLeft: 0,
+	textAlign: "center"
 };
 
-function FriendRequest(props: {
-	user: userInfo;
+function Acceptable(props: {
+	children?: ReactNode;
+	onAccept?: () => void;
+	onDeny?: () => void;
 }) {
 	return <Vierkant style={{
 		borderRadius: 8,
@@ -65,32 +68,63 @@ function FriendRequest(props: {
 		width: "100%",
 		marginBottom: 12
 	}}>
-		<div style={{
-			position: "relative"
-		}}>
-			<a href={"/user?id=" + props.user.id}>
-				<AccountAvatar size={48} dummy/>
-				<div style={{
-					display: "inline-block",
-					verticalAlign: "top",
-					marginLeft: 6
-				}}>
-					<b>{props.user.username}</b>
-					<p>{props.user.status}</p>
-				</div>
-			</a>
+		<div style={{ position: "relative" }}>
+			{props.children}
 			<div style={{
-				display: "inline-block",
-				verticalAlign: "top",
-				float: "right"
+				display: "grid",
+				gridTemplateColumns: "1fr, 1fr",
+				gridGap: 12,
+				marginTop: 12,
+				gridAutoFlow: "column",
 			}}>
-				<Button style={FriendRequestButtonStyle}><DoneIcon/></Button>
-				<Button style={FriendRequestButtonStyle}><CloseIcon/></Button>
+				<IconLabelButton
+					onclick={props.onAccept}
+					style={FriendRequestButtonStyle}
+					icon={<DoneIcon/>}
+					text="Accepteren"/>
+				<IconLabelButton
+					onclick={props.onDeny}
+					style={FriendRequestButtonStyle}
+					icon={<CloseIcon/>}
+					text="Verwijderen"/>
 			</div>
 		</div>
 	</Vierkant>
 }
 
+function FriendRequest(props: {
+	user: userInfo;
+}) {
+	return <Acceptable>
+		<a href={"/user?id=" + props.user.id}>
+			<AccountAvatar size={48} dummy/>
+			<div style={{
+				display: "inline-block",
+				verticalAlign: "top",
+				marginLeft: 6
+			}}>
+				<i style={{ display: "block" }}>Vriendschapsverzoek</i>
+				<b>{props.user.username}</b>
+			</div>
+		</a>
+	</Acceptable>
+}
+
+function GameInvite(props: {
+	game: gameInfo;
+}) {
+	return <Acceptable>
+		<a>
+			<div style={{
+				display: "inline-block",
+				verticalAlign: "top",
+			}}>
+				<i style={{ display: "block" }}>Partijuitnodiging</i>
+				<p><b><a href={"/user?id=" + props.game.opponent?.id}>{props.game.opponent?.username}</a></b> wil een potje 4 op een rij spelen!</p>
+			</div>
+		</a>
+	</Acceptable>
+}
 
 var NavBarItemStyle: CSSProperties = {
 	margin: 12,
@@ -102,7 +136,7 @@ export function NavBar() {
 	var [ loggedIn, setLoggedIn ] = useState(false);
 	useEffect(() => setLoggedIn(document.cookie.includes("token")), []);
 
-	var [ friendRequestDialogVisible, setFriendRequestDialogVisible ] = useState(false);
+	var [ notificationsAreaVisible, setNotificationsAreaVisible ] = useState(false);
 
 	return <div className="navbar" style={{
 		width: 48,
@@ -119,7 +153,7 @@ export function NavBar() {
 
 		overflow: "visible",
 		whiteSpace: "nowrap",
-		zIndex: 1
+		zIndex: 2
 	}}>
 		<div style={NavBarItemStyle}><LogoDark/></div>
 		<a href="/" style={NavBarItemStyle}><Home/></a>
@@ -138,17 +172,17 @@ export function NavBar() {
 				position: "relative",
 				...NavBarItemStyle
 			}}>
-				<div style={{ cursor: "pointer" }} onClick={() => setFriendRequestDialogVisible(!friendRequestDialogVisible)}>
-					<GroupAddIcon/>
+				<div style={{ cursor: "pointer" }} onClick={() => setNotificationsAreaVisible(!notificationsAreaVisible)}>
+					<NotificationsIcon/>
+					<div style={{
+						backgroundColor: "var(--disk-a)",
+						width: 8, height: 8,
+						borderRadius: 4,
+						position: "absolute",
+						top: 2, right: 2
+					}}/>
 				</div>
-				<div style={{
-					backgroundColor: "var(--disk-a)",
-					width: 8, height: 8,
-					borderRadius: 4,
-					position: "absolute",
-					top: -2, right: -2
-				}}/>
-				<FriendRequestsBubble visible={friendRequestDialogVisible}/>
+				<NotificationsArea visible={notificationsAreaVisible}/>
 			</a> }
 			<a href={loggedIn ? "/user" : "/login"} style={NavBarItemStyle}>
 				{
