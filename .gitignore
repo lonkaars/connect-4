@@ -24,6 +24,7 @@ database/*.sqlext
 !next.config.js
 *.d.ts
 node_modules/
+yarn-error.log
 
 # eslint
 .eslintcache
