@@ -13,10 +13,16 @@ files = [str(filename)
         .replace(".py", '')
         for filename in files]
 
+def route(dynamic_route):
+    app.register_blueprint(dynamic_route[1], url_prefix=dynamic_route[0])
+    path = (dynamic_route[0] + "/" + dynamic_route[1].name).replace('//', '/')
+    log.info(f"dynamically routing {path}")
+
 for file in files:
     mod = importlib.import_module(file)
-    if not hasattr(mod, "dynamic_route"): continue
-    app.register_blueprint(mod.dynamic_route[1], url_prefix=mod.dynamic_route[0])
-    path = (mod.dynamic_route[0] + "/" + mod.dynamic_route[1].name).replace('//', '/')
-    log.info(f"dynamically routing {path}")
+    if hasattr(mod, "dynamic_route"):
+        route(mod.dynamic_route)
+    elif hasattr(mod, "dynamic_routes"):
+        for dynamic_route in mod.dynamic_routes:
+            route(dynamic_route)
 
