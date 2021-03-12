@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from 'react';
-import { Vierkant } from './ui';
+import { Vierkant, Bubble } from './ui';
 
 import SettingsRoundedIcon from '@material-ui/icons/SettingsRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
@@ -71,6 +71,8 @@ export function GameBar(props: {
 			<div style={{ ...GameBarAlignStyle, float: "right" }}>
 				<GameBarModule>
 					<SettingsRoundedIcon/>
+					<Bubble>
+					</Bubble>
 				</GameBarModule>
 				<GameBarSpacer/>
 				<GameBarModule>

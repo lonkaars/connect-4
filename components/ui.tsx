@@ -242,3 +242,41 @@ export class ColorPicker extends Component<{
 	}
 }
 
+export function Tuitje(props: {
+	style?: CSSProperties;
+	rotation?: number;
+}) {
+	return <svg width="36" height="12" viewBox="0 0 36 12" fill="none" xmlns="http://www.w3.org/2000/svg" style={{
+		...props.style
+	}}>
+		<path d="M18 12C24 12 27 0 36 0L0 0C9 0 12 12 18 12Z"
+			  fill={ props.style?.background as string || "var(--background)" }/>
+	</svg>
+}
+
+export function Bubble(props: {
+	children?: ReactNode;
+	style?: CSSProperties;
+	tuitjeStyle?: CSSProperties;
+}) {
+	return <Vierkant style={{
+		position: "absolute",
+		textAlign: "center",
+		margin: 0,
+		overflow: "visible",
+		left: "50%",
+		top: -24,
+		transform: "translateY(-100%) translateX(-50%)",
+		boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+		...props.style
+	}}>
+		{props.children}
+		<Tuitje style={{
+			position: "absolute",
+			bottom: -12,
+			transform: "translate(-50%, 0%) rotate(0deg)",
+			...props.tuitjeStyle
+		}}/>
+	</Vierkant>
+}
+
