@@ -1,4 +1,5 @@
 import { CSSProperties, useEffect, useState, ReactNode } from "react";
+import axios from "axios";
 
 import { LogoDark } from "../components/logo";
 import { AccountAvatar } from "./account";
@@ -17,6 +18,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 function NotificationsArea(props: {
 	visible?: boolean;
+	friendRequests?: Array<userInfo>;
 }) {
 	return props.visible && <Bubble style={{
 		left: 48 + 12,
@@ -37,13 +39,8 @@ function NotificationsArea(props: {
 			height: 450 - 24 * 4,
 			borderRadius: 6
 		}}>
-			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
-			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
-			<GameInvite game={ {"id": "23489023908", "opponent": { "username": "gert" }} }/>
-			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
-			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
-			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
-			<FriendRequest user={ {"id": "1398093580938", "username": "test", "status": "Lorum ipsum"} }/>
+			{ /* here should be the game invites */ }
+			{ props.friendRequests?.map(user => <FriendRequest user={user}/>) }
 		</div>
 	</Bubble>
 }
@@ -134,9 +131,31 @@ var NavBarItemStyle: CSSProperties = {
 
 export function NavBar() {
 	var [ loggedIn, setLoggedIn ] = useState(false);
-	useEffect(() => setLoggedIn(document.cookie.includes("token")), []);
+	var [ gotData, setGotData ] = useState(false);
+
+	var [ friendRequests, setFriendRequests ] = useState<Array<userInfo>>(null);
 
 	var [ notificationsAreaVisible, setNotificationsAreaVisible ] = useState(false);
+	var [ gotNotifications, setGotNotifications ] = useState(false);
+
+	useEffect(() => {(async () => {
+		if (gotData) return;
+		if (typeof window === "undefined") return;
+
+		var loggedIn = document.cookie.includes("token");
+		setLoggedIn(loggedIn);
+
+		if (loggedIn) {
+			var friendRequestsReq = await axios.request<{ requests: Array<userInfo> }>({
+				method: "get",
+				url: `/api/social/list/requests`
+			});
+			setFriendRequests(friendRequestsReq.data.requests);
+			setGotNotifications(true);
+		}
+
+		setGotData(true);
+	})()});
 
 	return <div className="navbar" style={{
 		width: 48,
@@ -174,15 +193,17 @@ export function NavBar() {
 			}}>
 				<div style={{ cursor: "pointer" }} onClick={() => setNotificationsAreaVisible(!notificationsAreaVisible)}>
 					<NotificationsIcon/>
-					<div style={{
+					{ gotNotifications && <div style={{
 						backgroundColor: "var(--disk-a)",
 						width: 8, height: 8,
 						borderRadius: 4,
 						position: "absolute",
 						top: 2, right: 2
-					}}/>
+					}}/> }
 				</div>
-				<NotificationsArea visible={notificationsAreaVisible}/>
+				<NotificationsArea
+					visible={notificationsAreaVisible}
+					friendRequests={friendRequests}/>
 			</a> }
 			<a href={loggedIn ? "/user" : "/login"} style={NavBarItemStyle}>
 				{
