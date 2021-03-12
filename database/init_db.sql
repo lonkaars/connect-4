@@ -38,10 +38,11 @@ create table if not exists games (
 );
 
 create table if not exists social (
-	user_id text not null,
-	friends text,
-	blocked text,
-	pending text,
-	foreign key(user_id) references users(user_id)
+	user_1_id text not null,
+	user_2_id text not null,
+	type text not null,
+	timestamp integer not null,
+	foreign key(user_1_id) references users(user_id),
+	foreign key(user_2_id) references users(user_id)
 );
 
