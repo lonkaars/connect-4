@@ -71,10 +71,16 @@ An example database can be found on [Google Docs](https://docs.google.com/spread
 	cd voerbak
 	make
 	```
-9. Initialize database:
+9. Download SQLiteFuzzySearch:
+	```sh
+	git submodule init database/SQLiteFuzzySearch
+	git submodule update
+	```
+10. Initialize database and build SQL extensions:
 	```sh
 	cd database
 	./init_db.sh
+	make
 	```
 
 ## How to start
