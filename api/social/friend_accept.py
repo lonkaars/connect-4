@@ -21,6 +21,7 @@ def route():
 
     cursor.execute("update social set type = \"friendship\" where user_1_id = ? and user_2_id = ?",
             [user_1_id, user_2_id])
+    connection.commit()
 
     return "", 200
 
