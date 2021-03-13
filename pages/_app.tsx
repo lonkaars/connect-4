@@ -11,6 +11,8 @@ export default function VierOpEenRijWebsite({ Component, pageProps }) {
 		<Head>
 			<title>4 op een rij</title>
 			<link rel="stylesheet" href="/font/stylesheet.css"/>
+			<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+			<link rel="icon" href="/favicon.png" type="image/png"/>
 		</Head>
 		<PreferencesContextWrapper>
 			<ToastContextWrapper>

@@ -1,0 +1,19 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<style>
+	.red { fill: #E16D82; }
+	.green { fill: #73D0C5; }
+	.outline {
+		stroke: #5D737E;
+		stroke-width: 2px;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.outline { stroke: #FCFFFD; }
+	}
+	</style>
+	<circle class="red" cx="6.5" cy="6.5" r="4.5"/>
+	<circle class="green" cx="6.5" cy="17.5" r="4.5"/>
+	<circle class="red" cx="17.5" cy="17.5" r="4.5"/>
+	<circle class="outline" cx="17.5" cy="6.5" r="3.5"/>
+</svg>
+
