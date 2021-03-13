@@ -52,7 +52,7 @@ export default function RecentGames(props: { games?: Array<gameInfo> }) {
 						<th style={{ width: "20%" }}>Datum</th>
 					</tr>
 					{
-						props.games?.map(game => <tr>
+						props.games?.map(game => <tr key={game.id}>
 							 <td style={LeftAlignedTableColumn}>
 								 <a href={"/user?id=" + game.opponent?.id} style={{
 									 fontWeight: 500

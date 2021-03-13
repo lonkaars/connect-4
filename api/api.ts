@@ -6,6 +6,7 @@ export interface userInfo {
 	registered?: number,
 	type?: string,
 	username?: string,
+	relation?: "none"|"friends"|"incoming"|"outgoing"|"blocked",
 };
 
 export type ruleset = {

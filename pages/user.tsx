@@ -78,8 +78,7 @@ export default function AccountPage() {
 
 	var [editingStatus, setEditingStatus] = useState(false);
 
-	var [isFriends, setIsFriends] = useState(false);
-	var [hasBlocked, setHasBlocked] = useState(false);
+	var [relation, setRelation] = useState<userInfo["relation"]>("none");
 
 	var { toast } = useContext(ToastContext);
 
@@ -112,6 +111,7 @@ export default function AccountPage() {
 					data: { "id": id || self_id }
 				});
 				setUser(userReq.data);
+				setRelation(userReq.data.relation || "none");
 			}
 
 			if (!gameInfo) {
@@ -179,7 +179,7 @@ export default function AccountPage() {
 							}
 						</div> :
 						<div>
-							{ hasBlocked ?
+							{ relation == "blocked" ?
 								<IconLabelButton icon={<Icon size={1} path={mdiAccountCancelOutline}/>} text="Deblokkeren" onclick={() => {
 									/* axios.request({ */
 									/* 	method: "post", */
@@ -205,12 +205,11 @@ export default function AccountPage() {
 										toast(`${user.username} geblokkeerd`,
 											  "confirmation",
 											  <Icon size={32 / 24} path={mdiAccountCancelOutline}/>);
-											  setHasBlocked(true);
-											  setIsFriends(false);
+											  setRelation("blocked");
 									});
 								}}/>
 							}
-							{ isFriends ?
+							{ relation == "friends" ?
 								<IconLabelButton icon={<Icon size={1} path={mdiAccountMinusOutline}/>} text="Vriend verwijderen" onclick={() => {
 									/* axios.request({ */
 									/* 	method: "post", */
@@ -236,8 +235,7 @@ export default function AccountPage() {
 										toast("Vriendschapsverzoek gestuurd",
 											  "confirmation",
 											  <PersonAddOutlinedIcon style={{ fontSize: 32 }}/>);
-											  setIsFriends(true);
-											  setHasBlocked(false);
+											  setRelation("outgoing");
 									});
 								}}/>
 							}
