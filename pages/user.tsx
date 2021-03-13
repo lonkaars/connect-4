@@ -179,36 +179,44 @@ export default function AccountPage() {
 							}
 						</div> :
 						<div>
-							{ relation == "blocked" ?
-								<IconLabelButton icon={<Icon size={1} path={mdiAccountCancelOutline}/>} text="Deblokkeren" onclick={() => {
-									/* axios.request({ */
-									/* 	method: "post", */
-									/* 	url: `/api/social/block`, */
-									/* 	headers: {"content-type": "application/json"}, */
-									/* 	data: { "id": user?.id } */
-									/* }) */
-									/* .then(() => { */
-									/* 	toast(`${user.username} geblokkeerd`, */
-									/* 		  "confirmation", */
-									/* 		  <Icon size={32 / 24} path={mdiAccountCancelOutline}/>); */
-									/* 		  setHasBlocked(true); */
-									/* }); */
-								}}/> :
-								<IconLabelButton icon={<Icon size={1} path={mdiAccountCancelOutline}/>} text="Blokkeren" onclick={() => {
+							{(() => {
+								var icon = {
+									"blocked": <Icon size={1} path={mdiAccountCancelOutline}/>
+								}[relation] || <Icon size={1} path={mdiAccountCancelOutline}/>
+
+								var text = {
+									"blocked": "Deblokkeren"
+								}[relation] || "Blokkeren"
+
+								return <IconLabelButton icon={icon} text={text} onclick={() => {
+									var nextRelation = {
+										"blocked": {
+											"endpoint": "/api/social/unblock",
+											"action": `${user.username} gedeblokkeerd`,
+											"relation": "none",
+											"icon": <Icon size={32 / 24} path={mdiAccountCancelOutline}/>,
+										}
+									}[relation] || {
+										"endpoint": "/api/social/block",
+										"action": `${user.username} geblokkeerd`,
+										"relation": "blocked",
+										"icon": <Icon size={32 / 24} path={mdiAccountCancelOutline}/>,
+									}
+
 									axios.request({
 										method: "post",
-										url: `/api/social/block`,
+										url: nextRelation.endpoint,
 										headers: {"content-type": "application/json"},
 										data: { "id": user?.id }
 									})
 									.then(() => {
-										toast(`${user.username} geblokkeerd`,
+										toast(nextRelation.action,
 											  "confirmation",
-											  <Icon size={32 / 24} path={mdiAccountCancelOutline}/>);
-											  setRelation("blocked");
+											  nextRelation.icon);
+										setRelation(nextRelation.relation);
 									});
 								}}/>
-							}
+							})()}
 							{ relation == "friends" ?
 								<IconLabelButton icon={<Icon size={1} path={mdiAccountMinusOutline}/>} text="Vriend verwijderen" onclick={() => {
 									/* axios.request({ */
