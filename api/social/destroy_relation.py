@@ -28,5 +28,29 @@ def index():
     remove_relation(user_2_id, user_1_id)
     return "", 200
 
-dynamic_route = ["/social", remove]
+unblock = Blueprint('unblock', __name__)
+
+@unblock.route('/unblock', methods = ['POST'])
+def index():
+    data = request.get_json()
+
+    user_2_id = data.get("id") or ""
+    token = request.cookies.get("token") or ""
+
+    if not token: return "", 401
+    user_1_id = token_login(token) or ""
+
+    if not user_1_id or \
+       not user_2_id:
+           return "", 403
+
+    if get_relation_to(user_1_id, user_2_id) != "blocked": return "", 403
+
+    remove_relation(user_1_id, user_2_id)
+    return "", 200
+
+dynamic_routes = [
+        ["/social", remove],
+        ["/social", unblock]
+        ]
 
