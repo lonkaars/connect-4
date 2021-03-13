@@ -151,7 +151,7 @@ export function NavBar() {
 				url: `/api/social/list/requests`
 			});
 			setFriendRequests(friendRequestsReq.data.requests);
-			setGotNotifications(true);
+			setGotNotifications(gotNotifications || friendRequestsReq.data.requests.length > 0);
 		}
 
 		setGotData(true);

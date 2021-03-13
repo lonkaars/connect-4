@@ -71,8 +71,6 @@ export function GameBar(props: {
 			<div style={{ ...GameBarAlignStyle, float: "right" }}>
 				<GameBarModule>
 					<SettingsRoundedIcon/>
-					<Bubble>
-					</Bubble>
 				</GameBarModule>
 				<GameBarSpacer/>
 				<GameBarModule>
