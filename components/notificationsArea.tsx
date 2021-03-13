@@ -89,7 +89,7 @@ function FriendRequest(props: {
 	return !gone && <Acceptable onAccept={() => {
 		axios.request({
 			method: "post",
-			url: `/api/social/accept`,
+			url: "/api/social/accept",
 			headers: {"content-type": "application/json"},
 			data: { "id": props.user?.id }
 		})
@@ -97,7 +97,7 @@ function FriendRequest(props: {
 	}} onDeny={() => {
 		axios.request({
 			method: "post",
-			url: `/api/social/remove`,
+			url: "/api/social/remove",
 			headers: {"content-type": "application/json"},
 			data: { "id": props.user?.id }
 		})

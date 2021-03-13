@@ -25,6 +25,7 @@ def index():
     if relation == "none": return 403
 
     remove_relation(user_1_id, user_2_id)
+    remove_relation(user_2_id, user_1_id)
     return "", 200
 
 dynamic_route = ["/social", remove]
