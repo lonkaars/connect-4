@@ -25,7 +25,8 @@ import {
 	mdiClipboardTextOutline,
 	mdiGamepadSquareOutline,
 	mdiEarth,
-	mdiAccountMinusOutline } from '@mdi/js';
+	mdiAccountMinusOutline,
+	mdiAccountRemoveOutline } from '@mdi/js';
 
 function InfoModule(props: {
 	label: string;
@@ -217,36 +218,60 @@ export default function AccountPage() {
 									});
 								}}/>
 							})()}
-							{ relation == "friends" ?
-								<IconLabelButton icon={<Icon size={1} path={mdiAccountMinusOutline}/>} text="Vriend verwijderen" onclick={() => {
-									/* axios.request({ */
-									/* 	method: "post", */
-									/* 	url: `/api/social/request`, */
-									/* 	headers: {"content-type": "application/json"}, */
-									/* 	data: { "id": user?.id } */
-									/* }) */
-									/* .then(() => { */
-									/* 	toast("Vriendschapsverzoek gestuurd", */
-									/* 		  "confirmation", */
-									/* 		  <PersonAddOutlinedIcon style={{ fontSize: 32 }}/>); */
-									/* 		  setIsFriends(true); */
-									/* }); */
-								}}/> :
-								<IconLabelButton icon={<PersonAddOutlinedIcon/>} text="Vriendschapsverzoek" onclick={() => {
+							{(() => {
+								var icon = {
+									"friends": <Icon size={1} path={mdiAccountMinusOutline}/>,
+									"outgoing": <Icon size={1} path={mdiAccountRemoveOutline}/>,
+									"incoming": <PersonAddOutlinedIcon/>
+								}[relation] || <PersonAddOutlinedIcon/>
+
+								var text = {
+									"friends": "Vriend verwijderen",
+									"outgoing": "Vriendschapsverzoek annuleren",
+									"incoming": "Vriendschapsverzoek accepteren"
+								}[relation] || "Vriendschapsverzoek sturen"
+
+								return <IconLabelButton icon={icon} text={text} onclick={() => {
+									var nextRelation = {
+										"friends": {
+											"endpoint": "/api/social/remove",
+											"action": `${user.username} succesvol verwijderd als vriend`,
+											"relation": "none",
+											"icon": <Icon size={32 / 24} path={mdiAccountMinusOutline}/>,
+										},
+										"outgoing": {
+											"endpoint": "/api/social/remove",
+											"action": `Vriendschapsverzoek naar ${user.username} geannuleerd`,
+											"relation": "none",
+											"icon": <Icon size={32 / 24} path={mdiAccountMinusOutline}/>,
+										},
+										"incoming": {
+											"endpoint": "/api/social/accept",
+											"action": `Vriendschapsverzoek van ${user.username} geaccepteerd`,
+											"relation": "friends",
+											"icon": <PersonAddOutlinedIcon/>,
+										},
+									}[relation] || {
+										"endpoint": "/api/social/request",
+										"action": `Vriendschapsverzoek gestuurd naar ${user.username}`,
+										"relation": "outgoing",
+										"icon": <PersonAddOutlinedIcon/>,
+									}
+
 									axios.request({
 										method: "post",
-										url: `/api/social/request`,
+										url: nextRelation.endpoint,
 										headers: {"content-type": "application/json"},
 										data: { "id": user?.id }
 									})
 									.then(() => {
-										toast("Vriendschapsverzoek gestuurd",
+										toast(nextRelation.action,
 											  "confirmation",
-											  <PersonAddOutlinedIcon style={{ fontSize: 32 }}/>);
-											  setRelation("outgoing");
+											  nextRelation.icon);
+										setRelation(nextRelation.relation);
 									});
 								}}/>
-							}
+							})()}
 						</div>
 					}</div>}
 				</div>

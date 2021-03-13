@@ -14,7 +14,7 @@ def create_relation(user_1_id, user_2_id, relation_type):
 def remove_relation(user_1_id, user_2_id):
     cursor.execute("delete from social where user_1_id = ? and user_2_id = ?",
             [user_1_id, user_2_id])
-    connection.commit
+    connection.commit()
 
 def create_relation_route(relation_type):
     def route():
