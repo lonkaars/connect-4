@@ -104,7 +104,7 @@ function FriendRequest(props: {
 		.then(() => setGone(true));
 	}}>
 		<a href={"/user?id=" + props.user.id}>
-			<AccountAvatar size={48} dummy/>
+			<AccountAvatar size={48} id={props.user.id}/>
 			<div style={{
 				display: "inline-block",
 				verticalAlign: "top",
