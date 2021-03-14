@@ -3,6 +3,7 @@ from db import cursor
 from auth.login_token import token_login
 from user.info import valid_user_id
 from os.path import exists
+from codecs import decode
 
 default_avatar = open("database/avatars/default.png", "rb").read()
 
@@ -25,6 +26,15 @@ def get_avatar():
 
 @avatar.route('/avatar', methods = ["POST"]) #TODO: pillow image size validation (client side resize)
 def update_avatar():
+    token = request.cookies.get("token") or ""
+    if not token: return "", 401
+    if not request.data: return "", 400
+
+    login = token_login(token) or ""
+    if not login: return "", 403
+
+    open(f"database/avatars/{login}.png", "wb").write(decode(request.data, "base64"))
+
     return "", 200
 
 dynamic_route = ["/user", avatar]
