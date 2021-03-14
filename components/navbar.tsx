@@ -99,7 +99,7 @@ export function NavBar() {
 			<a href={loggedIn ? "/user" : "/login"} style={NavBarItemStyle}>
 				{
 					loggedIn ?
-					<AccountAvatar size={24} dummy round/> :
+					<AccountAvatar size={24} round/> :
 					<PersonIcon/>
 				}
 			</a>

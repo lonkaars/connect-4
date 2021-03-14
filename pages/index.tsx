@@ -87,7 +87,7 @@ function AccountBox(props: {
 			top: 0, left: 0,
 			...SquareSize
 		}}>
-			<AccountAvatar size={90} dummy/>
+			<AccountAvatar size={90}/>
 		</div>
 		<div style={{
 			position: "absolute",

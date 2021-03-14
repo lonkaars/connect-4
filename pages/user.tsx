@@ -136,7 +136,7 @@ export default function AccountPage() {
 		<CenteredPage width={802}>
 			<PageTitle>Profiel</PageTitle>
 			<Vierkant fullwidth>
-				<AccountAvatar size={128} dummy/>
+				<AccountAvatar size={128} id={user?.id || ""}/>
 				<div style={{
 					display: "inline-block",
 					verticalAlign: "top",

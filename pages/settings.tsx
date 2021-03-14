@@ -28,7 +28,7 @@ export default function SettingsPage() {
 				<Vierkant fullwidth>
 					<h2>Account</h2>
 					<div style={SettingsSubsectionStyle}>
-						<AccountAvatar size={100} dummy/>
+						<AccountAvatar size={100}/>
 						<IconLabelButton text="Profielfoto veranderen" icon={<EditOutlinedIcon/>}/>
 					</div>
 					<div style={SettingsSubsectionStyle}>

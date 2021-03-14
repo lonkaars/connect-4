@@ -34,7 +34,7 @@ function SearchResult(props: { user: userInfo }) {
 		padding: 12
 	}} fullwidth href={"/user?id=" + props.user.id}>
 		<div style={{ position: "relative" }}>
-			<AccountAvatar size={48} dummy/>
+			<AccountAvatar size={48} id={props.user.id}/>
 			<div style={{
 				position: "absolute",
 				top: 0, right: 0, bottom: 0,
