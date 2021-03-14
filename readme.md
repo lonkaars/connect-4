@@ -2,6 +2,12 @@
 
 ![](./banner.png)
 
+<p align="center">
+<img src="https://img.shields.io/github/license/lonkaars/po-4-op-een-rij"/>
+<img src="https://img.shields.io/github/languages/count/lonkaars/po-4-op-een-rij"/>
+<img src="https://img.shields.io/static/v1?label=platform&message=linux"/>
+</p>
+
 ## This is a school project using Python and SQL
 
 Some of this project's code is in Dutch (commit messages, documents etc.),
