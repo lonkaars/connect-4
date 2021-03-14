@@ -290,7 +290,11 @@ export default function AccountPage() {
 
 					return memberSince;
 				})() }/>
-				<InfoModule icon={<PeopleOutlineOutlinedIcon/>} label="2 vrienden"/>
+				<InfoModule icon={<PeopleOutlineOutlinedIcon/>} label={(() => {
+					var label = user?.friends.toString() + " ";
+					label += user?.friends == 1 ? "vriend" : "vrienden";
+					return label;
+				})()}/>
 				<InfoModule icon={<Icon size={1} path={mdiEarth}/>} label="Nederland"/>
 			</InfoSection>
 			<InfoSection>
@@ -298,7 +302,11 @@ export default function AccountPage() {
 				<InfoModule icon={<Icon size={1} path={mdiEqual}/>} label={ gameInfo?.totals.draw + " keer gelijkspel" }/>
 				<InfoModule icon={<ArrowDownwardOutlinedIcon style={{ color: "var(--disk-a-text)" }}/>} label={ gameInfo?.totals.lose + " keer verloren" }/>
 				<InfoModule icon={<Icon size={1} path={mdiClipboardTextOutline}/>} label="Score: 400"/>
-				<InfoModule icon={<Icon size={1} path={mdiGamepadSquareOutline}/>} label={ gameInfo?.totals.games + " potjes" }/>
+				<InfoModule icon={<Icon size={1} path={mdiGamepadSquareOutline}/>} label={(() => {
+					var label = gameInfo?.totals.games.toString() + " ";
+					label += gameInfo?.totals.games == 1 ? "potje" : "potjes";
+					return label;
+				})()}/>
 			</InfoSection>
 			<Vierkant>
 				<RecentGames games={gameInfo?.games}/>

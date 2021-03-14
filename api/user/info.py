@@ -18,6 +18,10 @@ def get_relation_to(user_1_id, user_2_id):
     if relation[2] == "block" and relation[0] == user_1_id: return "blocked"
     return "none"
 
+def count_friends(user_id):
+    query = cursor.execute("select type from social where (user_1_id = ? or user_2_id = ?) and type = \"friendship\"", [user_id, user_id]).fetchall()
+    return len(query)
+
 def format_user(user_id, viewer = ''):
     user = cursor.execute("select " + ", ".join([
         "username",
@@ -34,6 +38,7 @@ def format_user(user_id, viewer = ''):
         "registered": user[3],
         "avatar": user[4],
         "status": user[5],
+        "friends": count_friends(user_id)
     }
     if viewer:
         formatted_user["relation"] = get_relation_to(viewer, user_id)
