@@ -18,6 +18,8 @@ ENV/
 database/*.db
 database/*.db-journal
 database/*.sqlext
+database/avatars/*
+!database/avatars/default.png
 
 # node / ts
 *.js
