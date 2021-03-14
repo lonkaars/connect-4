@@ -13,7 +13,7 @@ def index():
     if not query: return "", 400
     if len(query) < 3: return "", 403
 
-    results = cursor.execute("select user_id from users where levenshtein(username, ?, 3)", [query]).fetchmany(20);
+    results = cursor.execute("select user_id from users where levenshtein(lower(username), lower(?), 3)", [query]).fetchmany(20);
 
     formatted = { "results": [] }
 

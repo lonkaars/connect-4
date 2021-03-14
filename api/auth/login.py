@@ -18,7 +18,7 @@ def index():
 
     user_id = None
     user_id = user_id or cursor.execute("select user_id from users where email = ?", [email]).fetchone()
-    user_id = user_id or cursor.execute("select user_id from users where username = ?", [email]).fetchone()
+    user_id = user_id or cursor.execute("select user_id from users where lower(username) = lower(?)", [email]).fetchone()
     if user_id == None: return "", 401
 
     passwd = cursor.execute("select password_hash from users where user_id = ?", [user_id[0]]).fetchone()

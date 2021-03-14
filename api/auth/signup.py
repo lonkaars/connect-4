@@ -38,7 +38,7 @@ def index():
        not validate_password(password):
            return {"error": "form_data_invalid"}, 403
 
-    if cursor.execute("select username from users where username = ?", [username]).fetchone():
+    if cursor.execute("select username from users where lower(username) = lower(?)", [username]).fetchone():
         return {"error": "username_taken"}, 403
 
     if cursor.execute("select email from users where email = ?", [email]).fetchone():
