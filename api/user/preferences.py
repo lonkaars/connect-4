@@ -4,18 +4,16 @@ from auth.login_token import token_login
 from ruleset import resolve_ruleset
 import json
 
-class preferences_class:
-    def __init__(self, preferences):
-        self.darkMode = preferences.get("darkMode") or False
-        self.ruleset = resolve_ruleset(json.dumps(preferences.get("ruleset") or {}) or "default")
-        self.userColors = {
-                "diskA": preferences.get("userColors", {}).get("diskA") or "",
-                "diskB": preferences.get("userColors", {}).get("diskB") or "",
-                "background": preferences.get("userColors", {}).get("background") or ""
-                }
-
 def format_preferences(prefs):
-    return json.dumps((preferences_class(prefs)).__dict__)
+    return {
+            "darkMode": prefs.get("darkMode") or False,
+            "ruleset": resolve_ruleset(json.dumps(prefs.get("ruleset") or {}) or "default"),
+            "userColors": {
+                "diskA": prefs.get("userColors", {}).get("diskA") or "",
+                "diskB": prefs.get("userColors", {}).get("diskB") or "",
+                "background": prefs.get("userColors", {}).get("background") or ""
+                }
+            }
 
 preferences = Blueprint('preferences', __name__)
 
@@ -45,15 +43,9 @@ def index():
 
     if not login: return "", 403
 
-    preferences_json = {}
-    try:
-        preferences_json = json.loads(new_preferences)
-    except ValueError as e:
-        return "", 400
+    formatted_json = format_preferences(new_preferences)
 
-    formatted_json = format_preferences(preferences_json)
-
-    cursor.execute("update users set preferences = ? where user_id = ?", [formatted_json, login])
+    cursor.execute("update users set preferences = ? where user_id = ?", [json.dumps(formatted_json), login])
     connection.commit()
 
     return "", 200
