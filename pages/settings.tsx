@@ -1,6 +1,8 @@
 import { CSSProperties, useContext } from 'react';
 import * as cookies from 'react-cookies';
 import axios from 'axios';
+import pica from 'pica';
+import reduce from 'image-blob-reduce';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
@@ -19,19 +21,29 @@ var SettingsSubsectionStyle: CSSProperties = {
 	minHeight: 40
 };
 
-function uploadNewProfileImage() {
+async function uploadNewProfileImage() {
 	if (!this.result) return;
+
 	var result = this.result.split(";");
 	var mimeType = result[0].substr(5);
-	var data = result[1].substr(7);
+
 	if (!["image/png", "image/jpeg"].includes(mimeType)) return;
-	axios.request({
-		method: "post",
-		url: `/api/user/avatar`,
-		headers: {"content-type": "image/png"},
-		data: data
-	})
-	.then(() => window.location.reload()); //TODO: this is straight garbage
+
+	var blob = await (await fetch(this.result)).blob()
+
+	var image = await new reduce().toBlob(blob, { max: 256 });
+	var reader = new FileReader();
+
+	reader.readAsBinaryString(image);
+	reader.onload = async () => {
+		await axios.request({
+			method: "post",
+			url: `/api/user/avatar`,
+			headers: {"content-type": "image/png"},
+			data: btoa(reader.result as string)
+		});
+		window.location.reload(); //TODO: this is straight garbage
+	}
 }
 
 export default function SettingsPage() {
