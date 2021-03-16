@@ -5,7 +5,8 @@ import json
 import time
 
 def valid_tokens(user_id):
-    return json.loads(cursor.execute("select valid_tokens from users where user_id = ?", [user_id]).fetchone()[0])
+    tokens = json.loads(cursor.execute("select valid_tokens from users where user_id = ?", [user_id]).fetchone()[0])
+    return [token for token in tokens if token["expirationDate"] > int( time.time() * 1000 )]
 
 def validate_token(user_id, token):
     tokens = valid_tokens(user_id)
