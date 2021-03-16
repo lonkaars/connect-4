@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from db import cursor
 from auth.login_token import token_login
+from rating import get_rating
 import json
 
 def valid_user_id(user_id):
@@ -38,7 +39,8 @@ def format_user(user_id, viewer = ''):
         "registered": user[3],
         "avatar": user[4],
         "status": user[5],
-        "friends": count_friends(user_id)
+        "friends": count_friends(user_id),
+        "rating": get_rating(user_id),
     }
     if viewer:
         formatted_user["relation"] = get_relation_to(viewer, user_id)

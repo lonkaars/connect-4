@@ -3,12 +3,8 @@ from functools import reduce
 from db import cursor
 from auth.login_token import token_login
 from user.info import format_user
+from rating import outcome
 from ruleset import resolve_ruleset
-
-def outcome(outcome_str, player_1):
-    outcome_int = { "w": 1, "l": -1, "d": 0 }[outcome_str]
-    if not player_1: outcome_int *= -1
-    return { 1: "w", -1: "l", 0: "d" }[outcome_int]
 
 def format_game(game_id, user_id = None):
     game = cursor.execute("select " + ", ".join([
