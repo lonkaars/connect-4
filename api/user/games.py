@@ -5,47 +5,8 @@ from db import cursor
 from auth.login_token import token_login
 from user.info import format_user
 from ruleset import resolve_ruleset
+from game.info import format_game
 import json
-
-def outcome(outcome_str, player_1):
-    outcome_int = { "w": 1, "l": -1, "d": 0 }[outcome_str]
-    if not player_1: outcome_int *= -1
-    return { 1: "w", -1: "l", 0: "d" }[outcome_int]
-
-def game_info(game_id, user_id = None):
-    game = cursor.execute("select " + ", ".join([
-        "game_id",               # 0
-        "parent_game",           # 1
-        "moves",                 # 2
-        "player_1_id",           # 3
-        "player_2_id",           # 4
-        "outcome",               # 5
-        "created",               # 6
-        "started",               # 7
-        "duration",              # 8
-        "rating_delta_player_1", # 9
-        "rating_delta_player_2", # 10
-        "ruleset",               # 11
-        "status",                # 12
-        "private",               # 13
-        ]) + " from games where game_id = ?", [game_id]).fetchone()
-    is_player_1 = game[4] != user_id
-    opponent = game[4] if is_player_1 else game[3]
-    return {
-        "id": game[0],
-        "parent": game[1],
-        "moves": [] if len(game[2]) == 0 else [int(move) for move in str(game[2] + "0").split(",")],
-        "opponent": None if not opponent else format_user(opponent),
-        "outcome": None if not game[5] else outcome(game[5], is_player_1),
-        "created": game[6],
-        "started": game[7],
-        "duration": game[8],
-        "rating": game[9] if is_player_1 else game[10],
-        "rating_opponent": game[10] if is_player_1 else game[9],
-        "ruleset": resolve_ruleset(game[11]),
-        "status": game[12],
-        "private": bool(game[13]),
-    }
 
 def sum_games(user_id): #! SANITIZE USER_ID FIRST
     wld_querys = [' '.join([
@@ -79,7 +40,7 @@ def fetch_games(user_id, count):
     export = []
 
     for game_id in game_ids:
-        export.append(game_info(game_id[0], user_id))
+        export.append(format_game(game_id[0], user_id))
 
     return export
 
