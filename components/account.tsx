@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 var dummy = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2P4z/j/PwAHAQL/gXZXNQAAAABJRU5ErkJggg==";
 
 export function AccountAvatar(props: {

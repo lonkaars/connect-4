@@ -46,7 +46,7 @@ export function NavBar() {
 		}
 
 		setGotData(true);
-	})()});
+	})()}, []);
 
 	return <div className="navbar" style={{
 		width: 48,

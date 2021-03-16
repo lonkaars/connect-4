@@ -12,13 +12,13 @@ function applyPreferences(preferences: userPreferences) {
 var PreferencesContext = createContext<{ preferences?: userPreferences; updatePreference?: (newPreference: userPreferences) => void }>({});
 
 export function PreferencesContextWrapper(props: { children?: ReactNode }) {
-	var [gotData, setGotData] = useState(false);
+	var server = typeof window === "undefined";
+	var loggedIn = !server && document.cookie.includes("token");
+
 	var [preferences, setPreferences] = useState<userPreferences>();
 
 	useEffect(() => {(async() => {
-		if (gotData) return;
-		if (typeof window === "undefined") return;
-		if (!document.cookie.includes("token")) return;
+		if (!loggedIn) return;
 
 		var local_prefs = window.localStorage.getItem("preferences");
 		if (local_prefs) {
@@ -37,9 +37,7 @@ export function PreferencesContextWrapper(props: { children?: ReactNode }) {
 			window.localStorage.setItem("preferences", JSON.stringify(preferencesReq.data.preferences));
 			setPreferences(preferencesReq.data.preferences);
 		}
-
-		setGotData(true);
-	})()});
+	})()}, []);
 
 	useEffect(() => applyPreferences(preferences), [preferences]);
 

@@ -62,7 +62,9 @@ function LoginOrRegisterBox() {
 			position: "absolute",
 			fontSize: 14,
 			left: 0, right: 0, top: 0,
-			margin: "0 100px"
+			margin: "0 auto",
+			minWidth: 240,
+			maxWidth: 350
 		}}>Log in of maak een account aan om je scores op te slaan en toegang te krijgen tot meer functies</span>
 		<div style={{
 			display: "grid",
@@ -115,39 +117,31 @@ function AccountBox(props: {
 }
 
 export default function HomePage() {
-	var [gotData, setGotData] = useState(false);
-	var [loggedIn, setLoggedIn] = useState(false);
+	var server = typeof window === "undefined";
+	var loggedIn = !server && document.cookie.includes("token");
+
 	var [userInfo, setUserInfo] = useState<userInfo>();
 	var [gameInfo, setGameInfo] = useState<userGames>();
 
 	useEffect(() => {( async () => {
-		if (gotData) return;
+		if (!loggedIn) return;
+		var userInfoReq = await axios.request<userInfo>({
+			method: "get",
+			url: `/api/user/info`,
+			headers: {"content-type": "application/json"}
+		});
+		setUserInfo(userInfoReq.data);
+	})()}, []);
 
-		if (typeof window === "undefined") return; // return if run on server
-		setLoggedIn(document.cookie.includes("token"));
-
-		if (!loggedIn) return; // don't request user info if not logged in
-
-		if (!userInfo) {
-			var userInfoReq = await axios.request<userInfo>({
-				method: "get",
-				url: `/api/user/info`,
-				headers: {"content-type": "application/json"}
-			})
-			setUserInfo(userInfoReq.data);
-		}
-
-		if (!gameInfo) {
-			var userGamesReq = await axios.request<userGames>({
-				method: "get",
-				url: `/api/user/games`,
-				headers: {"content-type": "application/json"}
-			})
-			setGameInfo(userGamesReq.data);
-		}
-
-		setGotData(true);
-	})()})
+	useEffect(() => {( async () => {
+		if (!loggedIn) return;
+		var userGamesReq = await axios.request<userGames>({
+			method: "get",
+			url: `/api/user/games`,
+			headers: {"content-type": "application/json"}
+		});
+		setGameInfo(userGamesReq.data);
+	})()}, []);
 
 	return <div>
 		<NavBar/>

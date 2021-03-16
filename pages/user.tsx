@@ -71,65 +71,50 @@ function InfoSection(props: { children: ReactNode }) {
 }
 
 export default function AccountPage() {
-	var [gotData, setGotData] = useState(false);
+	var server = typeof window === "undefined";
+	var loggedIn = !server && document.cookie.includes("token");
+	var pageID = server ? "" : new URLSearchParams(window.location.search).get("id");
+
+	if (!loggedIn && !pageID) !server && window.history.go(-1);
+	var reqData = loggedIn && pageID ? { "id": pageID } : undefined;
+
 	var [user, setUser] = useState<userInfo>();
-	var [ownPage, setOwnPage] = useState(false);
 	var [gameInfo, setGameInfo] = useState<userGames>();
-	var [loggedIn, setLoggedIn] = useState(false);
-
 	var [editingStatus, setEditingStatus] = useState(false);
-
 	var [relation, setRelation] = useState<userInfo["relation"]>("none");
+	var [ownPage, setOwnPage] = useState(loggedIn && !pageID);
 
 	var { toast } = useContext(ToastContext);
 
 	useEffect(() => {(async() => {
-		if (gotData) return;
-		if (typeof window === "undefined") return;
+		var userReq = await axios.request<userInfo>({
+			method: "post",
+			url: `/api/user/info`,
+			headers: {"content-type": "application/json"}
+		});
+		setOwnPage(ownPage || userReq.data.id == pageID);
+	})()}, []);
 
-		var id = new URLSearchParams(window.location.search).get("id");
-		var loggedIn = document.cookie.includes("token");
-		setLoggedIn(loggedIn);
+	useEffect(() => {(async() => {
+		var userReq = await axios.request<userInfo>({
+			method: "post",
+			url: `/api/user/info`,
+			headers: {"content-type": "application/json"},
+			data: reqData
+		});
+		setUser(userReq.data);
+		setRelation(userReq.data.relation || "none");
+	})()}, []);
 
-		if (id || loggedIn) {
-			var self_id = "";
-			if (loggedIn && !self_id) {
-				var selfReq = await axios.request<userInfo>({
-					method: "get",
-					url: `/api/user/info`,
-					headers: {"content-type": "application/json"}
-				});
-				self_id = selfReq?.data.id;
-			}
-
-			if (id == self_id || !id) setOwnPage(true);
-
-			if (!user) {
-				var userReq = await axios.request<userInfo>({
-					method: "post",
-					url: `/api/user/info`,
-					headers: {"content-type": "application/json"},
-					data: { "id": id || self_id }
-				});
-				setUser(userReq.data);
-				setRelation(userReq.data.relation || "none");
-			}
-
-			if (!gameInfo) {
-				var userGamesReq = await axios.request<userGames>({
-					method: "post",
-					url: `/api/user/games`,
-					headers: {"content-type": "application/json"},
-					data: { "id": id || self_id }
-				});
-				setGameInfo(userGamesReq.data);
-			}
-		} else {
-			window.history.go(-1);
-		}
-
-		setGotData(true);
-	})()});
+	useEffect(() => {(async() => {
+		var userGamesReq = await axios.request<userGames>({
+			method: "post",
+			url: `/api/user/games`,
+			headers: {"content-type": "application/json"},
+			data: reqData
+		});
+		setGameInfo(userGamesReq.data);
+	})()}, []);
 
 	return <div>
 		<NavBar/>

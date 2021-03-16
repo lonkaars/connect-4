@@ -62,7 +62,7 @@ function VoerGame(props: {
 		});
 
 		setIoListeners(true);
-	});
+	}, []);
 
 	return <div style={{
 		position: "relative",
@@ -196,7 +196,7 @@ export default function GamePage() {
 		io.on("gameStart", () => setActive(true));
 
 		setIoListeners(true);
-	});
+	}, []);
 
 	return <div>
 		<NavBar/>
