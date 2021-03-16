@@ -1,21 +1,21 @@
 export interface userInfo {
-	avatar?: string|null,
-	status?: string|null,
-	coutry?: string|null,
-	id?: string,
-	registered?: number,
-	type?: string,
-	username?: string,
+	avatar: string|null,
+	status: string|null,
+	coutry: string|null,
+	id: string,
+	registered: number,
+	username: string,
 	friends: number,
 	relation?: "none"|"friends"|"incoming"|"outgoing"|"blocked",
+	rating: number,
 };
 
 export type ruleset = {
 	timelimit: {
 		enabled: boolean;
-		minutes?: number;
-		seconds?: number;
-		addmove?: number;
+		minutes: number;
+		seconds: number;
+		addmove: number;
 		shared: boolean;
 	},
 	ranked: boolean;

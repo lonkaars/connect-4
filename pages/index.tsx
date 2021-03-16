@@ -104,7 +104,7 @@ function AccountBox(props: {
 				overflow: "hidden",
 				textOverflow: "ellipsis",
 			}}>{props.info?.username}</h2>
-			<p style={{ marginTop: 6 }}>Score: 400</p>
+			<p style={{ marginTop: 6 }}>Score: {props.info?.rating}</p>
 			<p style={{ position: "absolute", bottom: 0, left: 0 }}>
 				<span style={{ color: "var(--disk-b-text)" }}>{props.sumGameInfo?.win} W</span>
 				<span style={{ margin: "0 3px" }}>/</span>

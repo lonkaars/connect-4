@@ -286,7 +286,7 @@ export default function AccountPage() {
 				<InfoModule icon={<ArrowUpwardOutlinedIcon style={{ color: "var(--disk-b-text)" }}/>} label={ gameInfo?.totals.win + " keer gewonnen" }/>
 				<InfoModule icon={<Icon size={1} path={mdiEqual}/>} label={ gameInfo?.totals.draw + " keer gelijkspel" }/>
 				<InfoModule icon={<ArrowDownwardOutlinedIcon style={{ color: "var(--disk-a-text)" }}/>} label={ gameInfo?.totals.lose + " keer verloren" }/>
-				<InfoModule icon={<Icon size={1} path={mdiClipboardTextOutline}/>} label="Score: 400"/>
+					<InfoModule icon={<Icon size={1} path={mdiClipboardTextOutline}/>} label={ "Score: " + user?.rating }/>
 				<InfoModule icon={<Icon size={1} path={mdiGamepadSquareOutline}/>} label={(() => {
 					var label = gameInfo?.totals.games.toString() + " ";
 					label += gameInfo?.totals.games == 1 ? "potje" : "potjes";
