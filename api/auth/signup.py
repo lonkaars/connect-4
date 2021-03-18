@@ -48,7 +48,7 @@ def index():
     password_hash = passwords.password_hash(password)
     registered = int( time.time() * 1000 )
 
-    cursor.execute("insert into users values (?, ?, ?, NULL, NULL, ?, ?, \"[]\", FALSE, \"user\", \"{}\", NULL, \"online\") ",
+    cursor.execute("insert into users values (?, ?, ?, NULL, NULL, ?, ?, \"[]\", FALSE, \"user\", \"{}\", \"online\") ",
             (user_id, username, email, password_hash, registered))
     connection.commit()
 
