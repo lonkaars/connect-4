@@ -6,14 +6,17 @@ import passwords
 import time
 import re
 
+# Checks wheter the usename (at signup) exist of at least 3 and at most 35 charachters
 def validate_username(username):
-    return len(username) in range(3, 35 + 1)
+    return len(username) in range(3, 35 + 1) 
 
+# Checks if there's an '@' in the email (at signup) and if there's any input at all
 def validate_email(email):
     #TODO: use node_modules/email-validator/index.js
     return len(email) > 1 and \
         "@" in email
 
+# Checks wheter the signed up password consist of an uppercase, lowercase and a digit & the minimal length is 8 charachters
 def validate_password(password):
     passwordRegex = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$" # r"" = raw string
     return re.match(passwordRegex, password)
@@ -22,6 +25,7 @@ signup = Blueprint('signup', __name__)
 
 @signup.route('/signup', methods = ['POST'])
 def index():
+    # Requests information from endpoint 'signup', recieves username, email and password. It can also recieve an empty string, in that case the program will stop and return error code/http code '400'
     data = request.get_json()
 
     username = data.get("username") or ""
@@ -33,6 +37,7 @@ def index():
        not password:
            return "", 400
 
+    # 
     if not validate_username(username) or \
        not validate_email(email) or \
        not validate_password(password):
