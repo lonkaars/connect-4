@@ -29,7 +29,6 @@ def format_user(user_id, viewer = ''):
         "user_id",
         "country",
         "registered",
-        "avatar",
         "status",
     ]) + " from users where user_id = ?", [user_id]).fetchone()
     formatted_user = {
@@ -37,8 +36,7 @@ def format_user(user_id, viewer = ''):
         "id": user[1],
         "country": user[2],
         "registered": user[3],
-        "avatar": user[4],
-        "status": user[5],
+        "status": user[4],
         "friends": count_friends(user_id),
         "rating": get_rating(user_id),
     }

@@ -12,7 +12,6 @@ create table if not exists users (
 	verified_email boolean not null,
 	type text not null,
 	preferences text not null,
-	avatar text,
 	presence text
 );
 
