@@ -41,7 +41,7 @@ def index():
         players = cursor.execute("select player_1_id, player_2_id from games where game_id = ?", [game_id]).fetchone()
         games[game_id] = game(game_id, io, players[0], players[1])
 
-        io.emit("gameStart", room=game_id)
+        io.emit("gameStart", room=games[game_id].room)
 
         player_1 = False
         game_started = True

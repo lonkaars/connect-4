@@ -12,6 +12,7 @@ games = {}
 class game:
     def __init__(self, game_id, io, player_1_id, player_2_id):
         self.game_id = game_id
+        self.room = "game-" + game_id
         self.board = bord(7, 6)
         self.io = io
         self.player_1_id = player_1_id
@@ -23,7 +24,7 @@ class game:
         if user_id != move: return
 
         self.board.drop_fisje(column)
-        io.emit("fieldUpdate", { "field": self.board.board }, room=self.game_id)
+        io.emit("fieldUpdate", { "field": self.board.board }, room=self.room)
 
         now = int( time.time() * 1000 )
         cursor.execute("update games set last_activity = ?, moves = moves || ? || ',' where game_id = ?", [now, column, self.game_id])
@@ -37,15 +38,15 @@ class game:
             io.emit("finish", {
                 "winPositions": self.board.win_positions,
                 "boardFull": self.board.board_full
-                }, room=self.game_id)
+                }, room=self.room)
             self.close("finished", outcome)
             return
 
-        io.emit("turnUpdate", { "player1": self.board.player_1 }, room=self.game_id)
+        io.emit("turnUpdate", { "player1": self.board.player_1 }, room=self.room)
 
     def resign(self):
         self.board.kill_voerbak()
-        io.emit("resign", room=self.game_id)
+        io.emit("resign", room=self.room)
         self.close("resign", "d")
 
     def close(self, new_status, outcome):
@@ -98,5 +99,5 @@ def register_game_listener(data):
     game_id = data.get("game_id")
     if not game_id: return
 
-    join_room(game_id)
+    join_room("game-" + game_id)
 

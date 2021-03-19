@@ -1,8 +1,9 @@
-import { CSSProperties, useState, useEffect } from 'react';
-import { io as socket } from 'socket.io-client';
+import { CSSProperties, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import * as cookies from 'react-cookies';
 import { useRouter } from 'next/router';
+import { SocketContext } from '../components/socketContext';
+import { Socket } from 'socket.io-client';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
@@ -16,12 +17,11 @@ import WifiTetheringRoundedIcon from '@material-ui/icons/WifiTetheringRounded';
 import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
-var io = socket();
-
 function VoerGame(props: {
 	gameID: string;
 	active: boolean;
 	player1: boolean;
+	io: Socket;
 }) {
 	var width = 7;
 	var height = 6;
@@ -35,18 +35,18 @@ function VoerGame(props: {
 	useEffect(() => {
 		if (ioListeners) return;
 
-		io.on("connect", () => console.log("connect"));
-		io.on("disconnect", () => console.log("disconnect"));
+		props.io.on("connect", () => console.log("connect"));
+		props.io.on("disconnect", () => console.log("disconnect"));
 
-		io.on("fieldUpdate", (data: { field: string }) => {
+		props.io.on("fieldUpdate", (data: { field: string }) => {
 			board = data.field.split("").map(i => Number(i));
 			for(let i = 0; i < data.field.length; i++)
 				document.getElementById(`pos-${i}`).parentNode.children.item(1).classList.add(`state-${data.field[i]}`);
 		});
 
-		io.on("turnUpdate", (data: { player1: boolean }) => setTurn(data.player1));
+		props.io.on("turnUpdate", (data: { player1: boolean }) => setTurn(data.player1));
 
-		io.on("finish", (data: {
+		props.io.on("finish", (data: {
 				winPositions: Array<Array<number>>
 				boardFull: boolean
 				winner: number
@@ -57,7 +57,7 @@ function VoerGame(props: {
 			if (data.winPositions.length > 0) setOutcome(board[data.winPositions[0][0]]);
 		});
 
-		io.on("resign", () => {
+		props.io.on("resign", () => {
 			alert("resign")
 		});
 
@@ -74,7 +74,7 @@ function VoerGame(props: {
 		<VoerBord
 			width={width} height={height}
 			onMove={move => {
-				io.emit("newMove", {
+				props.io.emit("newMove", {
 					move: move % width + 1,
 					token: cookies.load("token"),
 					game_id: props.gameID
@@ -86,7 +86,7 @@ function VoerGame(props: {
 			turn={turn}
 			player1={props.player1}
 			active={props.active}
-			resignFunction={() => {io.emit("resign", { game_id: props.gameID })}}
+			resignFunction={() => { props.io.emit("resign", { game_id: props.gameID }) }}
 		/>
 		<GameOutcomeDialog
 			outcome={outcome}
@@ -173,6 +173,8 @@ export default function GamePage() {
 	var [active, setActive] = useState(false);
 	var gameIDUrl = useRouter().query["id"] as string;
 
+	var { io } = useContext(SocketContext);
+
 	if (gameIDUrl && gameIDUrl != gameID) {
 		// join game
 		axios.request<{ id: string, player_1: boolean }>({
@@ -204,7 +206,8 @@ export default function GamePage() {
 			<VoerGame
 				active={active}
 				gameID={gameID}
-				player1={player1}/>
+				player1={player1}
+				io={io}/>
 			<DialogBox
 				title="Nieuw spel"
 				style={{ display: gameIDUrl || gameID ? "none" : "inline-block" }}

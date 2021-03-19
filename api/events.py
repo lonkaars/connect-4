@@ -24,5 +24,5 @@ def connect():
     user_id = token_login(token)
     if not user_id: return
 
-    join_room(user_id)
+    join_room("user-" + user_id)
 
