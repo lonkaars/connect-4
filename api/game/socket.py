@@ -1,5 +1,5 @@
 from flask import Blueprint, request, make_response
-from flask_socketio import SocketIO, emit, Namespace
+from flask_socketio import SocketIO, emit, Namespace, join_room
 from game.voerbak_connector import bord
 from auth.login_token import token_login
 from db import cursor, connection
@@ -8,7 +8,6 @@ import json
 from socket_io import io
 
 games = {}
-listeners = {}
 
 class game:
     def __init__(self, game_id, io, player_1_id, player_2_id):
@@ -18,18 +17,13 @@ class game:
         self.player_1_id = player_1_id
         self.player_2_id = player_2_id
 
-    def send(self, message, data):
-        if not self.game_id in listeners: return
-        for listener in listeners[self.game_id]:
-            self.io.emit(message, data, room=listener)
-
     def move(self, user_id, column):
         if user_id != self.player_1_id and user_id != self.player_2_id: return
         move = self.player_1_id if self.board.player_1 else self.player_2_id
         if user_id != move: return
 
         self.board.drop_fisje(column)
-        self.send("fieldUpdate", { "field": self.board.board })
+        io.emit("fieldUpdate", { "field": self.board.board }, room=self.game_id)
 
         now = int( time.time() * 1000 )
         cursor.execute("update games set last_activity = ?, moves = moves || ? || ',' where game_id = ?", [now, column, self.game_id])
@@ -40,18 +34,18 @@ class game:
             if not self.board.board_full:
                 winner = self.board.board[int(self.board.win_positions[0][0])]
                 outcome = "w" if winner == "2" else "l"
-            self.send("finish", {
+            io.emit("finish", {
                 "winPositions": self.board.win_positions,
                 "boardFull": self.board.board_full
-                })
+                }, room=self.game_id)
             self.close("finished", outcome)
             return
 
-        self.send("turnUpdate", { "player1": self.board.player_1 })
+        io.emit("turnUpdate", { "player1": self.board.player_1 }, room=self.game_id)
 
     def resign(self):
         self.board.kill_voerbak()
-        self.send("resign", "")
+        io.emit("resign", room=self.game_id)
         self.close("resign", "d")
 
     def close(self, new_status, outcome):
@@ -71,7 +65,6 @@ class game:
         connection.commit()
 
         games.pop(self.game_id)
-        listeners.pop(self.game_id)
 
 @io.on("newMove")
 def new_move(data):
@@ -102,7 +95,8 @@ def resign(data):
 
 @io.on("registerGameListener")
 def register_game_listener(data):
-    if not data["game_id"]: return
-    if not data["game_id"] in listeners: listeners[data["game_id"]] = set()
-    listeners[data["game_id"]].add(request.sid)
+    game_id = data.get("game_id")
+    if not game_id: return
+
+    join_room(game_id)
 

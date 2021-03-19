@@ -4,7 +4,7 @@ from randid import new_uuid
 import time
 import json
 import random
-from game.socket import io, game, games, listeners
+from game.socket import io, game, games
 from auth.login_token import token_login
 
 random_game = Blueprint('random', __name__)
@@ -41,7 +41,7 @@ def index():
         players = cursor.execute("select player_1_id, player_2_id from games where game_id = ?", [game_id]).fetchone()
         games[game_id] = game(game_id, io, players[0], players[1])
 
-        games[game_id].send("gameStart", "");
+        io.emit("gameStart", room=game_id)
 
         player_1 = False
         game_started = True

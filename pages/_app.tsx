@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { PreferencesContextWrapper } from '../components/preferencesContext';
 import { ToastContextWrapper } from '../components/toast';
+import { SocketContextWrapper } from '../components/socketContext';
 
 import '../styles/global.css';
 import '../styles/dark.css';
@@ -26,7 +27,9 @@ export default function VierOpEenRijWebsite({ Component, pageProps }) {
 		</Head>
 		<PreferencesContextWrapper>
 			<ToastContextWrapper>
-				<Component {...pageProps}/>
+				<SocketContextWrapper>
+					<Component {...pageProps}/>
+				</SocketContextWrapper>
 			</ToastContextWrapper>
 		</PreferencesContextWrapper>
 	</div>

@@ -1,6 +1,7 @@
-import { CSSProperties, useState, useEffect } from 'react';
+import { CSSProperties, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { userInfo, userGameTotals, userGames } from '../api/api';
+import { SocketContext } from '../components/socketContext';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
@@ -119,6 +120,11 @@ function AccountBox(props: {
 export default function HomePage() {
 	var server = typeof window === "undefined";
 	var loggedIn = !server && document.cookie.includes("token");
+
+	var { io } = useContext(SocketContext);
+	useEffect(() => {
+		io.on("connect", () => { console.log("gert") });
+	}, []);
 
 	var [userInfo, setUserInfo] = useState<userInfo>();
 	var [gameInfo, setGameInfo] = useState<userGames>();
