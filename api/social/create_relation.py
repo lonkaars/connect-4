@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from db import cursor, connection
 from auth.login_token import token_login
+from socket_io import io
 import time
 
 def create_relation(user_1_id, user_2_id, relation_type):
@@ -31,6 +32,9 @@ def create_relation_route(relation_type):
                return "", 403
 
         create_relation(user_1_id, user_2_id, relation_type)
+        if relation_type == "outgoing":
+            io.emit("incomingFriendRequest", room="user-"+user_2_id)
+
         return "", 200
     return route
 

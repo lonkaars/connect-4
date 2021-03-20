@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode, useState } from 'react';
 import axios from 'axios';
 
-import { userInfo } from "../api/api";
+import { userInfo, gameInfo } from "../api/api";
 import { AccountAvatar } from "./account";
 import { Bubble, Vierkant, IconLabelButton } from './ui';
 
@@ -11,7 +11,14 @@ import CloseIcon from '@material-ui/icons/Close';
 export function NotificationsArea(props: {
 	visible?: boolean;
 	friendRequests?: Array<userInfo>;
+	gameInvites?: Array<gameInfo>;
+	rerender: () => void;
 }) {
+	var messages = (
+		(props.friendRequests ? props.friendRequests.length : 0) +
+		(props.gameInvites ? props.gameInvites.length : 0)
+	)
+
 	return props.visible && <Bubble style={{
 		left: 48 + 12,
 		top: 92,
@@ -31,8 +38,27 @@ export function NotificationsArea(props: {
 			height: 450 - 24 * 4,
 			borderRadius: 6
 		}}>
-			{ /* here should be the game invites */ }
-			{ props.friendRequests?.map(user => <FriendRequest user={user}/>) }
+			{ props.gameInvites?.map(game => <GameInvite hide={props.rerender} game={game}/>) }
+			{ props.friendRequests?.map(user => <FriendRequest hide={props.rerender} user={user}/>) }
+			{
+				messages == 0 &&
+				<div style={{
+					position: "absolute",
+					left: 0,
+					right: 0,
+					bottom: 0,
+					top: 0
+				}}>
+					<h1 style={{
+						position: "absolute",
+						top: "50%",
+						left: "50%",
+						whiteSpace: "nowrap",
+						transform: "translate(-50%, -50%)",
+						opacity: .7
+					}}>Geen meldingen</h1>
+				</div>
+			}
 		</div>
 	</Bubble>
 }
@@ -83,8 +109,14 @@ function Acceptable(props: {
 
 function FriendRequest(props: {
 	user: userInfo;
+	hide: () => void;
 }) {
 	var [ gone, setGone ] = useState(false);
+
+	var hide = () => {
+		setGone(true);
+		props.hide();
+	}
 
 	return !gone && <Acceptable onAccept={() => {
 		axios.request({
@@ -93,7 +125,7 @@ function FriendRequest(props: {
 			headers: {"content-type": "application/json"},
 			data: { "id": props.user?.id }
 		})
-		.then(() => setGone(true));
+		.then(hide);
 	}} onDeny={() => {
 		axios.request({
 			method: "post",
@@ -101,7 +133,7 @@ function FriendRequest(props: {
 			headers: {"content-type": "application/json"},
 			data: { "id": props.user?.id }
 		})
-		.then(() => setGone(true));
+		.then(hide);
 	}}>
 		<a href={"/user?id=" + props.user.id}>
 			<AccountAvatar size={48} id={props.user.id}/>
@@ -117,19 +149,20 @@ function FriendRequest(props: {
 	</Acceptable>
 }
 
-/* function GameInvite(props: { */
-/* 	game: gameInfo; */
-/* }) { */
-/* 	return <Acceptable> */
-/* 		<a> */
-/* 			<div style={{ */
-/* 				display: "inline-block", */
-/* 				verticalAlign: "top", */
-/* 			}}> */
-/* 				<i style={{ display: "block" }}>Partijuitnodiging</i> */
-/* 				<p><b><a href={"/user?id=" + props.game.opponent?.id}>{props.game.opponent?.username}</a></b> wil een potje 4 op een rij spelen!</p> */
-/* 			</div> */
-/* 		</a> */
-/* 	</Acceptable> */
-/* } */
+function GameInvite(props: {
+	game: gameInfo;
+	hide: () => void;
+}) {
+	return <Acceptable>
+		<a>
+			<div style={{
+				display: "inline-block",
+				verticalAlign: "top",
+			}}>
+				<i style={{ display: "block" }}>Partijuitnodiging</i>
+				<p><b><a href={"/user?id=" + props.game.opponent?.id}>{props.game.opponent?.username}</a></b> wil een potje 4 op een rij spelen!</p>
+			</div>
+		</a>
+	</Acceptable>
+}
 

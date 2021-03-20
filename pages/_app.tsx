@@ -18,7 +18,7 @@ export default function VierOpEenRijWebsite({ Component, pageProps }) {
 			<link rel="icon" href="/favicon.png" type="image/png"/>
 
 			<meta property="og:site_name" content="4 op een rij"/>
-			<meta property="og:url" content="http://86.80.39.198:2080/"/>
+			<meta property="og:url" content="http://connect4.pipeframe.xyz/"/>
 			<meta property="og:title" content="Loek's epische vier op een rij website"/>
 			<meta property="og:description" content="Kom vier op een rij spelen NU"/>
 			<meta property="og:type" content="website"/>

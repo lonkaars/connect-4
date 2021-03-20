@@ -2,6 +2,55 @@
 
 This is the subdirectory for the API. You can find the API reference in [this](https://docs.google.com/spreadsheets/d/1mDN9IUqRIMjr_9RmLxKybjIgVuaUadalmPEFnG-XeJg/edit?usp=sharing) Google Docs document.
 
+## Endpoint reference (WIP)
+
+API return type classes are mostly defined in api/api.ts
+
+endpoint|method|description|parameters|authorization
+-|-|-|-|-
+/status | GET | get online user count and active game count
+/auth/login | POST | log in with email or username
+/auth/token | POST | log in using a token (stored as cookie)
+/auth/signup | POST | sign up
+/user/info | GET\|POST | get user info by username or id  note: avatar is a uri to a 256x256 .png image
+/user/games | GET\|POST | get games of user
+/user/avatar | GET\|POST | fetch or update avatar note: avatar is a client-resized 256x256 .png base64-encoded image, request returns error when image is not .png or larger than 256x256
+/user/prefrences | GET\|POST | fetch or change user preferences
+/user/password | POST | update password
+/user/email | POST | update email (token used for authentication if password is undefined)
+/user/username | POST | update username (token used for authentication if password is undefined)
+/user/status | POST | update status
+/user/searchFriends | POST | search user's friend list
+/social/request | POST | send a friend request to a user by user id
+/social/accept | POST | accept a friend request
+/social/remove | POST | remove a friend from your friend list or delete a friend request from a user
+/social/search | POST | search for users by username or status
+/social/block | POST | block a user
+/social/unblock | POST | unblock a user
+/social/list/requests | GET | get a list of unaccepted friend requests
+/social/list/blocks | GET | get a list of blocked people
+/social/list/friends | GET | get a list of your friends
+/game/new | POST | create a new private game
+/game/random | POST | join or create a public game
+/game/info | POST | 
+/game/accept | POST | accept game invite or rematch
+/game/spectate | POST | spectate a game by id
+
+## Events
+
+These are events that are fired by the socket.io connection
+
+event|description|data|direction|context
+-|-|-|-|-
+fieldUpdate|recieve new playfield from server|`{ field: string }`|`s  -> c`|game
+turnUpdate|recieve if it's player 1's move|`{ player1: boolean }`|`s  -> c`|game
+gameStart|sent when game starts|`none`|`s  -> c`|game
+finish|sent when game finishes|`none`|`s  -> c`|game
+resign|send to resign, is then forwarded to all subscribed clients|`none`|`s <-> c`|game
+newMove|send a new move|`{ move: int, game_id: string }`|`s <-  c`|game
+registerGameListener|listen to events for a game|`{ id: string }`|`s <-  c`|game
+incomingFriendRequest|get notified of friend request|`none`|`s  -> c`|global
+
 ## How to test API endpoints
 ```sh
 # If you're running the standalone flask server:

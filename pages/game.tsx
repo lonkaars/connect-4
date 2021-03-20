@@ -76,7 +76,7 @@ function VoerGame(props: {
 			onMove={move => {
 				props.io.emit("newMove", {
 					move: move % width + 1,
-					token: cookies.load("token"),
+					token: cookies.load("token"), //TODO: get token from request
 					game_id: props.gameID
 				});
 			}}

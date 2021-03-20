@@ -1,10 +1,11 @@
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState, useContext } from "react";
 import axios from "axios";
 
 import { LogoDark } from "../components/logo";
 import { AccountAvatar } from "./account";
 import { userInfo } from "../api/api";
 import { NotificationsArea } from "./notificationsArea";
+import { SocketContext } from "./socketContext";
 
 import Home from '@material-ui/icons/Home';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
@@ -29,6 +30,18 @@ export function NavBar() {
 	var [ notificationsAreaVisible, setNotificationsAreaVisible ] = useState(false);
 	var [ gotNotifications, setGotNotifications ] = useState(false);
 
+	var { io } = useContext(SocketContext);
+
+	async function getNotifications() {
+		var friendRequestsReq = await axios.request<{ requests: Array<userInfo> }>({
+			method: "get",
+			url: `/api/social/list/requests`
+		});
+		setFriendRequests(friendRequestsReq.data.requests);
+
+		setGotNotifications(friendRequestsReq.data.requests.length > 0);
+	}
+
 	useEffect(() => {(async () => {
 		if (gotData) return;
 		if (typeof window === "undefined") return;
@@ -37,12 +50,8 @@ export function NavBar() {
 		setLoggedIn(loggedIn);
 
 		if (loggedIn) {
-			var friendRequestsReq = await axios.request<{ requests: Array<userInfo> }>({
-				method: "get",
-				url: `/api/social/list/requests`
-			});
-			setFriendRequests(friendRequestsReq.data.requests);
-			setGotNotifications(gotNotifications || friendRequestsReq.data.requests.length > 0);
+			await getNotifications();
+			io.on("incomingFriendRequest", getNotifications);
 		}
 
 		setGotData(true);
@@ -94,7 +103,8 @@ export function NavBar() {
 				</div>
 				<NotificationsArea
 					visible={notificationsAreaVisible}
-					friendRequests={friendRequests}/>
+					friendRequests={friendRequests}
+					rerender={getNotifications}/>
 			</a> }
 			<a href={loggedIn ? "/user" : "/login"} style={NavBarItemStyle}>
 				{
