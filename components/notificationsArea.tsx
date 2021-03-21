@@ -1,12 +1,14 @@
-import { CSSProperties, ReactNode, useState } from 'react';
+import { CSSProperties, ReactNode, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
 import { userInfo, gameInfo } from "../api/api";
 import { AccountAvatar } from "./account";
 import { Bubble, Vierkant, IconLabelButton } from './ui';
+import { ToastContext } from './toast';
 
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
+import NotificationsActiveOutlinedIcon from '@material-ui/icons/NotificationsActiveOutlined';
 
 export function NotificationsArea(props: {
 	visible?: boolean;
@@ -14,10 +16,20 @@ export function NotificationsArea(props: {
 	gameInvites?: Array<gameInfo>;
 	rerender: () => void;
 }) {
+	var { toast } = useContext(ToastContext);
+	var [ previousMessages, setPreviousMessages ] = useState(0);
 	var messages = (
 		(props.friendRequests ? props.friendRequests.length : 0) +
 		(props.gameInvites ? props.gameInvites.length : 0)
 	)
+
+	useEffect(() => {
+		if(messages > previousMessages) {
+			toast("Je hebt nieuwe meldingen!", "confirmation", <NotificationsActiveOutlinedIcon style={{ fontSize: 32 }}/>);
+		}
+
+		setPreviousMessages(messages);
+	})
 
 	return props.visible && <Bubble style={{
 		left: 48 + 12,
