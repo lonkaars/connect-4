@@ -1,7 +1,7 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 	<style>
 	.red { fill: #E16D82; }
-	.green { fill: #73D0C5; }
+	.green { fill: #71D9CC; }
 	.outline {
 		stroke: #5D737E;
 		stroke-width: 2px;
