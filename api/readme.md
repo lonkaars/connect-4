@@ -50,6 +50,7 @@ resign|send to resign, is then forwarded to all subscribed clients|`none`|`s <->
 newMove|send a new move|`{ move: int, game_id: string }`|`s <-  c`|game
 registerGameListener|listen to events for a game|`{ id: string }`|`s <-  c`|game
 incomingFriendRequest|get notified of friend request|`none`|`s  -> c`|global
+changedRelation|get notified of a different relation to someone|`{ id: string }`|`s  -> c`|global
 
 ## How to test API endpoints
 ```sh

@@ -9,6 +9,7 @@ import { AccountAvatar } from '../components/account';
 import { userInfo, userGames } from '../api/api';
 import RecentGames from '../components/recentGames';
 import { ToastContext } from '../components/toast';
+import { SocketContext } from '../components/socketContext';
 
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined';
@@ -85,6 +86,38 @@ export default function AccountPage() {
 	var [ownPage, setOwnPage] = useState(loggedIn && !pageID);
 
 	var { toast } = useContext(ToastContext);
+	var { io } = useContext(SocketContext);
+
+	async function getUserData(): Promise<userInfo> {
+		var userReq = await axios.request<userInfo>({
+			method: "post",
+			url: `/api/user/info`,
+			headers: {"content-type": "application/json"},
+			data: reqData
+		});
+		setUser(userReq.data);
+		return userReq.data
+	}
+
+	async function getRelationTo(user: userInfo) {
+		var user = await getUserData();
+		setRelation(user.relation || "none");
+	}
+
+	function setIOListeners(user: userInfo) {
+		io.on("changedRelation", (data: { id: string }) => {
+			if (data.id != user.id) return;
+			getRelationTo(user);
+		});
+		io.on("incomingFriendRequest", getRelationTo);
+	}
+
+	useEffect(() => {(async() => {
+		var user = await getUserData();
+
+		getRelationTo(user);
+		setIOListeners(user);
+	})()}, []);
 
 	useEffect(() => {(async() => {
 		var userReq = await axios.request<userInfo>({
@@ -95,17 +128,7 @@ export default function AccountPage() {
 		setOwnPage(ownPage || userReq.data.id == pageID);
 	})()}, []);
 
-	useEffect(() => {(async() => {
-		var userReq = await axios.request<userInfo>({
-			method: "post",
-			url: `/api/user/info`,
-			headers: {"content-type": "application/json"},
-			data: reqData
-		});
-		setUser(userReq.data);
-		setRelation(userReq.data.relation || "none");
-	})()}, []);
-
+	// Get recent games
 	useEffect(() => {(async() => {
 		var userGamesReq = await axios.request<userGames>({
 			method: "post",
@@ -180,13 +203,13 @@ export default function AccountPage() {
 											"endpoint": "/api/social/unblock",
 											"action": `${user.username} gedeblokkeerd`,
 											"relation": "none",
-											"icon": <Icon size={32 / 24} path={mdiAccountCancelOutline}/>,
+											"icon": <Icon size="32px" path={mdiAccountCancelOutline}/>,
 										}
 									}[relation] || {
 										"endpoint": "/api/social/block",
 										"action": `${user.username} geblokkeerd`,
 										"relation": "blocked",
-										"icon": <Icon size={32 / 24} path={mdiAccountCancelOutline}/>,
+										"icon": <Icon size="32px" path={mdiAccountCancelOutline}/>,
 									}
 
 									axios.request({
@@ -222,25 +245,25 @@ export default function AccountPage() {
 											"endpoint": "/api/social/remove",
 											"action": `${user.username} succesvol verwijderd als vriend`,
 											"relation": "none",
-											"icon": <Icon size={32 / 24} path={mdiAccountMinusOutline}/>,
+											"icon": <Icon size="32px" path={mdiAccountMinusOutline}/>,
 										},
 										"outgoing": {
 											"endpoint": "/api/social/remove",
 											"action": `Vriendschapsverzoek naar ${user.username} geannuleerd`,
 											"relation": "none",
-											"icon": <Icon size={32 / 24} path={mdiAccountMinusOutline}/>,
+											"icon": <Icon size="32px" path={mdiAccountMinusOutline}/>,
 										},
 										"incoming": {
 											"endpoint": "/api/social/accept",
 											"action": `Vriendschapsverzoek van ${user.username} geaccepteerd`,
 											"relation": "friends",
-											"icon": <PersonAddOutlinedIcon/>,
+											"icon": <PersonAddOutlinedIcon style={{ fontSize: 32 }}/>,
 										},
 									}[relation] || {
 										"endpoint": "/api/social/request",
 										"action": `Vriendschapsverzoek gestuurd naar ${user.username}`,
 										"relation": "outgoing",
-										"icon": <PersonAddOutlinedIcon/>,
+										"icon": <PersonAddOutlinedIcon style={{ fontSize: 32 }}/>,
 									}
 
 									axios.request({

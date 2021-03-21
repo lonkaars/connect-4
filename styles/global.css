@@ -37,7 +37,7 @@ body { padding-left: 48px; }
 html { font-family: "Inter"; }
 
 /* background color */
-html { background-color: var(--page-background); }
+html, body { background-color: var(--page-background); }
 
 /* link fix */
 a {

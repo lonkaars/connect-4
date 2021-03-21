@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from db import cursor, connection
 from auth.login_token import token_login
+from socket_io import io
 import time
 
 accept = Blueprint('accept', __name__)
@@ -22,6 +23,9 @@ def route():
     cursor.execute("update social set type = \"friendship\" where user_1_id = ? and user_2_id = ?",
             [user_1_id, user_2_id])
     connection.commit()
+
+    io.emit("changedRelation", { "id": user_2_id }, room="user-"+user_1_id)
+    io.emit("changedRelation", { "id": user_1_id }, room="user-"+user_2_id)
 
     return "", 200
 

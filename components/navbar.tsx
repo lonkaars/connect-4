@@ -52,6 +52,7 @@ export function NavBar() {
 		if (loggedIn) {
 			await getNotifications();
 			io.on("incomingFriendRequest", getNotifications);
+			io.on("changedRelation", getNotifications);
 		}
 
 		setGotData(true);
