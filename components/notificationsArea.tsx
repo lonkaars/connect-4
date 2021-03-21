@@ -25,7 +25,9 @@ export function NotificationsArea(props: {
 
 	useEffect(() => {
 		if(messages > previousMessages) {
-			toast("Je hebt nieuwe meldingen!", "confirmation", <NotificationsActiveOutlinedIcon style={{ fontSize: 32 }}/>);
+			toast({ message: "Je hebt nieuwe meldingen!",
+				type: "confirmation",
+				icon: <NotificationsActiveOutlinedIcon/>});
 		}
 
 		setPreviousMessages(messages);

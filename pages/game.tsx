@@ -61,7 +61,9 @@ function VoerGame(props: {
 		});
 
 		props.io.on("resign", () => {
-			props.toast("Het potje is opgegeven", "normal", <FlagOutlinedIcon style={{ fontSize: 32 }}/>);
+			props.toast({ message: "Het potje is opgegeven",
+						type: "normal",
+						icon: <FlagOutlinedIcon/>});
 		});
 
 		setIoListeners(true);

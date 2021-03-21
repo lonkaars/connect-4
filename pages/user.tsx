@@ -203,13 +203,13 @@ export default function AccountPage() {
 											"endpoint": "/api/social/unblock",
 											"action": `${user.username} gedeblokkeerd`,
 											"relation": "none",
-											"icon": <Icon size="32px" path={mdiAccountCancelOutline}/>,
+											"icon": <Icon size={1} path={mdiAccountCancelOutline}/>,
 										}
 									}[relation] || {
 										"endpoint": "/api/social/block",
 										"action": `${user.username} geblokkeerd`,
 										"relation": "blocked",
-										"icon": <Icon size="32px" path={mdiAccountCancelOutline}/>,
+										"icon": <Icon size={1} path={mdiAccountCancelOutline}/>,
 									}
 
 									axios.request({
@@ -219,9 +219,9 @@ export default function AccountPage() {
 										data: { "id": user?.id }
 									})
 									.then(() => {
-										toast(nextRelation.action,
-											  "confirmation",
-											  nextRelation.icon);
+										toast({ message: nextRelation.action,
+											type: "confirmation",
+											icon: nextRelation.icon });
 										setRelation(nextRelation.relation);
 									});
 								}}/>
@@ -245,25 +245,25 @@ export default function AccountPage() {
 											"endpoint": "/api/social/remove",
 											"action": `${user.username} succesvol verwijderd als vriend`,
 											"relation": "none",
-											"icon": <Icon size="32px" path={mdiAccountMinusOutline}/>,
+											"icon": <Icon size={1} path={mdiAccountMinusOutline}/>,
 										},
 										"outgoing": {
 											"endpoint": "/api/social/remove",
 											"action": `Vriendschapsverzoek naar ${user.username} geannuleerd`,
 											"relation": "none",
-											"icon": <Icon size="32px" path={mdiAccountMinusOutline}/>,
+											"icon": <Icon size={1} path={mdiAccountMinusOutline}/>,
 										},
 										"incoming": {
 											"endpoint": "/api/social/accept",
 											"action": `Vriendschapsverzoek van ${user.username} geaccepteerd`,
 											"relation": "friends",
-											"icon": <PersonAddOutlinedIcon style={{ fontSize: 32 }}/>,
+											"icon": <PersonAddOutlinedIcon/>,
 										},
 									}[relation] || {
 										"endpoint": "/api/social/request",
 										"action": `Vriendschapsverzoek gestuurd naar ${user.username}`,
 										"relation": "outgoing",
-										"icon": <PersonAddOutlinedIcon style={{ fontSize: 32 }}/>,
+										"icon": <PersonAddOutlinedIcon/>,
 									}
 
 									axios.request({
@@ -273,9 +273,9 @@ export default function AccountPage() {
 										data: { "id": user?.id }
 									})
 									.then(() => {
-										toast(nextRelation.action,
-											  "confirmation",
-											  nextRelation.icon);
+										toast({ message: nextRelation.action,
+											type: "confirmation",
+											icon: nextRelation.icon });
 										setRelation(nextRelation.relation);
 									});
 								}}/>

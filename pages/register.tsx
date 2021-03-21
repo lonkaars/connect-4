@@ -22,7 +22,9 @@ function submitRegister(event?: FormEvent<HTMLFormElement>, toast?: toastType) {
 	if ( !formData.username ||
 	   	 !formData.email ||
 		 !formData.password ) {
-		toast("Vul alsjeblieft alle velden in!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
+		toast({ message: "Vul alsjeblieft alle velden in!",
+			  type: "error",
+			  icon: <ReportProblemOutlinedIcon/>});
 		return;
 	}
 
@@ -38,18 +40,26 @@ function submitRegister(event?: FormEvent<HTMLFormElement>, toast?: toastType) {
 	 */
 
 	if ( formData.username.length < 3 || formData.username.length > 35 ) {
-		toast("Je gebruikersnaam moet tussen de 3 en 35 letters zijn!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
+		toast({ message: "Ongeldige gebruikersnaam",
+			  description: "Je gebruikersnaam moet tussen de 3 en 35 letters zijn",
+			  type: "error",
+			  icon: <ReportProblemOutlinedIcon/>});
 		return;
 	}
 
 	if ( !validateEmail(formData.email) ) {
-		toast("Vul alsjeblieft een geldig email-adres in!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
+		toast({ message: "Ongeldig email-adres",
+			  type: "error",
+			  icon: <ReportProblemOutlinedIcon/>});
 		return;
 	}
 
 	//TODO: wachtwoord max 72 tekens ivm bcrypt
 	if ( !formData.password.match(passwordRegex) ) {
-		toast("Je wachtwoord moet een hoofdletter, kleine letter en een getal bevatten!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
+		toast({ message: "Ongeldig wachtwoord",
+			  description: "Je wachtwoord moet een hoofdletter, kleine letter en een getal bevatten",
+			  type: "error",
+			  icon: <ReportProblemOutlinedIcon/>});
 		return;
 	}
 	
@@ -65,7 +75,9 @@ function submitRegister(event?: FormEvent<HTMLFormElement>, toast?: toastType) {
 		window.location.pathname = "/";
 	})
 	.catch(error => {
-		toast("Er is iets fout gegaan", "error", <ErrorOutlineIcon style={{ fontSize: 32 }}/>);
+		toast({ message: "Er is iets fout gegaan",
+			  type: "error",
+			  icon: <ErrorOutlineIcon/>});
 		console.log(error);
 	});
 }

@@ -20,7 +20,9 @@ function submitLogin(event?: FormEvent<HTMLFormElement>, toast?: toastType) {
 
 	if ( !formData.email ||
 		 !formData.password ) {
-		toast("Vul alsjeblieft alle velden in!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
+		toast({ message: "Vul alsjeblieft alle velden in!",
+			  type: "error",
+			  icon: <ReportProblemOutlinedIcon/>});
 		return;
 	}
 
@@ -33,10 +35,14 @@ function submitLogin(event?: FormEvent<HTMLFormElement>, toast?: toastType) {
 	.then(() => window.location.pathname = "/")
 	.catch(error => {
 		if (error.response.status === 401) {
-			toast("Verkeerde gebruikersnaam of wachtwoord!", "error", <VpnKeyIcon style={{ fontSize: 32 }}/>);
+			toast({ message: "Verkeerde gebruikersnaam of wachtwoord!",
+				  type: "error",
+				  icon: <VpnKeyIcon/>});
 			return;
 		}
-		toast("Er is iets fout gegaan", "error", <ErrorOutlineIcon style={{ fontSize: 32 }}/>);
+		toast({ message: "Er is iets fout gegaan",
+			  type: "error",
+			  icon: <ErrorOutlineIcon/>});
 	});
 }
 

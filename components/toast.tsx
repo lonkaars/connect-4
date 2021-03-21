@@ -23,6 +23,7 @@ function ToastArea(props: {
 
 function Toast(props: {
 	text?: string
+	description?: string
 	icon?: ReactNode
 	children?: ReactNode
 	type?: "normal"|"confirmation"|"error"
@@ -35,7 +36,7 @@ function Toast(props: {
 	return visible && <div style={{
 		padding: 0,
 		marginBottom: 12,
-		borderRadius: 8,
+		borderRadius: 6,
 		boxShadow: "0 8px 12px -4px #00000033",
 		color:
 			props.type === "confirmation" ? "var(--background)" : "var(--text)",
@@ -47,43 +48,61 @@ function Toast(props: {
 	}}>
 		{
 			props.children ||
-			<div style={{ lineHeight: 0 }}>
+			<div style={{
+				lineHeight: 0,
+				padding: 12,
+				minHeight: props.description ? 36 : 24,
+				position: "relative"
+			}}>
 				<div style={{
-					fontSize: 0,
-					margin: 16,
-					display: "inline-block",
-					verticalAlign: "top",
-					width: 32, height: 32
+					position: "absolute",
+					left: 12,
+					top: "50%",
+					transform: "translateY(-50%)"
 				}}>{props.icon}</div>
-				<h2 style={{
-					margin: "20px 0",
-					display: "inline-block",
-					width: "calc(100% - 128px)",
-					verticalAlign: "top",
-					fontSize: 20,
-					userSelect: "none"
-				}}>{props.text}</h2>
 				<div style={{
-					padding: 20,
-					display: "inline-block",
-					cursor: "pointer"
+					userSelect: "none",
+					position: "absolute",
+					left: props.icon ? 48 : 12,
+					top: "50%",
+					transform: "translateY(-50%)"
+				}}>
+					<h2 style={{ fontSize: 16 }}>{props.text}</h2>
+					<p>{props.description}</p>
+				</div>
+				<div style={{
+					cursor: "pointer",
+					position: "absolute",
+					right: 12,
+					top: "50%",
+					transform: "translateY(-50%)"
 				}} onClick={() => setVisibility(false)}>
-					<CloseIcon/>
+					<CloseIcon style={{ fontSize: 24 }}/>
 				</div>
 			</div>
 		}
 	</div>
 }
 
-export type toastType = (message: string, type: "confirmation"|"normal"|"error", icon?: ReactNode ) => void;
+export type toastSettings = {
+	message: string,
+	description?: string,
+	type: "confirmation"|"normal"|"error",
+	icon?: ReactNode
+}
+export type toastType = (settings: toastSettings) => void;
 export var ToastContext = createContext<{ toast?: toastType }>({});
 var toasts: Array<JSX.Element> = [];
 
 export function ToastContextWrapper(props: { children?: ReactNode }) {
 	var [dummyState, rerender] = useState(false);
 
-	return <ToastContext.Provider value={{ toast: (message, type, icon? ) => {
-		toasts.push(<Toast type={type} text={message} icon={icon}/>);
+	return <ToastContext.Provider value={{ toast: options => {
+		toasts.push(<Toast
+					type={options.type}
+					text={options.message}
+					description={options.description}
+					icon={options.icon}/>);
 		rerender(!dummyState);
 	} }}>
 		{ props.children }
