@@ -1,13 +1,17 @@
 import axios from 'axios';
 import { validate as validateEmail } from 'email-validator';
-import { FormEvent } from 'react';
+import { FormEvent, useContext } from 'react';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
 import { Vierkant, Input, Button } from '../components/ui';
+import { ToastContext, toastType } from '../components/toast';
 
-function submitRegister(event?: FormEvent<HTMLFormElement>) {
-	event.preventDefault();
+import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+
+function submitRegister(event?: FormEvent<HTMLFormElement>, toast?: toastType) {
+	event?.preventDefault();
 
 	var formData = {
 		username: (document.getElementById("username") as HTMLInputElement).value,
@@ -18,7 +22,7 @@ function submitRegister(event?: FormEvent<HTMLFormElement>) {
 	if ( !formData.username ||
 	   	 !formData.email ||
 		 !formData.password ) {
-		alert("Vul alsjeblieft alle velden in!");
+		toast("Vul alsjeblieft alle velden in!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
 		return;
 	}
 
@@ -33,20 +37,19 @@ function submitRegister(event?: FormEvent<HTMLFormElement>) {
 	 * https://stackoverflow.com/questions/5142103/regex-to-validate-password-strength
 	 */
 
-	//TODO: alert -> react toast / material-ui snackbar
 	if ( formData.username.length < 3 || formData.username.length > 35 ) {
-		alert("Je gebruikersnaam moet tussen de 3 en 35 tekens lang zijn!");
+		toast("Je gebruikersnaam moet tussen de 3 en 35 letters zijn!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
 		return;
 	}
 
 	if ( !validateEmail(formData.email) ) {
-		alert("Voer alsjeblieft een geldig e-mail adres in!");
+		toast("Vul alsjeblieft een geldig email-adres in!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
 		return;
 	}
 
 	//TODO: wachtwoord max 72 tekens ivm bcrypt
 	if ( !formData.password.match(passwordRegex) ) {
-		alert("Je wachtwoord moet minimaal 8 tekens lang zijn en een hoofdletter, kleine letter, en een nummer bevatten!");
+		toast("Je wachtwoord moet een hoofdletter, kleine letter en een getal bevatten!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
 		return;
 	}
 	
@@ -62,12 +65,14 @@ function submitRegister(event?: FormEvent<HTMLFormElement>) {
 		window.location.pathname = "/";
 	})
 	.catch(error => {
-		alert("Er is iets fout gegaan!");
+		toast("Er is iets fout gegaan", "error", <ErrorOutlineIcon style={{ fontSize: 32 }}/>);
 		console.log(error);
 	});
 }
 
 export default function RegisterPage() {
+	var { toast } = useContext(ToastContext);
+
 	return (
 		<div>
 			<NavBar/>
@@ -80,11 +85,11 @@ export default function RegisterPage() {
 					textAlign: "center"
 				}}>
 					<Vierkant>
-						<form onSubmit={submitRegister}>
+						<form onSubmit={(e) => submitRegister(e, toast)}>
 							<Input autofocus autocomplete="username" id="username" label="gebruikersnaam" style={{ marginBottom: 12 }}></Input>
 							<Input autocomplete="email" id="email" label="email" style={{ marginBottom: 12 }}></Input>
 							<Input autocomplete="new-password" id="password" label="wachtwoord" type="password"></Input>
-							<Button text="Registreren" style={{ marginTop: 24 }} onclick={submitRegister}></Button>
+							<Button text="Registreren" style={{ marginTop: 24 }} onclick={() => submitRegister(null, toast)}></Button>
 							<input type="submit" style={{ display: "none" }}/>
 						</form>
 					</Vierkant>

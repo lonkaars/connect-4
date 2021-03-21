@@ -1,12 +1,17 @@
 import axios from 'axios';
-import { FormEvent } from 'react';
+import { FormEvent, useContext } from 'react';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
 import { Vierkant, Input, Button } from '../components/ui';
+import { ToastContext, toastType } from '../components/toast';
 
-function submitLogin(event?: FormEvent<HTMLFormElement>) {
-	event.preventDefault();
+import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+
+function submitLogin(event?: FormEvent<HTMLFormElement>, toast?: toastType) {
+	event?.preventDefault();
 
 	var formData = {
 		email: (document.getElementById("email") as HTMLInputElement).value,
@@ -15,7 +20,7 @@ function submitLogin(event?: FormEvent<HTMLFormElement>) {
 
 	if ( !formData.email ||
 		 !formData.password ) {
-		alert("Vul alsjeblieft alle velden in!");
+		toast("Vul alsjeblieft alle velden in!", "error", <ReportProblemOutlinedIcon style={{ fontSize: 32 }}/>);
 		return;
 	}
 
@@ -28,14 +33,16 @@ function submitLogin(event?: FormEvent<HTMLFormElement>) {
 	.then(() => window.location.pathname = "/")
 	.catch(error => {
 		if (error.response.status === 401) {
-			alert("Verkeerde gebruikersnaam/wachtwoord combinatie!")
+			toast("Verkeerde gebruikersnaam of wachtwoord!", "error", <VpnKeyIcon style={{ fontSize: 32 }}/>);
 			return;
 		}
-		alert("Er is iets fout gegaan!");
+		toast("Er is iets fout gegaan", "error", <ErrorOutlineIcon style={{ fontSize: 32 }}/>);
 	});
 }
 
 export default function LoginPage() {
+	var { toast } = useContext(ToastContext);
+
 	return (
 		<div>
 			<NavBar/>
@@ -48,7 +55,7 @@ export default function LoginPage() {
 					textAlign: "center"
 				}}>
 					<Vierkant>
-						<form onSubmit={submitLogin}>
+						<form onSubmit={(e) => submitLogin(e, toast)}>
 							<Input autofocus autocomplete="username" id="email" label="email of gebruikersnaam" style={{ marginBottom: 12 }}></Input>
 							<Input autocomplete="current-password" id="password" label="wachtwoord" type="password"></Input>
 							<div style={{
@@ -58,7 +65,7 @@ export default function LoginPage() {
 								gridTemplateColumns: "1fr 1fr"
 							}}>
 								<Button href="/register" text="Registreren" style={{ backgroundColor: "var(--background-alt)"}}></Button>
-								<Button text="Inloggen" onclick={submitLogin}></Button>
+								<Button text="Inloggen" onclick={() => submitLogin(null, toast)}></Button>
 							</div>
 							<input type="submit" style={{ display: "none" }}/>
 						</form>

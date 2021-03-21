@@ -12,16 +12,19 @@ import { DialogBox } from '../components/dialogBox';
 import { CurrentGameSettings } from '../components/gameSettings';
 import { Button, SearchBar, IconLabelButton } from '../components/ui';
 import { GameBar } from '../components/gameBar';
+import { ToastContext, toastType } from '../components/toast';
 
 import WifiTetheringRoundedIcon from '@material-ui/icons/WifiTetheringRounded';
 import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 
 function VoerGame(props: {
 	gameID: string;
 	active: boolean;
 	player1: boolean;
 	io: Socket;
+	toast: toastType;
 }) {
 	var width = 7;
 	var height = 6;
@@ -58,7 +61,7 @@ function VoerGame(props: {
 		});
 
 		props.io.on("resign", () => {
-			alert("resign")
+			props.toast("Het potje is opgegeven", "normal", <FlagOutlinedIcon style={{ fontSize: 32 }}/>);
 		});
 
 		setIoListeners(true);
@@ -174,6 +177,7 @@ export default function GamePage() {
 	var gameIDUrl = useRouter().query["id"] as string;
 
 	var { io } = useContext(SocketContext);
+	var { toast } = useContext(ToastContext);
 
 	if (gameIDUrl && gameIDUrl != gameID) {
 		// join game
@@ -207,7 +211,8 @@ export default function GamePage() {
 				active={active}
 				gameID={gameID}
 				player1={player1}
-				io={io}/>
+				io={io}
+				toast={toast}/>
 			<DialogBox
 				title="Nieuw spel"
 				style={{ display: gameIDUrl || gameID ? "none" : "inline-block" }}

@@ -75,17 +75,14 @@ function Toast(props: {
 	</div>
 }
 
-export var ToastContext = createContext<{ toast?: (message: string,
-												   type: "confirmation"|"normal"|"error",
-												   icon?: ReactNode ) => void }>({});
+export type toastType = (message: string, type: "confirmation"|"normal"|"error", icon?: ReactNode ) => void;
+export var ToastContext = createContext<{ toast?: toastType }>({});
 var toasts: Array<JSX.Element> = [];
 
 export function ToastContextWrapper(props: { children?: ReactNode }) {
 	var [dummyState, rerender] = useState(false);
 
-	return <ToastContext.Provider value={{ toast: (message: string,
-												   type: "confirmation"|"normal"|"error",
-												   icon?: ReactNode ) => {
+	return <ToastContext.Provider value={{ toast: (message, type, icon? ) => {
 		toasts.push(<Toast type={type} text={message} icon={icon}/>);
 		rerender(!dummyState);
 	} }}>
