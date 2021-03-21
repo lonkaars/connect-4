@@ -17,6 +17,7 @@
     "email-validator": "^2.0.4",
     "friendly-time": "^1.1.1",
     "image-blob-reduce": "^2.2.2",
+    "micromark": "^2.11.4",
     "next": "^10.0.5",
     "pica": "^6.1.1",
     "react": "^17.0.1",
