@@ -3,6 +3,8 @@ import axios from 'axios';
 import * as cookies from 'react-cookies';
 import { SocketContext } from '../components/socketContext';
 import { Socket } from 'socket.io-client';
+import Icon from '@mdi/react';
+import copy from 'copy-to-clipboard';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
@@ -17,6 +19,7 @@ import WifiTetheringRoundedIcon from '@material-ui/icons/WifiTetheringRounded';
 import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
+import { mdiContentCopy } from '@mdi/js';
 
 function VoerGame(props: {
 	gameID: string;
@@ -58,8 +61,8 @@ function VoerGame(props: {
 
 		props.io.on("resign", () => {
 			props.toast({ message: "Het potje is opgegeven",
-						type: "normal",
-						icon: <FlagOutlinedIcon/>});
+						  type: "normal",
+						  icon: <FlagOutlinedIcon/>});
 		});
 	}, []);
 
@@ -227,10 +230,7 @@ export default function GamePage() {
 				}}>
 					<Button style={InviteButtonStyle} onclick={() => {
 						axios.request<{ id: string, player_1: boolean, game_started: boolean }>({
-							method: "post",
 							url: "/api/game/random",
-							headers: {"content-type": "application/json"},
-							data: {}
 						})
 						.then(response => {
 							setGameID(response.data.id);
@@ -247,7 +247,27 @@ export default function GamePage() {
 						}}/>
 						<h2 style={InviteButtonLabelStyle}>Willekeurige speler</h2>
 					</Button>
-					<Button style={InviteButtonStyle}>
+					<Button style={InviteButtonStyle} onclick={() => {
+						axios.request<{ id: string }>({
+							method: "post",
+							url: "/api/game/new",
+							headers: {"content-type": "application/json"},
+							data: {}
+						})
+						.then(response => {
+							setGameID(response.data.id);
+							window.history.replaceState(null, null, "?id=" + response.data.id);
+							setPlayer1(true);
+							io.emit("registerGameListener", { game_id: response.data.id });
+							setActive(false);
+
+							copy(window.location.href);
+							toast({ message: "Link gekopiëerd naar klembord",
+									type: "confirmation",
+									icon: <Icon size={1} path={mdiContentCopy}/> });
+						})
+						.catch(() => {});
+					}}>
 						<LinkRoundedIcon style={{
 							color: "var(--disk-a)",
 							...InviteButtonIconStyle

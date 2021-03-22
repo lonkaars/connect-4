@@ -1,4 +1,4 @@
-from flask import Blueprint, request, make_response
+from flask import Blueprint, request
 from db import cursor, connection
 from randid import new_uuid
 import time
@@ -11,17 +11,16 @@ from socket_io import io
 
 random_game = Blueprint('random', __name__)
 
-@random_game.route('/random', methods = ['POST'])
+@random_game.route('/random')
 def index():
     data = request.get_json()
 
     token = request.cookies.get("token") or ""
-    user_id = data.get("user_id") or ""
-    if not user_id and not token:
+    if not token:
         print("a temporary user should be set up here")
 
-    if not user_id and token:
-        user_id = token_login(token)
+    user_id = token_login(token)
+    if not user_id: return "", 403
 
     public_games = cursor.execute("select game_id from games where private = FALSE and status = \"wait_for_opponent\"").fetchall()
 

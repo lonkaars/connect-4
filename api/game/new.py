@@ -1,8 +1,10 @@
 import time
+from flask import Blueprint, request
 from db import cursor, connection
 from socket_io import io
 from randid import new_uuid
 from game.socket import games, game
+from auth.login_token import token_login
 
 def create_game(user_1_id, private = False, user_2_id = None):
     timestamp = int( time.time() * 1000 )
@@ -29,4 +31,21 @@ def start_game(game_id, user_2_id):
 
     io.emit("gameStart", room=games[game_id].room)
 
+new_game = Blueprint('new_game', __name__)
 
+@new_game.route('/new', methods = ["GET", "POST"])
+def index():
+    data = request.get_json()
+
+    token = request.cookies.get("token") or ""
+    if not token:
+        print("a temporary user should be set up here")
+
+    user_id = token_login(token)
+    if not user_id: return "", 403
+
+    game_id = create_game(user_id, True)
+
+    return { "id": game_id }, 200
+
+dynamic_route = ["/game", new_game]
