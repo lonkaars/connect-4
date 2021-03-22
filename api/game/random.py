@@ -25,8 +25,6 @@ def index():
 
     public_games = cursor.execute("select game_id from games where private = FALSE and status = \"wait_for_opponent\"").fetchall()
 
-    timestamp = int( time.time() * 1000 )
-
     game_started = False
 
     if len(public_games) == 0:
@@ -36,11 +34,6 @@ def index():
         game_id = random.choice(public_games)[0]
 
         start_game(game_id, user_id)
-
-        players = cursor.execute("select player_1_id, player_2_id from games where game_id = ?", [game_id]).fetchone()
-        games[game_id] = game(game_id, io, players[0], players[1])
-
-        io.emit("gameStart", room=games[game_id].room)
 
         player_1 = False
         game_started = True

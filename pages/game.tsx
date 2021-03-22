@@ -1,7 +1,6 @@
 import { CSSProperties, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import * as cookies from 'react-cookies';
-import { useRouter } from 'next/router';
 import { SocketContext } from '../components/socketContext';
 import { Socket } from 'socket.io-client';
 
@@ -29,15 +28,12 @@ function VoerGame(props: {
 	var width = 7;
 	var height = 6;
 
-	var [ioListeners, setIoListeners] = useState(false);
 	var [turn, setTurn] = useState(true);
 	// var [winPositions, setWinPositions] = useState<Array<Array<number>>>([]);
 	var [outcome, setOutcome] = useState(-1);
 	var board: Array<number> = [...Array(width * height)].map(() => 0);
 
 	useEffect(() => {
-		if (ioListeners) return;
-
 		props.io.on("connect", () => console.log("connect"));
 		props.io.on("disconnect", () => console.log("disconnect"));
 
@@ -65,8 +61,6 @@ function VoerGame(props: {
 						type: "normal",
 						icon: <FlagOutlinedIcon/>});
 		});
-
-		setIoListeners(true);
 	}, []);
 
 	return <div style={{
@@ -172,38 +166,43 @@ var InviteButtonLabelStyle: CSSProperties = {
 }
 
 export default function GamePage() {
-	var [ioListeners, setIoListeners] = useState(false);
 	var [gameID, setGameID] = useState("");
 	var [player1, setPlayer1] = useState(true);
 	var [active, setActive] = useState(false);
-	var gameIDUrl = useRouter().query["id"] as string;
+	var [gameIDUrl, setGameIDUrl] = useState("");
 
 	var { io } = useContext(SocketContext);
 	var { toast } = useContext(ToastContext);
 
-	if (gameIDUrl && gameIDUrl != gameID) {
-		// join game
-		axios.request<{ id: string, player_1: boolean }>({
+	useEffect(() => {
+		var gameIDUrl = new URLSearchParams(window.location.search).get("id") || "";
+		setGameIDUrl(gameIDUrl);
+
+		if (!gameIDUrl || gameIDUrl == gameID) return;
+
+		axios.request<{ id: string, player_1: boolean, game_started: boolean }>({
 			method: "post",
 			url: "/api/game/accept",
 			headers: {"content-type": "application/json"},
 			data: { id: gameIDUrl }
 		})
-		.then(() => {
+		.then(response => {
+			setGameID(response.data.id);
+			setPlayer1(response.data.player_1);
+			io.emit("registerGameListener", { game_id: response.data.id });
 			setActive(true);
-			io.emit("registerGameListener", { game_id: gameIDUrl });
 		})
-		.catch(() => {});
+		.catch(err => {
+			toast({ message: "error",
+				  type: "confirmation",
+				  description: err.toString() });
+		});
 
 		setGameID(gameIDUrl);
-	}
+	}, []);
 
 	useEffect(() => {
-		if (ioListeners) return;
-
 		io.on("gameStart", () => setActive(true));
-
-		setIoListeners(true);
 	}, []);
 
 	return <div>

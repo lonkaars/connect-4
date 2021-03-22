@@ -24,6 +24,7 @@ class game:
         if user_id != move: return
 
         self.board.drop_fisje(column)
+
         io.emit("fieldUpdate", { "field": self.board.board }, room=self.room)
 
         now = int( time.time() * 1000 )
