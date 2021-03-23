@@ -13,8 +13,6 @@ random_game = Blueprint('random', __name__)
 
 @random_game.route('/random')
 def index():
-    data = request.get_json()
-
     token = request.cookies.get("token") or ""
     if not token:
         print("a temporary user should be set up here")

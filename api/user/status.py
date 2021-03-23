@@ -1,21 +1,15 @@
 from flask import Blueprint, request
 from db import cursor, connection
-from auth.login_token import token_login
+from hierarchy import auth_required
 import json
 
 status = Blueprint('user_status', __name__)
 
 @status.route('/status', methods = ['POST'])
+@auth_required("user")
 def index():
     data = request.get_json()
-
     status = data.get("status") or ""
-    token = request.cookies.get("token") or ""
-
-    if not token: return "", 401
-    login = token_login(token) or ""
-
-    if not login: return "", 403
     if not status: return "", 400
 
     cursor.execute("update users set status = ? where user_id = ?", [status[0:200], login])

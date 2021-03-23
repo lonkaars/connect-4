@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from db import cursor, connection
-from auth.login_token import token_login
 from ruleset import resolve_ruleset
+from hierarchy import auth_required
 import json
 
 def format_preferences(prefs):
@@ -18,30 +18,16 @@ def format_preferences(prefs):
 preferences = Blueprint('preferences', __name__)
 
 @preferences.route('/preferences', methods = ["GET"])
-def get_preferences():
-    data = request.get_json()
-
-    token = request.cookies.get("token") or ""
-
-    if not token: return "", 401
-    login = token_login(token) or ""
-
-    if not login: return "", 403
-
+@auth_required("user")
+def get_preferences(login):
     user_prefs = cursor.execute("select preferences from users where user_id = ?", [login]).fetchone()
     return { "preferences": format_preferences(json.loads(user_prefs[0])) }, 200
 
 @preferences.route('/preferences', methods = ["POST"])
-def index():
+@auth_required("user")
+def index(login):
     data = request.get_json()
-
     new_preferences = data.get("newPreferences") or ""
-    token = request.cookies.get("token") or ""
-
-    if not token: return "", 401
-    login = token_login(token) or ""
-
-    if not login: return "", 403
 
     formatted_json = format_preferences(new_preferences)
 
