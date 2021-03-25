@@ -10,10 +10,13 @@ import time
 def get_token(environ):
     cookie = environ.get("HTTP_COOKIE")
     if not cookie: return None
+
     parsed = cookies.SimpleCookie()
     parsed.load(cookie)
+
     token = parsed.get("token")
     if not token: return None
+
     return token.value
 
 @io.on("connect")
