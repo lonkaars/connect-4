@@ -1,8 +1,22 @@
 from flask import Blueprint, request
 from db import cursor, connection
-from auth.login_token import token_login
+from hierarchy import auth_required
 from socket_io import io
 import time
+
+def two_person_endpoint(func):
+    @auth_required("user")
+    def wrapper(user_1_id):
+        data = request.get_json()
+        user_2_id = data.get("id") or ""
+
+        if not user_1_id or \
+           not user_2_id:
+               return "", 403
+
+        return func(user_1_id, user_2_id)
+    wrapper.__name__ = func.__name__
+    return wrapper
 
 def create_relation(user_1_id, user_2_id, relation_type):
     remove_relation(user_1_id, user_2_id)
@@ -18,20 +32,10 @@ def remove_relation(user_1_id, user_2_id):
     connection.commit()
 
 def create_relation_route(relation_type):
-    def route():
-        data = request.get_json()
-
-        user_2_id = data.get("id") or ""
-        token = request.cookies.get("token") or ""
-
-        if not token: return "", 401
-        user_1_id = token_login(token) or ""
-
-        if not user_1_id or \
-           not user_2_id:
-               return "", 403
-
+    @two_person_endpoint
+    def route(user_1_id, user_2_id):
         create_relation(user_1_id, user_2_id, relation_type)
+
         if relation_type == "outgoing":
             io.emit("incomingFriendRequest", room="user-"+user_2_id)
 
