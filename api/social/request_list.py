@@ -1,18 +1,14 @@
 from flask import Blueprint, request
 from db import cursor, connection
-from auth.login_token import token_login
+from hierarchy import auth_required
 from user.info import format_user
 import time
 
 requests = Blueprint('requests', __name__)
 
 @requests.route("/requests")
-def route():
-    token = request.cookies.get("token") or ""
-    if not token: return "", 401
-    user_2_id = token_login(token) or ""
-    if not user_2_id: return "", 403
-
+@auth_required("user")
+def route(user_2_id):
     request_list = cursor.execute("select user_1_id from social where user_2_id = ? and type = \"outgoing\"",
             [user_2_id]).fetchall()
 

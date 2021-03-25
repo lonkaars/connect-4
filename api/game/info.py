@@ -1,7 +1,6 @@
 from flask import Blueprint, request
 from functools import reduce
 from db import cursor
-from auth.login_token import token_login
 from user.info import format_user
 from rating import outcome
 from ruleset import resolve_ruleset

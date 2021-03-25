@@ -6,20 +6,14 @@ import json
 import random
 from game.socket import game, games
 from game.new import create_game, start_game
-from auth.login_token import token_login
+from hierarchy import auth_required
 from socket_io import io
 
 random_game = Blueprint('random', __name__)
 
 @random_game.route('/random')
-def index():
-    token = request.cookies.get("token") or ""
-    if not token:
-        print("a temporary user should be set up here")
-
-    user_id = token_login(token)
-    if not user_id: return "", 403
-
+@auth_required("user")
+def index(user_id):
     public_games = cursor.execute("select game_id from games where private = FALSE and status = \"wait_for_opponent\"").fetchall()
 
     game_started = False
