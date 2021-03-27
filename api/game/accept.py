@@ -14,7 +14,7 @@ join_game = Blueprint('game_accept', __name__)
 
 @join_game.route('/accept', methods = ['POST'])
 @auth_required("user")
-def index(user_id):
+def index(game_id):
     if cursor.execute("select status from games where game_id = ?", [game_id]).fetchone()[0] != "wait_for_opponent":
         return "", 403
 
