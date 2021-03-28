@@ -5,6 +5,7 @@ import os
 import log
 import glob
 
+# get all python files in api/ directory and convert them to python import names
 files = glob.glob(os.path.dirname(__file__) + "/**/*.py", recursive=True)
 files.remove(__file__)
 files = [str(filename)
@@ -20,8 +21,10 @@ def route(dynamic_route):
 
 for file in files:
     mod = importlib.import_module(file)
+    # check if module has `dynamic_route` defined (single route)
     if hasattr(mod, "dynamic_route"):
         route(mod.dynamic_route)
+    # check if module has `dynamic_routes` defined (multiple routes as list)
     elif hasattr(mod, "dynamic_routes"):
         for dynamic_route in mod.dynamic_routes:
             route(dynamic_route)

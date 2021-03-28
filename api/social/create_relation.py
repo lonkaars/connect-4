@@ -4,6 +4,8 @@ from hierarchy import auth_required
 from socket_io import io
 import time
 
+# @two_person_endpoint decorator
+# defines (user_1_id, user_2_id) in endpoint handler function arguments
 def two_person_endpoint(func):
     @auth_required("user")
     def wrapper(user_1_id):
@@ -26,6 +28,7 @@ def create_relation(user_1_id, user_2_id, relation_type):
             [user_1_id, user_2_id, relation_type, timestamp])
     connection.commit()
 
+# remove relation between user_1_id and user_2_id (one-way)
 def remove_relation(user_1_id, user_2_id):
     cursor.execute("delete from social where user_1_id = ? and user_2_id = ?",
             [user_1_id, user_2_id])
@@ -41,7 +44,6 @@ def create_relation_route(relation_type):
 
         return "", 200
     return route
-
 
 friend_request = Blueprint('friend_request', __name__)
 friend_request.add_url_rule('/request', 'route', create_relation_route("outgoing"), methods = ["POST"])

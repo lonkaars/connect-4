@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from db import cursor
 from auth.token import validate_token, hash_token
 
+# get user_id from authentication token
 def token_login(token):
     hashed = hash_token({ "token": token, "expirationDate": 0 })
     user_id = cursor.execute("select user_id from users where valid_tokens like ?", [f"%{hashed['token']}%"]).fetchone()
@@ -9,6 +10,7 @@ def token_login(token):
 
 token = Blueprint('token', __name__)
 
+# this endpoint is currently unused, but verifies that a token is valid
 @token.route('/token', methods = ['POST'])
 def index():
     data = request.get_json()

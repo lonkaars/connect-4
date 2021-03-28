@@ -4,10 +4,12 @@ from auth.login_token import token_login
 from rating import get_rating
 import json
 
+# check if user_id exists in database
 def valid_user_id(user_id):
     query = cursor.execute("select user_id from users where user_id = ?", [user_id]).fetchone()
     return bool(query)
 
+# get relation to user_2_id from user_1_id's perspective
 def get_relation_to(user_1_id, user_2_id):
     relation = cursor.execute("select * from social where " + \
             "(user_1_id = ? and user_2_id = ?) or " + \
@@ -19,10 +21,12 @@ def get_relation_to(user_1_id, user_2_id):
     if relation[2] == "block" and relation[0] == user_1_id: return "blocked"
     return "none"
 
+# get users friend count
 def count_friends(user_id):
     query = cursor.execute("select type from social where (user_1_id = ? or user_2_id = ?) and type = \"friendship\"", [user_id, user_id]).fetchall()
-    return len(query)
+    return len(query) #FIXME: use SQL count() instead of python's len()
 
+# get user/info of `user_id` as `viewer` (id)
 def format_user(user_id, viewer = ''):
     user = cursor.execute("select " + ", ".join([
         "username",
@@ -38,14 +42,17 @@ def format_user(user_id, viewer = ''):
         "registered": user[3],
         "status": user[4],
         "friends": count_friends(user_id),
-        "rating": get_rating(user_id),
+        "rating": get_rating(user_id), #TODO: calculate rating based on game analysis
     }
     if viewer:
+        #FIXME: validate viewer id?
         formatted_user["relation"] = get_relation_to(viewer, user_id)
     return formatted_user
 
 info = Blueprint('info', __name__)
 
+# view own user/info if no user_id or username is provided and is logged in,
+# else view user/info of user with user_id = `user_id` or username = `username`
 @info.route('/info', methods = ['GET', 'POST'])
 def index():
     data_string = request.data or "{}"
@@ -75,7 +82,6 @@ def index():
     if user_id and not valid_user_id(user_id): return "", 403
     user = format_user(user_id, viewer)
 
-    #TODO: rating uitrekenen zodra er game functionaliteit is
     return user, 200
 
 dynamic_route = ["/user", info]

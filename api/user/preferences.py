@@ -4,6 +4,7 @@ from ruleset import resolve_ruleset
 from hierarchy import auth_required
 import json
 
+# fill missing dict keys in preferences object
 def format_preferences(prefs):
     return {
             "darkMode": prefs.get("darkMode") or False,

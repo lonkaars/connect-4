@@ -36,6 +36,8 @@ new_game = Blueprint('new_game', __name__)
 @new_game.route('/new', methods = ["GET", "POST"])
 @auth_required("user")
 def index(user_id):
+    # create a new private game (join by link)
+    #TODO: friend invites + notifications
     game_id = create_game(user_id, True)
     return { "id": game_id }, 200
 

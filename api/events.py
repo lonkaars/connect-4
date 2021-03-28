@@ -7,6 +7,7 @@ from http import cookies
 from game.cleanup import set_interval
 import time
 
+# get token from flask_socketio's request.environment
 def get_token(environ):
     cookie = environ.get("HTTP_COOKIE")
     if not cookie: return None
@@ -19,6 +20,7 @@ def get_token(environ):
 
     return token.value
 
+# global socket connection
 @io.on("connect")
 def connect():
     token = get_token(request.environ)

@@ -3,6 +3,7 @@ from db import cursor
 
 password = Blueprint('password', __name__)
 
+# this endpoint is unfinished
 @password.route('/password')
 def index():
     data = request.get_json()

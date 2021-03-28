@@ -4,6 +4,7 @@ from db import cursor
 
 ranks = ["none", "user", "moderator", "admin", "bot"]
 
+# @auth_required function decorator (use after @flask.Blueprint.route() decorator)
 def auth_required(level):
     def decorator(func):
         def wrapper():

@@ -6,6 +6,7 @@ tables = {
         "games": "game_id"
         }
 
+# generate a new uuid and check for collisions (unlikely but still)
 def new_uuid(table_name):
     temp_uuid = str(uuid.uuid4())
     column_name = tables[table_name]

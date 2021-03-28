@@ -8,6 +8,7 @@ from ruleset import resolve_ruleset
 from game.info import format_game
 import json
 
+# get total game outcome amount for user
 def sum_games(user_id): #! SANITIZE USER_ID FIRST
     wld_querys = [' '.join([
         "select count(game_id)",
@@ -28,6 +29,7 @@ def sum_games(user_id): #! SANITIZE USER_ID FIRST
 
     results = cursor.execute(big_query).fetchone()
 
+    # win and lose are calculated from user_id's perspective (player_1_id, player_2_id in db)
     return {
             "draw": results[0],
             "win": results[1] + results[4],
@@ -35,6 +37,7 @@ def sum_games(user_id): #! SANITIZE USER_ID FIRST
             "games": reduce(lambda a, b: a + b, results)
     }
 
+# get `count` games that `user_id` participated in, sorted by newest game
 def fetch_games(user_id, count):
     game_ids = cursor.execute("select game_id from games where player_1_id = ? or player_2_id = ? order by created desc", [user_id, user_id]).fetchmany(count)
     export = []

@@ -2,6 +2,7 @@ from flask import Blueprint, request, Response
 from db import cursor
 from auth.login_token import token_login
 from user.info import valid_user_id
+from hierarchy import auth_required
 from os.path import exists
 from codecs import decode
 
@@ -25,13 +26,9 @@ def get_avatar():
     return Response(avatar or default_avatar, 200, mimetype="image/png")
 
 @avatar.route('/avatar', methods = ["POST"]) #TODO: pillow image size validation (client side resize)
-def update_avatar():
-    token = request.cookies.get("token") or ""
-    if not token: return "", 401
+@auth_required("user")
+def update_avatar(login):
     if not request.data: return "", 400
-
-    login = token_login(token) or ""
-    if not login: return "", 403
 
     open(f"database/avatars/{login}.png", "wb").write(decode(request.data, "base64"))
 

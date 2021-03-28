@@ -18,6 +18,7 @@ class game:
         self.player_1_id = player_1_id
         self.player_2_id = player_2_id
 
+    # drop a disc in `column`
     def move(self, user_id, column):
         if user_id != self.player_1_id and user_id != self.player_2_id: return
         move = self.player_1_id if self.board.player_1 else self.player_2_id

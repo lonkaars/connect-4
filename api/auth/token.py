@@ -4,8 +4,10 @@ import secrets
 import json
 import time
 
+# get valid token hashes for a given user_id
 def valid_tokens(user_id):
     tokens = json.loads(cursor.execute("select valid_tokens from users where user_id = ?", [user_id]).fetchone()[0])
+    # return only tokens that aren't expired
     return [token for token in tokens if token["expirationDate"] > int( time.time() * 1000 )]
 
 def validate_token(user_id, token):

@@ -12,6 +12,7 @@ from game.new import start_game
 
 join_game = Blueprint('game_accept', __name__)
 
+# join a game by game_id (public or private)
 @join_game.route('/accept', methods = ['POST'])
 @auth_required("user")
 def index(game_id):

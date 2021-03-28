@@ -22,12 +22,19 @@ def format_game(game_id, user_id = None):
         "status",                # 12
         "private",               # 13
         ]) + " from games where game_id = ?", [game_id]).fetchone()
+
     is_player_1 = game[4] != user_id
+
+    # get opponent from perspective of `user_id`
     opponent = game[4] if is_player_1 else game[3]
+
+    # parse moves into list and return empty list if moves string is empty
+    moves = [] if len(game[2]) == 0 else [int(move) for move in str(game[2] + "0").split(",")]
+
     return {
         "id": game[0],
         "parent": game[1],
-        "moves": [] if len(game[2]) == 0 else [int(move) for move in str(game[2] + "0").split(",")],
+        "moves": moves,
         "opponent": None if not opponent else format_user(opponent),
         "outcome": None if not game[5] else outcome(game[5], is_player_1),
         "created": game[6],
@@ -40,6 +47,7 @@ def format_game(game_id, user_id = None):
         "private": bool(game[13]),
     }
 
+# check if game_id exists in database
 def valid_game_id(game_id):
     query = cursor.execute("select game_id from games where game_id = ?", [game_id]).fetchone()
     return bool(query)

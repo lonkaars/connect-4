@@ -25,6 +25,7 @@ class bord:
                 stderr=None)
         self.process.stdin.flush()
 
+    # get output from voerbak without trailing newline character (this might break on windows because crlf)
     def get_output(self):
         return self.process.stdout.readline().decode()[:-1]
 
@@ -32,24 +33,30 @@ class bord:
         self.process.stdin.write(bytearray("0", "utf-8"))
         self.process.stdin.flush()
 
+    # read messages from voerbak
     def update_board(self):
         buffer = self.get_output()
         while not buffer.isdigit():
+            # win message
             if buffer.startswith("w:"):
                 self.win_positions.append(buffer[2:].split("-"))
                 log.info(f"won: {buffer[2:].split('-')}")
                 self.kill_voerbak()
+            # error message
             elif buffer.startswith("e:"):
                 log.warning(buffer[2:])
+            # turn update message
             elif buffer.startswith("m:"):
                 substr = buffer[2:]
                 self.player_1 = True if substr == "true" else False
+            # draw game message
             elif buffer.startswith("d:"):
                 self.board_full = True
                 self.kill_voerbak()
             buffer = self.get_output()
         self.board = buffer
 
+    # debug board print function
     def print(self):
         for y in range(self.height -1, -1, -1):
             for x in range(self.width):
@@ -66,6 +73,7 @@ class bord:
         self.process.stdin.flush()
         self.update_board()
 
+# debug game
 def main():
     gert = bord(7, 6)
     while True:
