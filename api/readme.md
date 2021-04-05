@@ -6,51 +6,458 @@ This is the subdirectory for the API. You can find the API reference in [this](h
 
 API return type classes are mostly defined in api/api.ts
 
-endpoint|method|description|parameters|authorization
--|-|-|-|-
-/status | GET | get online user count and active game count
-/auth/login | POST | log in with email or username
-/auth/token | POST | log in using a token (stored as cookie)
-/auth/signup | POST | sign up
-/user/info | GET\|POST | get user info by username or id  note: avatar is a uri to a 256x256 .png image
-/user/games | GET\|POST | get games of user
-/user/avatar | GET\|POST | fetch or update avatar note: avatar is a client-resized 256x256 .png base64-encoded image, request returns error when image is not .png or larger than 256x256
-/user/prefrences | GET\|POST | fetch or change user preferences
-/user/password | POST | update password
-/user/email | POST | update email (token used for authentication if password is undefined)
-/user/username | POST | update username (token used for authentication if password is undefined)
-/user/status | POST | update status
-/user/searchFriends | POST | search user's friend list
-/social/request | POST | send a friend request to a user by user id
-/social/accept | POST | accept a friend request
-/social/remove | POST | remove a friend from your friend list or delete a friend request from a user
-/social/search | POST | search for users by username or status
-/social/block | POST | block a user
-/social/unblock | POST | unblock a user
-/social/list/requests | GET | get a list of unaccepted friend requests
-/social/list/blocks | GET | get a list of blocked people
-/social/list/friends | GET | get a list of your friends
-/game/new | POST | create a new private game
-/game/random | POST | join or create a public game
-/game/info | POST | 
-/game/accept | POST | accept game invite or rematch
-/game/spectate | POST | spectate a game by id
+<table>
+<code>
+<thead>
+<tr>
+<th>endpoint</th>
+<th>method</th>
+<th>description</th>
+<th>parameters</th>
+<th>authorization</th>
+<th>response</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td>/status</td>
+<td><code><code>GET</code></code></td>
+<td>get online user count and active game count</td>
+<td><code>none</code></td>
+<td><code>none</code></td>
+<td>
+
+```ts
+{
+  users: int,
+  games: int
+}
+```
+</td>
+</tr>
+
+<tr>
+<td>/auth/login</td>
+<td><code>POST</code></td>
+<td>log in with email or username</td>
+<td>
+
+```ts
+{
+  email: string,
+  password: string
+}
+```
+</td>
+<td><code>none</code></td>
+<td>empty response with the set_cookie header</td>
+</tr>
+
+<tr>
+<td>/auth/signup</td>
+<td><code>POST</code></td>
+<td>sign up</td>
+<td>
+
+```ts
+{
+  username: string,
+  email: string,
+  password: string
+}
+```
+</td>
+<td><code>none</code></td>
+<td>empty response with the set_cookie header</td>
+</tr>
+
+<tr>
+<td>/user/info</td>
+<td><code>GET|POST</code></td>
+<td>get user info by username or id  note: avatar is a uri to a 256x256 .png image</td>
+<td>
+
+```ts
+{
+  username?: string,
+  id?: userID
+}
+```
+</td>
+<td><code>none|user</code></td>
+<td>
+
+```ts
+userInfo
+```
+</td>
+</tr>
+
+<tr>
+<td>/user/games</td>
+<td><code>GET|POST</code></td>
+<td>get games of user</td>
+<td>
+
+```ts
+{ id?: userID }
+```
+</td>
+<td><code>none|user</code></td>
+<td>
+
+```ts
+{
+  games: Array<gameInfo>,
+  totals: userGameTotals
+}
+```
+</td>
+</tr>
+
+<tr>
+<td>/user/avatar</td>
+<td><code>GET</code></td>
+<td>fetch avatar as .png</td>
+<td>
+
+```ts
+{ id?: userID }
+```
+</td>
+<td><code>none|user</code></td>
+<td>PNG image</td>
+</tr>
+
+<tr>
+<td>/user/avatar</td>
+<td><code>POST</code></td>
+<td>
+update avatar
+
+note: avatar is a client-resized 256x256 .png base64-encoded image, request
+returns error when image is not .png or larger than 256x256
+</td>
+<td>
+
+```ts
+{ image: base64PNG }
+```
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
+</tr>
+
+<tr>
+<td>/user/prefrences</td>
+<td><code>GET</code></td>
+<td>fetch user preferences</td>
+<td><code>none</code></td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{ preferences: userPreferences }
+```
+</td>
+</tr>
+
+<tr>
+<td>/user/prefrences</td>
+<td><code>POST</code></td>
+<td>change user preferences</td>
+<td>
+
+```ts
+{ newPreferences: userPreferences }
+```
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
+</tr>
+
+<tr>
+<td>/user/password</td>
+<td>POST</td>
+<td>update password</td>
+<td>
+
+```ts
+{
+  password: string,
+  newPassword: string,
+}
+```
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
+</tr>
+
+<tr>
+<td>/user/email</td>
+<td>POST</td>
+<td>update email</td>
+<td>
+
+```ts
+{
+  password: string,
+  email: string,
+}
+```
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
+</tr>
+
+<tr>
+<td>/user/username</td>
+<td>POST</td>
+<td>update username</td>
+<td>
+
+```ts
+{
+  password: string,
+  username: string,
+}
+```
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
+</tr>
+
+<tr>
+<td>/user/status</td>
+<td><code>POST</code></td>
+<td>update status</td>
+<td>
+
+```ts
+{ status: string }
+```
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
+</tr>
+
+<tr>
+<td>/user/searchFriends</td>
+<td><code>POST</code></td>
+<td>search user's friend list</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/social/request</td>
+<td><code>POST</code></td>
+<td>send a friend request to a user by user id</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/social/accept</td>
+<td><code>POST</code></td>
+<td>accept a friend request</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/social/remove</td>
+<td><code>POST</code></td>
+<td>remove a friend from your friend list or delete a friend request from a user</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/social/search</td>
+<td><code>POST</code></td>
+<td>search for users by username or status</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/social/block</td>
+<td><code>POST</code></td>
+<td>block a user</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/social/unblock</td>
+<td><code>POST</code></td>
+<td>unblock a user</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/social/list/requests</td>
+<td><code>GET</code></td>
+<td>get a list of unaccepted friend requests</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/social/list/blocks</td>
+<td><code>GET</code></td>
+<td>get a list of blocked people</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/social/list/friends</td>
+<td><code>GET</code></td>
+<td>get a list of your friends</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/game/new</td>
+<td><code>POST</code></td>
+<td>create a new private game</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/game/random</td>
+<td><code>POST</code></td>
+<td>join or create a public game</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/game/info</td>
+<td><code>POST</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/game/accept</td>
+<td><code>POST</code></td>
+<td>accept game invite or rematch</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>/game/spectate</td>
+<td><code>POST</code></td>
+<td>spectate a game by id</td>
+<td></td>
+<td></td>
+</tr>
+
+</tbody>
+</code>
+</table>
 
 ## Events
 
 These are events that are fired by the socket.io connection
 
-event|description|data|direction|context
--|-|-|-|-
-fieldUpdate|recieve new playfield from server|`{ field: string }`|`s  -> c`|game
-turnUpdate|recieve if it's player 1's move|`{ player1: boolean }`|`s  -> c`|game
-gameStart|sent when game starts|`none`|`s  -> c`|game
-finish|sent when game finishes|`none`|`s  -> c`|game
-resign|send to resign, is then forwarded to all subscribed clients|`none`|`s <-> c`|game
-newMove|send a new move|`{ move: int, game_id: string }`|`s <-  c`|game
-registerGameListener|listen to events for a game|`{ id: string }`|`s <-  c`|game
-incomingFriendRequest|get notified of friend request|`none`|`s  -> c`|global
-changedRelation|get notified of a different relation to someone|`{ id: string }`|`s  -> c`|global
+<table>
+<thead>
+
+<tr>
+<th>event</th>
+<th>description</th>
+<th>data</th>
+<th>direction</th>
+<th>context</th>
+</tr>
+
+</thead>
+<tbody>
+
+<tr>
+<td>fieldUpdate</td>
+<td>recieve new playfield from server</td>
+<td><code>{ field: string }</code></td>
+<td><code>s  -&gt; c</code></td>
+<td>game</td>
+</tr>
+
+<tr>
+<td>turnUpdate</td>
+<td>recieve if it's player 1's move</td>
+<td><code>{ player1: boolean }</code></td>
+<td><code>s  -&gt; c</code></td>
+<td>game</td>
+</tr>
+
+<tr>
+<td>gameStart</td>
+<td>sent when game starts</td>
+<td><code>none</code></td>
+<td><code>s  -&gt; c</code></td>
+<td>game</td>
+</tr>
+
+<tr>
+<td>finish</td>
+<td>sent when game finishes</td>
+<td><code>none</code></td>
+<td><code>s  -&gt; c</code></td>
+<td>game</td>
+</tr>
+
+<tr>
+<td>resign</td>
+<td>send to resign, is then forwarded to all subscribed clients</td>
+<td><code>none</code></td>
+<td><code>s &lt;-&gt; c</code></td>
+<td>game</td>
+</tr>
+
+<tr>
+<td>newMove</td>
+<td>send a new move</td>
+<td><code>{ move: int, game_id: string }</code></td>
+<td><code>s &lt;-  c</code></td>
+<td>game</td>
+</tr>
+
+<tr>
+<td>registerGameListener</td>
+<td>listen to events for a game</td>
+<td><code>{ id: string }</code></td>
+<td><code>s &lt;-  c</code></td>
+<td>game</td>
+</tr>
+
+<tr>
+<td>incomingFriendRequest</td>
+<td>get notified of friend request</td>
+<td><code>none</code></td>
+<td><code>s  -&gt; c</code></td>
+<td>global</td>
+</tr>
+
+<tr>
+<td>changedRelation</td>
+<td>get notified of a different relation to someone</td>
+<td><code>{ id: string }</code></td>
+<td><code>s  -&gt; c</code></td>
+<td>global</td>
+</tr>
+
+</tbody>
+</table>
 
 ## How to test API endpoints
 ```sh
