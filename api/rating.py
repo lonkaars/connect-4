@@ -23,7 +23,7 @@ def get_rating(user_id):
     counted_opponents = {}
     for game in mapped_games:
         # calculate sum score against user (+1 for win, -1 for lose, 0 for draw game)
-        counted_opponents |= {game[1]: (counted_opponents.get(game[1]) or 0) + { "w": 1, "l": -1, "d": 0 }[game[2]]}
+        counted_opponents[game[1]] = (counted_opponents.get(game[1]) or 0) + { "w": 1, "l": -1, "d": 0 }[game[2]]
     for opponent in counted_opponents:
         # apply the cool curve to the sum score and add to the base score of 400
         score += rating_v1(counted_opponents.get(opponent))
