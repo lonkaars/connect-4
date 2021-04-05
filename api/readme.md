@@ -7,7 +7,6 @@ This is the subdirectory for the API. You can find the API reference in [this](h
 API return type classes are mostly defined in api/api.ts
 
 <table>
-<code>
 <thead>
 <tr>
 <th>endpoint</th>
@@ -22,7 +21,7 @@ API return type classes are mostly defined in api/api.ts
 
 <tr>
 <td>/status</td>
-<td><code><code>GET</code></code></td>
+<td><code>GET</code></td>
 <td>get online user count and active game count</td>
 <td><code>none</code></td>
 <td><code>none</code></td>
