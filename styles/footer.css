@@ -1,0 +1,35 @@
+.footer {
+	margin-top: 24px;
+	padding: 24px 48px;
+	color: var(--text);
+}
+
+.footer .header * {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.footer .header h2 {
+	margin-left: 6px;
+}
+
+.footer .header rect {
+	fill: var(--page-background);
+}
+
+.footer .content {
+	display: grid;
+	grid-auto-flow: column;
+	grid-gap: 24px;
+	margin-top: 12px;
+}
+
+.footer .content .pageLink span {
+	margin-left: 6px;
+	vertical-align: super;
+}
+
+.footer .content .pageLink {
+	margin-top: 12px;
+	display: block;
+}

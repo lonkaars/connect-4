@@ -10,6 +10,7 @@ import { userInfo, userGames } from '../api/api';
 import RecentGames from '../components/recentGames';
 import { ToastContext } from '../components/toast';
 import { SocketContext } from '../components/socketContext';
+import { Footer } from '../components/footer';
 
 import PersonAddOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import AssignmentIndOutlinedIcon from '@material-ui/icons/AssignmentIndOutlined';
@@ -320,6 +321,7 @@ export default function AccountPage() {
 				<RecentGames games={gameInfo?.games}/>
 			</Vierkant>
 		</CenteredPage>
+		<Footer/>
 	</div>
 }
 

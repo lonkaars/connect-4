@@ -2,6 +2,7 @@ import { CSSProperties, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { userInfo, userGameTotals, userGames } from '../api/api';
 import { SocketContext } from '../components/socketContext';
+import { Footer } from '../components/footer';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
@@ -194,6 +195,7 @@ export default function HomePage() {
 				<p style={{ margin: "6px 0" }}>Chess.com heeft heel veel troep waar niemand naar kijkt</p>
 			</Vierkant>
 		</CenteredPage>
+		<Footer/>
 	</div>
 }
 

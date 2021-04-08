@@ -6,6 +6,7 @@ import { SocketContextWrapper } from '../components/socketContext';
 import '../styles/global.css';
 import '../styles/dark.css';
 import '../styles/disk.css';
+import '../styles/footer.css';
 
 export default function VierOpEenRijWebsite({ Component, pageProps }) {
 	return <div>

@@ -1,7 +1,6 @@
 import { CSSProperties, useContext } from 'react';
 import * as cookies from 'react-cookies';
 import axios from 'axios';
-import pica from 'pica';
 import reduce from 'image-blob-reduce';
 
 import { NavBar } from '../components/navbar';
@@ -10,6 +9,7 @@ import { Vierkant, IconLabelButton, CheckBox, ColorPicker } from '../components/
 import { AccountAvatar } from '../components/account';
 import { CurrentGameSettings } from '../components/gameSettings';
 import PreferencesContext from '../components/preferencesContext';
+import { Footer } from '../components/footer';
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
@@ -143,6 +143,7 @@ export default function SettingsPage() {
 					</div>
 				</Vierkant>
 			</CenteredPage>
+			<Footer/>
 		</div>
 	);
 }
