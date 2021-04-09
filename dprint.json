@@ -24,7 +24,8 @@
 	],
 	"excludes": [
 		"**/node_modules",
-		"**/*-lock.json"
+		"**/*-lock.json",
+		"database/SQLiteFuzzySearch/**"
 	],
 	"plugins": [
 		"https://plugins.dprint.dev/typescript-0.44.0.wasm",
