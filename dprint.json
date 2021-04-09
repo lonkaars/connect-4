@@ -14,19 +14,28 @@
 		"strongKind": "asterisks"
 	},
 	"json": { "lineWidth": 80 },
+	"yapf": {
+		"based_on_style": "pep8",
+		"dedent_closing_brackets": true,
+		"use_tabs": true
+	},
 	"includes": [
 		"**/*.{ts,tsx}",
 		"**/*.{md}",
-		"**/*.{json}"
+		"**/*.{json}",
+		"**/*.{py}"
 	],
 	"excludes": [
-		"**/node_modules",
+		"node_modules/**",
 		"**/*-lock.json",
-		"database/SQLiteFuzzySearch/**"
+		"database/SQLiteFuzzySearch/**",
+		"venv/**",
+		".next/**"
 	],
 	"plugins": [
 		"https://plugins.dprint.dev/typescript-0.44.0.wasm",
 		"https://plugins.dprint.dev/markdown-0.6.2.wasm",
-		"https://plugins.dprint.dev/json-0.10.1.wasm"
+		"https://plugins.dprint.dev/json-0.10.1.wasm",
+		"https://plugins.dprint.dev/yapf-0.2.0.exe-plugin@14c42b703709e81f813c6674a8110c522af0ea78b6298f4f73721121a1a03701"
 	]
 }
