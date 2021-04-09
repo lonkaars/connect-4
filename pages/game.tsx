@@ -1,24 +1,24 @@
-import { CSSProperties, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import * as cookies from 'react-cookies';
-import { SocketContext } from '../components/socketContext';
-import { Socket } from 'socket.io-client';
 import Icon from '@mdi/react';
+import axios from 'axios';
 import copy from 'copy-to-clipboard';
+import { CSSProperties, useContext, useEffect, useState } from 'react';
+import * as cookies from 'react-cookies';
+import { Socket } from 'socket.io-client';
+import { SocketContext } from '../components/socketContext';
 
+import { DialogBox } from '../components/dialogBox';
+import { GameBar } from '../components/gameBar';
+import { CurrentGameSettings } from '../components/gameSettings';
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
-import { VoerBord } from '../components/voerBord';
-import { DialogBox } from '../components/dialogBox';
-import { CurrentGameSettings } from '../components/gameSettings';
-import { Button, SearchBar, IconLabelButton } from '../components/ui';
-import { GameBar } from '../components/gameBar';
 import { ToastContext, toastType } from '../components/toast';
+import { Button, IconLabelButton, SearchBar } from '../components/ui';
+import { VoerBord } from '../components/voerBord';
 
-import WifiTetheringRoundedIcon from '@material-ui/icons/WifiTetheringRounded';
+import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
+import WifiTetheringRoundedIcon from '@material-ui/icons/WifiTetheringRounded';
 import { mdiContentCopy } from '@mdi/js';
 
 function VoerGame(props: {
@@ -37,49 +37,51 @@ function VoerGame(props: {
 	var board: Array<number> = [...Array(width * height)].map(() => 0);
 
 	useEffect(() => {
-		props.io.on("connect", () => console.log("connect"));
-		props.io.on("disconnect", () => console.log("disconnect"));
+		props.io.on('connect', () => console.log('connect'));
+		props.io.on('disconnect', () => console.log('disconnect'));
 
-		props.io.on("fieldUpdate", (data: { field: string }) => {
-			board = data.field.split("").map(i => Number(i));
-			for(let i = 0; i < data.field.length; i++)
+		props.io.on('fieldUpdate', (data: { field: string; }) => {
+			board = data.field.split('').map(i => Number(i));
+			for (let i = 0; i < data.field.length; i++) {
 				document.getElementById(`pos-${i}`).parentNode.children.item(1).classList.add(`state-${data.field[i]}`);
+			}
 		});
 
-		props.io.on("turnUpdate", (data: { player1: boolean }) => setTurn(data.player1));
+		props.io.on('turnUpdate', (data: { player1: boolean; }) => setTurn(data.player1));
 
-		props.io.on("finish", (data: {
-				winPositions: Array<Array<number>>
-				boardFull: boolean
-				winner: number
-			}) => {
+		props.io.on('finish', (data: {
+			winPositions: Array<Array<number>>;
+			boardFull: boolean;
+			winner: number;
+		}) => {
 			// setWinPositions(data.winPositions);
 
 			if (data.boardFull) setOutcome(0);
 			if (data.winPositions.length > 0) setOutcome(board[data.winPositions[0][0]]);
 		});
 
-		props.io.on("resign", () => {
-			props.toast({ message: "Het potje is opgegeven",
-						  type: "normal",
-						  icon: <FlagOutlinedIcon/>});
+		props.io.on('resign', () => {
+			props.toast({ message: 'Het potje is opgegeven', type: 'normal', icon: <FlagOutlinedIcon /> });
 		});
 	}, []);
 
-	return <div style={{
-		position: "relative",
-		top: "50%",
-		transform: "translateY(-50%)",
-		maxWidth: "100vh",
-		margin: "0 auto"
-	}}>
+	return <div
+		style={{
+			position: 'relative',
+			top: '50%',
+			transform: 'translateY(-50%)',
+			maxWidth: '100vh',
+			margin: '0 auto',
+		}}
+	>
 		<VoerBord
-			width={width} height={height}
+			width={width}
+			height={height}
 			onMove={move => {
-				props.io.emit("newMove", {
+				props.io.emit('newMove', {
 					move: move % width + 1,
-					token: cookies.load("token"), //TODO: get token from request
-					game_id: props.gameID
+					token: cookies.load('token'), // TODO: get token from request
+					game_id: props.gameID,
 				});
 			}}
 			active={props.active && outcome == -1}
@@ -88,14 +90,16 @@ function VoerGame(props: {
 			turn={turn}
 			player1={props.player1}
 			active={props.active}
-			resignFunction={() => { props.io.emit("resign", { game_id: props.gameID }) }}
+			resignFunction={() => {
+				props.io.emit('resign', { game_id: props.gameID });
+			}}
 		/>
 		<GameOutcomeDialog
 			outcome={outcome}
 			player={props.player1 ? 1 : 2}
 			visible={outcome != -1}
 		/>
-	</div>
+	</div>;
 }
 
 function GameOutcomeDialog(props: {
@@ -104,180 +108,209 @@ function GameOutcomeDialog(props: {
 	visible: boolean;
 }) {
 	return <DialogBox
-		title="Speluitkomst"
-		style={{ display: props.visible ? "inline-block" : "none" }}
+		title='Speluitkomst'
+		style={{ display: props.visible ? 'inline-block' : 'none' }}
 		onclick={() => {
-			window.history.replaceState(null, null, "/");
+			window.history.replaceState(null, null, '/');
 			window.location.reload();
-		}}>
-		<div style={{
-			width: "100%",
-			textAlign: "center"
-		}}>
-			<h2 style={{
-				color:
-					props.outcome == 0 ? "var(--text)" :
-					props.outcome == props.player ? "var(--disk-a-text)" :
-					props.outcome != props.player ? "var(--disk-b-text)" :
-					"var(--text)",
-				opacity: props.outcome == 0 ? .75 : 1,
-				marginTop: 8
-			}}>{
-				props.outcome == 0 ? "Gelijkspel" :
-				props.outcome == props.player ? "Verloren" :
-				props.outcome != props.player ? "Gewonnen" :
-				"???"
-			}</h2>
-			{ false && <p style={{ marginTop: 24 }}>
-					0 Gemiste winstzetten<br/>
-					6 Optimale zetten<br/>
-					0 Blunders
-			</p> }
-			{ false && <IconLabelButton text="Opnieuw spelen" icon={<RefreshIcon/>} style={{
-				float: "none",
-				marginTop: 24,
-				padding: "12px 32px"
-			}}/> }
+		}}
+	>
+		<div
+			style={{
+				width: '100%',
+				textAlign: 'center',
+			}}
+		>
+			<h2
+				style={{
+					color: props.outcome == 0
+						? 'var(--text)'
+						: props.outcome == props.player
+						? 'var(--disk-a-text)'
+						: props.outcome != props.player
+						? 'var(--disk-b-text)'
+						: 'var(--text)',
+					opacity: props.outcome == 0 ? .75 : 1,
+					marginTop: 8,
+				}}
+			>
+				{props.outcome == 0
+					? 'Gelijkspel'
+					: props.outcome == props.player
+					? 'Verloren'
+					: props.outcome != props.player
+					? 'Gewonnen'
+					: '???'}
+			</h2>
+			{false && <p style={{ marginTop: 24 }}>
+				0 Gemiste winstzetten<br />
+				6 Optimale zetten<br />
+				0 Blunders
+			</p>}
+			{false && <IconLabelButton
+				text='Opnieuw spelen'
+				icon={<RefreshIcon />}
+				style={{
+					float: 'none',
+					marginTop: 24,
+					padding: '12px 32px',
+				}}
+			/>}
 		</div>
-	</DialogBox>
+	</DialogBox>;
 }
 
 var InviteButtonStyle: CSSProperties = {
-	backgroundColor: "var(--page-background)",
+	backgroundColor: 'var(--page-background)',
 	height: 160,
-	padding: 12
-}
+	padding: 12,
+};
 
 var InviteButtonIconStyle: CSSProperties = {
 	fontSize: 100,
-	position: "absolute",
+	position: 'absolute',
 	top: 12,
-	left: "50%",
-	transform: "translateX(-50%)"
-}
+	left: '50%',
+	transform: 'translateX(-50%)',
+};
 
 var InviteButtonLabelStyle: CSSProperties = {
-	position: "absolute",
+	position: 'absolute',
 	bottom: 12,
-	left: "50%",
-	transform: "translateX(-50%)",
-	textAlign: "center",
-	color: "var(--text-alt)",
+	left: '50%',
+	transform: 'translateX(-50%)',
+	textAlign: 'center',
+	color: 'var(--text-alt)',
 	width: 136,
 	fontSize: 20,
-	userSelect: "none"
-}
+	userSelect: 'none',
+};
 
 export default function GamePage() {
-	var [gameID, setGameID] = useState("");
+	var [gameID, setGameID] = useState('');
 	var [player1, setPlayer1] = useState(true);
 	var [active, setActive] = useState(false);
-	var [gameIDUrl, setGameIDUrl] = useState("");
+	var [gameIDUrl, setGameIDUrl] = useState('');
 
 	var { io } = useContext(SocketContext);
 	var { toast } = useContext(ToastContext);
 
 	useEffect(() => {
-		var gameIDUrl = new URLSearchParams(window.location.search).get("id") || "";
+		var gameIDUrl = new URLSearchParams(window.location.search).get('id') || '';
 		setGameIDUrl(gameIDUrl);
 
 		if (!gameIDUrl || gameIDUrl == gameID) return;
 
-		axios.request<{ id: string, player_1: boolean, game_started: boolean }>({
-			method: "post",
-			url: "/api/game/accept",
-			headers: {"content-type": "application/json"},
-			data: { id: gameIDUrl }
+		axios.request<{ id: string; player_1: boolean; game_started: boolean; }>({
+			method: 'post',
+			url: '/api/game/accept',
+			headers: { 'content-type': 'application/json' },
+			data: { id: gameIDUrl },
 		})
-		.then(response => {
-			setGameID(response.data.id);
-			setPlayer1(response.data.player_1);
-			io.emit("registerGameListener", { game_id: response.data.id });
-			setActive(true);
-		})
-		.catch(err => {
-			toast({ message: "error",
-				  type: "confirmation",
-				  description: err.toString() });
-		});
+			.then(response => {
+				setGameID(response.data.id);
+				setPlayer1(response.data.player_1);
+				io.emit('registerGameListener', { game_id: response.data.id });
+				setActive(true);
+			})
+			.catch(err => {
+				toast({ message: 'error', type: 'confirmation', description: err.toString() });
+			});
 
 		setGameID(gameIDUrl);
 	}, []);
 
 	useEffect(() => {
-		io.on("gameStart", () => setActive(true));
+		io.on('gameStart', () => setActive(true));
 	}, []);
 
 	return <div>
-		<NavBar/>
-		<CenteredPage width={900} style={{ height: "100vh" }}>
+		<NavBar />
+		<CenteredPage width={900} style={{ height: '100vh' }}>
 			<VoerGame
 				active={active}
 				gameID={gameID}
 				player1={player1}
 				io={io}
-				toast={toast}/>
+				toast={toast}
+			/>
 			<DialogBox
-				title="Nieuw spel"
-				style={{ display: gameIDUrl || gameID ? "none" : "inline-block" }}
-				onclick={() => { window.history.go(-1); }}>
-				<CurrentGameSettings/>
-				<div style={{
-					marginTop: 24,
-					display: "grid",
-					gridTemplateColumns: "1fr 1fr",
-					gridGap: 24
-				}}>
-					<Button style={InviteButtonStyle} onclick={() => {
-						axios.request<{ id: string, player_1: boolean, game_started: boolean }>({
-							url: "/api/game/random",
-						})
-						.then(response => {
-							setGameID(response.data.id);
-							window.history.replaceState(null, null, "?id=" + response.data.id);
-							setPlayer1(response.data.player_1);
-							io.emit("registerGameListener", { game_id: response.data.id });
-							if (response.data.game_started) setActive(true);
-						})
-						.catch(() => {});
-					}}>
-						<WifiTetheringRoundedIcon style={{
-							color: "var(--disk-b)",
-							...InviteButtonIconStyle
-						}}/>
+				title='Nieuw spel'
+				style={{ display: gameIDUrl || gameID ? 'none' : 'inline-block' }}
+				onclick={() => {
+					window.history.go(-1);
+				}}
+			>
+				<CurrentGameSettings />
+				<div
+					style={{
+						marginTop: 24,
+						display: 'grid',
+						gridTemplateColumns: '1fr 1fr',
+						gridGap: 24,
+					}}
+				>
+					<Button
+						style={InviteButtonStyle}
+						onclick={() => {
+							axios.request<{ id: string; player_1: boolean; game_started: boolean; }>({
+								url: '/api/game/random',
+							})
+								.then(response => {
+									setGameID(response.data.id);
+									window.history.replaceState(null, null, '?id=' + response.data.id);
+									setPlayer1(response.data.player_1);
+									io.emit('registerGameListener', { game_id: response.data.id });
+									if (response.data.game_started) setActive(true);
+								})
+								.catch(() => {});
+						}}
+					>
+						<WifiTetheringRoundedIcon
+							style={{
+								color: 'var(--disk-b)',
+								...InviteButtonIconStyle,
+							}}
+						/>
 						<h2 style={InviteButtonLabelStyle}>Willekeurige speler</h2>
 					</Button>
-					<Button style={InviteButtonStyle} onclick={() => {
-						axios.request<{ id: string }>({
-							method: "post",
-							url: "/api/game/new",
-							headers: {"content-type": "application/json"},
-							data: {}
-						})
-						.then(response => {
-							setGameID(response.data.id);
-							window.history.replaceState(null, null, "?id=" + response.data.id);
-							setPlayer1(true);
-							io.emit("registerGameListener", { game_id: response.data.id });
-							setActive(false);
+					<Button
+						style={InviteButtonStyle}
+						onclick={() => {
+							axios.request<{ id: string; }>({
+								method: 'post',
+								url: '/api/game/new',
+								headers: { 'content-type': 'application/json' },
+								data: {},
+							})
+								.then(response => {
+									setGameID(response.data.id);
+									window.history.replaceState(null, null, '?id=' + response.data.id);
+									setPlayer1(true);
+									io.emit('registerGameListener', { game_id: response.data.id });
+									setActive(false);
 
-							copy(window.location.href);
-							toast({ message: "Link gekopiëerd naar klembord",
-									type: "confirmation",
-									icon: <Icon size={1} path={mdiContentCopy}/> });
-						})
-						.catch(() => {});
-					}}>
-						<LinkRoundedIcon style={{
-							color: "var(--disk-a)",
-							...InviteButtonIconStyle
-						}}/>
+									copy(window.location.href);
+									toast({
+										message: 'Link gekopiëerd naar klembord',
+										type: 'confirmation',
+										icon: <Icon size={1} path={mdiContentCopy} />,
+									});
+								})
+								.catch(() => {});
+						}}
+					>
+						<LinkRoundedIcon
+							style={{
+								color: 'var(--disk-a)',
+								...InviteButtonIconStyle,
+							}}
+						/>
 						<h2 style={InviteButtonLabelStyle}>Uitnodigen via link</h2>
 					</Button>
 				</div>
-				<SearchBar label="Zoeken in vriendenlijst"/>
+				<SearchBar label='Zoeken in vriendenlijst' />
 			</DialogBox>
 		</CenteredPage>
-	</div>
+	</div>;
 }
-

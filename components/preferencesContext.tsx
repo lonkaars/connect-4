@@ -1,43 +1,48 @@
-import { useState, useEffect, createContext, ReactNode } from 'react';
 import axios from 'axios';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { userPreferences } from '../api/api';
 
 function applyPreferences(preferences: userPreferences) {
-	if(typeof preferences === "undefined") return;
-	if(typeof preferences.darkMode !== "undefined")
-		document.getElementsByTagName("html")[0].classList[preferences.darkMode ? "add" : "remove"]("dark");
+	if (typeof preferences === 'undefined') return;
+	if (typeof preferences.darkMode !== 'undefined') {
+		document.getElementsByTagName('html')[0].classList[preferences.darkMode ? 'add' : 'remove']('dark');
+	}
 }
 
-var PreferencesContext = createContext<{ preferences?: userPreferences; updatePreference?: (newPreference: userPreferences) => void }>({});
+var PreferencesContext = createContext<
+	{ preferences?: userPreferences; updatePreference?: (newPreference: userPreferences) => void; }
+>({});
 
-export function PreferencesContextWrapper(props: { children?: ReactNode }) {
-	var server = typeof window === "undefined";
-	var loggedIn = !server && document.cookie.includes("token");
+export function PreferencesContextWrapper(props: { children?: ReactNode; }) {
+	var server = typeof window === 'undefined';
+	var loggedIn = !server && document.cookie.includes('token');
 
 	var [preferences, setPreferences] = useState<userPreferences>();
 
-	useEffect(() => {(async() => {
-		if (!loggedIn) return;
+	useEffect(() => {
+		(async () => {
+			if (!loggedIn) return;
 
-		var local_prefs = window.localStorage.getItem("preferences");
-		if (local_prefs) {
-			var local_prefs_json = JSON.parse(local_prefs) as userPreferences;
-			setPreferences(local_prefs_json);
-			applyPreferences(local_prefs_json);
-		}
+			var local_prefs = window.localStorage.getItem('preferences');
+			if (local_prefs) {
+				var local_prefs_json = JSON.parse(local_prefs) as userPreferences;
+				setPreferences(local_prefs_json);
+				applyPreferences(local_prefs_json);
+			}
 
-		if (!preferences) {
-			var preferencesReq = await axios.request<{ preferences: userPreferences; }>({
-				method: "get",
-				url: `/api/user/preferences`,
-				headers: {"content-type": "application/json"}
-			});
+			if (!preferences) {
+				var preferencesReq = await axios.request<{ preferences: userPreferences; }>({
+					method: 'get',
+					url: `/api/user/preferences`,
+					headers: { 'content-type': 'application/json' },
+				});
 
-			window.localStorage.setItem("preferences", JSON.stringify(preferencesReq.data.preferences));
-			setPreferences(preferencesReq.data.preferences);
-		}
-	})()}, []);
+				window.localStorage.setItem('preferences', JSON.stringify(preferencesReq.data.preferences));
+				setPreferences(preferencesReq.data.preferences);
+			}
+		})();
+	}, []);
 
 	useEffect(() => applyPreferences(preferences), [preferences]);
 
@@ -46,17 +51,16 @@ export function PreferencesContextWrapper(props: { children?: ReactNode }) {
 		setPreferences(prefs);
 		applyPreferences(prefs);
 		axios.request({
-			method: "post",
+			method: 'post',
 			url: `/api/user/preferences`,
-			headers: {"content-type": "application/json"},
-			data: { "newPreferences": prefs }
+			headers: { 'content-type': 'application/json' },
+			data: { 'newPreferences': prefs },
 		});
 	}
 
 	return <PreferencesContext.Provider value={{ preferences, updatePreference }}>
 		{props.children}
-	</PreferencesContext.Provider>
+	</PreferencesContext.Provider>;
 }
 
 export default PreferencesContext;
-

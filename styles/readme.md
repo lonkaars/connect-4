@@ -1,9 +1,9 @@
 # Styles
 
-This is the folder where all website css should be. Currently most of the css
-is done using inline styles in the .tsx files, but they're being moved to
-seperate .css files in here. A redesign has also been in the making and we now
-have a style guide to follow while writing the website:
+This is the folder where all website css should be. Currently most of the css is
+done using inline styles in the .tsx files, but they're being moved to seperate
+.css files in here. A redesign has also been in the making and we now have a
+style guide to follow while writing the website:
 
 ## Dark
 
@@ -25,7 +25,8 @@ manually.
 
 ## Show me the css
 
-These will eventually be moved to global.css when the move to .css files is done.
+These will eventually be moved to global.css when the move to .css files is
+done.
 
 ```css
 :root {
@@ -99,6 +100,4 @@ h2 { font-size: 20px; }
 	user-select: none;
 	font-weight: 600;
 }
-
 ```
-

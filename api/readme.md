@@ -1,6 +1,8 @@
 # API
 
-This is the subdirectory for the API. You can find the API reference in [this](https://docs.google.com/spreadsheets/d/1mDN9IUqRIMjr_9RmLxKybjIgVuaUadalmPEFnG-XeJg/edit?usp=sharing) Google Docs document.
+This is the subdirectory for the API. You can find the API reference in
+[this](https://docs.google.com/spreadsheets/d/1mDN9IUqRIMjr_9RmLxKybjIgVuaUadalmPEFnG-XeJg/edit?usp=sharing)
+Google Docs document.
 
 ## Endpoint reference (WIP)
 
@@ -33,6 +35,7 @@ API return type classes are mostly defined in api/api.ts
   games: int
 }
 ```
+
 </td>
 </tr>
 
@@ -48,6 +51,7 @@ API return type classes are mostly defined in api/api.ts
   password: string
 }
 ```
+
 </td>
 <td><code>none</code></td>
 <td>empty response with the set_cookie header</td>
@@ -66,6 +70,7 @@ API return type classes are mostly defined in api/api.ts
   password: string
 }
 ```
+
 </td>
 <td><code>none</code></td>
 <td>empty response with the set_cookie header</td>
@@ -83,13 +88,15 @@ API return type classes are mostly defined in api/api.ts
   id?: userID
 }
 ```
+
 </td>
 <td><code>none|user</code></td>
 <td>
 
 ```ts
-userInfo
+userInfo;
 ```
+
 </td>
 </tr>
 
@@ -102,6 +109,7 @@ userInfo
 ```ts
 { id?: userID }
 ```
+
 </td>
 <td><code>none|user</code></td>
 <td>
@@ -112,6 +120,7 @@ userInfo
   totals: userGameTotals
 }
 ```
+
 </td>
 </tr>
 
@@ -124,6 +133,7 @@ userInfo
 ```ts
 { id?: userID }
 ```
+
 </td>
 <td><code>none|user</code></td>
 <td>PNG image</td>
@@ -137,12 +147,17 @@ update avatar
 
 note: avatar is a client-resized 256x256 .png base64-encoded image, request
 returns error when image is not .png or larger than 256x256
+
 </td>
 <td>
 
 ```ts
-{ image: base64PNG }
+{
+	image:
+	base64PNG;
+}
 ```
+
 </td>
 <td><code>user</code></td>
 <td><code>none</code></td>
@@ -157,8 +172,12 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ preferences: userPreferences }
+{
+	preferences:
+	userPreferences;
+}
 ```
+
 </td>
 </tr>
 
@@ -169,8 +188,12 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ newPreferences: userPreferences }
+{
+	newPreferences:
+	userPreferences;
+}
 ```
+
 </td>
 <td><code>user</code></td>
 <td><code>none</code></td>
@@ -188,6 +211,7 @@ returns error when image is not .png or larger than 256x256
   newPassword: string,
 }
 ```
+
 </td>
 <td><code>user</code></td>
 <td><code>none</code></td>
@@ -205,6 +229,7 @@ returns error when image is not .png or larger than 256x256
   email: string,
 }
 ```
+
 </td>
 <td><code>user</code></td>
 <td><code>none</code></td>
@@ -222,6 +247,7 @@ returns error when image is not .png or larger than 256x256
   username: string,
 }
 ```
+
 </td>
 <td><code>user</code></td>
 <td><code>none</code></td>
@@ -234,8 +260,12 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ status: string }
+{
+	status:
+	string;
+}
 ```
+
 </td>
 <td><code>user</code></td>
 <td><code>none</code></td>
@@ -459,6 +489,7 @@ These are events that are fired by the socket.io connection
 </table>
 
 ## How to test API endpoints
+
 ```sh
 # If you're running the standalone flask server:
 curl http://localhost:5000/<endpoint>
@@ -471,10 +502,16 @@ curl http://localhost:2080/api/<endpoint>
 
 Please follow these rules when creating new API endpoints:
 
-1. Endpoints should always return a valid JSON object and an appropriate [http code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
-2. Endpoints that are in a namespace should get their own directory in this folder, eg. http://localhost:5000/status is defined in api/status.py, http://localhost:5000/auth/signup is defined in api/auth/signup.py etc.
-3. Endpoints that take data should verify that the data is present and valid, and return an empty JSON object with http code 400 (bad request) if the data isn't valid.
-4. Endpoints that require database access should get the cursor/connection object from api/db.py
+1. Endpoints should always return a valid JSON object and an appropriate
+   [http code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
+2. Endpoints that are in a namespace should get their own directory in this
+   folder, eg. http://localhost:5000/status is defined in api/status.py,
+   http://localhost:5000/auth/signup is defined in api/auth/signup.py etc.
+3. Endpoints that take data should verify that the data is present and valid,
+   and return an empty JSON object with http code 400 (bad request) if the data
+   isn't valid.
+4. Endpoints that require database access should get the cursor/connection
+   object from api/db.py
 
 ## Example endpoint
 
@@ -503,4 +540,3 @@ dynamic_route = ["/tests", status]
 #                                    |
 #                                    namespace (defined in dynamic_route variable)
 ```
-

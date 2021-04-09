@@ -1,45 +1,53 @@
-import { FormEvent, useState } from 'react';
 import axios from 'axios';
+import { FormEvent, useState } from 'react';
 
-import { NavBar } from '../components/navbar';
-import { Vierkant, Button, Input } from '../components/ui';
-import { CenteredPage, PageTitle } from '../components/page';
-import { AccountAvatar } from '../components/account';
 import { userInfo } from '../api/api';
+import { AccountAvatar } from '../components/account';
+import { NavBar } from '../components/navbar';
+import { CenteredPage, PageTitle } from '../components/page';
+import { Button, Input, Vierkant } from '../components/ui';
 
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 
 function search(callback: (results: Array<userInfo>) => void) {
-	var query: string = (document.getElementById("searchBar") as HTMLInputElement).value;
+	var query: string = (document.getElementById('searchBar') as HTMLInputElement).value;
 	if (query.length < 3) return;
 
-	axios.request<{ "results": Array<userInfo> }>({
-		method: "post",
+	axios.request<{ 'results': Array<userInfo>; }>({
+		method: 'post',
 		url: `${window.location.origin}/api/social/search`,
-		headers: {"content-type": "application/json"},
-		data: { "query": query }
+		headers: { 'content-type': 'application/json' },
+		data: { 'query': query },
 	})
-	.then(response => callback(response.data.results))
-	.catch(() => {});
+		.then(response => callback(response.data.results))
+		.catch(() => {});
 }
 
-function SearchResults(props: { userList: Array<userInfo> }) {
+function SearchResults(props: { userList: Array<userInfo>; }) {
 	return <div>
-	{ props.userList?.map(user => <SearchResult user={user} key={user.id}/>) }
+		{props.userList?.map(user => <SearchResult user={user} key={user.id} />)}
 	</div>;
 }
 
-function SearchResult(props: { user: userInfo }) {
-	return <Vierkant style={{
-		padding: 12
-	}} fullwidth href={"/user?id=" + props.user.id}>
-		<div style={{ position: "relative" }}>
-			<AccountAvatar size={48} id={props.user.id}/>
-			<div style={{
-				position: "absolute",
-				top: 0, right: 0, bottom: 0,
-				left: 48 + 12
-			}}>
+function SearchResult(props: { user: userInfo; }) {
+	return <Vierkant
+		style={{
+			padding: 12,
+		}}
+		fullwidth
+		href={'/user?id=' + props.user.id}
+	>
+		<div style={{ position: 'relative' }}>
+			<AccountAvatar size={48} id={props.user.id} />
+			<div
+				style={{
+					position: 'absolute',
+					top: 0,
+					right: 0,
+					bottom: 0,
+					left: 48 + 12,
+				}}
+			>
 				<b>{props.user.username}</b>
 				<p>{props.user.status}</p>
 			</div>
@@ -50,27 +58,42 @@ function SearchResult(props: { user: userInfo }) {
 function SearchBar(props: {
 	searchFunction: (event?: FormEvent<HTMLFormElement>) => void;
 }) {
-	return <Vierkant fullwidth style={{
-		padding: 8,
-		marginBottom: 24
-	}}>
+	return <Vierkant
+		fullwidth
+		style={{
+			padding: 8,
+			marginBottom: 24,
+		}}
+	>
 		<form onSubmit={props.searchFunction}>
-			<Input id="searchBar" label="Zoeken voor gebruikers..." autocomplete="off" dark autofocus style={{
-				backgroundColor: "var(--background)",
-				color: "var(--text)",
-				padding: 14,
-				fontSize: 16,
-				width: "calc(100% - 48px - 14px * 2)"
-			}}/>
-			<Button style={{
-				padding: 12,
-				float: "right",
-				display: "inline-block",
-				borderRadius: 4
-			}} onclick={props.searchFunction}><SearchOutlinedIcon/></Button>
-			<input type="submit" style={{ display: "none" }}/>
+			<Input
+				id='searchBar'
+				label='Zoeken voor gebruikers...'
+				autocomplete='off'
+				dark
+				autofocus
+				style={{
+					backgroundColor: 'var(--background)',
+					color: 'var(--text)',
+					padding: 14,
+					fontSize: 16,
+					width: 'calc(100% - 48px - 14px * 2)',
+				}}
+			/>
+			<Button
+				style={{
+					padding: 12,
+					float: 'right',
+					display: 'inline-block',
+					borderRadius: 4,
+				}}
+				onclick={props.searchFunction}
+			>
+				<SearchOutlinedIcon />
+			</Button>
+			<input type='submit' style={{ display: 'none' }} />
 		</form>
-	</Vierkant>
+	</Vierkant>;
 }
 
 export default function HomePage() {
@@ -80,21 +103,24 @@ export default function HomePage() {
 		event.preventDefault();
 		search(results => setResults(results));
 		setSearched(true);
-	}
+	};
 
 	return <div>
-		<NavBar/>
+		<NavBar />
 		<CenteredPage width={802}>
 			<PageTitle>Zoeken</PageTitle>
-			<SearchBar searchFunction={getSearchResults}/>
-			<SearchResults userList={results}/>
-			{ searched && results.length == 0 && <h1 style={{
-				opacity: .6,
-				color: "var(--text)",
-				textAlign: "center",
-				margin: "24px 32px"
-			}}>Geen zoekresultaten gevonden</h1> }
+			<SearchBar searchFunction={getSearchResults} />
+			<SearchResults userList={results} />
+			{searched && results.length == 0 && <h1
+				style={{
+					opacity: .6,
+					color: 'var(--text)',
+					textAlign: 'center',
+					margin: '24px 32px',
+				}}
+			>
+				Geen zoekresultaten gevonden
+			</h1>}
 		</CenteredPage>
-	</div>
+	</div>;
 }
-

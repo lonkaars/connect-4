@@ -1,14 +1,14 @@
 export interface userInfo {
-	avatar: string|null,
-	status: string|null,
-	coutry: string|null,
-	id: string,
-	registered: number,
-	username: string,
-	friends: number,
-	relation?: "none"|"friends"|"incoming"|"outgoing"|"blocked",
-	rating: number,
-};
+	avatar: string | null;
+	status: string | null;
+	coutry: string | null;
+	id: string;
+	registered: number;
+	username: string;
+	friends: number;
+	relation?: 'none' | 'friends' | 'incoming' | 'outgoing' | 'blocked';
+	rating: number;
+}
 
 export type ruleset = {
 	timelimit: {
@@ -17,15 +17,15 @@ export type ruleset = {
 		seconds: number;
 		addmove: number;
 		shared: boolean;
-	},
+	};
 	ranked: boolean;
-}
+};
 
 export type userColors = {
 	diskA: string;
 	diskB: string;
 	background: string;
-}
+};
 
 export interface userPreferences {
 	darkMode?: boolean;
@@ -34,13 +34,13 @@ export interface userPreferences {
 }
 
 export interface userGameTotals {
-    draw: number;
-    games: number;
-    lose: number;
-    win: number;
+	draw: number;
+	games: number;
+	lose: number;
+	win: number;
 }
 
-export type outcome = "w" | "l" | "d";
+export type outcome = 'w' | 'l' | 'd';
 
 export interface userGames {
 	totals: userGameTotals;
@@ -60,5 +60,5 @@ export interface gameInfo {
 	rating_opponent?: number;
 	ruleset: ruleset;
 	started: number;
-	status: "finished"|"in_progress"|"resign"|"wait_for_opponent";
+	status: 'finished' | 'in_progress' | 'resign' | 'wait_for_opponent';
 }
