@@ -2,8 +2,8 @@
 	"$schema": "https://dprint.dev/schemas/v0.json",
 	"projectType": "openSource",
 	"incremental": true,
+	"useTabs": true,
 	"typescript": {
-		"useTabs": true,
 		"semiColons": "always",
 		"quoteStyle": "preferSingle",
 		"importDeclaration.spaceSurroundingNamedImports": true
@@ -13,10 +13,7 @@
 		"emphasisKind": "asterisks",
 		"strongKind": "asterisks"
 	},
-	"json": {
-		"lineWidth": 80,
-		"useTabs": true
-	},
+	"json": { "lineWidth": 80 },
 	"includes": [
 		"**/*.{ts,tsx}",
 		"**/*.{md}",
