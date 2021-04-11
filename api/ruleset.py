@@ -3,16 +3,16 @@ import json
 
 # predefined rulesets
 rulesets = {
-    "default": {
-        "timelimit": {
-            "enabled": False,
-            "minutes": 0,
-            "seconds": 0,
-            "addmove": 0,
-            "shared": False,
-        },
-        "ranked": True,
-    }
+	"default": {
+		"timelimit": {
+			"enabled": False,
+			"minutes": 0,
+			"seconds": 0,
+			"addmove": 0,
+			"shared": False,
+		},
+		"ranked": True,
+	}
 }
 
 

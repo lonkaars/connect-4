@@ -10,8 +10,8 @@ def new_uuid(table_name):
 	column_name = tables[table_name]
 	# check if id is already taken
 	if cursor.execute(
-	    f"select {column_name} from {table_name} where {column_name} = ?",
-	    [temp_uuid]
+		f"select {column_name} from {table_name} where {column_name} = ?",
+		[temp_uuid]
 	).fetchone():
 		return new_uuid(table_name)
 	else:

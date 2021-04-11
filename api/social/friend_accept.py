@@ -11,8 +11,8 @@ accept = Blueprint('accept', __name__)
 @two_person_endpoint
 def route(user_1_id, user_2_id):
 	cursor.execute(
-	    "update social set type = \"friendship\" where user_1_id = ? and user_2_id = ?",
-	    [user_2_id, user_1_id]
+		"update social set type = \"friendship\" where user_1_id = ? and user_2_id = ?",
+		[user_2_id, user_1_id]
 	)
 	connection.commit()
 

@@ -31,8 +31,8 @@ class game:
 
 		now = int(time.time() * 1000)
 		cursor.execute(
-		    "update games set last_activity = ?, moves = moves || ? || ',' where game_id = ?",
-		    [now, column, self.game_id]
+			"update games set last_activity = ?, moves = moves || ? || ',' where game_id = ?",
+			[now, column, self.game_id]
 		)
 		connection.commit()
 
@@ -42,11 +42,11 @@ class game:
 				winner = self.board.board[int(self.board.win_positions[0][0])]
 				outcome = "w" if winner == "2" else "l"
 			io.emit(
-			    "finish", {
-			        "winPositions": self.board.win_positions,
-			        "boardFull": self.board.board_full
-			    },
-			    room=self.room
+				"finish", {
+					"winPositions": self.board.win_positions,
+					"boardFull": self.board.board_full
+				},
+				room=self.room
 			)
 			self.close("finished", outcome)
 			return
@@ -60,18 +60,18 @@ class game:
 
 	def close(self, new_status, outcome):
 		cursor.execute(
-		    " ".join(
-		        [
-		            "update games set", "moves = moves || '0',",
-		            "duration = ?,", "status = ?,", "outcome = ?",
-		            "where game_id = ?"
-		        ]
-		    ), [
-		        int(time.time() * 1000) - cursor.execute(
-		            "select started from games where game_id = ?",
-		            [self.game_id]
-		        ).fetchone()[0], new_status, outcome, self.game_id
-		    ]
+			" ".join(
+				[
+					"update games set", "moves = moves || '0',",
+					"duration = ?,", "status = ?,", "outcome = ?",
+					"where game_id = ?"
+				]
+			), [
+				int(time.time() * 1000) - cursor.execute(
+					"select started from games where game_id = ?",
+					[self.game_id]
+				).fetchone()[0], new_status, outcome, self.game_id
+			]
 		)
 		connection.commit()
 
@@ -81,8 +81,8 @@ class game:
 @io.on("newMove")
 def new_move(data):
 	if not data["game_id"] or \
-                         not data["move"] or \
-                         not data["token"]:
+                                  not data["move"] or \
+                                  not data["token"]:
 		return
 	if not data["game_id"] in games: return
 
@@ -95,7 +95,7 @@ def new_move(data):
 @io.on("resign")
 def resign(data):
 	if not data["game_id"] or \
-                         not request.cookies.get("token"):
+                                  not request.cookies.get("token"):
 		return
 	if not data["game_id"] in games: return
 
@@ -103,7 +103,7 @@ def resign(data):
 	if not user_id: return
 
 	if games[data["game_id"]].player_1_id != user_id and \
-                         games[data["game_id"]].player_2_id != user_id:
+                                  games[data["game_id"]].player_2_id != user_id:
 		return
 
 	games[data["game_id"]].resign()

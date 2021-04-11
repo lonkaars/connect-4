@@ -14,8 +14,8 @@ def index(user_id):
 	if not status: return "", 400
 
 	cursor.execute(
-	    "update users set status = ? where user_id = ?",
-	    [status[0:200], user_id]
+		"update users set status = ? where user_id = ?",
+		[status[0:200], user_id]
 	)
 	connection.commit()
 

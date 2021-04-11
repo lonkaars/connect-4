@@ -21,10 +21,10 @@ class bord:
 		self.board_full = False
 		self.win_positions = []
 		self.process = subprocess.Popen(
-		    [VOERBAK_LOCATION, f"-w {w}", f"-h {h}"],
-		    stdin=subprocess.PIPE,
-		    stdout=subprocess.PIPE,
-		    stderr=None
+			[VOERBAK_LOCATION, f"-w {w}", f"-h {h}"],
+			stdin=subprocess.PIPE,
+			stdout=subprocess.PIPE,
+			stderr=None
 		)
 		self.process.stdin.flush()
 

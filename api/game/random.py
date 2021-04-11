@@ -17,7 +17,7 @@ random_game = Blueprint('random', __name__)
 def index(user_id):
 	# get public_games (random opponent queue)
 	public_games = cursor.execute(
-	    "select game_id from games where private = FALSE and status = \"wait_for_opponent\""
+		"select game_id from games where private = FALSE and status = \"wait_for_opponent\""
 	).fetchall()
 
 	game_started = False
@@ -36,9 +36,9 @@ def index(user_id):
 		game_started = True
 
 	return {
-	    "id": game_id,
-	    "player_1": player_1,
-	    "game_started": game_started
+		"id": game_id,
+		"player_1": player_1,
+		"game_started": game_started
 	}, 200
 
 

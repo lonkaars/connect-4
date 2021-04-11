@@ -18,7 +18,9 @@
 		"based_on_style": "pep8",
 		"dedent_closing_brackets": true,
 		"use_tabs": true,
-		"indent_width": 4
+		"indent_width": 4,
+		"split_before_dot": false,
+		"continuation_align_style": "valign_right"
 	},
 	"includes": [
 		"**/*.{ts,tsx}",

@@ -16,22 +16,22 @@ def index():
 
 	# return malformed request if email or password is missing
 	if not email or \
-                         not password:
+                                  not password:
 		return "", 400
 
 	# resolve user_id from username or email
 	user_id = None
 	user_id = user_id or cursor.execute(
-	    "select user_id from users where email = ?", [email]
+		"select user_id from users where email = ?", [email]
 	).fetchone()
 	user_id = user_id or cursor.execute(
-	    "select user_id from users where lower(username) = lower(?)", [email]
+		"select user_id from users where lower(username) = lower(?)", [email]
 	).fetchone()
 	if user_id == None: return "", 401
 
 	# check the password
 	passwd = cursor.execute(
-	    "select password_hash from users where user_id = ?", [user_id[0]]
+		"select password_hash from users where user_id = ?", [user_id[0]]
 	).fetchone()
 	check = passwords.check_password(password, passwd[0])
 	if not check: return "", 401
@@ -43,9 +43,9 @@ def index():
 	# make response with the set_cookie header
 	res = make_response("", 200)
 	res.set_cookie(
-	    "token",
-	    new_token["token"],
-	    expires=int(new_token["expirationDate"] / 1000)
+		"token",
+		new_token["token"],
+		expires=int(new_token["expirationDate"] / 1000)
 	)
 
 	return res

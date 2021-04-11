@@ -12,8 +12,8 @@ requests = Blueprint('requests', __name__)
 def route(user_2_id):
 	# get a list of friend requests
 	request_list = cursor.execute(
-	    "select user_1_id from social where user_2_id = ? and type = \"outgoing\"",
-	    [user_2_id]
+		"select user_1_id from social where user_2_id = ? and type = \"outgoing\"",
+		[user_2_id]
 	).fetchall()
 
 	# get user_id for each result to prevent repeat user/info requests

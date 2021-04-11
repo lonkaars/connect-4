@@ -11,7 +11,7 @@ cursor = connection.cursor()
 
 def random_string():
 	return str(
-	    floor(random() * 1e16)
+		floor(random() * 1e16)
 	)  # 1e16 is wetenschappelijke notatie (1 * 10^16)
 
 
@@ -40,7 +40,7 @@ class programma_actie:
 def init_db():
 	commands_text = open("./init_db.sql").read()
 	commands = commands_text.strip().split(
-	    "\n" * 2
+		"\n" * 2
 	)  # python sqlite3 kan maar 1 "statement" per cursor.execute doen, en de statements zijn gescheden door witregels in ./init_db.sql
 	for i, command in enumerate(commands):
 		cursor.execute(command)
@@ -59,7 +59,7 @@ def destroy_tables():
 
 
 programma_acties.append(
-    programma_actie("Verwijder alle tabellen", destroy_tables)
+	programma_actie("Verwijder alle tabellen", destroy_tables)
 )
 
 
@@ -84,13 +84,13 @@ class insert_random:
 		username = random_string()
 		email = f"{username}@example.com"
 		password_hash = bcrypt.hashpw(
-		    random_string().encode("utf-8"), bcrypt.gensalt()
+			random_string().encode("utf-8"), bcrypt.gensalt()
 		)
 		registered = int(time.time() * 1000)
 
 		cursor.execute(
-		    "insert into users values (?, ?, ?, NULL, ?, ?, \"[]\", FALSE, \"user\", \"{}\", NULL, \"online\") ",
-		    (user_id, username, email, password_hash, registered)
+			"insert into users values (?, ?, ?, NULL, ?, ?, \"[]\", FALSE, \"user\", \"{}\", NULL, \"online\") ",
+			(user_id, username, email, password_hash, registered)
 		)
 
 	def games(self):
@@ -102,43 +102,43 @@ class insert_random:
 		timestamp = int(time.time() * 1000)
 
 		cursor.execute(
-		    "insert into games values (?, NULL, NULL, ?, ?, NULL, ?, NULL, NULL, NULL, FALSE, \"in_progress\", \"default\") ",
-		    (game_id, random_player(), random_player(), timestamp)
+			"insert into games values (?, NULL, NULL, ?, ?, NULL, ?, NULL, NULL, NULL, FALSE, \"in_progress\", \"default\") ",
+			(game_id, random_player(), random_player(), timestamp)
 		)
 
 	def friends(self):
 		users = list(
-		    rij[0]
-		    for rij in cursor.execute("select user_id from users").fetchall()
+			rij[0]
+			for rij in cursor.execute("select user_id from users").fetchall()
 		)  # cursor.execute.fetchall() stuurt rijen altijd terug als tuples ookal vraag je 1 kolom op, dus dit zet het om naar een list van strings
 		# maak een nieuwe rij aan voor elke gebruiker in tabel users als deze nog niet bestaat
 		for user in users:
 			if cursor.execute(
-			    "select user_id from social where user_id = ?", [user]
+				"select user_id from social where user_id = ?", [user]
 			).fetchone():
 				continue
 			cursor.execute(
-			    "insert into social values (?, NULL, NULL, NULL)", [user]
+				"insert into social values (?, NULL, NULL, NULL)", [user]
 			)
 
 
 programma_acties.append(
-    programma_actie(
-        "Maak nepgebruikers aan",
-        repeat_action(insert_random().users, "nepgebruikers")
-    )
+	programma_actie(
+		"Maak nepgebruikers aan",
+		repeat_action(insert_random().users, "nepgebruikers")
+	)
 )
 programma_acties.append(
-    programma_actie(
-        "Maak voorbeeld spellen aan",
-        repeat_action(insert_random().games, "spellen")
-    )
+	programma_actie(
+		"Maak voorbeeld spellen aan",
+		repeat_action(insert_random().games, "spellen")
+	)
 )
 programma_acties.append(
-    programma_actie(
-        "Vul social tabel met gebruikers",
-        insert_random().friends
-    )
+	programma_actie(
+		"Vul social tabel met gebruikers",
+		insert_random().friends
+	)
 )
 
 
@@ -146,10 +146,10 @@ programma_acties.append(
 def resolve(resolveable):
 	user_id = None
 	user_id = user_id or cursor.execute(
-	    "select user_id from users where user_id = ?", [resolveable]
+		"select user_id from users where user_id = ?", [resolveable]
 	).fetchone()
 	user_id = user_id or cursor.execute(
-	    "select user_id from users where username = ?", [resolveable]
+		"select user_id from users where username = ?", [resolveable]
 	).fetchone()
 	# stuur de eerste kolom van de rij terug omdat het weer een tuple is >:(
 	return user_id[0] if user_id else None
@@ -160,21 +160,21 @@ def edit_username():
 	user_id = resolve(resolveable)
 	if not user_id:
 		print(
-		    "Er is geen gebruiker met gebruikers-id of gebruikersnaam \"{resolveable}\""
+			"Er is geen gebruiker met gebruikers-id of gebruikersnaam \"{resolveable}\""
 		)
 		return
 	new_username = input("Voer een nieuwe gebruikersnaam in: ")
 	cursor.execute(
-	    "update users set username = ? where user_id = ?",
-	    [new_username, user_id]
+		"update users set username = ? where user_id = ?",
+		[new_username, user_id]
 	)
 	print("Nieuwe gebruikersnaam succesvol toegepast!")
 
 
 programma_acties.append(
-    programma_actie(
-        "Pas de gebruikersnaam van een gebruiker aan", edit_username
-    )
+	programma_actie(
+		"Pas de gebruikersnaam van een gebruiker aan", edit_username
+	)
 )
 
 
@@ -183,7 +183,7 @@ def delete_user():
 	user_id = resolve(resolveable)
 	if not user_id:
 		print(
-		    "Er is geen gebruiker met gebruikers-id of gebruikersnaam \"{resolveable}\""
+			"Er is geen gebruiker met gebruikers-id of gebruikersnaam \"{resolveable}\""
 		)
 		return
 	cursor.execute("delete from users where user_id = ?", [user_id])
@@ -191,39 +191,39 @@ def delete_user():
 
 
 programma_acties.append(
-    programma_actie("Verwijder een gebruiker", delete_user)
+	programma_actie("Verwijder een gebruiker", delete_user)
 )
 
 
 def mark_game_done():
 	game_id = input("Voer een game-id in om als klaar te markeren: ")
 	if not cursor.execute(
-	    "select game_id from games where game_id = ?", [game_id]
+		"select game_id from games where game_id = ?", [game_id]
 	).fetchone():
 		print("Kon geen spel vinden met die game_id!")
 		return
 
 	outcome = "w"
 	starttime = cursor.execute(
-	    "select timestamp from games where game_id = ?", [game_id]
+		"select timestamp from games where game_id = ?", [game_id]
 	).fetchone()[0]
 	duration = int(time.time() * 1000) - starttime
 	cursor.execute(
-	    "update games set outcome = ?, duration = ?, status = \"finished\" where game_id = ?",
-	    [outcome, duration, game_id]
+		"update games set outcome = ?, duration = ?, status = \"finished\" where game_id = ?",
+		[outcome, duration, game_id]
 	)
 	print("Spel gemarkeerd als afgelopen!")
 
 
 programma_acties.append(
-    programma_actie("Spel markeren als afgelopen", mark_game_done)
+	programma_actie("Spel markeren als afgelopen", mark_game_done)
 )
 
 
 def delete_game():
 	game_id = input("Voer een game-id in om te verwijderen: ")
 	if not cursor.execute(
-	    "select game_id from games where game_id = ?", [game_id]
+		"select game_id from games where game_id = ?", [game_id]
 	).fetchone():
 		print("Kon geen spel vinden met die game_id!")
 		return
@@ -247,30 +247,30 @@ def make_friendship():
 	# .fetchone()[0] or "" is omdat deze kolommen ook NULL kunnen zijn, maar ik wil altijd een string
 	# .split(",") is omdat het user_id's zijn die gescheden zijn door komma's
 	user_1_friend_list = [
-	    v for v in (
-	        cursor.execute(
-	            "select friends from social where user_id = ?", [user_1]
-	        ).fetchone()[0] or ""
-	    ).split(",") if v
+		v for v in (
+			cursor.execute(
+				"select friends from social where user_id = ?", [user_1]
+			).fetchone()[0] or ""
+		).split(",") if v
 	]
 	user_2_friend_list = [
-	    v for v in (
-	        cursor.execute(
-	            "select friends from social where user_id = ?", [user_2]
-	        ).fetchone()[0] or ""
-	    ).split(",") if v
+		v for v in (
+			cursor.execute(
+				"select friends from social where user_id = ?", [user_2]
+			).fetchone()[0] or ""
+		).split(",") if v
 	]
 
 	user_1_friend_list.append(user_2)
 	user_2_friend_list.append(user_1)
 
 	cursor.execute(
-	    "update social set friends = ? where user_id = ?",
-	    [",".join(user_1_friend_list), user_1]
+		"update social set friends = ? where user_id = ?",
+		[",".join(user_1_friend_list), user_1]
 	)
 	cursor.execute(
-	    "update social set friends = ? where user_id = ?",
-	    [",".join(user_2_friend_list), user_2]
+		"update social set friends = ? where user_id = ?",
+		[",".join(user_2_friend_list), user_2]
 	)
 
 	print(f"Nieuwe vriendschap gemaakt tussen {user_1} en {user_2}")
@@ -284,30 +284,30 @@ def reset_friendlist():
 	user_id = resolve(resolveable)
 	if not user_id:
 		print(
-		    "Er is geen gebruiker met gebruikers-id of gebruikersnaam \"{resolveable}\""
+			"Er is geen gebruiker met gebruikers-id of gebruikersnaam \"{resolveable}\""
 		)
 		return
 	cursor.execute("delete from social where user_id = ?", [user_id])
 	cursor.execute(
-	    "insert into social values (?, NULL, NULL, NULL)", [user_id]
+		"insert into social values (?, NULL, NULL, NULL)", [user_id]
 	)
 	print(f"Vriendenlijst van {user_id} geleegd!")
 
 
 programma_acties.append(
-    programma_actie("Vriendenlijst legen", reset_friendlist)
+	programma_actie("Vriendenlijst legen", reset_friendlist)
 )
 
 for table in ["users", "games", "social"]:
 	programma_acties.append(
-	    programma_actie(
-	        f"Tabel '{table}' weergeven",
-	        lambda: print(cursor.execute(f"select * from {table}").fetchall())
-	    )
+		programma_actie(
+			f"Tabel '{table}' weergeven",
+			lambda: print(cursor.execute(f"select * from {table}").fetchall())
+		)
 	)
 
 programma_acties.append(
-    programma_actie("Sla alle wijzigingen op", connection.commit)
+	programma_actie("Sla alle wijzigingen op", connection.commit)
 )
 programma_acties.append(programma_actie("Stop", exit))
 

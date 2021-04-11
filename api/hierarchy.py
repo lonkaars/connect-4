@@ -16,7 +16,7 @@ def auth_required(level):
 			if not user_id: return "", 403
 
 			user_rank_text = cursor.execute(
-			    "select type from users where user_id = ?", [user_id]
+				"select type from users where user_id = ?", [user_id]
 			).fetchone()[0]
 
 			required_rank = ranks.index(level)

@@ -17,8 +17,8 @@ def index():
 	# use levenshtein with max distance 3 to search for users
 	#TODO: use mysql and sort by best match
 	results = cursor.execute(
-	    "select user_id from users where levenshtein(lower(username), lower(?), 3)",
-	    [query]
+		"select user_id from users where levenshtein(lower(username), lower(?), 3)",
+		[query]
 	).fetchmany(20)
 
 	formatted = {"results": []}

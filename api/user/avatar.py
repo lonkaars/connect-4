@@ -28,14 +28,14 @@ def get_avatar():
 
 
 @avatar.route(
-    '/avatar', methods=["POST"]
+	'/avatar', methods=["POST"]
 )  #TODO: pillow image size validation (client side resize)
 @auth_required("user")
 def update_avatar(login):
 	if not request.data: return "", 400
 
 	open(f"database/avatars/{login}.png",
-	     "wb").write(decode(request.data, "base64"))
+			"wb").write(decode(request.data, "base64"))
 
 	return "", 200
 

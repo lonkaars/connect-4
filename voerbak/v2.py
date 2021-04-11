@@ -30,28 +30,28 @@ class bord:
 		if self.board[new_position] != check_for:
 			return current_length
 		return self.recursive_solve(
-		    new_position, check_for, direction, current_length + 1
+			new_position, check_for, direction, current_length + 1
 		)
 
 	def check_win(self, pos):
 		directions = [
-		    self.width,  # north
-		    self.width + 1,  # northeast
-		    1,  # east
-		    -self.width + 1,  # southeast
-		    -self.width,  # south
-		    -self.width - 1,  # southwest
-		    -1,  # west
-		    self.width - 1,  # northwest
+			self.width,  # north
+			self.width + 1,  # northeast
+			1,  # east
+			-self.width + 1,  # southeast
+			-self.width,  # south
+			-self.width - 1,  # southwest
+			-1,  # west
+			self.width - 1,  # northwest
 		]
 		values = list()
 		for direction in directions:
 			values.append(
-			    self.recursive_solve(pos, self.board[pos], direction, 0)
+				self.recursive_solve(pos, self.board[pos], direction, 0)
 			)
 		joined_directions = [
-		    values[0] + values[4], values[1] + values[5],
-		    values[2] + values[6], values[3] + values[7]
+			values[0] + values[4], values[1] + values[5],
+			values[2] + values[6], values[3] + values[7]
 		]
 		won = any(i >= 3 for i in joined_directions)
 		if won:
@@ -67,14 +67,14 @@ class bord:
 	def debug(self, pos):
 		self.board[pos] = "x"
 		directions = [
-		    self.width,  # 0: north
-		    self.width + 1,  # 1: northeast
-		    1,  # 2: east
-		    -self.width + 1,  # 3: southeast
-		    -self.width,  # 4: south
-		    -self.width - 1,  # 5: southwest
-		    -1,  # 6: west
-		    self.width - 1,  # 7: northwest
+			self.width,  # 0: north
+			self.width + 1,  # 1: northeast
+			1,  # 2: east
+			-self.width + 1,  # 3: southeast
+			-self.width,  # 4: south
+			-self.width - 1,  # 5: southwest
+			-1,  # 6: west
+			self.width - 1,  # 7: northwest
 		]
 
 		for index, direction in enumerate(directions):

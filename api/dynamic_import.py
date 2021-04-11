@@ -9,9 +9,9 @@ import glob
 files = glob.glob(os.path.dirname(__file__) + "/**/*.py", recursive=True)
 files.remove(__file__)
 files = [
-    str(filename).replace(os.path.dirname(__file__) + "/",
-                          '').replace("/", ".").replace(".py", '')
-    for filename in files
+	str(filename).replace(os.path.dirname(__file__) + "/",
+							'').replace("/", ".").replace(".py", '')
+	for filename in files
 ]
 
 

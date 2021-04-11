@@ -14,7 +14,7 @@ def two_person_endpoint(func):
 		user_2_id = data.get("id") or ""
 
 		if not user_1_id or \
-                                               not user_2_id:
+                                                                 not user_2_id:
 			return "", 403
 
 		return func(user_1_id, user_2_id)
@@ -28,8 +28,8 @@ def create_relation(user_1_id, user_2_id, relation_type):
 	remove_relation(user_2_id, user_1_id)
 	timestamp = int(time.time() * 1000)
 	cursor.execute(
-	    "insert into social values (?, ?, ?, ?)",
-	    [user_1_id, user_2_id, relation_type, timestamp]
+		"insert into social values (?, ?, ?, ?)",
+		[user_1_id, user_2_id, relation_type, timestamp]
 	)
 	connection.commit()
 
@@ -37,8 +37,8 @@ def create_relation(user_1_id, user_2_id, relation_type):
 # remove relation between user_1_id and user_2_id (one-way)
 def remove_relation(user_1_id, user_2_id):
 	cursor.execute(
-	    "delete from social where user_1_id = ? and user_2_id = ?",
-	    [user_1_id, user_2_id]
+		"delete from social where user_1_id = ? and user_2_id = ?",
+		[user_1_id, user_2_id]
 	)
 	connection.commit()
 
@@ -58,12 +58,12 @@ def create_relation_route(relation_type):
 
 friend_request = Blueprint('friend_request', __name__)
 friend_request.add_url_rule(
-    '/request', 'route', create_relation_route("outgoing"), methods=["POST"]
+	'/request', 'route', create_relation_route("outgoing"), methods=["POST"]
 )
 
 block = Blueprint('block', __name__)
 block.add_url_rule(
-    '/block', 'route', create_relation_route("block"), methods=["POST"]
+	'/block', 'route', create_relation_route("block"), methods=["POST"]
 )
 
 dynamic_routes = [["/social", friend_request], ["/social", block]]
