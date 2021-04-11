@@ -17,7 +17,8 @@
 	"yapf": {
 		"based_on_style": "pep8",
 		"dedent_closing_brackets": true,
-		"use_tabs": true
+		"use_tabs": true,
+		"indent_width": 4
 	},
 	"includes": [
 		"**/*.{ts,tsx}",

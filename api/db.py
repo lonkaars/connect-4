@@ -12,4 +12,3 @@ connection.load_extension("./database/levenshtein.sqlext")
 
 # sql cursor
 cursor = connection.cursor()
-

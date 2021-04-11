@@ -12,19 +12,18 @@ from game.new import start_game
 
 join_game = Blueprint('game_accept', __name__)
 
+
 # join a game by game_id (public or private)
-@join_game.route('/accept', methods = ['POST'])
+@join_game.route('/accept', methods=['POST'])
 @auth_required("user")
 def index(game_id):
-    if cursor.execute("select status from games where game_id = ?", [game_id]).fetchone()[0] != "wait_for_opponent":
-        return "", 403
+	if cursor.execute("select status from games where game_id = ?",
+	                  [game_id]).fetchone()[0] != "wait_for_opponent":
+		return "", 403
 
-    start_game(game_id, user_id)
+	start_game(game_id, user_id)
 
-    return {
-            "id": game_id,
-            "player_1": False,
-            "game_started": True
-            }, 200
+	return {"id": game_id, "player_1": False, "game_started": True}, 200
+
 
 dynamic_route = ["/game", join_game]

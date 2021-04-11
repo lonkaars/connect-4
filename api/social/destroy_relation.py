@@ -7,32 +7,32 @@ import time
 
 remove = Blueprint('remove', __name__)
 
-@remove.route('/remove', methods = ['POST'])
+
+@remove.route('/remove', methods=['POST'])
 @two_person_endpoint
 def index(user_1_id, user_2_id):
-    relation = get_relation_to(user_1_id, user_2_id)
-    if relation == "none": return "", 403
+	relation = get_relation_to(user_1_id, user_2_id)
+	if relation == "none": return "", 403
 
-    remove_relation(user_1_id, user_2_id)
-    remove_relation(user_2_id, user_1_id)
+	remove_relation(user_1_id, user_2_id)
+	remove_relation(user_2_id, user_1_id)
 
-    io.emit("changedRelation", { "id": user_2_id }, room="user-"+user_1_id)
-    io.emit("changedRelation", { "id": user_1_id }, room="user-"+user_2_id)
+	io.emit("changedRelation", {"id": user_2_id}, room="user-" + user_1_id)
+	io.emit("changedRelation", {"id": user_1_id}, room="user-" + user_2_id)
 
-    return "", 200
+	return "", 200
+
 
 unblock = Blueprint('unblock', __name__)
 
-@unblock.route('/unblock', methods = ['POST'])
+
+@unblock.route('/unblock', methods=['POST'])
 @two_person_endpoint
 def index(user_1_id, user_2_id):
-    if get_relation_to(user_1_id, user_2_id) != "blocked": return "", 403
+	if get_relation_to(user_1_id, user_2_id) != "blocked": return "", 403
 
-    remove_relation(user_1_id, user_2_id)
-    return "", 200
+	remove_relation(user_1_id, user_2_id)
+	return "", 200
 
-dynamic_routes = [
-        ["/social", remove],
-        ["/social", unblock]
-        ]
 
+dynamic_routes = [["/social", remove], ["/social", unblock]]
