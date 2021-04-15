@@ -6,7 +6,6 @@ import json
 import random
 from game.socket import game, games
 from hierarchy import auth_required
-from game.info import valid_game_id
 from socket_io import io
 from game.new import start_game
 

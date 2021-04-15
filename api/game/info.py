@@ -4,6 +4,7 @@ from db import cursor
 from user.info import format_user
 from rating import outcome
 from ruleset import resolve_ruleset
+import valid
 
 
 def format_game(game_id, user_id=None):
@@ -56,14 +57,6 @@ def format_game(game_id, user_id=None):
 	}
 
 
-# check if game_id exists in database
-def valid_game_id(game_id):
-	query = cursor.execute(
-		"select game_id from games where game_id = ?", [game_id]
-	).fetchone()
-	return bool(query)
-
-
 game_info = Blueprint('game_info', __name__)
 
 
@@ -79,7 +72,7 @@ def index():
 	token = request.cookies.get("token") or ""
 	if token: user_id = token_login(token)
 
-	if not valid_game_id(game_id): return "", 403
+	if not valid.game_id(game_id): return "", 403
 
 	return format_game(game_id, user_id), 200
 

@@ -1,10 +1,10 @@
 from flask import Blueprint, request, Response
 from db import cursor
 from auth.login_token import token_login
-from user.info import valid_user_id
 from hierarchy import auth_required
 from os.path import exists
 from codecs import decode
+import valid
 
 default_avatar = open("database/avatars/default.png", "rb").read()
 
@@ -18,7 +18,7 @@ def get_avatar():
 
 	user_id = request.args.get("id") or login
 	if not user_id: return "", 400
-	if not valid_user_id(user_id): return "", 403
+	if not valid.user_id(user_id): return "", 403
 
 	avatar_path = f"database/avatars/{user_id}.png"
 	avatar = ""

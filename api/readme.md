@@ -83,10 +83,7 @@ API return type classes are mostly defined in api/api.ts
 <td>
 
 ```ts
-{
-  username?: string,
-  id?: userID
-}
+{ id?: userID }
 ```
 
 </td>

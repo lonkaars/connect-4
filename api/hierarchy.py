@@ -1,7 +1,8 @@
 from flask import request
 from auth.login_token import token_login
-from user.info import valid_user_id
 from db import cursor
+from util import all_def, all_notdef
+import valid
 
 ranks = ["none", "user", "moderator", "admin", "bot"]
 
@@ -19,7 +20,7 @@ def util_two_person(func):
 		data = request.get_json()
 		if data: explicit_id = data.get("id")
 
-		if explicit_id and not valid_user_id(explicit_id): explicit_id = None
+		if explicit_id and not valid.user_id(explicit_id): explicit_id = None
 
 		return func(token_id, explicit_id)
 
@@ -32,11 +33,25 @@ def util_two_person(func):
 def two_person(func):
 	@util_two_person
 	def wrapper(token_id, explicit_id):
-		if not token_id or \
-           not explicit_id:
+		if not all_def([token_id, explicit_id]):
 			return "", 400
 
 		return func(token_id, explicit_id)
+
+	wrapper.__name__ = func.__name__
+	return wrapper
+
+
+# uses json data id with token_login id as fallback
+# doesn't check for authentication
+# expects that func takes these arguments: (user_id, viewer?)
+def one_person(func):
+	@util_two_person
+	def wrapper(token_id, explicit_id):
+		if all_notdef([token_id, explicit_id]):
+			return "", 400
+
+		return func(explicit_id or token_id, token_id)
 
 	wrapper.__name__ = func.__name__
 	return wrapper

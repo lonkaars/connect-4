@@ -15,8 +15,7 @@ def index():
 	password = data.get("password") or ""
 
 	# return malformed request if email or password is missing
-	if not email or \
-                                  not password:
+	if not email or not password:
 		return "", 400
 
 	# resolve user_id from username or email
