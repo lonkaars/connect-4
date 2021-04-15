@@ -1,14 +1,14 @@
 from flask import Blueprint, request
 from db import cursor, connection
-from social.create_relation import two_person_endpoint
 from socket_io import io
+from hierarchy import two_person
 import time
 
 accept = Blueprint('accept', __name__)
 
 
 @accept.route("/accept", methods=['POST'])
-@two_person_endpoint
+@two_person
 def route(user_1_id, user_2_id):
 	cursor.execute(
 		"update social set type = \"friendship\" where user_1_id = ? and user_2_id = ?",

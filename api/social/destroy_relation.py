@@ -1,15 +1,16 @@
 from flask import Blueprint, request
 from db import cursor
-from social.create_relation import remove_relation, two_person_endpoint
+from social.create_relation import remove_relation
 from user.info import get_relation_to
 from socket_io import io
+from hierarchy import two_person
 import time
 
 remove = Blueprint('remove', __name__)
 
 
 @remove.route('/remove', methods=['POST'])
-@two_person_endpoint
+@two_person
 def index(user_1_id, user_2_id):
 	relation = get_relation_to(user_1_id, user_2_id)
 	if relation == "none": return "", 403
@@ -27,7 +28,7 @@ unblock = Blueprint('unblock', __name__)
 
 
 @unblock.route('/unblock', methods=['POST'])
-@two_person_endpoint
+@two_person
 def index(user_1_id, user_2_id):
 	if get_relation_to(user_1_id, user_2_id) != "blocked": return "", 403
 

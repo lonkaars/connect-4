@@ -1,26 +1,8 @@
 from flask import Blueprint, request
 from db import cursor, connection
-from hierarchy import auth_required
+from hierarchy import auth_required, two_person
 from socket_io import io
 import time
-
-
-# @two_person_endpoint decorator
-# defines (user_1_id, user_2_id) in endpoint handler function arguments
-def two_person_endpoint(func):
-	@auth_required("user")
-	def wrapper(user_1_id):
-		data = request.get_json()
-		user_2_id = data.get("id") or ""
-
-		if not user_1_id or \
-                                                                 not user_2_id:
-			return "", 403
-
-		return func(user_1_id, user_2_id)
-
-	wrapper.__name__ = func.__name__
-	return wrapper
 
 
 def create_relation(user_1_id, user_2_id, relation_type):
@@ -44,7 +26,7 @@ def remove_relation(user_1_id, user_2_id):
 
 
 def create_relation_route(relation_type):
-	@two_person_endpoint
+	@two_person
 	def route(user_1_id, user_2_id):
 		create_relation(user_1_id, user_2_id, relation_type)
 
