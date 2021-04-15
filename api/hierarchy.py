@@ -7,9 +7,14 @@ import valid
 ranks = ["none", "user", "moderator", "admin", "bot"]
 
 
-# This decorator doesn't check for hierarchy constraints, but does
-# make sure that token_id or explicit_id are valid user_id's
 def util_two_person(func):
+	'''
+	! only used internally !
+	func(token_id?: str, explicit_id?: str)
+
+	This decorator doesn't check for hierarchy constraints, but does
+	make sure that token_id or explicit_id are valid user_id's
+	'''
 	def wrapper():
 		token_id = None
 		explicit_id = None
@@ -28,9 +33,14 @@ def util_two_person(func):
 	return wrapper
 
 
-# no authentication, just runs endpoint() if both token_id and
-# explicit_id are present from @util_two_person.
 def two_person(func):
+	'''
+	endpoint should have two parameters:
+	endpoint(user_1_id: str, user_2_id: str)
+
+	no authentication, just runs endpoint() if both token_id and
+	explicit_id are present from @util_two_person.
+	'''
 	@util_two_person
 	def wrapper(token_id, explicit_id):
 		if not all_def([token_id, explicit_id]):
@@ -42,10 +52,15 @@ def two_person(func):
 	return wrapper
 
 
-# uses json data id with token_login id as fallback
-# doesn't check for authentication
-# expects that func takes these arguments: (user_id, viewer?)
 def one_person(func):
+	'''
+	endpoint should have two parameters:
+	endpoint(user_id: str, viewer?: str)
+
+	uses json data id with token_login id as fallback
+	doesn't check for authentication
+	expects that func takes these arguments: (user_id, viewer?)
+	'''
 	@util_two_person
 	def wrapper(token_id, explicit_id):
 		if all_notdef([token_id, explicit_id]):
@@ -57,14 +72,24 @@ def one_person(func):
 	return wrapper
 
 
-# @auth_required function decorator (use after @flask.Blueprint.route() decorator)
-# This decorator only runs endpoint() if token_id from
-# @util_two_person is not None and passes hierarchy constraints
 def auth_required(level):
+	'''
+	level = "none" | "user" | "moderator" | "admin" | "bot"
+	endpoint should have one parameter for the user_id of the request author:
+	endpoint(user_id: str) # `user_id` can only be `None` when `level == "none"`
+
+	@auth_required function decorator (use after @flask.Blueprint.route() decorator)
+	This decorator only runs endpoint() if token_id from
+	@util_two_person is not None and passes hierarchy constraints
+	'''
 	def decorator(func):
 		@util_two_person
 		def wrapper(token_id, explicit_id):
-			if not token_id: return "", 400
+			if not token_id:
+				if level == ranks[0]:
+					return func(None)
+				else:
+					return "", 400
 
 			user_rank_text = cursor.execute(
 				"select type from users where user_id = ?", [token_id]

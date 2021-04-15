@@ -2,10 +2,10 @@ from flask import Blueprint, request
 from functools import reduce
 from mergedeep import merge
 from db import cursor
-from auth.login_token import token_login
 from user.info import format_user
 from ruleset import resolve_ruleset
 from game.info import format_game
+from hierarchy import one_person
 import json
 
 
@@ -65,32 +65,12 @@ games = Blueprint('games', __name__)
 
 
 @games.route('/games', methods=['GET', 'POST'])
-def index():
-	data_string = request.data or "{}"
-	data = json.loads(data_string)
-
-	user_id = data.get("id") or ""
-	token = request.cookies.get("token") or ""
-
-	if not user_id and \
-                                  not token:
-		return "", 400
-
-	if token and not user_id:
-		user_id = token_login(token)
-
-	if not cursor.execute(
-		"select user_id from users where user_id = ?", [user_id]
-	).fetchone():
-		return "", 403
-
-	export = {}
-	merge(
-		export, {"totals": sum_games(user_id)},
-		{"games": fetch_games(user_id, 20)}
-	)
-
-	return export, 200
+@one_person
+def index(user_id, viewer):
+	return {
+		"totals": sum_games(user_id),
+		"games": fetch_games(user_id, 20)
+	}, 200
 
 
 dynamic_route = ["/user", games]
