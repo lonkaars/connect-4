@@ -7,4 +7,4 @@ from hierarchy import io_auth_required
 @io.on("connect")
 @io_auth_required("none")
 def connect(data, user_id):
-	join_room("user-" + user_id)
+    join_room("user-" + user_id)

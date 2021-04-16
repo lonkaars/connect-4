@@ -80,7 +80,8 @@ API return type classes are mostly defined in api/api.ts
 
 ```ts
 {
-  id: userID;
+	id:
+	userID;
 }
 ```
 
@@ -90,7 +91,7 @@ API return type classes are mostly defined in api/api.ts
 
 ```ts
 {
-  userInfo;
+	userInfo;
 }
 ```
 
@@ -107,7 +108,7 @@ API return type classes are mostly defined in api/api.ts
 
 ```ts
 {
-  userInfo;
+	userInfo;
 }
 ```
 
@@ -122,7 +123,8 @@ API return type classes are mostly defined in api/api.ts
 
 ```ts
 {
-  id: userID;
+	id:
+	userID;
 }
 ```
 
@@ -190,7 +192,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  image: base64PNG;
+	image:
+	base64PNG;
 }
 ```
 
@@ -209,7 +212,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  preferences: userPreferences;
+	preferences:
+	userPreferences;
 }
 ```
 
@@ -224,7 +228,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  newPreferences: userPreferences;
+	newPreferences:
+	userPreferences;
 }
 ```
 
@@ -295,7 +300,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  status: string;
+	status:
+	string;
 }
 ```
 
@@ -312,7 +318,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  id: userID;
+	id:
+	userID;
 }
 ```
 
@@ -329,7 +336,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  id: userID;
+	id:
+	userID;
 }
 ```
 
@@ -346,7 +354,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  id: userID;
+	id:
+	userID;
 }
 ```
 
@@ -363,7 +372,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  query: string;
+	query:
+	string;
 }
 ```
 
@@ -386,7 +396,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  id: userID;
+	id:
+	userID;
 }
 ```
 
@@ -403,7 +414,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  id: userID;
+	id:
+	userID;
 }
 ```
 
@@ -503,7 +515,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  id: gameID;
+	id:
+	gameID;
 }
 ```
 
@@ -513,7 +526,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  gameInfo;
+	gameInfo;
 }
 ```
 
@@ -528,7 +541,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  id: gameID;
+	id:
+	gameID;
 }
 ```
 
@@ -555,7 +569,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  id: gameID;
+	id:
+	gameID;
 }
 ```
 

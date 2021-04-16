@@ -5,7 +5,7 @@ h = 6
 column = 3
 
 process = subprocess.Popen(
-	["./voerbak"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=None
+    ["./voerbak"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=None
 )
 
 process.stdin.write(bytearray(f"{w} {h}\n", "utf-8"))
