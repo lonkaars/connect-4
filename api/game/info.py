@@ -4,6 +4,7 @@ from db import cursor
 from user.info import format_user
 from rating import outcome
 from ruleset import resolve_ruleset
+from hierarchy import game_id_with_viewer
 import valid
 
 
@@ -33,6 +34,7 @@ def format_game(game_id, user_id=None):
 	is_player_1 = game[4] != user_id
 
 	# get opponent from perspective of `user_id`
+	#TODO: return .players as array of player_1 and player_2 but format_user()'d
 	opponent = game[4] if is_player_1 else game[3]
 
 	# parse moves into list and return empty list if moves string is empty
@@ -61,20 +63,9 @@ game_info = Blueprint('game_info', __name__)
 
 
 @game_info.route('/info', methods=['POST'])
-def index():
-	data = request.get_json()
-	if not data: return "", 400
-
-	game_id = data.get("id") or ""
-	if not game_id: return "", 400
-
-	user_id = None
-	token = request.cookies.get("token") or ""
-	if token: user_id = token_login(token)
-
-	if not valid.game_id(game_id): return "", 403
-
-	return format_game(game_id, user_id), 200
+@game_id_with_viewer
+def index(game_id, viewer):
+	return format_game(game_id, viewer), 200
 
 
 dynamic_route = ["/game", game_info]

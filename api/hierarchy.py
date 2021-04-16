@@ -7,30 +7,37 @@ import valid
 ranks = ["none", "user", "moderator", "admin", "bot"]
 
 
-def util_two_person(func):
+def util_two_id(type="user"):
 	'''
+	type?: "user" | "game"
 	! only used internally !
 	func(token_id?: str, explicit_id?: str)
 
 	This decorator doesn't check for hierarchy constraints, but does
 	make sure that token_id or explicit_id are valid user_id's
 	'''
-	def wrapper():
-		token_id = None
-		explicit_id = None
+	def decorator(func):
+		def wrapper():
+			token_id = None
+			explicit_id = None
 
-		token = request.cookies.get("token") or ""
-		if token: token_id = token_login(token)
+			token = request.cookies.get("token") or ""
+			if token: token_id = token_login(token)
 
-		data = request.get_json()
-		if data: explicit_id = data.get("id")
+			data = request.get_json()
+			if data: explicit_id = data.get("id")
 
-		if explicit_id and not valid.user_id(explicit_id): explicit_id = None
+			# if there's an explicit_id, validate it using `type`
+			if explicit_id and \
+               not valid.validate(explicit_id, type):
+				explicit_id = None
 
-		return func(token_id, explicit_id)
+			return func(token_id, explicit_id)
 
-	wrapper.__name__ = func.__name__
-	return wrapper
+		wrapper.__name__ = func.__name__
+		return wrapper
+
+	return decorator
 
 
 def two_person(func):
@@ -39,9 +46,9 @@ def two_person(func):
 	endpoint(user_1_id: str, user_2_id: str)
 
 	no authentication, just runs endpoint() if both token_id and
-	explicit_id are present from @util_two_person.
+	explicit_id are present from @util_two_id.
 	'''
-	@util_two_person
+	@util_two_id("user")
 	def wrapper(token_id, explicit_id):
 		if not all_def([token_id, explicit_id]):
 			return "", 400
@@ -61,12 +68,28 @@ def one_person(func):
 	doesn't check for authentication
 	expects that func takes these arguments: (user_id, viewer?)
 	'''
-	@util_two_person
+	@util_two_id("user")
 	def wrapper(token_id, explicit_id):
 		if all_notdef([token_id, explicit_id]):
 			return "", 400
 
 		return func(explicit_id or token_id, token_id)
+
+	wrapper.__name__ = func.__name__
+	return wrapper
+
+
+def game_id_with_viewer(func):
+	'''
+	endpoint should have two parameters:
+	endpoint(game_id: str, viewer?: str)
+	'''
+	@util_two_id("game")
+	def wrapper(token_id, game_id):
+		if all_notdef([token_id, game_id]):
+			return "", 400
+
+		return func(game_id, token_id)
 
 	wrapper.__name__ = func.__name__
 	return wrapper
@@ -80,10 +103,10 @@ def auth_required(level):
 
 	@auth_required function decorator (use after @flask.Blueprint.route() decorator)
 	This decorator only runs endpoint() if token_id from
-	@util_two_person is not None and passes hierarchy constraints
+	@util_two_id is not None and passes hierarchy constraints
 	'''
 	def decorator(func):
-		@util_two_person
+		@util_two_id("user")
 		def wrapper(token_id, explicit_id):
 			if not token_id:
 				if level == ranks[0]:
@@ -118,7 +141,7 @@ def io_auth_required(level):
 	'''
 	def decorator(func):
 		# data is the original @io.on data
-		def wrapper(data):
+		def wrapper(data={}):
 
 			token = request.cookies.get("token") or ""
 			user_id = token_login(token)

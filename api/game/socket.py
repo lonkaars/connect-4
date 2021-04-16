@@ -4,7 +4,6 @@ from game.voerbak_connector import bord
 from db import cursor, connection
 from socket_io import io
 from hierarchy import io_auth_required
-from auth.login_token import token_login
 import time
 import json
 
@@ -23,12 +22,12 @@ def participants_only(func):
 		game_id = data["game_id"]
 
 		if not game_id or \
-           not game_id in games:
+                 not game_id in games:
 			return
 
 		game = games[game_id]
 		if game.player_1_id != user_id and \
-           game.player_2_id != user_id:
+                 game.player_2_id != user_id:
 			return
 
 		return func(data, user_id, game)
