@@ -12,17 +12,17 @@ games = {}
 
 def participants_only(func):
     '''
-	listener should have two parameters:
-	listener(data: socket.io.data, user_id: str, game: game)
+    listener should have two parameters:
+    listener(data: socket.io.data, user_id: str, game: game)
 
-	listener should only be executed if the request comes from one of
-	the game participants (player_1_id | player_2_id)
-	'''
+    listener should only be executed if the request comes from one of
+    the game participants (player_1_id | player_2_id)
+    '''
     def wrapper(data, user_id):
         game_id = data["game_id"]
 
         if not game_id or \
-		   not game_id in games:
+           not game_id in games:
             return
 
         game = games[game_id]
