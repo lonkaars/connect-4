@@ -14,7 +14,7 @@ join_game = Blueprint('game_accept', __name__)
 
 # join a game by game_id (public or private)
 @join_game.route('/accept', methods=['POST'])
-@auth_required("user")
+@auth_required("user") #FIXME: this doesn't work haha i don't know when i wrote this
 def index(game_id):
 	if cursor.execute("select status from games where game_id = ?",
 						[game_id]).fetchone()[0] != "wait_for_opponent":

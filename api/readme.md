@@ -1,10 +1,6 @@
 # API
 
-This is the subdirectory for the API. You can find the API reference in
-[this](https://docs.google.com/spreadsheets/d/1mDN9IUqRIMjr_9RmLxKybjIgVuaUadalmPEFnG-XeJg/edit?usp=sharing)
-Google Docs document.
-
-## Endpoint reference (WIP)
+## Endpoint reference
 
 API return type classes are mostly defined in api/api.ts
 
@@ -15,7 +11,7 @@ API return type classes are mostly defined in api/api.ts
 <th>method</th>
 <th>description</th>
 <th>parameters</th>
-<th>authorization</th>
+<th>minimal authorization</th>
 <th>response</th>
 </tr>
 </thead>
@@ -78,20 +74,35 @@ API return type classes are mostly defined in api/api.ts
 
 <tr>
 <td>/user/info</td>
-<td><code>GET|POST</code></td>
-<td>get user info by username or id  note: avatar is a uri to a 256x256 .png image</td>
+<td><code>POST</code></td>
+<td>get user info by id</td>
 <td>
 
 ```ts
-{ id?: userID }
+{ id: userID }
 ```
 
 </td>
-<td><code>none|user</code></td>
+<td><code>none</code></td>
 <td>
 
 ```ts
-userInfo;
+{ userInfo }
+```
+
+</td>
+</tr>
+
+<tr>
+<td>/user/info</td>
+<td><code>GET</code></td>
+<td></td>
+<td><code>none</code></td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{ userInfo }
 ```
 
 </td>
@@ -99,16 +110,16 @@ userInfo;
 
 <tr>
 <td>/user/games</td>
-<td><code>GET|POST</code></td>
+<td><code>POST</code></td>
 <td>get games of user</td>
 <td>
 
 ```ts
-{ id?: userID }
+{ id: userID }
 ```
 
 </td>
-<td><code>none|user</code></td>
+<td><code>none</code></td>
 <td>
 
 ```ts
@@ -122,17 +133,38 @@ userInfo;
 </tr>
 
 <tr>
-<td>/user/avatar</td>
+<td>/user/games</td>
 <td><code>GET</code></td>
-<td>fetch avatar as .png</td>
+<td></td>
+<td><code>none</code></td>
+<td><code>user</code></td>
 <td>
 
 ```ts
-{ id?: userID }
+{
+  games: Array<gameInfo>,
+  totals: userGameTotals
+}
 ```
 
 </td>
-<td><code>none|user</code></td>
+</tr>
+
+<tr>
+<td>/user/avatar?id=</td>
+<td><code>GET</code></td>
+<td>fetch avatar as .png using url parameter</td>
+<td><code>none</code></td>
+<td><code>none</code></td>
+<td>PNG image</td>
+</tr>
+
+<tr>
+<td>/user/avatar</td>
+<td><code>GET</code></td>
+<td>fetch avatar as .png</td>
+<td><code>none</code></td>
+<td><code>user</code></td>
 <td>PNG image</td>
 </tr>
 
@@ -149,10 +181,7 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{
-	image:
-	base64PNG;
-}
+{ image: base64PNG; }
 ```
 
 </td>
@@ -169,10 +198,7 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{
-	preferences:
-	userPreferences;
-}
+{ preferences: userPreferences; }
 ```
 
 </td>
@@ -185,10 +211,7 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{
-	newPreferences:
-	userPreferences;
-}
+{ newPreferences: userPreferences; }
 ```
 
 </td>
@@ -198,7 +221,7 @@ returns error when image is not .png or larger than 256x256
 
 <tr>
 <td>/user/password</td>
-<td>POST</td>
+<td><code>POST</code></td>
 <td>update password</td>
 <td>
 
@@ -216,7 +239,7 @@ returns error when image is not .png or larger than 256x256
 
 <tr>
 <td>/user/email</td>
-<td>POST</td>
+<td><code>POST</code></td>
 <td>update email</td>
 <td>
 
@@ -234,7 +257,7 @@ returns error when image is not .png or larger than 256x256
 
 <tr>
 <td>/user/username</td>
-<td>POST</td>
+<td><code>POST</code></td>
 <td>update username</td>
 <td>
 
@@ -257,10 +280,7 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{
-	status:
-	string;
-}
+{ status: string; }
 ```
 
 </td>
@@ -269,123 +289,253 @@ returns error when image is not .png or larger than 256x256
 </tr>
 
 <tr>
-<td>/user/searchFriends</td>
-<td><code>POST</code></td>
-<td>search user's friend list</td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
 <td>/social/request</td>
 <td><code>POST</code></td>
 <td>send a friend request to a user by user id</td>
-<td></td>
-<td></td>
+<td>
+
+```ts
+{ id: userID }
+```
+
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
 </tr>
 
 <tr>
 <td>/social/accept</td>
 <td><code>POST</code></td>
 <td>accept a friend request</td>
-<td></td>
-<td></td>
+<td>
+
+```ts
+{ id: userID }
+```
+
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
 </tr>
 
 <tr>
 <td>/social/remove</td>
 <td><code>POST</code></td>
 <td>remove a friend from your friend list or delete a friend request from a user</td>
-<td></td>
-<td></td>
+<td>
+
+```ts
+{ id: userID }
+```
+
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
 </tr>
 
 <tr>
 <td>/social/search</td>
 <td><code>POST</code></td>
 <td>search for users by username or status</td>
-<td></td>
-<td></td>
+<td>
+
+```ts
+{ query: string }
+```
+
+</td>
+<td><code>none</code></td>
+<td>
+
+```ts
+{ results: Array<userInfo> }
+```
+
+</td>
 </tr>
 
 <tr>
 <td>/social/block</td>
 <td><code>POST</code></td>
 <td>block a user</td>
-<td></td>
-<td></td>
+<td>
+
+```ts
+{ id: userID }
+```
+
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
 </tr>
 
 <tr>
 <td>/social/unblock</td>
 <td><code>POST</code></td>
 <td>unblock a user</td>
-<td></td>
-<td></td>
+<td>
+
+```ts
+{ id: userID }
+```
+
+</td>
+<td><code>user</code></td>
+<td><code>none</code></td>
 </tr>
 
 <tr>
 <td>/social/list/requests</td>
 <td><code>GET</code></td>
 <td>get a list of unaccepted friend requests</td>
-<td></td>
-<td></td>
+<td><code>none</code></td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{ requests: Array<userInfo> }
+```
+
+</td>
 </tr>
 
 <tr>
 <td>/social/list/blocks</td>
 <td><code>GET</code></td>
 <td>get a list of blocked people</td>
-<td></td>
-<td></td>
+<td><code>none</code></td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{ blocks: Array<userInfo> }
+```
+
+</td>
 </tr>
 
 <tr>
 <td>/social/list/friends</td>
 <td><code>GET</code></td>
 <td>get a list of your friends</td>
-<td></td>
-<td></td>
+<td><code>none</code></td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{ friends: Array<userInfo> }
+```
+
+</td>
 </tr>
 
 <tr>
 <td>/game/new</td>
 <td><code>POST</code></td>
 <td>create a new private game</td>
-<td></td>
-<td></td>
+<td><code>none</code></td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{
+  id: gameID,
+  player_1: boolean,
+  game_started: boolean,
+}
+```
+
+</td>
 </tr>
 
 <tr>
 <td>/game/random</td>
 <td><code>POST</code></td>
 <td>join or create a public game</td>
-<td></td>
-<td></td>
+<td><code>none</code></td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{
+  id: gameID,
+  player_1: boolean,
+  game_started: boolean,
+}
+```
+
+</td>
 </tr>
 
 <tr>
 <td>/game/info</td>
 <td><code>POST</code></td>
-<td></td>
-<td></td>
-<td></td>
+<td>get game info by game id</td>
+<td>
+
+```ts
+{ id: gameID }
+```
+
+</td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{ gameInfo }
+```
+
+</td>
 </tr>
 
 <tr>
 <td>/game/accept</td>
 <td><code>POST</code></td>
 <td>accept game invite or rematch</td>
-<td></td>
-<td></td>
+<td>
+
+```ts
+{ id: gameID }
+```
+
+</td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{
+  id: gameID,
+  player_1: boolean,
+  game_started: boolean,
+}
+```
+
+</td>
 </tr>
 
 <tr>
 <td>/game/spectate</td>
 <td><code>POST</code></td>
 <td>spectate a game by id</td>
-<td></td>
-<td></td>
+<td>
+
+```ts
+{ id: gameID }
+```
+
+</td>
+<td><code>none</code></td>
+<td>
+
+```ts
+{
+  id: gameID,
+  player_1: boolean,
+  game_started: boolean,
+}
+```
+
+</td>
 </tr>
 
 </tbody>
@@ -495,24 +645,9 @@ curl http://localhost:5000/<endpoint>
 curl http://localhost:2080/api/<endpoint>
 ```
 
-## How to add new API endpoints
-
-Please follow these rules when creating new API endpoints:
-
-1. Endpoints should always return a valid JSON object and an appropriate
-   [http code](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
-2. Endpoints that are in a namespace should get their own directory in this
-   folder, eg. http://localhost:5000/status is defined in api/status.py,
-   http://localhost:5000/auth/signup is defined in api/auth/signup.py etc.
-3. Endpoints that take data should verify that the data is present and valid,
-   and return an empty JSON object with http code 400 (bad request) if the data
-   isn't valid.
-4. Endpoints that require database access should get the cursor/connection
-   object from api/db.py
-
 ## Example endpoint
 
-Here's a simple endpoint that returns an empty JSON object:
+Here's a simple endpoint that returns a "hello world" JSON object:
 
 ```py
 # api/tests/example.py
@@ -537,3 +672,23 @@ dynamic_route = ["/tests", status]
 #                                    |
 #                                    namespace (defined in dynamic_route variable)
 ```
+
+## Handy utility functions and where to find them
+
+All of the paths are defined relative to this (api/) directory. Most of these
+functions/decorators should also have docstrings for editor autocompletion
+help, but not all of them do.
+
+utility                            | description                                                              | file
+-----------------------------------|--------------------------------------------------------------------------|-------------
+`@util_two_id(type)`               | exposes (token_id, explicit_id) to the endpoint                          | hierarchy.py
+`@two_person`                      | exposes (user_1_id, user_2_id) to the endpoint                           | hierarchy.py
+`@one_person`                      | exposes (user_id) to the endpoint                                        | hierarchy.py
+`@game_id_with_viewer`             | exposes (game_id, viewer?) to the endpoint                               | hierarchy.py
+`@auth_required(level)`            | checks if user is authorized and expose (user_id) to the endpoint        | hierarchy.py
+`@io_auth_required(level)`         | same as @auth_required but for socket.io event listeners                 | hierarchy.py
+`all_def([ ... ])`                 | checks if all items of the list are truthy                               | util.py
+`all_notdef([ ... ])`              | checks if all items of the list are falsy                                | util.py
+`format_user(user_id, viewer_id?)` | format a user to /api/user/info format with optional viewer for relation | user/info.py
+`format_game(game_id, viewer_id?)` | format a game to /api/game/info format with optional viewer for opponent | game/info.py
+
