@@ -105,3 +105,33 @@ def auth_required(level):
 		return wrapper
 
 	return decorator
+
+
+def io_auth_required(level):
+	'''
+	level = "none" | "user" | "moderator" | "admin" | "bot"
+	endpoint should have two parameters:
+	endpoint(data: socket.io.data, user_id: str) # `user_id` can only be `None` when `level == "none"`
+
+	uses the @auth_required decorator, but is only for use with
+	@io.on decorators
+	'''
+	def decorator(func):
+		# data is the original @io.on data
+		def wrapper(data):
+
+			token = request.cookies.get("token") or ""
+			user_id = token_login(token)
+
+			if not user_id:
+				if level == ranks[0]:
+					return func(data, None)
+				else:
+					return
+
+			return func(data, user_id)
+
+		wrapper.__name__ = func.__name__
+		return wrapper
+
+	return decorator

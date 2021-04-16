@@ -1,13 +1,40 @@
 from flask import Blueprint, request, make_response
 from flask_socketio import SocketIO, emit, Namespace, join_room
 from game.voerbak_connector import bord
-from auth.login_token import token_login
 from db import cursor, connection
+from socket_io import io
+from hierarchy import io_auth_required
+from auth.login_token import token_login
 import time
 import json
-from socket_io import io
 
 games = {}
+
+
+def participants_only(func):
+	'''
+	listener should have two parameters:
+	listener(data: socket.io.data, user_id: str, game: game)
+
+	listener should only be executed if the request comes from one of
+	the game participants (player_1_id | player_2_id)
+	'''
+	def wrapper(data, user_id):
+		game_id = data["game_id"]
+
+		if not game_id or \
+           not game_id in games:
+			return
+
+		game = games[game_id]
+		if game.player_1_id != user_id and \
+           game.player_2_id != user_id:
+			return
+
+		return func(data, user_id, game)
+
+	wrapper.__name__ = func.__name__
+	return wrapper
 
 
 class game:
@@ -21,7 +48,9 @@ class game:
 
 	# drop a disc in `column`
 	def move(self, user_id, column):
-		if user_id != self.player_1_id and user_id != self.player_2_id: return
+		if len(self.board.win_positions) > 0: return
+		if self.board.board_full: return
+
 		move = self.player_1_id if self.board.player_1 else self.player_2_id
 		if user_id != move: return
 
@@ -79,34 +108,20 @@ class game:
 
 
 @io.on("newMove")
-def new_move(data):
-	if not data["game_id"] or \
-                                  not data["move"] or \
-                                  not data["token"]:
-		return
-	if not data["game_id"] in games: return
+@io_auth_required("none")
+@participants_only
+def new_move(data, user_id, game):
+	move = data.get("move")
+	if not move: return
 
-	game = games[data["game_id"]]
-	if (len(game.board.win_positions) > 0 or game.board.board_full): return
-	user_id = token_login(data["token"])
-	game.move(user_id, data["move"])
+	game.move(user_id, move)
 
 
 @io.on("resign")
-def resign(data):
-	if not data["game_id"] or \
-                                  not request.cookies.get("token"):
-		return
-	if not data["game_id"] in games: return
-
-	user_id = token_login(request.cookies.get("token"))
-	if not user_id: return
-
-	if games[data["game_id"]].player_1_id != user_id and \
-                                  games[data["game_id"]].player_2_id != user_id:
-		return
-
-	games[data["game_id"]].resign()
+@io_auth_required("none")
+@participants_only
+def resign(data, user_id, game):
+	game.resign()
 
 
 @io.on("registerGameListener")
