@@ -10,7 +10,7 @@ def index():
     data = request.get_json()
 
     if not data["password"] or \
-                                        not data["newPassword"]:
+       not data["newPassword"]:
         return "", 400
 
     return {}, 200

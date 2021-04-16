@@ -22,12 +22,12 @@ def participants_only(func):
         game_id = data["game_id"]
 
         if not game_id or \
-                             not game_id in games:
+		   not game_id in games:
             return
 
         game = games[game_id]
         if game.player_1_id != user_id and \
-                             game.player_2_id != user_id:
+           game.player_2_id != user_id:
             return
 
         return func(data, user_id, game)
