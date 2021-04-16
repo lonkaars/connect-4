@@ -17,10 +17,10 @@
 	"yapf": {
 		"based_on_style": "pep8",
 		"dedent_closing_brackets": true,
-		"use_tabs": true,
+		"use_tabs": false,
 		"indent_width": 4,
 		"split_before_dot": false,
-		"continuation_align_style": "valign_right"
+		"continuation_align_style": "space"
 	},
 	"includes": [
 		"**/*.{ts,tsx}",

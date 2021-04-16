@@ -29,7 +29,7 @@ def util_two_id(type="user"):
 
 			# if there's an explicit_id, validate it using `type`
 			if explicit_id and \
-               not valid.validate(explicit_id, type):
+                        not valid.validate(explicit_id, type):
 				explicit_id = None
 
 			return func(token_id, explicit_id)

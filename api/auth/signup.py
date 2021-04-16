@@ -16,7 +16,7 @@ def validate_username(username):
 def validate_email(email):
 	#TODO: use node_modules/email-validator/index.js
 	return len(email) > 1 and \
-                                   "@" in email
+                                      "@" in email
 
 
 # checks if the password is safe (regex explanation in pages/register.tsx)
@@ -40,14 +40,14 @@ def index():
 
 	# return 400 (malformed request) if any of the required data is missing
 	if not username or \
-                                  not email or \
-                                  not password:
+                                     not email or \
+                                     not password:
 		return "", 400
 
 	# return 403 (forbidden) if any of the required data is invalid
 	if not validate_username(username) or \
-                                  not validate_email(email) or \
-                                  not validate_password(password):
+                                     not validate_email(email) or \
+                                     not validate_password(password):
 		return {"error": "form_data_invalid"}, 403
 
 	# check if username is taken

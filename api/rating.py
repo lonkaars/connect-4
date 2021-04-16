@@ -13,9 +13,9 @@ def rating_v1(won_games):  # python is a garbage language
 
 def get_all_games(user_id):
 	return cursor.execute("select player_1_id, player_2_id, outcome " + \
-                                       "from games " + \
-                                       "where (player_1_id = ? or player_2_id = ?) " + \
-                                       "and status = \"finished\" or status = \"resign\"", [user_id, user_id]).fetchall()
+                                          "from games " + \
+                                          "where (player_1_id = ? or player_2_id = ?) " + \
+                                          "and status = \"finished\" or status = \"resign\"", [user_id, user_id]).fetchall()
 
 
 # simple rating function that doesn't use game analysis

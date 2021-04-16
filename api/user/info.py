@@ -8,8 +8,8 @@ import json
 # get relation to user_2_id from user_1_id's perspective
 def get_relation_to(user_1_id, user_2_id):
 	relation = cursor.execute("select * from social where " + \
-               "(user_1_id = ? and user_2_id = ?) or " + \
-               "(user_1_id = ? and user_2_id = ?)", [user_1_id, user_2_id, user_2_id, user_1_id]).fetchone()
+                  "(user_1_id = ? and user_2_id = ?) or " + \
+                  "(user_1_id = ? and user_2_id = ?)", [user_1_id, user_2_id, user_2_id, user_1_id]).fetchone()
 	if not relation: return "none"
 	if relation[2] == "friendship": return "friends"
 	if relation[2] == "outgoing" and relation[0] == user_1_id:

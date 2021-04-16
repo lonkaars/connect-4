@@ -31,7 +31,7 @@ def update_avatar(user_id):
 	if not request.data: return "", 400
 
 	open(f"database/avatars/{user_id}.png", "wb") \
-     .write(decode(request.data, "base64"))
+        .write(decode(request.data, "base64"))
 
 	return "", 200
 

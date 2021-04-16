@@ -79,7 +79,9 @@ API return type classes are mostly defined in api/api.ts
 <td>
 
 ```ts
-{ id: userID }
+{
+  id: userID;
+}
 ```
 
 </td>
@@ -87,7 +89,9 @@ API return type classes are mostly defined in api/api.ts
 <td>
 
 ```ts
-{ userInfo }
+{
+  userInfo;
+}
 ```
 
 </td>
@@ -102,7 +106,9 @@ API return type classes are mostly defined in api/api.ts
 <td>
 
 ```ts
-{ userInfo }
+{
+  userInfo;
+}
 ```
 
 </td>
@@ -115,7 +121,9 @@ API return type classes are mostly defined in api/api.ts
 <td>
 
 ```ts
-{ id: userID }
+{
+  id: userID;
+}
 ```
 
 </td>
@@ -181,7 +189,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ image: base64PNG; }
+{
+  image: base64PNG;
+}
 ```
 
 </td>
@@ -198,7 +208,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ preferences: userPreferences; }
+{
+  preferences: userPreferences;
+}
 ```
 
 </td>
@@ -211,7 +223,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ newPreferences: userPreferences; }
+{
+  newPreferences: userPreferences;
+}
 ```
 
 </td>
@@ -280,7 +294,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ status: string; }
+{
+  status: string;
+}
 ```
 
 </td>
@@ -295,7 +311,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ id: userID }
+{
+  id: userID;
+}
 ```
 
 </td>
@@ -310,7 +328,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ id: userID }
+{
+  id: userID;
+}
 ```
 
 </td>
@@ -325,7 +345,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ id: userID }
+{
+  id: userID;
+}
 ```
 
 </td>
@@ -340,7 +362,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ query: string }
+{
+  query: string;
+}
 ```
 
 </td>
@@ -361,7 +385,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ id: userID }
+{
+  id: userID;
+}
 ```
 
 </td>
@@ -376,7 +402,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ id: userID }
+{
+  id: userID;
+}
 ```
 
 </td>
@@ -474,7 +502,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ id: gameID }
+{
+  id: gameID;
+}
 ```
 
 </td>
@@ -482,7 +512,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ gameInfo }
+{
+  gameInfo;
+}
 ```
 
 </td>
@@ -495,7 +527,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ id: gameID }
+{
+  id: gameID;
+}
 ```
 
 </td>
@@ -520,7 +554,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ id: gameID }
+{
+  id: gameID;
+}
 ```
 
 </td>
@@ -657,7 +693,7 @@ example = Blueprint('example', __name__)
 
 @example.route('/example')
 def index():
-	# python dictionaries are automatically converted to JSON by flask
+    # python dictionaries are automatically converted to JSON by flask
     return {"hello": "world"}, 200 # flask returns http code 200 by default if no code is explicitly defined
 
 # define a `dynamic_route` variable at the end of your endpoint definition file
@@ -676,19 +712,18 @@ dynamic_route = ["/tests", status]
 ## Handy utility functions and where to find them
 
 All of the paths are defined relative to this (api/) directory. Most of these
-functions/decorators should also have docstrings for editor autocompletion
-help, but not all of them do.
+functions/decorators should also have docstrings for editor autocompletion help,
+but not all of them do.
 
-utility                            | description                                                              | file
------------------------------------|--------------------------------------------------------------------------|-------------
-`@util_two_id(type)`               | exposes (token_id, explicit_id) to the endpoint                          | hierarchy.py
-`@two_person`                      | exposes (user_1_id, user_2_id) to the endpoint                           | hierarchy.py
-`@one_person`                      | exposes (user_id) to the endpoint                                        | hierarchy.py
-`@game_id_with_viewer`             | exposes (game_id, viewer?) to the endpoint                               | hierarchy.py
-`@auth_required(level)`            | checks if user is authorized and expose (user_id) to the endpoint        | hierarchy.py
-`@io_auth_required(level)`         | same as @auth_required but for socket.io event listeners                 | hierarchy.py
-`all_def([ ... ])`                 | checks if all items of the list are truthy                               | util.py
-`all_notdef([ ... ])`              | checks if all items of the list are falsy                                | util.py
-`format_user(user_id, viewer_id?)` | format a user to /api/user/info format with optional viewer for relation | user/info.py
-`format_game(game_id, viewer_id?)` | format a game to /api/game/info format with optional viewer for opponent | game/info.py
-
+| utility                            | description                                                              | file         |
+| ---------------------------------- | ------------------------------------------------------------------------ | ------------ |
+| `@util_two_id(type)`               | exposes (token_id, explicit_id) to the endpoint                          | hierarchy.py |
+| `@two_person`                      | exposes (user_1_id, user_2_id) to the endpoint                           | hierarchy.py |
+| `@one_person`                      | exposes (user_id) to the endpoint                                        | hierarchy.py |
+| `@game_id_with_viewer`             | exposes (game_id, viewer?) to the endpoint                               | hierarchy.py |
+| `@auth_required(level)`            | checks if user is authorized and expose (user_id) to the endpoint        | hierarchy.py |
+| `@io_auth_required(level)`         | same as @auth_required but for socket.io event listeners                 | hierarchy.py |
+| `all_def([ ... ])`                 | checks if all items of the list are truthy                               | util.py      |
+| `all_notdef([ ... ])`              | checks if all items of the list are falsy                                | util.py      |
+| `format_user(user_id, viewer_id?)` | format a user to /api/user/info format with optional viewer for relation | user/info.py |
+| `format_game(game_id, viewer_id?)` | format a game to /api/game/info format with optional viewer for opponent | game/info.py |

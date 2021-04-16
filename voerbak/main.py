@@ -27,9 +27,9 @@ class bord:
 
 	def outside_board(self, coords):
 		return coords[0] < 0 or \
-                                                                     coords[1] < 0 or \
-                                                                     coords[0] > self.height - 1 or \
-                                                                     coords[1] > self.width - 1
+                                                                           coords[1] < 0 or \
+                                                                           coords[0] > self.height - 1 or \
+                                                                           coords[1] > self.width - 1
 
 	def recursive_solve(self, coords, check_for, direction, current_length):
 		new_position = (coords[0] + direction[0], coords[1] + direction[1])
