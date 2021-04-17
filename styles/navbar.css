@@ -1,0 +1,11 @@
+.navbar .item {
+	margin: var(--spacing-medium);
+	margin-bottom: calc(var(--spacing-medium) + 4px);
+	display: block;
+}
+
+.navbar .bottomArea {
+	position: absolute;
+	bottom: -4px;
+	left: 0;
+}

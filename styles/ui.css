@@ -1,0 +1,9 @@
+.vierkant {
+	margin: var(--spacing-small);
+	display: inline-block;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.fullwidth { width: calc(100% - var(--spacing-medium)); }
+

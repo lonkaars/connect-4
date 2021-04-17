@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { CSSProperties, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { userInfo } from '../api/api';
-import { LogoDark } from '../components/logo';
+import Logo from '../components/logo';
 import { AccountAvatar } from './account';
 import { NotificationsArea } from './notificationsArea';
 import { SocketContext } from './socketContext';
@@ -14,12 +14,6 @@ import PersonIcon from '@material-ui/icons/Person';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
-
-var NavBarItemStyle: CSSProperties = {
-	margin: 12,
-	marginBottom: 16,
-	display: 'block',
-};
 
 export function NavBar() {
 	var [loggedIn, setLoggedIn] = useState(false);
@@ -61,14 +55,13 @@ export function NavBar() {
 	}, []);
 
 	return <div
-		className='navbar'
+		className="navbar bg-800"
 		style={{
 			width: 48,
 			height: '100%',
 
 			lineHeight: 0,
 
-			backgroundColor: 'var(--background)',
 			display: 'inline-block',
 
 			position: 'fixed',
@@ -80,35 +73,28 @@ export function NavBar() {
 			zIndex: 2,
 		}}
 	>
-		<div style={NavBarItemStyle}>
-			<LogoDark />
+		<div className="item">
+			<Logo />
 		</div>
-		<a href='/' style={NavBarItemStyle}>
+		<a href='/' className="item">
 			<Home />
 		</a>
-		<a href='/game' style={NavBarItemStyle}>
+		<a href='/game' className="item">
 			<VideogameAssetIcon />
 		</a>
-		{false && <a href='/' style={NavBarItemStyle}>
+		{false && <a href='/' className="item">
 			<ExtensionIcon />
 		</a>}
-		<a href='/search' style={NavBarItemStyle}>
+		<a href='/search' className="item">
 			<SearchIcon />
 		</a>
 
-		<div
-			style={{
-				position: 'absolute',
-				bottom: -4,
-				left: 0,
-				backgroundColor: 'var(--background)',
-			}}
-		>
+		<div className="bg-800 bottomArea">
 			{loggedIn && <a
+				className="item"
 				style={{
 					overflow: 'visible',
-					position: 'relative',
-					...NavBarItemStyle,
+					position: 'relative'
 				}}
 			>
 				<div
@@ -134,12 +120,12 @@ export function NavBar() {
 					rerender={getNotifications}
 				/>
 			</a>}
-			<a href={loggedIn ? '/user' : '/login'} style={NavBarItemStyle}>
+			<a href={loggedIn ? '/user' : '/login'} className="item">
 				{loggedIn
 					? <AccountAvatar size={24} round />
 					: <PersonIcon />}
 			</a>
-			{loggedIn && <a href='/settings' style={NavBarItemStyle}>
+			{loggedIn && <a href='/settings' className="item">
 				<SettingsIcon />
 			</a>}
 		</div>

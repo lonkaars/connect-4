@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { LogoDark } from '../components/logo';
+import Logo from '../components/logo';
 
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import ExtensionIcon from '@material-ui/icons/Extension';
@@ -25,7 +25,7 @@ function PageLink(props: {
 export function Footer() {
 	return <div className='footer'>
 		<div className='header'>
-			<LogoDark />
+			<Logo />
 			<h2>4 op een rij</h2>
 		</div>
 		<div className='content'>

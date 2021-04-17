@@ -1,16 +1,72 @@
-html {
-	--text: #FCFFFD;
-	--page-background: var(--text);
+:root {
+	--background: #E3E6EE;
+	--foreground: var(--gray-100);
 
-	--background: #5D737E;
-	--text-alt: var(--background);
-	--background-alt: #81949E;
+	--accent: #7E3AA6;
 
-	--disk-a: #E16D82;
-	--disk-a-text: #FDC0C4;
-	--disk-b: #71D9CC;
-	--disk-b-text: #C0FDEB;
+	--error: #A63A4D;
+	--disk-b-alt: #582D35;
+
+	--confirm: #3AA699;
+	--disk-a-alt: #244743;
+
+	/* shade */
+	--gray-100: #141619;
+	--gray-200: #1F242D;
+	--gray-300: #293140;
+	--gray-700: #757D92;
+	--gray-800: #A9AFC0;
+	--gray-900: #CED2DC;
+
+	/* box-shadow */
+	--drop-level-2: 0px 8px 32px 0px  rgba(0, 0, 0, 0.3);
+	--drop-level-1: 0px 8px 12px -4px rgba(0, 0, 0, 0.15);
+
+	/* border-radius */
+	--tight-corner: 6px;
+	--loose-corner: 8px;
+
+	/* margin/padding */
+	--spacing-small:  6px;
+	--spacing-medium: 12px;
+	--spacing-large:  24px;
 }
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: var(--gray-900);
+		--foreground: #FFFFF3;
+
+		--accent: #AD34F3;
+
+		--error: #FF4365;
+		--disk-b-alt: #F49BA1;
+
+		--confirm: #00D9C0;
+		--disk-a-alt: #86F3F3;
+
+		--gray-100: #CED2DC;
+		--gray-200: #A9AFC0;
+		--gray-300: #757D92;
+		--gray-700: #293140;
+		--gray-800: #1F242D;
+		--gray-900: #141619;
+	}
+}
+
+/* html { */
+/* 	--text: #FCFFFD; */
+/* 	--page-background: var(--text); */
+
+/* 	--background: #5D737E; */
+/* 	--text-alt: var(--background); */
+/* 	--background-alt: #81949E; */
+
+/* 	--disk-a: #E16D82; */
+/* 	--disk-a-text: #FDC0C4; */
+/* 	--disk-b: #71D9CC; */
+/* 	--disk-b-text: #C0FDEB; */
+/* } */
 
 /* default margin */
 html, body {
@@ -27,17 +83,17 @@ h3 {
 	padding-bottom: 6px;
 }
 
-/* global font zize */
-p, b, i, span, td, th { font-size: 15px; }
-
 /* navbar fix */
 body { padding-left: 48px; }
 
 /* font */
-html { font-family: "Inter"; }
+html { font-family: "Inter", sans-serif; }
 
-/* background color */
-html, body { background-color: var(--page-background); }
+/* color */
+:root, html, body {
+	background-color: var(--background);
+	color: var(--foreground);
+}
 
 /* link fix */
 a {

@@ -9,7 +9,6 @@ export function Vierkant(props: {
 	href?: string;
 	width?: string;
 	height?: string;
-	style?: CSSProperties;
 	children?: ReactNode;
 	className?: string;
 	id?: string;
@@ -17,25 +16,8 @@ export function Vierkant(props: {
 	onclick?: () => void;
 }) {
 	return <a
-		style={{
-			padding: 24,
-			backgroundColor: 'var(--background)',
-			borderRadius: 8,
-			color: 'var(--text)',
-			margin: 6, // geen margin collapse = 12px marge
-			display: 'inline-block',
-			position: 'relative',
-			boxSizing: 'border-box',
-			width: props.width
-				? props.width
-				: props.fullwidth
-				? 'calc(100% - 12px)'
-				: undefined,
-			height: props.height ? props.height : undefined,
-			...props.style,
-		}}
 		href={props.href}
-		className={props.className}
+		className={["bg-800", "round-l", "pad-l", "vierkant", props.className, props.fullwidth && "fullwidth"].join(" ")}
 		id={props.id}
 		onClick={props.onclick}
 	>

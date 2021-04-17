@@ -16,6 +16,8 @@ import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import { mdiRobotExcited } from '@mdi/js';
 import Icon from '@mdi/react';
 
+import styles from '../styles/index.module.css';
+
 var GameModeIconStyle: CSSProperties = {
 	fontSize: 64,
 	width: 64,
@@ -41,13 +43,6 @@ var GameModeTextStyle: CSSProperties = {
 var SquareSize: CSSProperties = {
 	width: 90,
 	height: 90,
-};
-
-var LoginOrRegisterBoxStyle: CSSProperties = {
-	verticalAlign: 'top',
-	height: `calc(${SquareSize.height}px + 24px * 2)`,
-	width: '100%',
-	maxWidth: `calc(100% - ${SquareSize.width}px - 12px * 2 - 24px * 2)`,
 };
 
 var InnerLoginOrRegisterBoxStyle: CSSProperties = {
@@ -198,7 +193,7 @@ export default function HomePage() {
 						<span style={GameModeTextStyle}>Tegen computer</span>
 						<div style={SquareSize}></div>
 					</Vierkant>}
-				<Vierkant style={LoginOrRegisterBoxStyle}>
+				<Vierkant className={styles.loginOrRegisterBox}>
 					{loggedIn
 						? <AccountBox info={userInfo} sumGameInfo={gameInfo?.totals} />
 						: <LoginOrRegisterBox />}
