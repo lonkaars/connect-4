@@ -55,7 +55,7 @@ export function NavBar() {
 	}, []);
 
 	return <div
-		className="navbar bg-800"
+		className='navbar bg-800'
 		style={{
 			width: 48,
 			height: '100%',
@@ -73,28 +73,28 @@ export function NavBar() {
 			zIndex: 2,
 		}}
 	>
-		<div className="item">
+		<div className='item'>
 			<Logo />
 		</div>
-		<a href='/' className="item">
+		<a href='/' className='item'>
 			<Home />
 		</a>
-		<a href='/game' className="item">
+		<a href='/game' className='item'>
 			<VideogameAssetIcon />
 		</a>
-		{false && <a href='/' className="item">
+		{false && <a href='/' className='item'>
 			<ExtensionIcon />
 		</a>}
-		<a href='/search' className="item">
+		<a href='/search' className='item'>
 			<SearchIcon />
 		</a>
 
-		<div className="bg-800 bottomArea">
+		<div className='bg-800 bottomArea'>
 			{loggedIn && <a
-				className="item"
+				className='item'
 				style={{
 					overflow: 'visible',
-					position: 'relative'
+					position: 'relative',
 				}}
 			>
 				<div
@@ -120,12 +120,12 @@ export function NavBar() {
 					rerender={getNotifications}
 				/>
 			</a>}
-			<a href={loggedIn ? '/user' : '/login'} className="item">
+			<a href={loggedIn ? '/user' : '/login'} className='item'>
 				{loggedIn
 					? <AccountAvatar size={24} round />
 					: <PersonIcon />}
 			</a>
-			{loggedIn && <a href='/settings' className="item">
+			{loggedIn && <a href='/settings' className='item'>
 				<SettingsIcon />
 			</a>}
 		</div>

@@ -7,9 +7,9 @@ import '../styles/dark.css';
 import '../styles/disk.css';
 import '../styles/footer.css';
 import '../styles/global.css';
-import '../styles/utility.css';
-import '../styles/ui.css';
 import '../styles/navbar.css';
+import '../styles/ui.css';
+import '../styles/utility.css';
 
 import '../styles/index.css';
 

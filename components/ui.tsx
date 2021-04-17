@@ -17,7 +17,9 @@ export function Vierkant(props: {
 }) {
 	return <a
 		href={props.href}
-		className={["bg-800", "round-l", "pad-l", "vierkant", props.className, props.fullwidth && "fullwidth"].join(" ")}
+		className={['bg-800', 'round-l', 'pad-l', 'vierkant', props.className, props.fullwidth && 'fullwidth'].join(
+			' ',
+		)}
 		id={props.id}
 		onClick={props.onclick}
 	>
@@ -38,7 +40,7 @@ export function Button(props: {
 		onClick={props.onclick}
 		href={props.href}
 		id={props.id}
-		className={"button pad-s round-t " + props.className}
+		className={'button pad-s round-t ' + props.className}
 	>
 		{props.text
 			? <span>

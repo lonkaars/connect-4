@@ -17,13 +17,13 @@ import { mdiRobotExcited } from '@mdi/js';
 import Icon from '@mdi/react';
 
 function LoginOrRegisterBox() {
-	return <div className="inner">
-		<span className="registerMessage posabs h0 t0">
+	return <div className='inner'>
+		<span className='registerMessage posabs h0 t0'>
 			Log in of maak een account aan om toegang tot meer functies te krijgen
 		</span>
-		<div className="sidebyside posabs h0 b0">
-			<Button href='/register' text='Registreren' className="register" />
-			<Button href='/login' text='Inloggen' className="login" />
+		<div className='sidebyside posabs h0 b0'>
+			<Button href='/register' text='Registreren' className='register' />
+			<Button href='/login' text='Inloggen' className='login' />
 		</div>
 	</div>;
 }
@@ -32,19 +32,19 @@ function AccountBox(props: {
 	info: userInfo;
 	sumGameInfo: userGameTotals;
 }) {
-	return <div className="inner profile">
-		<div className="picture posabs l0 t0">
+	return <div className='inner profile'>
+		<div className='picture posabs l0 t0'>
 			<AccountAvatar size={90} />
 		</div>
-		<div className="info posabs t0">
-			<h2 className="username truncate">{props.info?.username}</h2>
-			<p className="score">Score: {props.info?.rating}</p>
-			<p className="games posabs b0 l0">
-				<span className="outcome win">{props.sumGameInfo?.win} W</span>
-				<span className="divider">/</span>
-				<span className="outcome lose">{props.sumGameInfo?.lose} V</span>
-				<span className="divider">/</span>
-				<span className="outcome draw">{props.sumGameInfo?.draw} G</span>
+		<div className='info posabs t0'>
+			<h2 className='username truncate'>{props.info?.username}</h2>
+			<p className='score'>Score: {props.info?.rating}</p>
+			<p className='games posabs b0 l0'>
+				<span className='outcome win'>{props.sumGameInfo?.win} W</span>
+				<span className='divider'>/</span>
+				<span className='outcome lose'>{props.sumGameInfo?.lose} V</span>
+				<span className='divider'>/</span>
+				<span className='outcome draw'>{props.sumGameInfo?.draw} G</span>
 			</p>
 		</div>
 	</div>;
@@ -92,22 +92,22 @@ export default function HomePage() {
 		<NavBar />
 		<CenteredPage width={802}>
 			<PageTitle>4 op een rij</PageTitle>
-			<div className="topbar">
-				<Vierkant className="gamemode" href='/game'>
-					<VideogameAssetIcon className="icon" />
-					<span className="text">Nieuw spel</span>
+			<div className='topbar'>
+				<Vierkant className='gamemode' href='/game'>
+					<VideogameAssetIcon className='icon' />
+					<span className='text'>Nieuw spel</span>
 				</Vierkant>
 				{false
-					&& <Vierkant className="gamemode" href='/'>
-						<ExtensionIcon className="icon" />
-						<span className="text">Puzzels</span>
+					&& <Vierkant className='gamemode' href='/'>
+						<ExtensionIcon className='icon' />
+						<span className='text'>Puzzels</span>
 					</Vierkant>}
 				{false
-					&& <Vierkant className="gamemode" href='/'>
-						<Icon path={mdiRobotExcited} className="icon" />
-						<span className="text">Tegen computer</span>
+					&& <Vierkant className='gamemode' href='/'>
+						<Icon path={mdiRobotExcited} className='icon' />
+						<span className='text'>Tegen computer</span>
 					</Vierkant>}
-				<Vierkant className="loginOrRegisterBox">
+				<Vierkant className='loginOrRegisterBox'>
 					{loggedIn
 						? <AccountBox info={userInfo} sumGameInfo={gameInfo?.totals} />
 						: <LoginOrRegisterBox />}

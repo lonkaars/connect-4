@@ -29,11 +29,13 @@ function GameOutcome(props: { game: gameInfo; }) {
 		}[props.game.status]();
 	})();
 	return <td>
-		<span className={"outcome " + {
-					'w': 'win',
-					'l': 'lose',
-					'd': 'draw',
-				}[props.game.outcome]}>
+		<span
+			className={'outcome ' + {
+				'w': 'win',
+				'l': 'lose',
+				'd': 'draw',
+			}[props.game.outcome]}
+		>
 			{gameStatus}
 		</span>
 	</td>;
