@@ -1,0 +1,72 @@
+.topbar * {
+	--squareSize: 90px;
+}
+
+.loginOrRegisterBox {
+	vertical-align: top;
+	height: calc(var(--squareSize) + 2 * var(--spacing-large));
+	width: 100%;
+	max-width: calc(100% - var(--squareSize) - var(--spacing-medium) * 2 - var(--spacing-large) * 2);
+}
+
+.loginOrRegisterBox .inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.loginOrRegisterBox .inner .registerMessage {
+	user-select: none;
+	display: inline-block;
+	margin: 0 auto;
+	min-width: 240px;
+	max-width: 350px;
+	text-align: center;
+}
+
+.loginOrRegisterBox .inner .button.register {
+	background-color: var(--gray-700);
+	color: var(--foreground);
+}
+
+.gamemode .icon {
+	font-size: 64px;
+	font-size: 64px;
+	height: 64px;
+	display: inline-block;
+	position: absolute;
+	top: var(--spacing-large);
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.gamemode .text {
+	white-space: nowrap;
+	display: inline-block;
+	position: absolute;
+	bottom: var(--spacing-large);
+	left: 50%;
+	transform: translateX(-50%);
+	user-select: none;
+	font-weight: 500;
+}
+
+.topbar .gamemode {
+	--size: calc(var(--squareSize) + 2 * var(--spacing-large));
+	width: var(--size);
+	height: var(--size);
+}
+
+.topbar .profile .info {
+	left: calc(90px + 12px);
+	width: calc(100% - 90px - 12px);
+	height: 100%;
+}
+
+.topbar .profile .info .username { max-width: 178px; }
+.topbar .profile .info .score { margin-top: var(--spacing-small); }
+
+.topbar .profile .info .games .divider {
+	margin: 0 3px;
+}
+

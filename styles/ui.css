@@ -7,3 +7,15 @@
 
 .fullwidth { width: calc(100% - var(--spacing-medium)); }
 
+.button {
+	background-color: var(--accent);
+	color: var(--gray-900);
+	text-align: center;
+	cursor: pointer;
+	position: relative;
+	text-decoration: none;
+	display: block;
+	user-select: none;
+	font-weight: 600;
+}
+

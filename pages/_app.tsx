@@ -11,6 +11,8 @@ import '../styles/utility.css';
 import '../styles/ui.css';
 import '../styles/navbar.css';
 
+import '../styles/index.css';
+
 export default function VierOpEenRijWebsite({ Component, pageProps }) {
 	return <div>
 		<Head>

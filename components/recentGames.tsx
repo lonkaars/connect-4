@@ -28,18 +28,14 @@ function GameOutcome(props: { game: gameInfo; }) {
 			},
 		}[props.game.status]();
 	})();
-	var outcome = props.game.outcome;
-	return <td
-		style={{
-			color: outcome == 'w'
-				? 'var(--disk-b-text)'
-				: outcome == 'l'
-				? 'var(--disk-a-text)'
-				: 'var(--text)',
-			opacity: !['w', 'l'].includes(outcome) ? 0.75 : 1.0,
-		}}
-	>
-		{gameStatus}
+	return <td>
+		<span className={"outcome " + {
+					'w': 'win',
+					'l': 'lose',
+					'd': 'draw',
+				}[props.game.outcome]}>
+			{gameStatus}
+		</span>
 	</td>;
 }
 

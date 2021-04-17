@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CSSProperties, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { userGames, userGameTotals, userInfo } from '../api/api';
 import { Footer } from '../components/footer';
 import { SocketContext } from '../components/socketContext';
@@ -16,72 +16,14 @@ import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import { mdiRobotExcited } from '@mdi/js';
 import Icon from '@mdi/react';
 
-import styles from '../styles/index.module.css';
-
-var GameModeIconStyle: CSSProperties = {
-	fontSize: 64,
-	width: 64,
-	height: 64,
-	display: 'inline-block',
-	position: 'absolute',
-	top: 24,
-	left: '50%',
-	transform: 'translateX(-50%)',
-};
-
-var GameModeTextStyle: CSSProperties = {
-	whiteSpace: 'nowrap',
-	display: 'inline-block',
-	position: 'absolute',
-	bottom: 24,
-	left: '50%',
-	transform: 'translateX(-50%)',
-	userSelect: 'none',
-	fontWeight: 500,
-};
-
-var SquareSize: CSSProperties = {
-	width: 90,
-	height: 90,
-};
-
-var InnerLoginOrRegisterBoxStyle: CSSProperties = {
-	position: 'relative',
-	width: '100%',
-	height: '100%',
-};
-
 function LoginOrRegisterBox() {
-	return <div style={{ ...InnerLoginOrRegisterBoxStyle, textAlign: 'center' }}>
-		<span
-			style={{
-				userSelect: 'none',
-				display: 'inline-block',
-				position: 'absolute',
-				fontSize: 14,
-				left: 0,
-				right: 0,
-				top: 0,
-				margin: '0 auto',
-				minWidth: 240,
-				maxWidth: 350,
-			}}
-		>
-			Log in of maak een account aan om je scores op te slaan en toegang te krijgen tot meer functies
+	return <div className="inner">
+		<span className="registerMessage posabs h0 t0">
+			Log in of maak een account aan om toegang tot meer functies te krijgen
 		</span>
-		<div
-			style={{
-				display: 'grid',
-				gridGap: 24,
-				gridTemplateColumns: '1fr 1fr',
-				position: 'absolute',
-				left: 0,
-				right: 0,
-				bottom: 0,
-			}}
-		>
-			<Button href='/register' text='Registreren' style={{ backgroundColor: 'var(--background-alt)' }} />
-			<Button href='/login' text='Inloggen' />
+		<div className="sidebyside posabs h0 b0">
+			<Button href='/register' text='Registreren' className="register" />
+			<Button href='/login' text='Inloggen' className="login" />
 		</div>
 	</div>;
 }
@@ -90,44 +32,19 @@ function AccountBox(props: {
 	info: userInfo;
 	sumGameInfo: userGameTotals;
 }) {
-	return <div style={InnerLoginOrRegisterBoxStyle}>
-		<div
-			style={{
-				position: 'absolute',
-				top: 0,
-				left: 0,
-				...SquareSize,
-			}}
-		>
+	return <div className="inner profile">
+		<div className="picture posabs l0 t0">
 			<AccountAvatar size={90} />
 		</div>
-		<div
-			style={{
-				position: 'absolute',
-				top: 0,
-				left: 102,
-				width: 'calc(100% - 90px - 12px)',
-				height: '100%',
-			}}
-		>
-			<h2
-				style={{
-					maxWidth: 178,
-					fontSize: 20,
-					whiteSpace: 'nowrap',
-					overflow: 'hidden',
-					textOverflow: 'ellipsis',
-				}}
-			>
-				{props.info?.username}
-			</h2>
-			<p style={{ marginTop: 6 }}>Score: {props.info?.rating}</p>
-			<p style={{ position: 'absolute', bottom: 0, left: 0 }}>
-				<span style={{ color: 'var(--disk-b-text)' }}>{props.sumGameInfo?.win} W</span>
-				<span style={{ margin: '0 3px' }}>/</span>
-				<span style={{ color: 'var(--disk-a-text)' }}>{props.sumGameInfo?.lose} V</span>
-				<span style={{ margin: '0 3px' }}>/</span>
-				<span style={{ opacity: .75 }}>{props.sumGameInfo?.draw} G</span>
+		<div className="info posabs t0">
+			<h2 className="username truncate">{props.info?.username}</h2>
+			<p className="score">Score: {props.info?.rating}</p>
+			<p className="games posabs b0 l0">
+				<span className="outcome win">{props.sumGameInfo?.win} W</span>
+				<span className="divider">/</span>
+				<span className="outcome lose">{props.sumGameInfo?.lose} V</span>
+				<span className="divider">/</span>
+				<span className="outcome draw">{props.sumGameInfo?.draw} G</span>
 			</p>
 		</div>
 	</div>;
@@ -175,25 +92,22 @@ export default function HomePage() {
 		<NavBar />
 		<CenteredPage width={802}>
 			<PageTitle>4 op een rij</PageTitle>
-			<div>
-				<Vierkant href='/game'>
-					<VideogameAssetIcon style={GameModeIconStyle} />
-					<span style={GameModeTextStyle}>Nieuw spel</span>
-					<div style={SquareSize}></div>
+			<div className="topbar">
+				<Vierkant className="gamemode" href='/game'>
+					<VideogameAssetIcon className="icon" />
+					<span className="text">Nieuw spel</span>
 				</Vierkant>
 				{false
-					&& <Vierkant href='/'>
-						<ExtensionIcon style={GameModeIconStyle} />
-						<span style={GameModeTextStyle}>Puzzels</span>
-						<div style={SquareSize}></div>
+					&& <Vierkant className="gamemode" href='/'>
+						<ExtensionIcon className="icon" />
+						<span className="text">Puzzels</span>
 					</Vierkant>}
 				{false
-					&& <Vierkant href='/'>
-						<Icon path={mdiRobotExcited} style={GameModeIconStyle} />
-						<span style={GameModeTextStyle}>Tegen computer</span>
-						<div style={SquareSize}></div>
+					&& <Vierkant className="gamemode" href='/'>
+						<Icon path={mdiRobotExcited} className="icon" />
+						<span className="text">Tegen computer</span>
 					</Vierkant>}
-				<Vierkant className={styles.loginOrRegisterBox}>
+				<Vierkant className="loginOrRegisterBox">
 					{loggedIn
 						? <AccountBox info={userInfo} sumGameInfo={gameInfo?.totals} />
 						: <LoginOrRegisterBox />}

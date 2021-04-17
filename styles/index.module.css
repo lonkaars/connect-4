@@ -1,7 +1,0 @@
-.loginOrRegisterBox {
-	--squareSize: 90px;
-	vertical-align: top;
-	height: calc(var(--squareSize) + 2 * var(--spacing-large));
-	width: 100%;
-	max-width: calc(100% - var(--squareSize) - var(--spacing-medium) * 2 - var(--spacing-large) * 2);
-}

@@ -15,13 +15,38 @@
 .bg-800 { background-color: var(--gray-800); }
 .bg-900 { background-color: var(--gray-900); }
 
+.posabs { position: absolute; }
+.posrel { position: relative; }
+
+.t0 { top: 0; }
+.b0 { bottom: 0; }
+.r0 { right: 0; }
+.l0 { left: 0; }
+
+.h0 { left: 0; right: 0; }
+.v0 { top: 0; bottom: 0; }
+
+.a0 { top: 0; bottom: 0; left: 0; right: 0; }
+
 .subtile {
 	color: var(--gray-300);
 	font-style: italic;
 }
 
-/* no-select */
 .nosel {
 	user-select: none;
 	font-weight: 600;
 }
+
+.sidebyside {
+	display: grid;
+	grid-gap: var(--spacing-medium);
+	grid-auto-flow: column;
+}
+
+.truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+

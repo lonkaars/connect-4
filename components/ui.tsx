@@ -30,6 +30,7 @@ export function Button(props: {
 	children?: ReactNode;
 	style?: CSSProperties;
 	href?: string;
+	className?: string;
 	onclick?: (() => void);
 	id?: string;
 }) {
@@ -37,26 +38,10 @@ export function Button(props: {
 		onClick={props.onclick}
 		href={props.href}
 		id={props.id}
-		style={{
-			padding: props.text ? 8 : 16,
-			textAlign: props.text ? 'center' : 'left',
-			borderRadius: 8,
-			backgroundColor: 'var(--disk-a)',
-			cursor: 'pointer',
-			position: 'relative',
-			textDecoration: 'none',
-			display: 'block',
-			userSelect: 'none',
-			...props.style,
-		}}
+		className={"button pad-s round-t " + props.className}
 	>
 		{props.text
-			? <span
-				style={{
-					fontWeight: 600,
-					userSelect: 'none',
-				}}
-			>
+			? <span>
 				{props.text}
 			</span>
 			: undefined}
