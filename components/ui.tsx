@@ -105,7 +105,7 @@ export function Input(props: {
 		placeholder={props.label}
 		spellCheck={false}
 		defaultValue={props.value ? String(props.value) : ''}
-		className={"input" + " " + (props.dark ? 'dark' : 'light') + " " + props.className}
+		className={'input' + ' ' + (props.dark ? 'dark' : 'light') + ' ' + props.className}
 		autoComplete={props.autocomplete}
 		autoFocus={props.autofocus}
 	/>;

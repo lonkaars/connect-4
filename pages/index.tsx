@@ -114,10 +114,10 @@ export default function HomePage() {
 				</Vierkant>
 			</div>
 			{loggedIn
-				&& <Vierkant className="fullwidth pad-l">
+				&& <Vierkant className='fullwidth pad-l'>
 					<RecentGames games={gameInfo?.games} />
 				</Vierkant>}
-			<Vierkant className="fullwidth pad-l">
+			<Vierkant className='fullwidth pad-l'>
 				<h2>Nieuws ofzo</h2>
 				<p style={{ margin: '6px 0' }}>Chess.com heeft heel veel troep waar niemand naar kijkt</p>
 			</Vierkant>

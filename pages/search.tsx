@@ -24,21 +24,21 @@ function search(callback: (results: Array<userInfo>) => void) {
 }
 
 function SearchResults(props: { userList: Array<userInfo>; }) {
-	return <div className="results">
+	return <div className='results'>
 		{props.userList?.map(user => <SearchResult user={user} key={user.id} />)}
 	</div>;
 }
 
 function SearchResult(props: { user: userInfo; }) {
 	return <Vierkant
-		className="result pad-m fullwidth"
+		className='result pad-m fullwidth'
 		href={'/user?id=' + props.user.id}
 	>
-		<div className="inner posrel">
+		<div className='inner posrel'>
 			<AccountAvatar size={48} id={props.user.id} />
-			<div className="userInfo posabs v0 r0">
-				<b className="username">{props.user.username}</b>
-				<p className="status">{props.user.status}</p>
+			<div className='userInfo posabs v0 r0'>
+				<b className='username'>{props.user.username}</b>
+				<p className='status'>{props.user.status}</p>
 			</div>
 		</div>
 	</Vierkant>;
@@ -47,22 +47,22 @@ function SearchResult(props: { user: userInfo; }) {
 function SearchBar(props: {
 	searchFunction: (event?: FormEvent<HTMLFormElement>) => void;
 }) {
-	return <Vierkant className="pad-m fullwidth searchBar">
+	return <Vierkant className='pad-m fullwidth searchBar'>
 		<form onSubmit={props.searchFunction}>
 			<Input
 				id='searchBar'
 				label='Zoeken voor gebruikers...'
 				autocomplete='off'
 				autofocus
-				className="pad-m"
+				className='pad-m'
 			/>
 			<Button
-				className="pad-m dispinbl valigntop"
+				className='pad-m dispinbl valigntop'
 				onclick={props.searchFunction}
 			>
 				<SearchOutlinedIcon />
 			</Button>
-			<input type='submit' className="dispnone" />
+			<input type='submit' className='dispnone' />
 		</form>
 	</Vierkant>;
 }
@@ -83,7 +83,7 @@ export default function HomePage() {
 			<SearchBar searchFunction={getSearchResults} />
 			<SearchResults userList={results} />
 			{searched && results.length == 0 && <h1
-				className="noresults center subtile"
+				className='noresults center subtile'
 			>
 				Geen zoekresultaten gevonden
 			</h1>}
