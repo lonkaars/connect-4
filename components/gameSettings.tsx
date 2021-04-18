@@ -30,60 +30,24 @@ export function CurrentGameSettings() {
 			.catch(() => {});
 	}, []);
 
-	/* showEditGameRules = () => this.setState({ editGameRulesDialogVisible: true }); */
-	/* hideEditGameRules = () => this.setState({ editGameRulesDialogVisible: false }); */
-	/* setGameRules = (newRules: ruleset) => this.setState({ ruleset: newRules }); */
-
 	var timelimit_str = ruleset.timelimit.enabled
 		? `${ruleset.timelimit.minutes}m${ruleset.timelimit.seconds}s plus ${ruleset.timelimit.addmove}`
 		: 'Geen tijdslimiet';
 	var ranked_str = ruleset.ranked
 		? 'Gerangschikt'
 		: 'Niet gerangschikt';
-	return <div
-		style={{
-			position: 'relative',
-			height: 80,
-			overflow: 'visible',
-			zIndex: 1,
-		}}
-	>
-		<p
-			className='subtile nosel posabs'
-			style={{
-				top: '50%',
-				left: 0,
-				transform: 'translateY(-50%)',
-			}}
-		>
+	return <div className='editGameSettings posrel'>
+		<p className='currentRules subtile nosel posabs l0'>
 			{timelimit_str}
 			<br />
 			{ranked_str}
 		</p>
 		<Button
-			style={{
-				width: 150,
-				position: 'absolute',
-				top: '50%',
-				right: 0,
-				transform: 'translateY(-50%)',
-			}}
+			className='posabs r0 pad-m'
 			onclick={() => setEditGameRulesDialogVisible(true)}
 		>
-			<BuildOutlinedIcon style={{ fontSize: 48 }} />
-			<span
-				style={{
-					fontWeight: 600,
-					position: 'absolute',
-					right: 24,
-					top: '50%',
-					width: 85,
-					verticalAlign: 'middle',
-					textAlign: 'center',
-					transform: 'translateY(-50%)',
-					userSelect: 'none',
-				}}
-			>
+			<BuildOutlinedIcon className='icon' />
+			<span className='posabs center nosel text'>
 				Spelregels aanpassen
 			</span>
 		</Button>
@@ -105,13 +69,7 @@ function GameSettingsSection(props: {
 }) {
 	return <Vierkant
 		id={props.id}
-		style={{
-			backgroundColor: 'var(--background-alt)',
-			width: '100%',
-			padding: 16,
-			margin: 0,
-			marginBottom: props.noMarginBottom ? 0 : 24,
-		}}
+		className='pad-m editableRulesSection'
 	>
 		<span
 			style={{
@@ -166,28 +124,15 @@ export function EditGameSettings(props: editGameSettingsProps) {
 		title='Spelregels aanpassen'
 		hidden={!props.visible}
 		onclick={props.hideEditGameRules}
+		className='gameRuleEdit'
 	>
-		<div
-			style={{
-				marginTop: 24,
-				maxHeight: 500,
-				overflowY: 'scroll',
-				borderRadius: 8,
-			}}
-		>
+		<div className='editableRules round-t'>
 			<GameSettingsSection
 				title='Tijdslimiet'
 				state={props.ruleset.timelimit.enabled}
 				id='timelimit'
 			>
-				<div
-					style={{
-						display: 'grid',
-						gridTemplateColumns: '1fr 1fr 1fr',
-						gridGap: 16,
-						margin: '16px 0',
-					}}
-				>
+				<div className='sidebyside timeControls'>
 					<Input
 						id='timelimit_minutes'
 						type='number'
@@ -195,6 +140,7 @@ export function EditGameSettings(props: editGameSettingsProps) {
 						min={0}
 						max={60}
 						value={props.ruleset.timelimit.minutes}
+						className='pad-m round-t'
 					/>
 					<Input
 						id='timelimit_seconds'
@@ -203,6 +149,7 @@ export function EditGameSettings(props: editGameSettingsProps) {
 						min={0}
 						max={60}
 						value={props.ruleset.timelimit.seconds}
+						className='pad-m round-t'
 					/>
 					<Input
 						id='timelimit_addmove'
@@ -210,19 +157,20 @@ export function EditGameSettings(props: editGameSettingsProps) {
 						label='plus'
 						min={0}
 						value={props.ruleset.timelimit.addmove}
+						className='pad-m round-t'
 					/>
 				</div>
 				<CheckBox id='timelimit_shared' state={props.ruleset.timelimit.shared} />
 				<span
+					className='valignsup'
 					style={{
-						verticalAlign: 'super',
 						marginLeft: 4,
 					}}
 				>
 					Timer gebruiken voor bijde spelers
 				</span>
 			</GameSettingsSection>
-			{false && <GameSettingsSection title='Regelset' state={false}>
+			{false && <GameSettingsSection id='gamemodes' title='Regelset' state={false}>
 				<div
 					style={{
 						display: 'grid',
@@ -245,10 +193,7 @@ export function EditGameSettings(props: editGameSettingsProps) {
 			/>
 		</div>
 		<Button
-			style={{
-				textAlign: 'center',
-				marginTop: 24,
-			}}
+			className='save'
 			onclick={() => {
 				var rules: ruleset = {
 					timelimit: {

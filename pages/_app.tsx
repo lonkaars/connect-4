@@ -11,6 +11,7 @@ import '../styles/navbar.css';
 import '../styles/ui.css';
 import '../styles/utility.css';
 
+import '../styles/gameSettings.css';
 import '../styles/index.css';
 import '../styles/search.css';
 import '../styles/settings.css';

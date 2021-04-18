@@ -9,20 +9,15 @@ export function DialogBox(props: {
 	title: string;
 	onclick?: () => void;
 	hidden?: boolean;
+	className?: string;
 }) {
-	return <Vierkant className={'dialogbox drop-2 pad-l posfix abscenter ' + (props.hidden ? 'dispnone' : '')}>
-		<h2 style={{ marginBottom: 24 }}>{props.title}</h2>
+	return <Vierkant
+		className={'dialogbox drop-2 pad-l posfix abscenter ' + (props.hidden ? 'dispnone' : '') + ' '
+			+ props.className}
+	>
+		<h2 className='title'>{props.title}</h2>
 		<span onClick={props.onclick}>
-			<CancelIcon
-				style={{
-					position: 'absolute',
-					top: 25,
-					right: 25,
-					color: 'var(--text)',
-					opacity: .85,
-					cursor: 'pointer',
-				}}
-			/>
+			<CancelIcon className='posabs close icon subtile' />
 		</span>
 		{props.children}
 	</Vierkant>;

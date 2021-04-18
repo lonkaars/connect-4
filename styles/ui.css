@@ -70,3 +70,13 @@
 	width: 392px;
 }
 
+.dialogbox > .title {
+	margin-bottom: var(--spacing-large);
+}
+
+.dialogbox .icon.close {
+	top: 25px;
+	right: 25px;
+	cursor: pointer;
+}
+

@@ -1,0 +1,59 @@
+.editGameSettings {
+	height: 80px;
+	overflow: visible;
+	z-index: 1;
+}
+
+.editGameSettings .currentRules {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.editGameSettings > .button {
+	width: 150px;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: left;
+}
+
+.editGameSettings > .button .icon {
+	font-size: 48px;
+}
+
+.editGameSettings > .button .text {
+	right: var(--spacing-medium);
+	width: 85px;
+	top: 50%;
+	vertical-align: middle;
+	transform: translateY(-50%);
+}
+
+.editGameSettings .editableRules {
+	margin-top: var(--spacing-large);
+	max-height: 500px;
+	overflow-y: scroll;
+}
+
+.editGameSettings .editableRules .editableRulesSection {
+	width: 100%;
+	background-color: var(--gray-700);
+	margin: 0;
+	margin-bottom: var(--spacing-medium);
+}
+
+.editGameSettings .button {
+	line-height: normal;
+}
+
+.editGameSettings .editableRules .editableRulesSection .timeControls {
+	margin: var(--spacing-medium);
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.editGameSettings .editableRules .editableRulesSection .timeControls input {
+	background-color: var(--background);
+
+	width: calc(100% - 2 * var(--spacing-medium));
+}
+
