@@ -107,7 +107,7 @@ export default function HomePage() {
 						<Icon path={mdiRobotExcited} className='icon' />
 						<span className='text'>Tegen computer</span>
 					</Vierkant>}
-				<Vierkant className='loginOrRegisterBox pad-l'>
+				<Vierkant className='loginOrRegisterBox pad-l valigntop'>
 					{loggedIn
 						? <AccountBox info={userInfo} sumGameInfo={gameInfo?.totals} />
 						: <LoginOrRegisterBox />}

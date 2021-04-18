@@ -37,6 +37,8 @@
 
 .center { text-align: center; }
 
+.floatr { float: right; }
+
 .subtile {
 	color: var(--gray-600);
 	font-style: italic;

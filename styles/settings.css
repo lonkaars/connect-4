@@ -1,0 +1,8 @@
+.section.logout .button {
+	float: unset;
+}
+
+.subsection {
+	margin-top: var(--spacing-large);
+	min-height: 40px;
+}

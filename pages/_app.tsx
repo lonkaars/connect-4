@@ -13,6 +13,7 @@ import '../styles/utility.css';
 
 import '../styles/index.css';
 import '../styles/search.css';
+import '../styles/settings.css';
 
 export default function VierOpEenRijWebsite({ Component, pageProps }) {
 	return <div>

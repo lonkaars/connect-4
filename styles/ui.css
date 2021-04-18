@@ -19,3 +19,49 @@
 	font-weight: 600;
 }
 
+.button.iconlabel,
+.button.colorpicker {
+	margin-left: var(--spacing-medium);
+}
+
+.button.colorpicker {
+	--color: var(--gray-100);
+	--background: #ff00ff;
+
+	background-color: var(--background);
+	color: var(--color);
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--color);
+}
+
+.button.iconlabel .label {
+	margin: 3px;
+	margin-left: 8px;
+}
+
+.button.colorpicker .labelwrapper {
+	width: 150px;
+	height: 24px;
+}
+
+.button.colorpicker .labelwrapper .label {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-feature-settings: "tnum", "ss01";
+}
+
+.bubble {
+	margin: 0;
+	overflow: visible;
+	left: 50%;
+	top: -24px;
+	transform: translateY(-100%) translateX(-50%);
+}
+
+.bubble .tuitje {
+	bottom: -12px;
+	transform: translate(-50%, 0%) rotate(0deg);
+}
