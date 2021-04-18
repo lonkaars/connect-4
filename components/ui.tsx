@@ -12,14 +12,11 @@ export function Vierkant(props: {
 	children?: ReactNode;
 	className?: string;
 	id?: string;
-	fullwidth?: boolean;
 	onclick?: () => void;
 }) {
 	return <a
 		href={props.href}
-		className={['bg-800', 'round-l', 'pad-l', 'vierkant', props.className, props.fullwidth && 'fullwidth'].join(
-			' ',
-		)}
+		className={['bg-800', 'round-l', 'vierkant', props.className].join(' ')}
 		id={props.id}
 		onClick={props.onclick}
 	>
@@ -98,6 +95,7 @@ export function Input(props: {
 	dark?: boolean;
 	autocomplete?: string;
 	autofocus?: boolean;
+	className?: string;
 }) {
 	return <input
 		id={props.id}
@@ -107,20 +105,9 @@ export function Input(props: {
 		placeholder={props.label}
 		spellCheck={false}
 		defaultValue={props.value ? String(props.value) : ''}
-		className={props.dark ? 'dark' : 'light'}
+		className={"input" + " " + (props.dark ? 'dark' : 'light') + " " + props.className}
 		autoComplete={props.autocomplete}
 		autoFocus={props.autofocus}
-		style={{
-			padding: 12,
-			border: 0,
-			width: 'calc(100% - 24px)',
-			fontSize: 14,
-			backgroundColor: 'var(--page-background)',
-			color: 'var(--text-alt)',
-			borderRadius: 8,
-			fontFamily: 'Inter',
-			...props.style,
-		}}
 	/>;
 }
 

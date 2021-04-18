@@ -24,32 +24,21 @@ function search(callback: (results: Array<userInfo>) => void) {
 }
 
 function SearchResults(props: { userList: Array<userInfo>; }) {
-	return <div>
+	return <div className="results">
 		{props.userList?.map(user => <SearchResult user={user} key={user.id} />)}
 	</div>;
 }
 
 function SearchResult(props: { user: userInfo; }) {
 	return <Vierkant
-		style={{
-			padding: 12,
-		}}
-		fullwidth
+		className="result pad-m fullwidth"
 		href={'/user?id=' + props.user.id}
 	>
-		<div style={{ position: 'relative' }}>
+		<div className="inner posrel">
 			<AccountAvatar size={48} id={props.user.id} />
-			<div
-				style={{
-					position: 'absolute',
-					top: 0,
-					right: 0,
-					bottom: 0,
-					left: 48 + 12,
-				}}
-			>
-				<b>{props.user.username}</b>
-				<p>{props.user.status}</p>
+			<div className="userInfo posabs v0 r0">
+				<b className="username">{props.user.username}</b>
+				<p className="status">{props.user.status}</p>
 			</div>
 		</div>
 	</Vierkant>;
@@ -58,40 +47,22 @@ function SearchResult(props: { user: userInfo; }) {
 function SearchBar(props: {
 	searchFunction: (event?: FormEvent<HTMLFormElement>) => void;
 }) {
-	return <Vierkant
-		fullwidth
-		style={{
-			padding: 8,
-			marginBottom: 24,
-		}}
-	>
+	return <Vierkant className="pad-m fullwidth searchBar">
 		<form onSubmit={props.searchFunction}>
 			<Input
 				id='searchBar'
 				label='Zoeken voor gebruikers...'
 				autocomplete='off'
-				dark
 				autofocus
-				style={{
-					backgroundColor: 'var(--background)',
-					color: 'var(--text)',
-					padding: 14,
-					fontSize: 16,
-					width: 'calc(100% - 48px - 14px * 2)',
-				}}
+				className="pad-m"
 			/>
 			<Button
-				style={{
-					padding: 12,
-					float: 'right',
-					display: 'inline-block',
-					borderRadius: 4,
-				}}
+				className="pad-m dispinbl valigntop"
 				onclick={props.searchFunction}
 			>
 				<SearchOutlinedIcon />
 			</Button>
-			<input type='submit' style={{ display: 'none' }} />
+			<input type='submit' className="dispnone" />
 		</form>
 	</Vierkant>;
 }
@@ -112,12 +83,7 @@ export default function HomePage() {
 			<SearchBar searchFunction={getSearchResults} />
 			<SearchResults userList={results} />
 			{searched && results.length == 0 && <h1
-				style={{
-					opacity: .6,
-					color: 'var(--text)',
-					textAlign: 'center',
-					margin: '24px 32px',
-				}}
+				className="noresults center subtile"
 			>
 				Geen zoekresultaten gevonden
 			</h1>}

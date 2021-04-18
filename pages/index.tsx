@@ -107,17 +107,17 @@ export default function HomePage() {
 						<Icon path={mdiRobotExcited} className='icon' />
 						<span className='text'>Tegen computer</span>
 					</Vierkant>}
-				<Vierkant className='loginOrRegisterBox'>
+				<Vierkant className='loginOrRegisterBox pad-l'>
 					{loggedIn
 						? <AccountBox info={userInfo} sumGameInfo={gameInfo?.totals} />
 						: <LoginOrRegisterBox />}
 				</Vierkant>
 			</div>
 			{loggedIn
-				&& <Vierkant fullwidth>
+				&& <Vierkant className="fullwidth pad-l">
 					<RecentGames games={gameInfo?.games} />
 				</Vierkant>}
-			<Vierkant fullwidth>
+			<Vierkant className="fullwidth pad-l">
 				<h2>Nieuws ofzo</h2>
 				<p style={{ margin: '6px 0' }}>Chess.com heeft heel veel troep waar niemand naar kijkt</p>
 			</Vierkant>

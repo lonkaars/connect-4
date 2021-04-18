@@ -28,8 +28,17 @@
 
 .a0 { top: 0; bottom: 0; left: 0; right: 0; }
 
+.dispnone { display: none; }
+.dispinbl { display: inline-block; }
+.dispbl { display: block; }
+
+.valigntop { vertical-align: top; }
+.valignsup { vertical-align: super; }
+
+.center { text-align: center; }
+
 .subtile {
-	color: var(--gray-300);
+	color: var(--gray-600);
 	font-style: italic;
 }
 

@@ -116,14 +116,20 @@ h1, h2, h3, p, b, i, span, td, th {
 table { table-layout: fixed; }
 
 /* table styles */
-td, th {
-	padding: 4px;
-	font-size: 15px;
+td, th { padding: 4px; }
+
+input {
+	color: var(--foreground);
+	background-color: transparent;
+	font-family: inherit;
+	border: 0;
+	font-size: 1rem; /* why? */
 }
 
 input::placeholder {
 	font-style: italic;
-	opacity: .8;
+	opacity: 1;
+	color: var(--gray-600);
 }
 
 /* remove chrome's ugly :focus outline */
@@ -134,10 +140,6 @@ input::placeholder {
 
 /* material-ui default state */
 svg.MuiSvgIcon-root { transition: none !important; }
-
-input::placeholder { opacity: .75; }
-input.dark::placeholder { color: var(--text); }
-input.light::placeholder { color: var(--text-alt); }
 
 /* editable field status */
 *[contenteditable] { border-color: var(--background-alt); }

@@ -12,6 +12,7 @@ import '../styles/ui.css';
 import '../styles/utility.css';
 
 import '../styles/index.css';
+import '../styles/search.css';
 
 export default function VierOpEenRijWebsite({ Component, pageProps }) {
 	return <div>
