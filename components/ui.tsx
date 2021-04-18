@@ -57,12 +57,12 @@ export function IconLabelButton(props: {
 	return <Button
 		onclick={props.onclick}
 		href={props.href}
-		className={"iconlabel dispinbl valigntop floatr" + " " + props.className}
+		className={'iconlabel dispinbl valigntop floatr' + ' ' + props.className}
 	>
-		<div className="dispinbl icon">
+		<div className='dispinbl icon'>
 			{props.icon}
 		</div>
-		<span className="dispinbl valigntop label">
+		<span className='dispinbl valigntop label'>
 			{props.text}
 		</span>
 	</Button>;
@@ -171,14 +171,14 @@ export function CheckBox(props: {
 }
 
 export function ColorPicker() {
-	var [ dark, setDark ] = useState(false);
-	var [ color, setColor ] = useState("#012345");
+	var [dark, setDark] = useState(false);
+	var [color, setColor] = useState('#012345');
 
-	return <Button className="colorpicker dispinbl valigntop pad-s floatr">
+	return <Button className='colorpicker dispinbl valigntop pad-s floatr'>
 		<div>
 			<EditOutlinedIcon />
-			<div className="labelwrapper valigntop dispinbl center posrel">
-				<span className="label posabs">
+			<div className='labelwrapper valigntop dispinbl center posrel'>
+				<span className='label posabs'>
 					{color}
 				</span>
 			</div>
@@ -193,7 +193,7 @@ export function Tuitje() {
 		viewBox='0 0 36 12'
 		fill='none'
 		xmlns='http://www.w3.org/2000/svg'
-		className="tuitje posabs"
+		className='tuitje posabs'
 	>
 		<path
 			d='M18 12C24 12 27 0 36 0L0 0C9 0 12 12 18 12Z'
@@ -205,7 +205,7 @@ export function Tuitje() {
 export function Bubble(props: {
 	children?: ReactNode;
 }) {
-	return <Vierkant className="bubble posabs center drop-2">
+	return <Vierkant className='bubble posabs center drop-2'>
 		{props.children}
 		<Tuitje />
 	</Vierkant>;

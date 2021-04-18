@@ -48,9 +48,9 @@ export default function SettingsPage() {
 			<NavBar />
 			<CenteredPage width={802}>
 				<PageTitle>Instellingen</PageTitle>
-				<Vierkant className="section account fullwidth pad-l">
+				<Vierkant className='section account fullwidth pad-l'>
 					<h2>Account</h2>
-					<div className="subsection">
+					<div className='subsection'>
 						<AccountAvatar size={100} />
 						<label htmlFor='pfUpload'>
 							<IconLabelButton text='Nieuwe profielfoto uploaden' icon={<PublishOutlinedIcon />} />
@@ -59,7 +59,7 @@ export default function SettingsPage() {
 							type='file'
 							id='pfUpload'
 							accept='.png,.jpg,.jpeg'
-							className="dispnone"
+							className='dispnone'
 							onChange={event => {
 								var file = event.target.files[0];
 								if (!file) return;
@@ -70,45 +70,45 @@ export default function SettingsPage() {
 							}}
 						/>
 					</div>
-					<div className="subsection">
+					<div className='subsection'>
 						<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
-						<div className="dispbl">
+						<div className='dispbl'>
 							<h3>Gebruikersnaam</h3>
 							<p>Hier staat hij dan</p>
 						</div>
 					</div>
-					<div className="subsection">
+					<div className='subsection'>
 						<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
 						<IconLabelButton text='Onthullen' icon={<VisibilityOutlinedIcon />} />
-						<div className="dispbl">
+						<div className='dispbl'>
 							<h3>Email</h3>
 							<p>******@example.com</p>
 						</div>
 					</div>
-					<div className="subsection">
+					<div className='subsection'>
 						<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
-						<div className="dispbl">
+						<div className='dispbl'>
 							<h3>Wachtwoord</h3>
 						</div>
 					</div>
 				</Vierkant>
-				<Vierkant className="section colors fullwidth pad-l">
+				<Vierkant className='section colors fullwidth pad-l'>
 					<h2>Kleuren</h2>
-					<div className="subsection">
+					<div className='subsection'>
 						<ColorPicker />
 						<ColorPicker />
-						<div className="dispbl">
+						<div className='dispbl'>
 							<h3>Schijfjes</h3>
 						</div>
 					</div>
-					<div className="subsection">
+					<div className='subsection'>
 						<ColorPicker />
-						<div className="dispbl">
+						<div className='dispbl'>
 							<h3>Achtergrond</h3>
 						</div>
 					</div>
-					<div className="subsection">
-						<div className="floatr">
+					<div className='subsection'>
+						<div className='floatr'>
 							<CheckBox
 								state={preferences?.darkMode}
 								onclick={state => updatePreference({ 'darkMode': state })}
@@ -117,20 +117,20 @@ export default function SettingsPage() {
 						<h3>Donkere modus</h3>
 					</div>
 				</Vierkant>
-				<Vierkant className="section gamerules fullwidth pad-l">
+				<Vierkant className='section gamerules fullwidth pad-l'>
 					<h2>Standaard spelregels</h2>
-					<div className="subsection">
+					<div className='subsection'>
 						<CurrentGameSettings />
 					</div>
 				</Vierkant>
-				<Vierkant className="section logout fullwidth pad-l">
+				<Vierkant className='section logout fullwidth pad-l'>
 					<h2>Uitloggen</h2>
-					<div className="center">
+					<div className='center'>
 						<IconLabelButton
-							className="dispinbl"
+							className='dispinbl'
 							icon={<ExitToAppOutlinedIcon />}
 							text='Uitloggen'
-							href="/logout"
+							href='/logout'
 						/>
 					</div>
 				</Vierkant>
