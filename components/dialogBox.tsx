@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { Vierkant } from './ui';
 
@@ -7,20 +7,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 export function DialogBox(props: {
 	children: ReactNode;
 	title: string;
-	style?: CSSProperties;
 	onclick?: () => void;
+	hidden?: boolean;
 }) {
-	return <Vierkant
-		style={{
-			position: 'fixed',
-			top: '50%',
-			left: '50%',
-			transform: 'translate(-50%, -50%)',
-			boxShadow: '0 8px 32px -5px #0007',
-			width: 392,
-			...props.style,
-		}}
-	>
+	return <Vierkant className={'dialogbox drop-2 pad-l posfix abscenter ' + (props.hidden ? 'dispnone' : '')}>
 		<h2 style={{ marginBottom: 24 }}>{props.title}</h2>
 		<span onClick={props.onclick}>
 			<CancelIcon

@@ -17,6 +17,7 @@
 
 .posabs { position: absolute; }
 .posrel { position: relative; }
+.posfix { position: fixed; }
 
 .t0 { top: 0; }
 .b0 { bottom: 0; }
@@ -59,5 +60,11 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.abscenter {
+	top: 51%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
