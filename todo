@@ -1,0 +1,27 @@
+pages:
+
+- 404
+- maintenance
+- /logout
+- privacy info
+
+unimplemented:
+
+- view friend/blocked/request list
+- 
+
+website fixes:
+
+- unaccessible when not logged in:
+	- /user/* pages
+	- /settings
+- unaccessible when logged in:
+	- /register
+	- /login
+
+security measures:
+
+- repeated login prevention
+- api rate limiting
+- write unit tests
+
