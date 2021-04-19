@@ -24,7 +24,7 @@ function search(callback: (results: Array<userInfo>) => void) {
 }
 
 function SearchResults(props: { userList: Array<userInfo>; }) {
-	return <div className='results'>
+	return <div className='results w100m2m'>
 		{props.userList?.map(user => <SearchResult user={user} key={user.id} />)}
 	</div>;
 }
@@ -47,7 +47,7 @@ function SearchResult(props: { user: userInfo; }) {
 function SearchBar(props: {
 	searchFunction: (event?: FormEvent<HTMLFormElement>) => void;
 }) {
-	return <Vierkant className='pad-m fullwidth searchBar'>
+	return <Vierkant className='pad-m w100m2m searchBar'>
 		<form onSubmit={props.searchFunction}>
 			<Input
 				id='searchBar'

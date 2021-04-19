@@ -1,0 +1,13 @@
+.centeredForm {
+	top: 50%;
+	transform: translateY(-50%);
+	margin: 0 auto;
+}
+
+.centeredForm .input {
+	margin-bottom: var(--spacing-medium);
+}
+
+.centeredForm .input:nth-last-of-type(2) {
+	margin-bottom: var(--spacing-large);
+}

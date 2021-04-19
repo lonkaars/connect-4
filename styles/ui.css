@@ -5,8 +5,6 @@
 	box-sizing: border-box;
 }
 
-.fullwidth { width: calc(100% - var(--spacing-medium)); }
-
 .button {
 	background-color: var(--accent);
 	color: var(--gray-900);

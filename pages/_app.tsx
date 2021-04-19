@@ -13,6 +13,7 @@ import '../styles/utility.css';
 
 import '../styles/gameSettings.css';
 import '../styles/index.css';
+import '../styles/loginregister.css';
 import '../styles/search.css';
 import '../styles/settings.css';
 
