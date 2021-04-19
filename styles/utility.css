@@ -18,6 +18,10 @@
 .fg-100 { color: var(--gray-100); }
 .fg-900 { color: var(--gray-900); }
 
+.outcome.win { color: var(--disk-a-alt); }
+.outcome.lose { color: var(--disk-b-alt); }
+.outcome.draw { color: var(--gray-600); }
+
 .posabs { position: absolute; }
 .posrel { position: relative; }
 .posfix { position: fixed; }

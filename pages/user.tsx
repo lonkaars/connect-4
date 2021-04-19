@@ -1,6 +1,6 @@
 import Icon from '@mdi/react';
 import axios from 'axios';
-import { Children, ReactNode, useContext, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 
 import { userGames, userInfo } from '../api/api';
 import { AccountAvatar } from '../components/account';
@@ -35,58 +35,16 @@ function InfoModule(props: {
 	label: string;
 	icon: ReactNode;
 }) {
-	return <div
-		style={{
-			position: 'relative',
-			height: '100%',
-		}}
-	>
-		<div
-			style={{
-				position: 'absolute',
-				left: '50%',
-				transform: 'translateX(-50%)',
-			}}
-		>
+	return <div className='infoModule posrel'>
+		<div className='iconWrapper posabs'>
 			{props.icon}
 		</div>
-		<div
-			style={{
-				position: 'absolute',
-				top: 24 + 6,
-				left: 0,
-				right: 0,
-				bottom: 0,
-			}}
-		>
-			<span
-				style={{
-					position: 'absolute',
-					top: '50%',
-					transform: 'translateY(-50%)',
-					width: '100%',
-					textAlign: 'center',
-				}}
-			>
+		<div className='labelWrapper posabs h0 b0'>
+			<span className='label posabs center fullwidth'>
 				{props.label}
 			</span>
 		</div>
 	</div>;
-}
-
-function InfoSection(props: { children: ReactNode; }) {
-	return <Vierkant fullwidth>
-		<div
-			style={{
-				display: 'grid',
-				gridTemplateColumns: `repeat(${Children.count(props.children)}, 1fr)`,
-				gridGap: 12,
-				height: 64,
-			}}
-		>
-			{props.children}
-		</div>
-	</Vierkant>;
 }
 
 export default function AccountPage() {
@@ -167,226 +125,222 @@ export default function AccountPage() {
 		<NavBar />
 		<CenteredPage width={802}>
 			<PageTitle>Profiel</PageTitle>
-			<Vierkant fullwidth>
-				<AccountAvatar size={128} id={user?.id || ''} />
-				<div
-					style={{
-						display: 'inline-block',
-						verticalAlign: 'top',
-						marginLeft: 12,
-						width: 'calc(100% - 128px - 12px)',
-					}}
-				>
-					<h2 style={{ fontSize: 32 }}>{user?.username}</h2>
-					<p
-						id='status'
-						contentEditable={editingStatus ? 'true' : 'false'}
-						style={{
-							marginTop: 6,
-							transitionDuration: '.3s',
-						}}
-						suppressContentEditableWarning={true}
-					>
-						{user?.status}
-					</p>
-				</div>
-				<div
-					style={{
-						position: 'absolute',
-						backgroundColor: 'var(--background)',
-						height: '40px',
-						bottom: 24,
-						left: 24 + 12 + 128,
-						right: 24,
-					}}
-				>
-					{loggedIn && <div>
-						{ownPage
-							? <div>
-								<IconLabelButton icon={<SettingsOutlinedIcon />} href='/settings' text='Instellingen' />
-								{!editingStatus
-									? <IconLabelButton
-										icon={<EditOutlinedIcon />}
-										text='Status bewerken'
-										onclick={() => setEditingStatus(true)}
+			<Vierkant className='accountHeader w100m2m pad-l'>
+				<div className='inner posrel'>
+					<AccountAvatar size={128} id={user?.id || ''} />
+					<div className='userInfo dispinbl valigntop'>
+						<h2 className='username'>{user?.username}</h2>
+						<p
+							id='status'
+							className='status round-t'
+							contentEditable={editingStatus ? 'true' : 'false'}
+							suppressContentEditableWarning={true}
+						>
+							{user?.status}
+						</p>
+					</div>
+					<div className='posabs b0 r0'>
+						{loggedIn && <div>
+							{ownPage
+								? <div>
+									<IconLabelButton
+										icon={<SettingsOutlinedIcon />}
+										href='/settings'
+										text='Instellingen'
 									/>
-									: <IconLabelButton
-										icon={<DoneOutlinedIcon />}
-										text='Status opslaan'
-										onclick={() => {
-											setEditingStatus(false);
-											axios.request({
-												method: 'post',
-												url: `/api/user/status`,
-												headers: { 'content-type': 'application/json' },
-												data: { 'status': document.getElementById('status').innerText },
-											});
-										}}
-									/>}
-							</div>
-							: <div>
-								{(() => {
-									var icon = {
-										'blocked': <Icon size={1} path={mdiAccountCancelOutline} />,
-									}[relation] || <Icon size={1} path={mdiAccountCancelOutline} />;
+									{!editingStatus
+										? <IconLabelButton
+											icon={<EditOutlinedIcon />}
+											text='Status bewerken'
+											onclick={() => setEditingStatus(true)}
+										/>
+										: <IconLabelButton
+											icon={<DoneOutlinedIcon />}
+											text='Status opslaan'
+											onclick={() => {
+												setEditingStatus(false);
+												axios.request({
+													method: 'post',
+													url: `/api/user/status`,
+													headers: { 'content-type': 'application/json' },
+													data: { 'status': document.getElementById('status').innerText },
+												});
+											}}
+										/>}
+								</div>
+								: <div>
+									{(() => {
+										var icon = {
+											'blocked': <Icon size={1} path={mdiAccountCancelOutline} />,
+										}[relation] || <Icon size={1} path={mdiAccountCancelOutline} />;
 
-									var text = {
-										'blocked': 'Deblokkeren',
-									}[relation] || 'Blokkeren';
+										var text = {
+											'blocked': 'Deblokkeren',
+										}[relation] || 'Blokkeren';
 
-									return <IconLabelButton
-										icon={icon}
-										text={text}
-										onclick={() => {
-											var nextRelation = {
-												'blocked': {
-													'endpoint': '/api/social/unblock',
-													'action': `${user.username} gedeblokkeerd`,
-													'relation': 'none',
+										return <IconLabelButton
+											icon={icon}
+											text={text}
+											onclick={() => {
+												var nextRelation = {
+													'blocked': {
+														'endpoint': '/api/social/unblock',
+														'action': `${user.username} gedeblokkeerd`,
+														'relation': 'none',
+														'icon': <Icon size={1} path={mdiAccountCancelOutline} />,
+													},
+												}[relation] || {
+													'endpoint': '/api/social/block',
+													'action': `${user.username} geblokkeerd`,
+													'relation': 'blocked',
 													'icon': <Icon size={1} path={mdiAccountCancelOutline} />,
-												},
-											}[relation] || {
-												'endpoint': '/api/social/block',
-												'action': `${user.username} geblokkeerd`,
-												'relation': 'blocked',
-												'icon': <Icon size={1} path={mdiAccountCancelOutline} />,
-											};
+												};
 
-											axios.request({
-												method: 'post',
-												url: nextRelation.endpoint,
-												headers: { 'content-type': 'application/json' },
-												data: { 'id': user?.id },
-											})
-												.then(() => {
-													toast({
-														message: nextRelation.action,
-														type: 'confirmation',
-														icon: nextRelation.icon,
+												axios.request({
+													method: 'post',
+													url: nextRelation.endpoint,
+													headers: { 'content-type': 'application/json' },
+													data: { 'id': user?.id },
+												})
+													.then(() => {
+														toast({
+															message: nextRelation.action,
+															type: 'confirmation',
+															icon: nextRelation.icon,
+														});
+														setRelation(nextRelation.relation);
 													});
-													setRelation(nextRelation.relation);
-												});
-										}}
-									/>;
-								})()}
-								{(() => {
-									var icon = {
-										'friends': <Icon size={1} path={mdiAccountMinusOutline} />,
-										'outgoing': <Icon size={1} path={mdiAccountRemoveOutline} />,
-										'incoming': <PersonAddOutlinedIcon />,
-									}[relation] || <PersonAddOutlinedIcon />;
+											}}
+										/>;
+									})()}
+									{(() => {
+										var icon = {
+											'friends': <Icon size={1} path={mdiAccountMinusOutline} />,
+											'outgoing': <Icon size={1} path={mdiAccountRemoveOutline} />,
+											'incoming': <PersonAddOutlinedIcon />,
+										}[relation] || <PersonAddOutlinedIcon />;
 
-									var text = {
-										'friends': 'Vriend verwijderen',
-										'outgoing': 'Vriendschapsverzoek annuleren',
-										'incoming': 'Vriendschapsverzoek accepteren',
-									}[relation] || 'Vriendschapsverzoek sturen';
+										var text = {
+											'friends': 'Vriend verwijderen',
+											'outgoing': 'Vriendschapsverzoek annuleren',
+											'incoming': 'Vriendschapsverzoek accepteren',
+										}[relation] || 'Vriendschapsverzoek sturen';
 
-									return <IconLabelButton
-										icon={icon}
-										text={text}
-										onclick={() => {
-											var nextRelation = {
-												'friends': {
-													'endpoint': '/api/social/remove',
-													'action': `${user.username} succesvol verwijderd als vriend`,
-													'relation': 'none',
-													'icon': <Icon size={1} path={mdiAccountMinusOutline} />,
-												},
-												'outgoing': {
-													'endpoint': '/api/social/remove',
-													'action': `Vriendschapsverzoek naar ${user.username} geannuleerd`,
-													'relation': 'none',
-													'icon': <Icon size={1} path={mdiAccountMinusOutline} />,
-												},
-												'incoming': {
-													'endpoint': '/api/social/accept',
-													'action': `Vriendschapsverzoek van ${user.username} geaccepteerd`,
-													'relation': 'friends',
+										return <IconLabelButton
+											icon={icon}
+											text={text}
+											onclick={() => {
+												var nextRelation = {
+													'friends': {
+														'endpoint': '/api/social/remove',
+														'action': `${user.username} succesvol verwijderd als vriend`,
+														'relation': 'none',
+														'icon': <Icon size={1} path={mdiAccountMinusOutline} />,
+													},
+													'outgoing': {
+														'endpoint': '/api/social/remove',
+														'action':
+															`Vriendschapsverzoek naar ${user.username} geannuleerd`,
+														'relation': 'none',
+														'icon': <Icon size={1} path={mdiAccountMinusOutline} />,
+													},
+													'incoming': {
+														'endpoint': '/api/social/accept',
+														'action':
+															`Vriendschapsverzoek van ${user.username} geaccepteerd`,
+														'relation': 'friends',
+														'icon': <PersonAddOutlinedIcon />,
+													},
+												}[relation] || {
+													'endpoint': '/api/social/request',
+													'action': `Vriendschapsverzoek gestuurd naar ${user.username}`,
+													'relation': 'outgoing',
 													'icon': <PersonAddOutlinedIcon />,
-												},
-											}[relation] || {
-												'endpoint': '/api/social/request',
-												'action': `Vriendschapsverzoek gestuurd naar ${user.username}`,
-												'relation': 'outgoing',
-												'icon': <PersonAddOutlinedIcon />,
-											};
+												};
 
-											axios.request({
-												method: 'post',
-												url: nextRelation.endpoint,
-												headers: { 'content-type': 'application/json' },
-												data: { 'id': user?.id },
-											})
-												.then(() => {
-													toast({
-														message: nextRelation.action,
-														type: 'confirmation',
-														icon: nextRelation.icon,
+												axios.request({
+													method: 'post',
+													url: nextRelation.endpoint,
+													headers: { 'content-type': 'application/json' },
+													data: { 'id': user?.id },
+												})
+													.then(() => {
+														toast({
+															message: nextRelation.action,
+															type: 'confirmation',
+															icon: nextRelation.icon,
+														});
+														setRelation(nextRelation.relation);
 													});
-													setRelation(nextRelation.relation);
-												});
-										}}
-									/>;
-								})()}
-							</div>}
-					</div>}
+											}}
+										/>;
+									})()}
+								</div>}
+						</div>}
+					</div>
 				</div>
 			</Vierkant>
-			<InfoSection>
-				<InfoModule
-					icon={<Icon size={1} path={mdiCheckboxBlankCircle} color='var(--disk-b-text)' />}
-					label='Online'
-				/>
-				<InfoModule
-					icon={<AssignmentIndOutlinedIcon />}
-					label={(() => {
-						var memberSince = 'Lid sinds';
+			<Vierkant className='infosection pad-l w100m2m'>
+				<div className='inner sidebyside'>
+					<InfoModule
+						icon={<Icon size={1} path={mdiCheckboxBlankCircle} className='outcome win' />}
+						label='Online'
+					/>
+					<InfoModule
+						icon={<AssignmentIndOutlinedIcon />}
+						label={(() => {
+							var memberSince = 'Lid sinds';
 
-						var registered = new Date(user?.registered);
-						memberSince += ' ' + registered.toLocaleString('nl-nl', { month: 'long', day: 'numeric' });
+							var registered = new Date(user?.registered);
+							memberSince += ' ' + registered.toLocaleString('nl-nl', { month: 'long', day: 'numeric' });
 
-						var currentYear = new Date().getFullYear();
-						var memberYear = registered.getFullYear();
-						if (currentYear != memberYear) memberSince += ' ' + memberYear;
+							var currentYear = new Date().getFullYear();
+							var memberYear = registered.getFullYear();
+							if (currentYear != memberYear) memberSince += ' ' + memberYear;
 
-						return memberSince;
-					})()}
-				/>
-				<InfoModule
-					icon={<PeopleOutlineOutlinedIcon />}
-					label={(() => {
-						var label = user?.friends.toString() + ' ';
-						label += user?.friends == 1 ? 'vriend' : 'vrienden';
-						return label;
-					})()}
-				/>
-				<InfoModule icon={<Icon size={1} path={mdiEarth} />} label='Nederland' />
-			</InfoSection>
-			<InfoSection>
-				<InfoModule
-					icon={<ArrowUpwardOutlinedIcon style={{ color: 'var(--disk-b-text)' }} />}
-					label={gameInfo?.totals.win + ' keer gewonnen'}
-				/>
-				<InfoModule
-					icon={<Icon size={1} path={mdiEqual} />}
-					label={gameInfo?.totals.draw + ' keer gelijkspel'}
-				/>
-				<InfoModule
-					icon={<ArrowDownwardOutlinedIcon style={{ color: 'var(--disk-a-text)' }} />}
-					label={gameInfo?.totals.lose + ' keer verloren'}
-				/>
-				<InfoModule icon={<Icon size={1} path={mdiClipboardTextOutline} />} label={'Score: ' + user?.rating} />
-				<InfoModule
-					icon={<Icon size={1} path={mdiGamepadSquareOutline} />}
-					label={(() => {
-						var label = gameInfo?.totals.games.toString() + ' ';
-						label += gameInfo?.totals.games == 1 ? 'potje' : 'potjes';
-						return label;
-					})()}
-				/>
-			</InfoSection>
-			<Vierkant>
+							return memberSince;
+						})()}
+					/>
+					<InfoModule
+						icon={<PeopleOutlineOutlinedIcon />}
+						label={(() => {
+							var label = user?.friends.toString() + ' ';
+							label += user?.friends == 1 ? 'vriend' : 'vrienden';
+							return label;
+						})()}
+					/>
+					<InfoModule icon={<Icon size={1} path={mdiEarth} />} label='Nederland' />
+				</div>
+			</Vierkant>
+			<Vierkant className='infosection pad-l w100m2m sidebyside'>
+				<div className='inner sidebyside'>
+					<InfoModule
+						icon={<ArrowUpwardOutlinedIcon className='outcome win' />}
+						label={gameInfo?.totals.win + ' keer gewonnen'}
+					/>
+					<InfoModule
+						icon={<Icon size={1} path={mdiEqual} className='subtile' />}
+						label={gameInfo?.totals.draw + ' keer gelijkspel'}
+					/>
+					<InfoModule
+						icon={<ArrowDownwardOutlinedIcon className='outcome lose' />}
+						label={gameInfo?.totals.lose + ' keer verloren'}
+					/>
+					<InfoModule
+						icon={<Icon size={1} path={mdiClipboardTextOutline} />}
+						label={'Score: ' + user?.rating}
+					/>
+					<InfoModule
+						icon={<Icon size={1} path={mdiGamepadSquareOutline} />}
+						label={(() => {
+							var label = gameInfo?.totals.games.toString() + ' ';
+							label += gameInfo?.totals.games == 1 ? 'potje' : 'potjes';
+							return label;
+						})()}
+					/>
+				</div>
+			</Vierkant>
+			<Vierkant className='pad-l'>
 				<RecentGames games={gameInfo?.games} />
 			</Vierkant>
 		</CenteredPage>

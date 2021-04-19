@@ -16,6 +16,7 @@ import '../styles/index.css';
 import '../styles/loginregister.css';
 import '../styles/search.css';
 import '../styles/settings.css';
+import '../styles/user.css';
 
 export default function VierOpEenRijWebsite({ Component, pageProps }) {
 	return <div>

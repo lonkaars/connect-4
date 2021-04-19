@@ -141,19 +141,3 @@ input::placeholder {
 /* material-ui default state */
 svg.MuiSvgIcon-root { transition: none !important; }
 
-/* editable field status */
-*[contenteditable] { border-color: var(--background-alt); }
-*[contenteditable="true"]:focus { border-color: var(--disk-a); }
-*[contenteditable="true"] {
-	background-color: var(--page-background);
-	color: var(--text-alt);
-	padding: 6px;
-	border-radius: 6px;
-	border-style: solid;
-	border-width: 2px;
-}
-
-.outcome.win { color: var(--disk-a-alt); }
-.outcome.lose { color: var(--disk-b-alt); }
-.outcome.draw { color: var(--gray-600); }
-
