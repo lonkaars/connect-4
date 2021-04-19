@@ -5,10 +5,16 @@ pages:
 - /logout
 - privacy info
 
+
+
 unimplemented:
 
 - view friend/blocked/request list
-- 
+- game stuff:
+	- rulesets
+	- timer / time limit
+
+
 
 website fixes:
 
@@ -19,9 +25,19 @@ website fixes:
 	- /register
 	- /login
 
+
+
+backend fixes:
+
+- don't include unrated games in rating.py
+
+
+
 security measures:
 
 - repeated login prevention
 - api rate limiting
 - write unit tests
+- bind tokens to ip adress (csrf)
+
 
