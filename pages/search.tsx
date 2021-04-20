@@ -31,7 +31,7 @@ function SearchResults(props: { userList: Array<userInfo>; }) {
 
 function SearchResult(props: { user: userInfo; }) {
 	return <Vierkant
-		className='result pad-m fullwidth'
+		className='result bg-800 pad-m fullwidth'
 		href={'/user?id=' + props.user.id}
 	>
 		<div className='inner posrel'>

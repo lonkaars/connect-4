@@ -5,6 +5,7 @@
 	box-sizing: border-box;
 }
 
+html.dark .button { color: var(--foreground); }
 .button {
 	background-color: var(--accent);
 	color: var(--gray-900);
@@ -64,19 +65,15 @@
 	transform: translate(-50%, 0%) rotate(0deg);
 }
 
-.dialogbox {
-	width: 392px;
-}
-
-.dialogbox > .title {
-	margin-bottom: var(--spacing-large);
-}
-
+.dialogbox { width: 392px; }
+.dialogbox > .title { margin-bottom: var(--spacing-large); }
 .dialogbox .icon.close {
 	top: 25px;
 	right: 25px;
 	cursor: pointer;
 }
+
+html.dark .dialogbox { background-color: var(--gray-700); }
 
 .searchBar {
 	overflow: hidden;

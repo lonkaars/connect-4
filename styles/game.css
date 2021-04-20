@@ -7,55 +7,35 @@
 	padding: var(--spacing-medium) var(--spacing-large);
 }
 
-.newGameDialog .inviteButton {
-	height: 160px;
-}
+.newGameDialog .inviteButton { height: 160px; }
 
-.newGameDialog .inviteButton.random {
-	background-color: var(--confirm);
-}
+.newGameDialog .inviteButton.random { background-color: var(--confirm); }
 
-.newGameDialog .inviteButton.link {
-	background-color: var(--error);
-}
+.newGameDialog .inviteButton.link { background-color: var(--error); }
 
 .newGameDialog .inviteButton .icon {
 	top: var(--spacing-medium);
 	font-size: 100px;
 }
 
-.newGameDialog .inviteButton .label {
-	bottom: var(--spacing-medium);
-}
+.newGameDialog .inviteButton .label { bottom: var(--spacing-medium); }
 
-.newGameDialog > div {
-	margin-top: var(--spacing-large);
-}
+.newGameDialog > div { margin-top: var(--spacing-large); }
 
-.voerBord {
-	border-spacing: var(--spacing-small);
-}
+.voerBord { border-spacing: var(--spacing-small); }
 
-.voerBord .cell.inner {
-	border: 2px solid var(--gray-800);
-}
+.voerBord .cell.inner { border: 2px solid var(--gray-800); }
 
-.voerBord .square {
-	margin-top: 100%;
-}
+.voerBord .square { margin-top: 100%; }
 
-.voerBord.active .cell.inner {
-	cursor: pointer;
-}
+.voerBord.active .cell.inner { cursor: pointer; }
 
 .voerBord .disk {
 	border-radius: 999999999px;
 	margin: 3px;
 }
 
-.gameBar .gameBarButton {
-	margin: 0;
-}
+.gameBar .gameBarButton { margin: 0; }
 
 .gameBar .move {
 	width: 32px;
@@ -72,4 +52,9 @@
 	max-width: 100vh;
 	margin: 0 auto;
 }
+
+html.dark .newGameDialog .inviteButton { background-color: var(--gray-800); }
+html.dark .newGameDialog .inviteButton.random .icon { color: var(--confirm); }
+html.dark .newGameDialog .inviteButton.link .icon { color: var(--error); }
+html.dark .newGameDialog .searchBar .input { background-color: var(--gray-800); }
 

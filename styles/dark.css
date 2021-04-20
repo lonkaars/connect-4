@@ -1,9 +1,19 @@
 html.dark {
-    --text: #FCFFFD;
-    --text-alt: var(--text);
+	--background: var(--gray-900);
+	--foreground: #FFFFF3;
 
-    --page-background: #11171a;
-    --background: #222d33;
-    --background-alt: #344047;
+	--accent: #AD34F3;
+
+	--error: #FF4365;
+	--disk-b-alt: #F49BA1;
+
+	--confirm: #00D9C0;
+	--disk-a-alt: #86F3F3;
+
+	--gray-100: #CED2DC;
+	--gray-200: #A9AFC0;
+	--gray-300: #757D92;
+	--gray-700: #293140;
+	--gray-800: #1F242D;
+	--gray-900: #141619;
 }
-
