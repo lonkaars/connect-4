@@ -16,7 +16,7 @@ export function Vierkant(props: {
 }) {
 	return <a
 		href={props.href}
-		className={['bg-800', 'round-l', 'vierkant', props.className].join(' ')}
+		className={['round-l', 'vierkant', props.className].join(' ')}
 		id={props.id}
 		onClick={props.onclick}
 	>

@@ -93,31 +93,31 @@ export default function HomePage() {
 		<CenteredPage width={802}>
 			<PageTitle>4 op een rij</PageTitle>
 			<div className='topbar'>
-				<Vierkant className='gamemode' href='/game'>
+				<Vierkant className='gamemode bg-800' href='/game'>
 					<VideogameAssetIcon className='icon' />
 					<span className='text'>Nieuw spel</span>
 				</Vierkant>
 				{false
-					&& <Vierkant className='gamemode' href='/'>
+					&& <Vierkant className='gamemode bg-800' href='/'>
 						<ExtensionIcon className='icon' />
 						<span className='text'>Puzzels</span>
 					</Vierkant>}
 				{false
-					&& <Vierkant className='gamemode' href='/'>
+					&& <Vierkant className='gamemode bg-800' href='/'>
 						<Icon path={mdiRobotExcited} className='icon' />
 						<span className='text'>Tegen computer</span>
 					</Vierkant>}
-				<Vierkant className='loginOrRegisterBox pad-l valigntop'>
+				<Vierkant className='loginOrRegisterBox pad-l valigntop bg-800'>
 					{loggedIn
 						? <AccountBox info={userInfo} sumGameInfo={gameInfo?.totals} />
 						: <LoginOrRegisterBox />}
 				</Vierkant>
 			</div>
 			{loggedIn
-				&& <Vierkant className='fullwidth pad-l'>
+				&& <Vierkant className='w100m2m pad-l bg-800'>
 					<RecentGames games={gameInfo?.games} />
 				</Vierkant>}
-			<Vierkant className='w100m2m pad-l'>
+			<Vierkant className='w100m2m pad-l bg-800'>
 				<h2>Nieuws ofzo</h2>
 				<p style={{ margin: '6px 0' }}>Chess.com heeft heel veel troep waar niemand naar kijkt</p>
 			</Vierkant>

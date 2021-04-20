@@ -48,7 +48,7 @@ export default function SettingsPage() {
 			<NavBar />
 			<CenteredPage width={802}>
 				<PageTitle>Instellingen</PageTitle>
-				<Vierkant className='section account w100m2m pad-l'>
+				<Vierkant className='section account w100m2m pad-l bg-800'>
 					<h2>Account</h2>
 					<div className='subsection'>
 						<AccountAvatar size={100} />
@@ -92,7 +92,7 @@ export default function SettingsPage() {
 						</div>
 					</div>
 				</Vierkant>
-				<Vierkant className='section colors w100m2m pad-l'>
+				<Vierkant className='section colors w100m2m pad-l bg-800'>
 					<h2>Kleuren</h2>
 					<div className='subsection'>
 						<ColorPicker />
@@ -117,13 +117,13 @@ export default function SettingsPage() {
 						<h3>Donkere modus</h3>
 					</div>
 				</Vierkant>
-				<Vierkant className='section gamerules w100m2m pad-l'>
+				<Vierkant className='section gamerules w100m2m pad-l bg-800'>
 					<h2>Standaard spelregels</h2>
 					<div className='subsection'>
 						<CurrentGameSettings />
 					</div>
 				</Vierkant>
-				<Vierkant className='section logout w100m2m pad-l'>
+				<Vierkant className='section logout w100m2m pad-l bg-800'>
 					<h2>Uitloggen</h2>
 					<div className='center'>
 						<IconLabelButton

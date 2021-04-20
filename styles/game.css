@@ -32,3 +32,39 @@
 	margin-top: var(--spacing-large);
 }
 
+.voerBord {
+	border-spacing: var(--spacing-small);
+}
+
+.voerBord .cell.inner {
+	border: 2px solid var(--gray-800);
+}
+
+.voerBord .square {
+	margin-top: 100%;
+}
+
+.voerBord.active .cell.inner {
+	cursor: pointer;
+}
+
+.voerBord .disk {
+	border-radius: 999999999px;
+	margin: 3px;
+}
+
+.gameBar .gameBarButton {
+	margin: 0;
+}
+
+.gameBar .move {
+	width: 32px;
+	height: 32px;
+	border-radius: 16px;
+
+	margin: 8px;
+}
+
+.gameBar .move.move-a { background-color: var(--error); }
+.gameBar .move.move-b { background-color: var(--confirm); }
+

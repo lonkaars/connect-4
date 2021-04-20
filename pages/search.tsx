@@ -47,7 +47,7 @@ function SearchResult(props: { user: userInfo; }) {
 function BigSearchBar(props: {
 	searchFunction: (event?: FormEvent<HTMLFormElement>) => void;
 }) {
-	return <Vierkant className='pad-m w100m2m bigSearchBar posrel'>
+	return <Vierkant className='pad-m bg-800 w100m2m bigSearchBar posrel'>
 		<form onSubmit={props.searchFunction}>
 			<Input
 				id='bigSearchBar'

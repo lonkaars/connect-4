@@ -43,6 +43,9 @@
 .valigntop { vertical-align: top; }
 .valignsup { vertical-align: super; }
 
+.cpointer { cursor: pointer; }
+.cdefault { cursor: default; }
+
 .center { text-align: center; }
 
 .floatr { float: right; }

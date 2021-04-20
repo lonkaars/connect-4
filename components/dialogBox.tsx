@@ -12,7 +12,7 @@ export function DialogBox(props: {
 	className?: string;
 }) {
 	return <Vierkant
-		className={'dialogbox drop-2 pad-l posfix abscenter ' + (props.hidden ? 'dispnone' : '') + ' '
+		className={'dialogbox bg-800 drop-2 pad-l posfix abscenter ' + (props.hidden ? 'dispnone' : '') + ' '
 			+ props.className}
 	>
 		<h2 className='title'>{props.title}</h2>

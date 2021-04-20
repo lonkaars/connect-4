@@ -50,7 +50,7 @@ export default function LoginPage() {
 			<NavBar />
 			<CenteredPage width={500} style={{ height: '100vh' }}>
 				<div className='posrel center centeredForm'>
-					<Vierkant className='pad-l'>
+					<Vierkant className='pad-l bg-800'>
 						<form onSubmit={(e) => submitLogin(e, toast)}>
 							<Input
 								autofocus

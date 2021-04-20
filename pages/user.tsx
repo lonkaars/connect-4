@@ -125,7 +125,7 @@ export default function AccountPage() {
 		<NavBar />
 		<CenteredPage width={802}>
 			<PageTitle>Profiel</PageTitle>
-			<Vierkant className='accountHeader w100m2m pad-l'>
+			<Vierkant className='accountHeader w100m2m pad-l bg-800'>
 				<div className='inner posrel'>
 					<AccountAvatar size={128} id={user?.id || ''} />
 					<div className='userInfo dispinbl valigntop'>
@@ -280,7 +280,7 @@ export default function AccountPage() {
 					</div>
 				</div>
 			</Vierkant>
-			<Vierkant className='infosection pad-l w100m2m'>
+			<Vierkant className='infosection pad-l w100m2m bg-800'>
 				<div className='inner sidebyside'>
 					<InfoModule
 						icon={<Icon size={1} path={mdiCheckboxBlankCircle} className='outcome win' />}
@@ -312,7 +312,7 @@ export default function AccountPage() {
 					<InfoModule icon={<Icon size={1} path={mdiEarth} />} label='Nederland' />
 				</div>
 			</Vierkant>
-			<Vierkant className='infosection pad-l w100m2m sidebyside'>
+			<Vierkant className='infosection pad-l w100m2m sidebyside bg-800'>
 				<div className='inner sidebyside'>
 					<InfoModule
 						icon={<ArrowUpwardOutlinedIcon className='outcome win' />}
@@ -340,7 +340,7 @@ export default function AccountPage() {
 					/>
 				</div>
 			</Vierkant>
-			<Vierkant className='pad-l'>
+			<Vierkant className='pad-l bg-800'>
 				<RecentGames games={gameInfo?.games} />
 			</Vierkant>
 		</CenteredPage>

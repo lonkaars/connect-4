@@ -1,7 +1,7 @@
 import Icon from '@mdi/react';
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
-import { CSSProperties, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import * as cookies from 'react-cookies';
 import { Socket } from 'socket.io-client';
 import { SocketContext } from '../components/socketContext';

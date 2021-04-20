@@ -90,7 +90,7 @@ export default function RegisterPage() {
 			<NavBar />
 			<CenteredPage width={500} style={{ height: '100vh' }}>
 				<div className='posrel center centeredForm'>
-					<Vierkant className='pad-l'>
+					<Vierkant className='pad-l bg-800'>
 						<form onSubmit={(e) => submitRegister(e, toast)}>
 							<Input
 								autofocus

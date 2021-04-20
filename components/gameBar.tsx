@@ -11,14 +11,7 @@ function GameBarModule(props: {
 	onclick?: () => void;
 }) {
 	return <Vierkant
-		style={{
-			backgroundColor: 'var(--background-alt)',
-			padding: 12,
-			borderRadius: 6,
-			margin: 0,
-			verticalAlign: 'top',
-			cursor: props.onclick ? 'pointer' : 'default',
-		}}
+		className={'gameBarButton bg-700 pad-m round-t valigntop ' + (props.onclick ? 'cpointer' : '')}
 		onclick={props.onclick}
 	>
 		{props.children}
@@ -37,33 +30,13 @@ export function GameBar(props: {
 	active: boolean;
 	resignFunction: () => void;
 }) {
-	return <Vierkant
-		className='gameBar'
-		style={{
-			padding: 8,
-			width: 'calc(100% - 12px)',
-		}}
-	>
-		<div style={{ gridAutoColumns: 'auto' }}>
+	return <Vierkant className='gameBar bg-800 w100m2m pad-s'>
+		<div>
 			<div style={{ ...GameBarAlignStyle, float: 'left' }}>
-				<div
-					style={{
-						width: 32,
-						height: 32,
-						margin: 8,
-						backgroundColor: props.turn ? 'var(--disk-b)' : 'var(--disk-a)',
-						borderRadius: 16,
-						display: 'inline-block',
-					}}
-				/>
-				<h2
-					style={{
-						fontSize: 20,
-						margin: 12,
-						verticalAlign: 'top',
-						display: 'inline-block',
-					}}
-				>
+				{props.active && <div
+					className={'move dispinbl ' + (props.turn ? 'move-a' : 'move-b')}
+				/>}
+				<h2 className='pad-m valigntop dispinbl'>
 					{!props.active
 						? 'Wachten op tegenstander...'
 						: props.turn == props.player1
