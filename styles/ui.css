@@ -78,3 +78,17 @@
 	cursor: pointer;
 }
 
+.searchBar {
+	overflow: hidden;
+}
+
+.searchBar .button {
+	border-radius: 0;
+	padding: 10px;
+}
+
+.searchBar .input {
+	width: calc(100% - 44px);
+	box-sizing: border-box;
+}
+

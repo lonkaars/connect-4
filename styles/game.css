@@ -1,0 +1,34 @@
+.outcomeDialog .inner > * {
+	margin-top: var(--spacing-medium);
+}
+
+.outcomeDialog .inner .button {
+	float: unset;
+	padding: var(--spacing-medium) var(--spacing-large);
+}
+
+.newGameDialog .inviteButton {
+	height: 160px;
+}
+
+.newGameDialog .inviteButton.random {
+	background-color: var(--confirm);
+}
+
+.newGameDialog .inviteButton.link {
+	background-color: var(--error);
+}
+
+.newGameDialog .inviteButton .icon {
+	top: var(--spacing-medium);
+	font-size: 100px;
+}
+
+.newGameDialog .inviteButton .label {
+	bottom: var(--spacing-medium);
+}
+
+.newGameDialog > div {
+	margin-top: var(--spacing-large);
+}
+

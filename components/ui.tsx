@@ -96,41 +96,14 @@ export function Input(props: {
 }
 
 export function SearchBar(props: { label?: string; }) {
-	return <div
-		style={{
-			marginTop: 24,
-			borderRadius: 8,
-			overflow: 'hidden',
-			width: '100%',
-		}}
-	>
+	return <div className='searchBar round-t fullwidth'>
 		<Input
 			label={props.label}
-			style={{
-				width: 'calc(100% - 24px - 41px)',
-				borderTopRightRadius: 0,
-				borderBottomRightRadius: 0,
-			}}
+			className='pad-m bg-700'
 		/>
-		<div
-			style={{
-				width: 41,
-				height: 41,
-				backgroundColor: 'var(--disk-a)',
-				display: 'inline-block',
-				verticalAlign: 'top',
-				position: 'relative',
-			}}
-		>
-			<SearchIcon
-				style={{
-					position: 'absolute',
-					top: '50%',
-					left: '50%',
-					transform: 'translate(-50%, -50%)',
-				}}
-			/>
-		</div>
+		<Button className='dispinbl valigntop'>
+			<SearchIcon className='icon' />
+		</Button>
 	</div>;
 }
 

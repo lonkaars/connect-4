@@ -1,6 +1,5 @@
-.searchBar input {
+.bigSearchBar .input {
 	width: calc(100% - 2 * var(--spacing-medium) - 48px);
-	margin: 2px 0;
 }
 
 .results .result .inner .userInfo {

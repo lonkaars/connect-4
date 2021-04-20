@@ -66,10 +66,8 @@ function VoerGame(props: {
 	}, []);
 
 	return <div
+		className='posrel abscenterv'
 		style={{
-			position: 'relative',
-			top: '50%',
-			transform: 'translateY(-50%)',
 			maxWidth: '100vh',
 			margin: '0 auto',
 		}}
@@ -109,30 +107,22 @@ function GameOutcomeDialog(props: {
 }) {
 	return <DialogBox
 		title='Speluitkomst'
-		style={{ display: props.visible ? 'inline-block' : 'none' }}
+		hidden={!props.visible}
+		className='outcomeDialog'
 		onclick={() => {
 			window.history.replaceState(null, null, '/');
 			window.location.reload();
 		}}
 	>
-		<div
-			style={{
-				width: '100%',
-				textAlign: 'center',
-			}}
-		>
+		<div className='inner fullwidth center'>
 			<h2
-				style={{
-					color: props.outcome == 0
-						? 'var(--text)'
-						: props.outcome == props.player
-						? 'var(--disk-a-text)'
-						: props.outcome != props.player
-						? 'var(--disk-b-text)'
-						: 'var(--text)',
-					opacity: props.outcome == 0 ? .75 : 1,
-					marginTop: 8,
-				}}
+				className={'outcome' + ' ' + (props.outcome == 0
+					? 'draw'
+					: props.outcome == props.player
+					? 'lose'
+					: props.outcome != props.player
+					? 'win'
+					: 'draw')}
 			>
 				{props.outcome == 0
 					? 'Gelijkspel'
@@ -142,7 +132,7 @@ function GameOutcomeDialog(props: {
 					? 'Gewonnen'
 					: '???'}
 			</h2>
-			{false && <p style={{ marginTop: 24 }}>
+			{false && <p className='analysis'>
 				0 Gemiste winstzetten<br />
 				6 Optimale zetten<br />
 				0 Blunders
@@ -150,41 +140,10 @@ function GameOutcomeDialog(props: {
 			{false && <IconLabelButton
 				text='Opnieuw spelen'
 				icon={<RefreshIcon />}
-				style={{
-					float: 'none',
-					marginTop: 24,
-					padding: '12px 32px',
-				}}
 			/>}
 		</div>
 	</DialogBox>;
 }
-
-var InviteButtonStyle: CSSProperties = {
-	backgroundColor: 'var(--page-background)',
-	height: 160,
-	padding: 12,
-};
-
-var InviteButtonIconStyle: CSSProperties = {
-	fontSize: 100,
-	position: 'absolute',
-	top: 12,
-	left: '50%',
-	transform: 'translateX(-50%)',
-};
-
-var InviteButtonLabelStyle: CSSProperties = {
-	position: 'absolute',
-	bottom: 12,
-	left: '50%',
-	transform: 'translateX(-50%)',
-	textAlign: 'center',
-	color: 'var(--text-alt)',
-	width: 136,
-	fontSize: 20,
-	userSelect: 'none',
-};
 
 export default function GamePage() {
 	var [gameID, setGameID] = useState('');
@@ -226,7 +185,7 @@ export default function GamePage() {
 
 	return <div>
 		<NavBar />
-		<CenteredPage width={900} style={{ height: '100vh' }}>
+		<CenteredPage width={900} className='h100vh'>
 			<VoerGame
 				active={active}
 				gameID={gameID}
@@ -236,22 +195,16 @@ export default function GamePage() {
 			/>
 			<DialogBox
 				title='Nieuw spel'
-				style={{ display: gameIDUrl || gameID ? 'none' : 'inline-block' }}
+				className='newGameDialog'
+				hidden={!!(gameIDUrl || gameID)}
 				onclick={() => {
 					window.history.go(-1);
 				}}
 			>
 				<CurrentGameSettings />
-				<div
-					style={{
-						marginTop: 24,
-						display: 'grid',
-						gridTemplateColumns: '1fr 1fr',
-						gridGap: 24,
-					}}
-				>
+				<div className='sidebyside gg-l'>
 					<Button
-						style={InviteButtonStyle}
+						className='inviteButton random pad-m'
 						onclick={() => {
 							axios.request<{ id: string; player_1: boolean; game_started: boolean; }>({
 								url: '/api/game/random',
@@ -266,16 +219,11 @@ export default function GamePage() {
 								.catch(() => {});
 						}}
 					>
-						<WifiTetheringRoundedIcon
-							style={{
-								color: 'var(--disk-b)',
-								...InviteButtonIconStyle,
-							}}
-						/>
-						<h2 style={InviteButtonLabelStyle}>Willekeurige speler</h2>
+						<WifiTetheringRoundedIcon className='icon posabs abscenterh' />
+						<h2 className='label center posabs abscenterh nosel'>Willekeurige speler</h2>
 					</Button>
 					<Button
-						style={InviteButtonStyle}
+						className='inviteButton link pad-m'
 						onclick={() => {
 							axios.request<{ id: string; }>({
 								method: 'post',
@@ -300,13 +248,8 @@ export default function GamePage() {
 								.catch(() => {});
 						}}
 					>
-						<LinkRoundedIcon
-							style={{
-								color: 'var(--disk-a)',
-								...InviteButtonIconStyle,
-							}}
-						/>
-						<h2 style={InviteButtonLabelStyle}>Uitnodigen via link</h2>
+						<LinkRoundedIcon className='icon posabs abscenterh' />
+						<h2 className='label center posabs abscenterh nosel'>Uitnodigen via link</h2>
 					</Button>
 				</div>
 				<SearchBar label='Zoeken in vriendenlijst' />

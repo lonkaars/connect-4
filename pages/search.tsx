@@ -10,7 +10,7 @@ import { Button, Input, Vierkant } from '../components/ui';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 
 function search(callback: (results: Array<userInfo>) => void) {
-	var query: string = (document.getElementById('searchBar') as HTMLInputElement).value;
+	var query: string = (document.getElementById('bigSearchBar') as HTMLInputElement).value;
 	if (query.length < 3) return;
 
 	axios.request<{ 'results': Array<userInfo>; }>({
@@ -44,20 +44,20 @@ function SearchResult(props: { user: userInfo; }) {
 	</Vierkant>;
 }
 
-function SearchBar(props: {
+function BigSearchBar(props: {
 	searchFunction: (event?: FormEvent<HTMLFormElement>) => void;
 }) {
-	return <Vierkant className='pad-m w100m2m searchBar'>
+	return <Vierkant className='pad-m w100m2m bigSearchBar posrel'>
 		<form onSubmit={props.searchFunction}>
 			<Input
-				id='searchBar'
+				id='bigSearchBar'
 				label='Zoeken voor gebruikers...'
 				autocomplete='off'
 				autofocus
-				className='pad-m'
+				className='pad-m posabs abscenterv'
 			/>
 			<Button
-				className='pad-m dispinbl valigntop'
+				className='pad-m dispinbl valigntop floatr'
 				onclick={props.searchFunction}
 			>
 				<SearchOutlinedIcon />
@@ -80,7 +80,7 @@ export default function HomePage() {
 		<NavBar />
 		<CenteredPage width={802}>
 			<PageTitle>Zoeken</PageTitle>
-			<SearchBar searchFunction={getSearchResults} />
+			<BigSearchBar searchFunction={getSearchResults} />
 			<SearchResults userList={results} />
 			{searched && results.length == 0 && <h1
 				className='noresults center subtile'

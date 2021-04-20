@@ -49,6 +49,9 @@
 
 .w100m2m { width: calc(100% - var(--spacing-medium)); }
 
+.w100vw { width: 100vw; }
+.h100vh { height: 100vh; }
+
 .fullwidth {
 	width: 100%;
 	box-sizing: border-box;
@@ -64,6 +67,7 @@
 	font-weight: 600;
 }
 
+.gg-l { grid-gap: var(--spacing-large) !important; }
 .sidebyside {
 	display: grid;
 	grid-gap: var(--spacing-medium);
@@ -76,8 +80,18 @@
 	text-overflow: ellipsis;
 }
 
+.abscenterh {
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.abscenterv {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
 .abscenter {
-	top: 51%;
+	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
