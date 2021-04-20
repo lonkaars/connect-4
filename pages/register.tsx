@@ -88,7 +88,7 @@ export default function RegisterPage() {
 	return (
 		<div>
 			<NavBar />
-			<CenteredPage width={500} style={{ height: '100vh' }}>
+			<CenteredPage width={500} className="h100vh">
 				<div className='posrel center centeredForm'>
 					<Vierkant className='pad-l bg-800'>
 						<form onSubmit={(e) => submitRegister(e, toast)}>

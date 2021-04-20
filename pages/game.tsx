@@ -65,13 +65,7 @@ function VoerGame(props: {
 		});
 	}, []);
 
-	return <div
-		className='posrel abscenterv'
-		style={{
-			maxWidth: '100vh',
-			margin: '0 auto',
-		}}
-	>
+	return <div className='voerGame posrel abscenterv'>
 		<VoerBord
 			width={width}
 			height={height}

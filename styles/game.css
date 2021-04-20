@@ -68,3 +68,8 @@
 .gameBar .move.move-a { background-color: var(--error); }
 .gameBar .move.move-b { background-color: var(--confirm); }
 
+.voerGame {
+	max-width: 100vh;
+	margin: 0 auto;
+}
+
