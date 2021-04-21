@@ -35,7 +35,7 @@ export function NotificationsArea(props: {
 		setPreviousMessages(messages);
 	});
 
-	return props.visible && <Bubble className='notificationsArea bg-700 pad-l'>
+	return props.visible && <Bubble className='notificationsArea bg-800 pad-l'>
 		<h2 className='title'>Meldingen</h2>
 		<div className='inner round-t'>
 			{props.gameInvites?.map(game => <GameInvite hide={props.rerender} game={game} />)}
@@ -55,7 +55,7 @@ function Acceptable(props: {
 	onAccept?: () => void;
 	onDeny?: () => void;
 }) {
-	return <Vierkant className='acceptable bg-800 round-t pad-m fullwidth'>
+	return <Vierkant className='acceptable bg-700 round-t pad-m fullwidth'>
 		<div className='posrel'>
 			{props.children}
 			<div className='sidebyside buttons'>

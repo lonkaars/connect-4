@@ -8,6 +8,9 @@ a.notificationsArea {
 	height: 450px;
 }
 
+html.dark a.notificationsArea { background-color: var(--gray-700); }
+html.dark .notificationsArea .acceptable { background-color: var(--gray-800); }
+
 a.notificationsArea .tuitje {
 	left: var(--spacing-medium);
 	bottom: 86px;
