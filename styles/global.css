@@ -1,38 +1,3 @@
-:root {
-	--background: var(--gray-900);
-	--foreground: var(--gray-100);
-
-	--accent: #7E3AA6;
-
-	--error: #A63A4D;
-	--disk-b-alt: #582D35;
-
-	--confirm: #3AA699;
-	--disk-a-alt: #244743;
-
-	/* shade */
-	--gray-100: #141619;
-	--gray-200: #1F242D;
-	--gray-300: #293140;
-	--gray-600: #757D92;
-	--gray-700: #A9AFC0;
-	--gray-800: #CED2DC;
-	--gray-900: #E3E6EE;
-
-	/* box-shadow */
-	--drop-level-2: 0px 8px 32px 0px  rgba(0, 0, 0, 0.3);
-	--drop-level-1: 0px 8px 12px -4px rgba(0, 0, 0, 0.15);
-
-	/* border-radius */
-	--tight-corner: 6px;
-	--loose-corner: 8px;
-
-	/* margin/padding */
-	--spacing-small:  6px;
-	--spacing-medium: 12px;
-	--spacing-large:  24px;
-}
-
 /* default margin */
 html, body {
 	margin: 0;

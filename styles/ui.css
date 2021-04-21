@@ -65,7 +65,10 @@ html.dark .button { color: var(--foreground); }
 	transform: translate(-50%, 0%) rotate(0deg);
 }
 
-.dialogbox { width: 392px; }
+.dialogbox {
+	width: 392px;
+	margin: 0;
+}
 .dialogbox > .title { margin-bottom: var(--spacing-large); }
 .dialogbox .icon.close {
 	top: 25px;

@@ -3,7 +3,6 @@ import { PreferencesContextWrapper } from '../components/preferencesContext';
 import { SocketContextWrapper } from '../components/socketContext';
 import { ToastContextWrapper } from '../components/toast';
 
-import '../styles/dark.css';
 import '../styles/disk.css';
 import '../styles/footer.css';
 import '../styles/global.css';
@@ -28,6 +27,7 @@ export default function VierOpEenRijWebsite({ Component, pageProps }) {
 			<title>4 op een rij</title>
 
 			<link rel='stylesheet' href='/font/stylesheet.css' />
+			<link rel='stylesheet' id='theme' href='/themes/default.css' />
 
 			<link rel='icon' href='/favicon.svg' type='image/svg+xml' />
 			<link rel='icon' href='/favicon.png' type='image/png' />

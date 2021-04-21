@@ -1,0 +1,87 @@
+:root {
+	--background: var(--gray-900);
+	--foreground: var(--gray-900);
+
+	--accent: var(--error);
+
+	--error: #E16D82;
+	--disk-b-alt: #FDC0C4;
+
+	--confirm: #71D9CC;
+	--disk-a-alt: #C0FDEB;
+
+	/* shade */
+    --gray-100: #11171a;
+    --gray-200: #222d33;
+    --gray-300: #344047;
+	--gray-400: #11171a88;
+
+	--gray-600: #fcfffdaa;
+	--gray-700: #81949E;
+	--gray-800: #5d737e;
+
+	--gray-900: #fcfffd;
+
+	/* box-shadow */
+	--drop-level-2: 0px 8px 32px 0px  rgba(0, 0, 0, 0.3);
+	--drop-level-1: 0px 8px 12px -4px rgba(0, 0, 0, 0.15);
+
+	/* border-radius */
+	--tight-corner: 8px;
+	--loose-corner: 8px;
+
+	/* margin/padding */
+	--spacing-small:  6px;
+	--spacing-medium: 12px;
+	--spacing-large:  24px;
+}
+
+html:not(.dark) .pageTitle,
+html:not(.dark) .footer {
+	color: var(--gray-800) !important;
+}
+
+html:not(.dark) .footer svg circle.circle { stroke: var(--gray-800); }
+
+html:not(.dark) .searchBar .input {
+	background-color: var(--gray-900) !important;
+	color: var(--gray-800);
+}
+
+html:not(.dark) .searchBar .input::placeholder { color: var(--gray-400); }
+
+.newGameDialog .inviteButton {
+	background-color: var(--gray-900) !important;
+	color: var(--gray-800);
+}
+
+.newGameDialog .inviteButton.random .icon { color: var(--confirm); }
+.newGameDialog .inviteButton.link .icon { color: var(--error); }
+
+table.voerBord .cell.inner {
+	border-color: var(--gray-700);
+	opacity: .5;
+}
+
+html:not(.dark) *[contenteditable="true"] {
+	color: var(--gray-800) !important;
+}
+
+html.dark {
+	--background: var(--gray-100) !important;
+	--foreground: var(--gray-900) !important;
+
+    --gray-800: #222d33 !important;
+    --gray-700: #344047 !important;
+}
+
+html.dark .newGameDialog .inviteButton,
+html.dark .searchBar .input
+{ background-color: var(--gray-100) !important; }
+
+html.dark .dialogbox { background-color: var(--gray-800) !important; }
+
+html.dark .newGameDialog .inviteFromFriendsList .inviteableFriend,
+html.dark .gameRuleEdit .editableRulesSection
+{ background-color: var(--gray-700) !important; }
+
