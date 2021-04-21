@@ -1,14 +1,16 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 	<style>
-	.red { fill: #E16D82; }
-	.green { fill: #71D9CC; }
+	.red { fill: #A63A4D; }
+	.green { fill: #3AA699; }
 	.outline {
-		stroke: #5D737E;
+		stroke: #141619;
 		stroke-width: 2px;
 	}
 
 	@media (prefers-color-scheme: dark) {
 		.outline { stroke: #FCFFFD; }
+		.red { fill: #FF4365; }
+		.green { fill: #00D9C0; }
 	}
 	</style>
 	<circle class="green" cx="6.5" cy="6.5" r="4.5"/>
