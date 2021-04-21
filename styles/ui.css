@@ -108,3 +108,11 @@ html.dark .dialogbox { background-color: var(--gray-700); }
 	margin-bottom: 64px;
 }
 
+.accountAvatar {
+	background-size: cover;
+}
+
+.accountAvatar.round {
+	border-radius: 9999999px;
+}
+

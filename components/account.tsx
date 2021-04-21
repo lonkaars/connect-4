@@ -19,14 +19,12 @@ export function AccountAvatar(props: {
 	if (props.dummy) image = dummy;
 
 	return <div
+		className={'accountAvatar dispinbl ' + (props.round ? 'round' : '')}
 		style={{
 			width: props.size,
 			height: props.size,
 			backgroundColor: props.fallbackFill || 'var(--background)',
 			backgroundImage: `url(${image})`,
-			backgroundSize: 'cover',
-			display: 'inline-block',
-			borderRadius: props.size / 2 * Number(props.round || 0),
 		}}
 	/>;
 }
