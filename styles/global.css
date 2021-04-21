@@ -1,15 +1,36 @@
-html {
-	--text: #FCFFFD;
-	--page-background: var(--text);
+:root {
+	--background: var(--gray-900);
+	--foreground: var(--gray-100);
 
-	--background: #5D737E;
-	--text-alt: var(--background);
-	--background-alt: #81949E;
+	--accent: #7E3AA6;
 
-	--disk-a: #E16D82;
-	--disk-a-text: #FDC0C4;
-	--disk-b: #71D9CC;
-	--disk-b-text: #C0FDEB;
+	--error: #A63A4D;
+	--disk-b-alt: #582D35;
+
+	--confirm: #3AA699;
+	--disk-a-alt: #244743;
+
+	/* shade */
+	--gray-100: #141619;
+	--gray-200: #1F242D;
+	--gray-300: #293140;
+	--gray-600: #757D92;
+	--gray-700: #A9AFC0;
+	--gray-800: #CED2DC;
+	--gray-900: #E3E6EE;
+
+	/* box-shadow */
+	--drop-level-2: 0px 8px 32px 0px  rgba(0, 0, 0, 0.3);
+	--drop-level-1: 0px 8px 12px -4px rgba(0, 0, 0, 0.15);
+
+	/* border-radius */
+	--tight-corner: 6px;
+	--loose-corner: 8px;
+
+	/* margin/padding */
+	--spacing-small:  6px;
+	--spacing-medium: 12px;
+	--spacing-large:  24px;
 }
 
 /* default margin */
@@ -17,6 +38,9 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
+
+/* section font size */
+h1 { font-size: 25px; }
 
 /* subsection font size */
 h2 { font-size: 20px; }
@@ -27,17 +51,17 @@ h3 {
 	padding-bottom: 6px;
 }
 
-/* global font zize */
-p, b, i, span, td, th { font-size: 15px; }
-
 /* navbar fix */
 body { padding-left: 48px; }
 
 /* font */
-html { font-family: "Inter"; }
+html { font-family: "Inter", sans-serif; }
 
-/* background color */
-html, body { background-color: var(--page-background); }
+/* color */
+:root, html, body {
+	background-color: var(--background);
+	color: var(--foreground);
+}
 
 /* link fix */
 a {
@@ -59,14 +83,20 @@ h1, h2, h3, p, b, i, span, td, th {
 table { table-layout: fixed; }
 
 /* table styles */
-td, th {
-	padding: 4px;
-	font-size: 15px;
+td, th { padding: 4px; }
+
+input {
+	color: var(--foreground);
+	background-color: transparent;
+	font-family: inherit;
+	border: 0;
+	font-size: 1rem; /* why? */
 }
 
 input::placeholder {
 	font-style: italic;
-	opacity: .8;
+	opacity: 1;
+	color: var(--gray-600);
 }
 
 /* remove chrome's ugly :focus outline */
@@ -77,20 +107,4 @@ input::placeholder {
 
 /* material-ui default state */
 svg.MuiSvgIcon-root { transition: none !important; }
-
-input::placeholder { opacity: .75; }
-input.dark::placeholder { color: var(--text); }
-input.light::placeholder { color: var(--text-alt); }
-
-/* editable field status */
-*[contenteditable] { border-color: var(--background-alt); }
-*[contenteditable="true"]:focus { border-color: var(--disk-a); }
-*[contenteditable="true"] {
-	background-color: var(--page-background);
-	color: var(--text-alt);
-	padding: 6px;
-	border-radius: 6px;
-	border-style: solid;
-	border-width: 2px;
-}
 

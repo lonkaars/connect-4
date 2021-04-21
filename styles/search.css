@@ -1,0 +1,11 @@
+.bigSearchBar .input {
+	width: calc(100% - 2 * var(--spacing-medium) - 48px);
+}
+
+.results .result .inner .userInfo {
+	left: calc(48px + var(--spacing-medium));
+}
+
+h1.noresults {
+	margin: 24px 32px;
+}

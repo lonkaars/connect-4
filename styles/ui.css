@@ -1,0 +1,118 @@
+.vierkant {
+	margin: var(--spacing-small);
+	display: inline-block;
+	position: relative;
+	box-sizing: border-box;
+}
+
+html.dark .button { color: var(--foreground); }
+.button {
+	background-color: var(--accent);
+	color: var(--gray-900);
+	text-align: center;
+	cursor: pointer;
+	position: relative;
+	text-decoration: none;
+	display: block;
+	user-select: none;
+	font-weight: 600;
+}
+
+.button.iconlabel,
+.button.colorpicker {
+	margin-left: var(--spacing-medium);
+}
+
+.button.colorpicker {
+	--color: var(--gray-100);
+	--background: #ff00ff;
+
+	background-color: var(--background);
+	color: var(--color);
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--color);
+}
+
+.button.iconlabel .label {
+	margin: 3px;
+	margin-left: 8px;
+}
+
+.button.colorpicker .labelwrapper {
+	width: 150px;
+	height: 24px;
+}
+
+.button.colorpicker .labelwrapper .label {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-feature-settings: "tnum", "ss01";
+}
+
+.bubble {
+	margin: 0;
+	overflow: visible;
+	left: 50%;
+	top: -24px;
+	transform: translateY(-100%) translateX(-50%);
+}
+
+.bubble .tuitje {
+	bottom: -12px;
+	transform: translate(-50%, 0%) rotate(0deg);
+}
+
+.dialogbox { width: 392px; }
+.dialogbox > .title { margin-bottom: var(--spacing-large); }
+.dialogbox .icon.close {
+	top: 25px;
+	right: 25px;
+	cursor: pointer;
+}
+
+html.dark .dialogbox { background-color: var(--gray-700); }
+
+.searchBar {
+	overflow: hidden;
+}
+
+.searchBar .button {
+	border-radius: 0;
+	padding: 10px;
+}
+
+.searchBar .input {
+	width: calc(100% - 44px);
+	box-sizing: border-box;
+}
+
+.checkbox {
+	cursor: pointer;
+}
+
+.CenteredPageOuter {
+	margin: 0 auto;
+}
+
+.CenteredPageInner {
+	margin: 0 var(--spacing-small);
+	line-height: 0;
+}
+
+.pageTitle {
+	margin-left: var(--spacing-small);
+	margin-top: 32px;
+	margin-bottom: 64px;
+}
+
+.accountAvatar {
+	background-size: cover;
+}
+
+.accountAvatar.round {
+	border-radius: 9999999px;
+}
+

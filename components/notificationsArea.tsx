@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CSSProperties, ReactNode, useContext, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 
 import { gameInfo, userInfo } from '../api/api';
 import { AccountAvatar } from './account';
@@ -35,52 +35,14 @@ export function NotificationsArea(props: {
 		setPreviousMessages(messages);
 	});
 
-	return props.visible && <Bubble
-		style={{
-			left: 48 + 12,
-			top: 92,
-			transform: 'translateY(-100%)',
-			textAlign: 'left',
-			width: 400,
-			height: 450,
-		}}
-		tuitjeStyle={{
-			left: 12,
-			bottom: 86,
-			transform: 'translate(-100%, 100%) rotate(90deg)',
-		}}
-	>
-		<h2 style={{ marginBottom: 24 }}>Meldingen</h2>
-		<div
-			style={{
-				overflowY: 'scroll',
-				whiteSpace: 'normal',
-				height: 450 - 24 * 4,
-				borderRadius: 6,
-			}}
-		>
+	return props.visible && <Bubble className='notificationsArea bg-700 pad-l'>
+		<h2 className='title'>Meldingen</h2>
+		<div className='inner round-t'>
 			{props.gameInvites?.map(game => <GameInvite hide={props.rerender} game={game} />)}
 			{props.friendRequests?.map(user => <FriendRequest hide={props.rerender} user={user} />)}
 			{messages == 0
-				&& <div
-					style={{
-						position: 'absolute',
-						left: 0,
-						right: 0,
-						bottom: 0,
-						top: 0,
-					}}
-				>
-					<h1
-						style={{
-							position: 'absolute',
-							top: '50%',
-							left: '50%',
-							whiteSpace: 'nowrap',
-							transform: 'translate(-50%, -50%)',
-							opacity: .7,
-						}}
-					>
+				&& <div className='noMsgsWrapper posabs a0'>
+					<h1 className='posabs abscenter subtile'>
 						Geen meldingen
 					</h1>
 				</div>}
@@ -88,48 +50,24 @@ export function NotificationsArea(props: {
 	</Bubble>;
 }
 
-var FriendRequestButtonStyle: CSSProperties = {
-	borderRadius: 6,
-	display: 'inline-block',
-	marginLeft: 0,
-	textAlign: 'center',
-};
-
 function Acceptable(props: {
 	children?: ReactNode;
 	onAccept?: () => void;
 	onDeny?: () => void;
 }) {
-	return <Vierkant
-		style={{
-			borderRadius: 8,
-			background: 'var(--background-alt)',
-			margin: 0,
-			padding: 12,
-			width: '100%',
-			marginBottom: 12,
-		}}
-	>
-		<div style={{ position: 'relative' }}>
+	return <Vierkant className='acceptable bg-800 round-t pad-m fullwidth'>
+		<div className='posrel'>
 			{props.children}
-			<div
-				style={{
-					display: 'grid',
-					gridTemplateColumns: '1fr, 1fr',
-					gridGap: 12,
-					marginTop: 12,
-					gridAutoFlow: 'column',
-				}}
-			>
+			<div className='sidebyside buttons'>
 				<IconLabelButton
+					className='accept'
 					onclick={props.onAccept}
-					style={FriendRequestButtonStyle}
 					icon={<DoneIcon />}
 					text='Accepteren'
 				/>
 				<IconLabelButton
+					className='deny'
 					onclick={props.onDeny}
-					style={FriendRequestButtonStyle}
 					icon={<CloseIcon />}
 					text='Verwijderen'
 				/>
@@ -171,14 +109,8 @@ function FriendRequest(props: {
 	>
 		<a href={'/user?id=' + props.user.id}>
 			<AccountAvatar size={48} id={props.user.id} />
-			<div
-				style={{
-					display: 'inline-block',
-					verticalAlign: 'top',
-					marginLeft: 6,
-				}}
-			>
-				<i style={{ display: 'block' }}>Vriendschapsverzoek</i>
+			<div className='userInfo dispinbl valigntop'>
+				<i className='dispbl'>Vriendschapsverzoek</i>
 				<b>{props.user.username}</b>
 			</div>
 		</a>
@@ -191,13 +123,8 @@ function GameInvite(props: {
 }) {
 	return <Acceptable>
 		<a>
-			<div
-				style={{
-					display: 'inline-block',
-					verticalAlign: 'top',
-				}}
-			>
-				<i style={{ display: 'block' }}>Partijuitnodiging</i>
+			<div className='userInfo dispinbl valigntop'>
+				<i className='dispbl'>Partijuitnodiging</i>
 				<p>
 					<b>
 						<a href={'/user?id=' + props.game.opponent?.id}>{props.game.opponent?.username}</a>

@@ -1,0 +1,76 @@
+.outcomeDialog .inner > * {
+	margin-top: var(--spacing-medium);
+}
+
+.outcomeDialog .inner .button {
+	float: unset;
+	padding: var(--spacing-medium) var(--spacing-large);
+}
+
+.newGameDialog .inviteButton { height: 160px; }
+
+.newGameDialog .inviteButton.random { background-color: var(--confirm); }
+
+.newGameDialog .inviteButton.link { background-color: var(--error); }
+
+.newGameDialog .inviteButton .icon {
+	top: var(--spacing-medium);
+	font-size: 100px;
+}
+
+.newGameDialog .inviteButton .label { bottom: var(--spacing-medium); }
+
+.newGameDialog > div { margin-top: var(--spacing-large); }
+
+.voerBord { border-spacing: var(--spacing-small); }
+
+.voerBord .cell.inner { border: 2px solid var(--gray-800); }
+
+.voerBord .square { margin-top: 100%; }
+
+.voerBord.active .cell.inner { cursor: pointer; }
+
+.voerBord .disk {
+	border-radius: 999999999px;
+	margin: 3px;
+}
+
+.gameBar .gameBarButton {
+	margin: 0;
+	margin-left: var(--spacing-small);
+}
+
+.gameBar .move {
+	width: 32px;
+	height: 32px;
+	border-radius: 16px;
+
+	margin: 8px;
+}
+
+.gameBar .move.move-a { background-color: var(--error); }
+.gameBar .move.move-b { background-color: var(--confirm); }
+
+.gameBar .timer span {
+	margin: 0 4px;
+	font-size: 20px;
+}
+
+.gameBar .score {
+	font-size: 20px;
+	z-index: 1;
+}
+
+.gameBar .score.winning { color: var(--disk-a-alt); }
+.gameBar .score.losing { color: var(--disk-b-alt); }
+
+.voerGame {
+	max-width: 100vh;
+	margin: 0 auto;
+}
+
+html.dark .newGameDialog .inviteButton { background-color: var(--gray-800); }
+html.dark .newGameDialog .inviteButton.random .icon { color: var(--confirm); }
+html.dark .newGameDialog .inviteButton.link .icon { color: var(--error); }
+html.dark .newGameDialog .searchBar .input { background-color: var(--gray-800); }
+

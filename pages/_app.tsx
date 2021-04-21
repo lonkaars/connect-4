@@ -7,6 +7,20 @@ import '../styles/dark.css';
 import '../styles/disk.css';
 import '../styles/footer.css';
 import '../styles/global.css';
+import '../styles/navbar.css';
+import '../styles/notifications.css';
+import '../styles/recentGames.css';
+import '../styles/toast.css';
+import '../styles/ui.css';
+import '../styles/utility.css';
+
+import '../styles/game.css';
+import '../styles/gameSettings.css';
+import '../styles/index.css';
+import '../styles/loginregister.css';
+import '../styles/search.css';
+import '../styles/settings.css';
+import '../styles/user.css';
 
 export default function VierOpEenRijWebsite({ Component, pageProps }) {
 	return <div>

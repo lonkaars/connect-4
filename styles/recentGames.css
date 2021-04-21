@@ -1,0 +1,21 @@
+table .leftAlignedColumn {
+	text-align: left;
+	padding-left: var(--spacing-medium);
+}
+
+table .rightAlignedColumn {
+	text-align: right;
+	padding-left: var(--spacing-medium);
+}
+
+table.recentGames {
+	margin-top: var(--spacing-medium);
+}
+
+table.recentGames a {
+	font-weight: 500;
+}
+
+div.recentGames .nogames {
+	margin: 32px 64px;
+}

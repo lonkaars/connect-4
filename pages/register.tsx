@@ -88,35 +88,35 @@ export default function RegisterPage() {
 	return (
 		<div>
 			<NavBar />
-			<CenteredPage width={500} style={{ height: '100vh' }}>
-				<div
-					style={{
-						position: 'relative',
-						top: '50%',
-						transform: 'translateY(-50%)',
-						margin: '0 auto',
-						textAlign: 'center',
-					}}
-				>
-					<Vierkant>
+			<CenteredPage width={500} className='h100vh'>
+				<div className='posrel center centeredForm'>
+					<Vierkant className='pad-l bg-800'>
 						<form onSubmit={(e) => submitRegister(e, toast)}>
 							<Input
 								autofocus
 								autocomplete='username'
 								id='username'
 								label='gebruikersnaam'
-								style={{ marginBottom: 12 }}
-							>
-							</Input>
-							<Input autocomplete='email' id='email' label='email' style={{ marginBottom: 12 }}></Input>
-							<Input autocomplete='new-password' id='password' label='wachtwoord' type='password'></Input>
+								className='pad-m fullwidth bg-900 round-t'
+							/>
+							<Input
+								autocomplete='email'
+								id='email'
+								label='email'
+								className='pad-m fullwidth bg-900 round-t'
+							/>
+							<Input
+								autocomplete='new-password'
+								id='password'
+								label='wachtwoord'
+								type='password'
+								className='pad-m fullwidth bg-900 round-t'
+							/>
 							<Button
 								text='Registreren'
-								style={{ marginTop: 24 }}
 								onclick={() => submitRegister(null, toast)}
-							>
-							</Button>
-							<input type='submit' style={{ display: 'none' }} />
+							/>
+							<input type='submit' className='dispnone' />
 						</form>
 					</Vierkant>
 				</div>

@@ -1,0 +1,52 @@
+/* a tags are here because of css specificity */
+a.notificationsArea {
+	left: calc(48px + var(--spacing-medium));
+	top: 92px;
+	transform: translateY(-100%);
+	text-align: left;
+	width: 400px;
+	height: 450px;
+}
+
+a.notificationsArea .tuitje {
+	left: var(--spacing-medium);
+	bottom: 86px;
+	transform: translate(-100%, 100%) rotate(90deg);
+	fill: var(--gray-700);
+}
+
+.notificationsArea .title {
+	margin-bottom: var(--spacing-large);
+}
+
+.notificationsArea .inner {
+	overflow-y: scroll;
+	white-space: normal;
+	height: calc(450px - 4 * var(--spacing-large));
+}
+
+.notificationsArea .acceptable {
+	margin: 0;
+	margin-bottom: var(--spacing-medium);
+}
+
+.notificationsArea .acceptable:last-child {
+	margin-bottom: 0;
+}
+
+.notificationsArea .buttons .button {
+	margin: 0;
+}
+
+.notificationsArea .buttons {
+	margin-top: var(--spacing-medium);
+}
+
+.notificationsArea .noMsgsWrapper h1 {
+	white-space: nowrap;
+	user-select: none;
+}
+
+.notificationsArea .acceptable .userInfo {
+	margin-left: var(--spacing-small);
+}

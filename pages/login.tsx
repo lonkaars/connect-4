@@ -48,45 +48,33 @@ export default function LoginPage() {
 	return (
 		<div>
 			<NavBar />
-			<CenteredPage width={500} style={{ height: '100vh' }}>
-				<div
-					style={{
-						position: 'relative',
-						top: '50%',
-						transform: 'translateY(-50%)',
-						margin: '0 auto',
-						textAlign: 'center',
-					}}
-				>
-					<Vierkant>
+			<CenteredPage width={500} className='h100vh'>
+				<div className='posrel center centeredForm'>
+					<Vierkant className='pad-l bg-800'>
 						<form onSubmit={(e) => submitLogin(e, toast)}>
 							<Input
 								autofocus
 								autocomplete='username'
 								id='email'
 								label='email of gebruikersnaam'
-								style={{ marginBottom: 12 }}
-							>
-							</Input>
-							<Input autocomplete='current-password' id='password' label='wachtwoord' type='password'>
-							</Input>
-							<div
-								style={{
-									marginTop: 24,
-									gridGap: 24,
-									display: 'grid',
-									gridTemplateColumns: '1fr 1fr',
-								}}
-							>
+								className='pad-m fullwidth bg-900 round-t'
+							/>
+							<Input
+								autocomplete='current-password'
+								id='password'
+								label='wachtwoord'
+								type='password'
+								className='pad-m fullwidth bg-900 round-t'
+							/>
+							<div className='sidebyside'>
 								<Button
 									href='/register'
 									text='Registreren'
-									style={{ backgroundColor: 'var(--background-alt)' }}
-								>
-								</Button>
-								<Button text='Inloggen' onclick={() => submitLogin(null, toast)}></Button>
+									className='register bg-700 fg-100'
+								/>
+								<Button text='Inloggen' className='login' onclick={() => submitLogin(null, toast)} />
 							</div>
-							<input type='submit' style={{ display: 'none' }} />
+							<input type='submit' className='dispnone' />
 						</form>
 					</Vierkant>
 				</div>

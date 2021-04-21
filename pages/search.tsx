@@ -10,7 +10,7 @@ import { Button, Input, Vierkant } from '../components/ui';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 
 function search(callback: (results: Array<userInfo>) => void) {
-	var query: string = (document.getElementById('searchBar') as HTMLInputElement).value;
+	var query: string = (document.getElementById('bigSearchBar') as HTMLInputElement).value;
 	if (query.length < 3) return;
 
 	axios.request<{ 'results': Array<userInfo>; }>({
@@ -24,74 +24,45 @@ function search(callback: (results: Array<userInfo>) => void) {
 }
 
 function SearchResults(props: { userList: Array<userInfo>; }) {
-	return <div>
+	return <div className='results w100m2m'>
 		{props.userList?.map(user => <SearchResult user={user} key={user.id} />)}
 	</div>;
 }
 
 function SearchResult(props: { user: userInfo; }) {
 	return <Vierkant
-		style={{
-			padding: 12,
-		}}
-		fullwidth
+		className='result bg-800 pad-m fullwidth'
 		href={'/user?id=' + props.user.id}
 	>
-		<div style={{ position: 'relative' }}>
+		<div className='inner posrel'>
 			<AccountAvatar size={48} id={props.user.id} />
-			<div
-				style={{
-					position: 'absolute',
-					top: 0,
-					right: 0,
-					bottom: 0,
-					left: 48 + 12,
-				}}
-			>
-				<b>{props.user.username}</b>
-				<p>{props.user.status}</p>
+			<div className='userInfo posabs v0 r0'>
+				<b className='username'>{props.user.username}</b>
+				<p className='status'>{props.user.status}</p>
 			</div>
 		</div>
 	</Vierkant>;
 }
 
-function SearchBar(props: {
+function BigSearchBar(props: {
 	searchFunction: (event?: FormEvent<HTMLFormElement>) => void;
 }) {
-	return <Vierkant
-		fullwidth
-		style={{
-			padding: 8,
-			marginBottom: 24,
-		}}
-	>
+	return <Vierkant className='pad-m bg-800 w100m2m bigSearchBar posrel'>
 		<form onSubmit={props.searchFunction}>
 			<Input
-				id='searchBar'
+				id='bigSearchBar'
 				label='Zoeken voor gebruikers...'
 				autocomplete='off'
-				dark
 				autofocus
-				style={{
-					backgroundColor: 'var(--background)',
-					color: 'var(--text)',
-					padding: 14,
-					fontSize: 16,
-					width: 'calc(100% - 48px - 14px * 2)',
-				}}
+				className='pad-m posabs abscenterv'
 			/>
 			<Button
-				style={{
-					padding: 12,
-					float: 'right',
-					display: 'inline-block',
-					borderRadius: 4,
-				}}
+				className='pad-m dispinbl valigntop floatr'
 				onclick={props.searchFunction}
 			>
 				<SearchOutlinedIcon />
 			</Button>
-			<input type='submit' style={{ display: 'none' }} />
+			<input type='submit' className='dispnone' />
 		</form>
 	</Vierkant>;
 }
@@ -109,15 +80,10 @@ export default function HomePage() {
 		<NavBar />
 		<CenteredPage width={802}>
 			<PageTitle>Zoeken</PageTitle>
-			<SearchBar searchFunction={getSearchResults} />
+			<BigSearchBar searchFunction={getSearchResults} />
 			<SearchResults userList={results} />
 			{searched && results.length == 0 && <h1
-				style={{
-					opacity: .6,
-					color: 'var(--text)',
-					textAlign: 'center',
-					margin: '24px 32px',
-				}}
+				className='noresults center subtile'
 			>
 				Geen zoekresultaten gevonden
 			</h1>}
