@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Component, CSSProperties, ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { ruleset, userPreferences } from '../api/api';
 import { DialogBox } from './dialogBox';
@@ -71,24 +71,15 @@ function GameSettingsSection(props: {
 		id={props.id}
 		className='pad-m editableRulesSection'
 	>
-		<span
-			style={{
-				verticalAlign: 'top',
-				fontSize: 14,
-				fontWeight: 600,
-			}}
-		>
+		<span className='valigntop nosel'>
 			{props.title}
 		</span>
-		<CheckBox
-			state={props.state}
-			id={`${props.id}_enabled`}
-			style={{
-				verticalAlign: 'top',
-				float: 'right',
-				margin: -3,
-			}}
-		/>
+		<div className='checkboxWrapper valigntop floatr'>
+			<CheckBox
+				state={props.state}
+				id={props.id + '_enabled'}
+			/>
+		</div>
 		<div>{props.children}</div>
 	</Vierkant>;
 }
@@ -96,19 +87,10 @@ function GameSettingsSection(props: {
 function GameRule(props: {
 	title: string;
 	description: string;
-	style?: CSSProperties;
 }) {
-	return <div
-		style={{
-			backgroundColor: 'var(--page-background)',
-			borderRadius: 8,
-			padding: '16px 0',
-			textAlign: 'center',
-			...props.style,
-		}}
-	>
-		<h1 style={{ color: 'var(--disk-a)', fontSize: 42 }}>{props.title}</h1>
-		<p style={{ color: 'var(--text-alt)', maxWidth: 250, margin: '0 auto' }}>{props.description}</p>
+	return <div className='gamerule pad-m round-t center bg-900'>
+		<h1>{props.title}</h1>
+		<p>{props.description}</p>
 	</div>;
 }
 
@@ -161,28 +143,16 @@ export function EditGameSettings(props: editGameSettingsProps) {
 					/>
 				</div>
 				<CheckBox id='timelimit_shared' state={props.ruleset.timelimit.shared} />
-				<span
-					className='valignsup'
-					style={{
-						marginLeft: 4,
-					}}
-				>
+				<span className='valignsup'>
 					Timer gebruiken voor bijde spelers
 				</span>
 			</GameSettingsSection>
-			{false && <GameSettingsSection id='gamemodes' title='Regelset' state={false}>
-				<div
-					style={{
-						display: 'grid',
-						gridTemplateColumns: '1fr 1fr',
-						gridGap: 16,
-						margin: '16px 0',
-					}}
-				>
+			{true && <GameSettingsSection id='gamemodes' title='Regelset' state={false}>
+				<div className='sidebyside'>
 					<GameRule title='+2' description='Extra kolommen' />
 					<GameRule title='+4' description='Extra kolommen' />
 				</div>
-				<GameRule style={{ marginBottom: 16 }} title='Gravity' description='De zwaartekracht draait soms' />
+				<GameRule title='Gravity' description='De zwaartekracht draait soms' />
 				<GameRule title='Flashlight' description='Het veld wordt opgelicht door de vallende fiches' />
 			</GameSettingsSection>}
 			<GameSettingsSection

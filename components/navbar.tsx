@@ -54,25 +54,7 @@ export function NavBar() {
 		})();
 	}, []);
 
-	return <div
-		className='navbar bg-800'
-		style={{
-			width: 48,
-			height: '100%',
-
-			lineHeight: 0,
-
-			display: 'inline-block',
-
-			position: 'fixed',
-			top: 0,
-			left: 0,
-
-			overflow: 'visible',
-			whiteSpace: 'nowrap',
-			zIndex: 2,
-		}}
-	>
+	return <div className='navbar bg-800 h100vh dispinbl t0 l0 posfix'>
 		<div className='item'>
 			<Logo />
 		</div>
@@ -90,29 +72,13 @@ export function NavBar() {
 		</a>
 
 		<div className='bg-800 bottomArea'>
-			{loggedIn && <a
-				className='item'
-				style={{
-					overflow: 'visible',
-					position: 'relative',
-				}}
-			>
+			{loggedIn && <a className='notifications item posrel'>
 				<div
-					style={{ cursor: 'pointer' }}
+					className='iconWrapper'
 					onClick={() => setNotificationsAreaVisible(!notificationsAreaVisible)}
 				>
 					<NotificationsIcon />
-					{gotNotifications && <div
-						style={{
-							backgroundColor: 'var(--disk-a)',
-							width: 8,
-							height: 8,
-							borderRadius: 4,
-							position: 'absolute',
-							top: 2,
-							right: 2,
-						}}
-					/>}
+					{gotNotifications && <div className='notificationDot posabs' />}
 				</div>
 				<NotificationsArea
 					visible={notificationsAreaVisible}

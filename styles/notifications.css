@@ -1,4 +1,5 @@
-.notificationsArea {
+/* a tags are here because of css specificity */
+a.notificationsArea {
 	left: calc(48px + var(--spacing-medium));
 	top: 92px;
 	transform: translateY(-100%);
@@ -7,7 +8,7 @@
 	height: 450px;
 }
 
-.notificationsArea .tuitje {
+a.notificationsArea .tuitje {
 	left: var(--spacing-medium);
 	bottom: 86px;
 	transform: translate(-100%, 100%) rotate(90deg);

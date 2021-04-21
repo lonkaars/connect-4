@@ -9,3 +9,28 @@
 	bottom: -4px;
 	left: 0;
 }
+
+.navbar {
+	width: 48px;
+	line-height: 0;
+	overflow: visible;
+	white-space: nowrap;
+	z-index: 2;
+}
+
+.navbar .bottomArea .item.notifications {
+	overflow: visible;
+}
+
+.navbar .bottomArea .item.notifications > .iconWrapper {
+	cursor: pointer;
+}
+
+.notifications .notificationDot {
+	background-color: var(--accent);
+	width: 8px;
+	height: 8px;
+	border-radius: 4px;
+	top: 2px;
+	right: 2px;
+}

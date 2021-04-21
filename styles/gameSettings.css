@@ -29,7 +29,7 @@
 }
 
 .editGameSettings .editableRules {
-	margin-top: var(--spacing-large);
+	margin: var(--spacing-large) 0;
 	max-height: 500px;
 	overflow-y: scroll;
 }
@@ -43,10 +43,13 @@
 html.dark .editGameSettings .editableRules .editableRulesSection {
 	background-color: var(--gray-800);
 }
-
-.editGameSettings .button {
-	line-height: normal;
+.editGameSettings .editableRules .editableRulesSection:last-child {
+	margin-bottom: 0;
 }
+
+.editGameSettings .button { line-height: normal; }
+
+.editGameSettings .checkboxWrapper { margin: -3px; }
 
 .editGameSettings .editableRules .editableRulesSection .timeControls {
 	margin: var(--spacing-medium);
@@ -56,7 +59,19 @@ html.dark .editGameSettings .editableRules .editableRulesSection {
 
 .editGameSettings .editableRules .editableRulesSection .timeControls input {
 	background-color: var(--background);
-
 	width: calc(100% - 2 * var(--spacing-medium));
+}
+
+.editGameSettings .editableRules .gamerule {
+	margin-top: var(--spacing-medium);
+}
+
+.editGameSettings .editableRules .gamerule h1 {
+	color: var(--accent);
+	font-size: 2.5rem;
+}
+
+#timelimit .valignsup {
+	margin-left: var(--spacing-small);
 }
 
