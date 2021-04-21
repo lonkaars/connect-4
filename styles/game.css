@@ -74,3 +74,23 @@ html.dark .newGameDialog .inviteButton.random .icon { color: var(--confirm); }
 html.dark .newGameDialog .inviteButton.link .icon { color: var(--error); }
 html.dark .newGameDialog .searchBar .input { background-color: var(--gray-800); }
 
+.inviteFromFriendsList {
+	overflow-y: visible;
+	height: 44px;
+}
+
+html.dark .inviteFromFriendsList .inviteableFriend {
+	background-color: var(--gray-800);
+}
+.inviteFromFriendsList .inviteableFriend {
+	margin-top: var(--spacing-small);
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.inviteFromFriendsList .inviteableFriend .button {
+	background-color: transparent;
+	color: var(--foreground);
+	padding: 10px;
+}
+

@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
+import { v4 as uuid } from 'uuid';
 
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -79,6 +80,7 @@ export function Input(props: {
 	autocomplete?: string;
 	autofocus?: boolean;
 	className?: string;
+	onChange?: () => void;
 }) {
 	return <input
 		id={props.id}
@@ -91,16 +93,25 @@ export function Input(props: {
 		className={'input' + ' ' + (props.dark ? 'dark' : 'light') + ' ' + props.className}
 		autoComplete={props.autocomplete}
 		autoFocus={props.autofocus}
+		onChange={props.onChange}
 	/>;
 }
 
-export function SearchBar(props: { label?: string; }) {
-	return <div className='searchBar round-t fullwidth'>
+export function SearchBar(props: {
+	label?: string;
+	search?: (query: string) => void;
+}) {
+	var id = uuid();
+
+	var getQuery = () => (document.getElementById(id).children[0] as HTMLInputElement).value;
+
+	return <div className='searchBar round-t fullwidth' id={id}>
 		<Input
 			label={props.label}
 			className='pad-m bg-700'
+			onChange={() => props.search && props.search(getQuery())}
 		/>
-		<Button className='dispinbl valigntop'>
+		<Button className='dispinbl valigntop' onclick={() => props.search && props.search(getQuery())}>
 			<SearchIcon className='icon' />
 		</Button>
 	</div>;

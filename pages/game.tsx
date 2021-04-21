@@ -1,11 +1,13 @@
 import Icon from '@mdi/react';
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
+import Fuse from 'fuse.js';
 import { useContext, useEffect, useState } from 'react';
 import * as cookies from 'react-cookies';
 import { Socket } from 'socket.io-client';
 import { SocketContext } from '../components/socketContext';
 
+import { userInfo } from '../api/api';
 import { DialogBox } from '../components/dialogBox';
 import { GameBar } from '../components/gameBar';
 import { CurrentGameSettings } from '../components/gameSettings';
@@ -15,11 +17,13 @@ import { ToastContext, toastType } from '../components/toast';
 import { Button, IconLabelButton, SearchBar } from '../components/ui';
 import { VoerBord } from '../components/voerBord';
 
+import AddIcon from '@material-ui/icons/Add';
 import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import LinkRoundedIcon from '@material-ui/icons/LinkRounded';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import WifiTetheringRoundedIcon from '@material-ui/icons/WifiTetheringRounded';
 import { mdiContentCopy } from '@mdi/js';
+import { AccountAvatar } from '../components/account';
 
 function VoerGame(props: {
 	gameID: string;
@@ -139,11 +143,28 @@ function GameOutcomeDialog(props: {
 	</DialogBox>;
 }
 
+function InviteableFriend(props: { user?: userInfo; }) {
+	return <div className='round-t bg-700 inviteableFriend drop-1 posrel'>
+		<AccountAvatar size={44} id={props.user?.id} />
+		<span className='username nosel posabs abscenterv pad-m'>{props.user?.username}</span>
+		<Button className='floatr dispinbl' children={<AddIcon />} />
+	</div>;
+}
+
 export default function GamePage() {
 	var [gameID, setGameID] = useState('');
 	var [player1, setPlayer1] = useState(true);
 	var [active, setActive] = useState(false);
 	var [gameIDUrl, setGameIDUrl] = useState('');
+	var [friendList, setFriendList] = useState<userInfo[]>([]);
+
+	var [query, setQuery] = useState('');
+	var [visibleFriends, setVisibleFriends] = useState<userInfo[]>([]);
+
+	var fuse = new Fuse(friendList, {
+		keys: ['username'],
+		isCaseSensitive: false,
+	});
 
 	var { io } = useContext(SocketContext);
 	var { toast } = useContext(ToastContext);
@@ -172,6 +193,27 @@ export default function GamePage() {
 
 		setGameID(gameIDUrl);
 	}, []);
+
+	useEffect(() => {
+		axios.request<{ friends: Array<userInfo>; }>({
+			method: 'get',
+			url: '/api/social/list/friends',
+		})
+			.then(response => {
+				console.log(response.data.friends);
+				setFriendList(response.data.friends);
+			})
+			.catch(err => {
+				toast({ message: 'error', type: 'error', description: err.toString() });
+			});
+	}, []);
+
+	useEffect(() => {
+		var fuseSearch = fuse.search(query);
+		var results = fuseSearch.map(res => res.item).slice(0, 5);
+
+		setVisibleFriends(results);
+	}, [query]);
 
 	useEffect(() => {
 		io.on('gameStart', () => setActive(true));
@@ -246,7 +288,10 @@ export default function GamePage() {
 						<h2 className='label center posabs abscenterh nosel'>Uitnodigen via link</h2>
 					</Button>
 				</div>
-				<SearchBar label='Zoeken in vriendenlijst' />
+				<div className='inviteFromFriendsList'>
+					<SearchBar label='Zoeken in vriendenlijst' search={q => setQuery(q)} />
+					{visibleFriends.map(user => <InviteableFriend user={user} />)}
+				</div>
 			</DialogBox>
 		</CenteredPage>
 	</div>;
