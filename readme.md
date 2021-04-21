@@ -42,10 +42,15 @@
 
 A design prototype of the website can be found on
 [Figma](https://www.figma.com/file/rTciVQApAe6cwrH1Prl5Wn/4-op-een-rij?node-id=0%3A1).
-An outdated version of the API documentation is still on Google Docs, but I'm
-moving and updating it to be in api/readme.md.
+The api documentation can be found in api/readme.md.
 
 ![](./diagram.png)
+
+## other readme's
+
+- [api](api/readme.md)
+- [voerbak](voerbak/readme.md)
+- [styles](styles/readme.md)
 
 ## setup
 
