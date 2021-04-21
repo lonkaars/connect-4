@@ -10,6 +10,7 @@ import '../styles/global.css';
 import '../styles/navbar.css';
 import '../styles/notifications.css';
 import '../styles/recentGames.css';
+import '../styles/toast.css';
 import '../styles/ui.css';
 import '../styles/utility.css';
 

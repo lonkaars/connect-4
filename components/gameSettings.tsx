@@ -147,7 +147,7 @@ export function EditGameSettings(props: editGameSettingsProps) {
 					Timer gebruiken voor bijde spelers
 				</span>
 			</GameSettingsSection>
-			{true && <GameSettingsSection id='gamemodes' title='Regelset' state={false}>
+			{false && <GameSettingsSection id='gamemodes' title='Regelset' state={false}>
 				<div className='sidebyside'>
 					<GameRule title='+2' description='Extra kolommen' />
 					<GameRule title='+4' description='Extra kolommen' />

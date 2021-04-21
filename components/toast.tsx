@@ -1,26 +1,14 @@
-import { createContext, CSSProperties, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useState } from 'react';
 
 import CloseIcon from '@material-ui/icons/Close';
 
 function ToastArea(props: {
-	style?: CSSProperties;
 	children?: ReactNode;
 	rerender?: boolean;
 }) {
 	return <div
 		id='ToastArea'
-		style={{
-			position: 'fixed',
-			whiteSpace: 'nowrap',
-			bottom: 12,
-			left: '50%',
-			transform: 'translateX(-50%)',
-			zIndex: 1,
-			maxWidth: 600,
-			width: 'calc(100% - 48px - 48px)',
-			margin: '0 24px',
-			...props.style,
-		}}
+		className='posfix abscenterh'
 	>
 		{props.children}
 	</div>;
@@ -32,71 +20,30 @@ function Toast(props: {
 	icon?: ReactNode;
 	children?: ReactNode;
 	type?: 'normal' | 'confirmation' | 'error';
-	style?: CSSProperties;
 }) {
 	var [visible, setVisibility] = useState(true);
 
 	setTimeout(() => setVisibility(false), 10e3);
 
-	return visible && <div
-		style={{
-			padding: 0,
-			marginBottom: 12,
-			borderRadius: 6,
-			boxShadow: '0 8px 12px -4px #00000033',
-			color: props.type === 'confirmation' ? 'var(--background)' : 'var(--text)',
-			backgroundColor: props.type === 'normal'
-				? 'var(--background)'
-				: props.type === 'confirmation'
-				? 'var(--disk-b)'
-				: props.type === 'error'
-				? 'var(--disk-a)'
-				: 'var(--background)',
-			...props.style,
-		}}
-	>
+	return visible && <div className={'round-t drop-1 toast ' + props.type}>
 		{props.children
 			|| <div
-				style={{
-					lineHeight: 0,
-					padding: 12,
-					minHeight: props.description ? 36 : 24,
-					position: 'relative',
-				}}
+				className={'inner pad-m posrel '
+					+ (props.description ? 'hasDescription' : '') + ' '
+					+ (props.icon ? 'hasIcon' : '')}
 			>
-				<div
-					style={{
-						position: 'absolute',
-						left: 12,
-						top: '50%',
-						transform: 'translateY(-50%)',
-					}}
-				>
+				<div className='icon posabs abscenterv'>
 					{props.icon}
 				</div>
-				<div
-					style={{
-						userSelect: 'none',
-						position: 'absolute',
-						left: props.icon ? 48 : 12,
-						top: '50%',
-						transform: 'translateY(-50%)',
-					}}
-				>
-					<h2 style={{ fontSize: 16 }}>{props.text}</h2>
+				<div className='content nosel posabs abscenterv'>
+					<h2>{props.text}</h2>
 					<p>{props.description}</p>
 				</div>
 				<div
-					style={{
-						cursor: 'pointer',
-						position: 'absolute',
-						right: 12,
-						top: '50%',
-						transform: 'translateY(-50%)',
-					}}
+					className='closeIcon posabs abscenterv'
 					onClick={() => setVisibility(false)}
 				>
-					<CloseIcon style={{ fontSize: 24 }} />
+					<CloseIcon />
 				</div>
 			</div>}
 	</div>;
