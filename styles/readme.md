@@ -20,4 +20,3 @@ having to copy-paste color codes manually.
 There are utility styles in ./utility.css. These are supposed to mimick
 something like tailwind css. Most styles from the style guide are also defined
 in ./global.css.
-
