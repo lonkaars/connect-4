@@ -89,3 +89,22 @@ html.dark .dialogbox { background-color: var(--gray-700); }
 	box-sizing: border-box;
 }
 
+.checkbox {
+	cursor: pointer;
+}
+
+.CenteredPageOuter {
+	margin: 0 auto;
+}
+
+.CenteredPageInner {
+	margin: 0 var(--spacing-small);
+	line-height: 0;
+}
+
+.pageTitle {
+	margin-left: var(--spacing-small);
+	margin-top: 32px;
+	margin-bottom: 64px;
+}
+

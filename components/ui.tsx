@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -70,7 +70,6 @@ export function IconLabelButton(props: {
 
 export function Input(props: {
 	label?: string;
-	style?: CSSProperties;
 	type?: string;
 	id?: string;
 	min?: number;
@@ -109,7 +108,6 @@ export function SearchBar(props: { label?: string; }) {
 
 export function CheckBox(props: {
 	state?: boolean;
-	style?: CSSProperties;
 	id?: string;
 	onclick?: (state: boolean) => void;
 }) {
@@ -130,12 +128,7 @@ export function CheckBox(props: {
 	return <div
 		onClick={toggle}
 		id={props.id}
-		className={on ? 'on' : 'off'}
-		style={{
-			...props.style,
-			display: 'inline-block',
-			cursor: 'pointer',
-		}}
+		className={'checkbox dispinbl ' + (on ? 'on' : 'off')}
 	>
 		{on
 			? <CheckBoxIcon />
@@ -168,17 +161,15 @@ export function Tuitje() {
 		xmlns='http://www.w3.org/2000/svg'
 		className='tuitje posabs'
 	>
-		<path
-			d='M18 12C24 12 27 0 36 0L0 0C9 0 12 12 18 12Z'
-			fill='var(--background)'
-		/>
+		<path d='M18 12C24 12 27 0 36 0L0 0C9 0 12 12 18 12Z' />
 	</svg>;
 }
 
 export function Bubble(props: {
 	children?: ReactNode;
+	className?: string;
 }) {
-	return <Vierkant className='bubble posabs center drop-2'>
+	return <Vierkant className={'bubble posabs center drop-2 ' + props.className}>
 		{props.children}
 		<Tuitje />
 	</Vierkant>;

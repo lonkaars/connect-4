@@ -35,7 +35,10 @@
 	margin: 3px;
 }
 
-.gameBar .gameBarButton { margin: 0; }
+.gameBar .gameBarButton {
+	margin: 0;
+	margin-left: var(--spacing-small);
+}
 
 .gameBar .move {
 	width: 32px;
@@ -47,6 +50,19 @@
 
 .gameBar .move.move-a { background-color: var(--error); }
 .gameBar .move.move-b { background-color: var(--confirm); }
+
+.gameBar .timer span {
+	margin: 0 4px;
+	font-size: 20px;
+}
+
+.gameBar .score {
+	font-size: 20px;
+	z-index: 1;
+}
+
+.gameBar .score.winning { color: var(--disk-a-alt); }
+.gameBar .score.losing { color: var(--disk-b-alt); }
 
 .voerGame {
 	max-width: 100vh;

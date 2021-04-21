@@ -39,6 +39,9 @@ html, body {
 	padding: 0;
 }
 
+/* section font size */
+h1 { font-size: 25px; }
+
 /* subsection font size */
 h2 { font-size: 20px; }
 

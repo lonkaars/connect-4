@@ -49,6 +49,7 @@
 .center { text-align: center; }
 
 .floatr { float: right; }
+.floatl { float: left; }
 
 .w100m2m { width: calc(100% - var(--spacing-medium)); }
 
