@@ -589,6 +589,23 @@ returns error when image is not .png or larger than 256x256
 </td>
 </tr>
 
+<tr>
+<td>/verify/discord</td>
+<td><code>GET</code></td>
+<td>get a one-time code for verifying account ownership with the discord bot</td>
+<td><code>none</code></td>
+<td><code>user</code></td>
+<td>
+
+```ts
+{
+  code: string
+}
+```
+
+</td>
+</tr>
+
 </tbody>
 </code>
 </table>
