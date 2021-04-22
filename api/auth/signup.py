@@ -5,6 +5,7 @@ import auth.token as token
 import passwords
 import time
 import re
+import bcrypt
 
 
 # checks if the usename is between 3 and 35 charachters
@@ -68,8 +69,8 @@ def index():
 
     # write new user to database and commit
     cursor.execute(
-        "insert into users values (?, ?, ?, NULL, NULL, ?, ?, \"[]\", FALSE, \"user\", \"{}\", \"online\") ",
-        (user_id, username, email, password_hash, registered)
+        "insert into users values (?, ?, ?, NULL, NULL, ?, ?, \"[]\", FALSE, \"user\", \"{}\", ?) ",
+        (user_id, username, email, password_hash, registered, bcrypt.gensalt())
     )
     connection.commit()
 

@@ -12,7 +12,7 @@ create table if not exists users (
 	verified_email boolean not null,
 	type text not null,
 	preferences text not null,
-	presence text
+	secret text not null
 );
 
 create table if not exists games (
