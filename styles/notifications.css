@@ -15,8 +15,9 @@ a.notificationsArea .tuitje {
 	left: var(--spacing-medium);
 	bottom: 86px;
 	transform: translate(-100%, 100%) rotate(90deg);
-	fill: var(--gray-700);
+	fill: var(--gray-800);
 }
+html.dark a.notificationsArea .tuitje { fill: var(--gray-700); }
 
 .notificationsArea .title {
 	margin-bottom: var(--spacing-large);

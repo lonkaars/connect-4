@@ -20,6 +20,8 @@ export function PreferencesContextWrapper(props: { children?: ReactNode; }) {
 
 	var [preferences, setPreferences] = useState<userPreferences>();
 
+	var [dummy, setDummy] = useState(false); //FIXME: janky fix to cause rerender
+
 	useEffect(() => {
 		(async () => {
 			if (!loggedIn) return;
@@ -31,31 +33,29 @@ export function PreferencesContextWrapper(props: { children?: ReactNode; }) {
 				applyPreferences(local_prefs_json);
 			}
 
-			if (!preferences) {
-				var preferencesReq = await axios.request<{ preferences: userPreferences; }>({
-					method: 'get',
-					url: `/api/user/preferences`,
-					headers: { 'content-type': 'application/json' },
-				});
+			var preferencesReq = await axios.request<{ preferences: userPreferences; }>({
+				method: 'get',
+				url: `/api/user/preferences`,
+				headers: { 'content-type': 'application/json' },
+			});
 
-				window.localStorage.setItem('preferences', JSON.stringify(preferencesReq.data.preferences));
-				setPreferences(preferencesReq.data.preferences);
-			}
+			window.localStorage.setItem('preferences', JSON.stringify(preferencesReq.data.preferences));
+			setPreferences(preferencesReq.data.preferences);
 		})();
 	}, []);
 
-	useEffect(() => applyPreferences(preferences), [preferences]);
+	applyPreferences(preferences);
 
 	function updatePreference(newPreference: userPreferences) {
 		var prefs: userPreferences = Object.assign(preferences, newPreference);
 		setPreferences(prefs);
-		applyPreferences(prefs);
 		axios.request({
 			method: 'post',
 			url: `/api/user/preferences`,
 			headers: { 'content-type': 'application/json' },
 			data: { 'newPreferences': prefs },
 		});
+		setDummy(!dummy);
 	}
 
 	return <PreferencesContext.Provider value={{ preferences, updatePreference }}>

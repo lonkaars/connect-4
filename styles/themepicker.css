@@ -1,0 +1,50 @@
+.themeCardWrapper {
+	margin: var(--spacing-medium);
+}
+
+.themeCard {
+	background-color: var(--bg);
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--fg);
+	text-align: left;
+
+	transition-duration: .1s;
+	transition-property: transform, box-shadow;
+
+	height: 20px;
+	width: 170px;
+}
+
+.themeCard:active {
+	box-shadow: 0;
+	transform: translateY(2px);
+}
+
+.themeCard .name {
+	color: var(--fg);
+	margin-left: var(--spacing-small);
+}
+
+.themeCard .disks {
+	background-color: var(--fg);
+	width: 64px;
+
+}
+
+.themeCard .disks .disk {
+	border-radius: 9999999px;
+	width: 24px;
+
+	top: 4px;
+	bottom: 4px;
+}
+
+.themeCard .disks .disk.a {
+	background-color: var(--a);
+	right: 4px;
+} 
+.themeCard .disks .disk.b {
+	background-color: var(--b);
+	left: 6px;
+}

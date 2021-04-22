@@ -1,0 +1,34 @@
+[
+	{
+		"name": "default",
+		"url": "default.css",
+		"dark": {
+			"bg": "#141619",
+			"fg": "#FFFFF3",
+			"a": "#FF4365",
+			"b": "#00D9C0"
+		},
+		"light": {
+			"bg": "#E3E6EE",
+			"fg": "#141619",
+			"a": "#A63A4D",
+			"b": "#3AA699"
+		}
+	},
+	{
+		"name": "classic",
+		"url": "classic.css",
+		"dark": {
+			"bg": "#222d33",
+			"fg": "#fcfffd",
+			"a": "#E16D82",
+			"b": "#71D9CC"
+		},
+		"light": {
+			"bg": "#5d737e",
+			"fg": "#fcfffd",
+			"a": "#E16D82",
+			"b": "#71D9CC"
+		}
+	}
+]

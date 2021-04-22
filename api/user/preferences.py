@@ -15,8 +15,8 @@ def format_preferences(prefs):
         "userColors": {
             "diskA": prefs.get("userColors", {}).get("diskA") or "",
             "diskB": prefs.get("userColors", {}).get("diskB") or "",
-            "background": prefs.get("userColors", {}).get("background") or ""
-        }
+        },
+        "theme": prefs.get("theme") or "default",
     }
 
 

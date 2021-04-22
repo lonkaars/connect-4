@@ -24,13 +24,13 @@ export type ruleset = {
 export type userColors = {
 	diskA: string;
 	diskB: string;
-	background: string;
 };
 
 export interface userPreferences {
 	darkMode?: boolean;
 	ruleset?: ruleset;
 	userColors?: userColors;
+	theme?: string;
 }
 
 export interface userGameTotals {

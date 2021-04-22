@@ -122,26 +122,12 @@ export function CheckBox(props: {
 	id?: string;
 	onclick?: (state: boolean) => void;
 }) {
-	var [gotDefaultState, setGotDefaultState] = useState(false);
-	var [on, setOn] = useState(props.state);
-
-	useEffect(() => {
-		if (gotDefaultState) return;
-		setOn(props.state);
-		if (typeof props.state !== 'undefined') setGotDefaultState(true);
-	});
-
-	var toggle = () => {
-		setOn(!on);
-		props.onclick && props.onclick(!on);
-	};
-
 	return <div
-		onClick={toggle}
+        onClick={() => props.onclick && props.onclick(!props.state)}
 		id={props.id}
-		className={'checkbox dispinbl ' + (on ? 'on' : 'off')}
+		className={'checkbox dispinbl ' + (props.state ? 'on' : 'off')}
 	>
-		{on
+		{props.state
 			? <CheckBoxIcon />
 			: <CheckBoxOutlineBlankIcon />}
 	</div>;

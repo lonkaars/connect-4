@@ -1,6 +1,6 @@
 import axios from 'axios';
 import reduce from 'image-blob-reduce';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { AccountAvatar } from '../components/account';
 import { Footer } from '../components/footer';
@@ -9,6 +9,7 @@ import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
 import PreferencesContext from '../components/preferencesContext';
 import { CheckBox, ColorPicker, IconLabelButton, Vierkant } from '../components/ui';
+import ThemePicker from '../components/themes';
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
@@ -102,12 +103,6 @@ export default function SettingsPage() {
 						</div>
 					</div>
 					<div className='subsection'>
-						<ColorPicker />
-						<div className='dispbl'>
-							<h3>Achtergrond</h3>
-						</div>
-					</div>
-					<div className='subsection'>
 						<div className='floatr'>
 							<CheckBox
 								state={preferences?.darkMode}
@@ -115,6 +110,9 @@ export default function SettingsPage() {
 							/>
 						</div>
 						<h3>Donkere modus</h3>
+					</div>
+					<div className="subsection">
+						<ThemePicker preferences={preferences}/>
 					</div>
 				</Vierkant>
 				<Vierkant className='section gamerules w100m2m pad-l bg-800'>
