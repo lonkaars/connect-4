@@ -3,11 +3,11 @@
 }
 
 .themeCard {
-	background-color: var(--bg);
+	background-color: var(--bg) !important;
 	border-width: 2px;
 	border-style: solid;
 	border-color: var(--fg);
-	text-align: left;
+	text-align: left !important;
 
 	transition-duration: .1s;
 	transition-property: transform, box-shadow;
