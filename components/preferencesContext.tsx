@@ -5,9 +5,8 @@ import { userPreferences } from '../api/api';
 
 function applyPreferences(preferences: userPreferences) {
 	if (typeof preferences === 'undefined') return;
-	if (typeof preferences.darkMode !== 'undefined') {
-		document.getElementsByTagName('html')[0].classList[preferences.darkMode ? 'add' : 'remove']('dark');
-	}
+	document.getElementsByTagName('html')[0].classList[preferences.darkMode ? 'add' : 'remove']('dark');
+	document.getElementById('theme').setAttribute('href', '/themes/' + preferences.theme);
 }
 
 var PreferencesContext = createContext<
@@ -20,7 +19,7 @@ export function PreferencesContextWrapper(props: { children?: ReactNode; }) {
 
 	var [preferences, setPreferences] = useState<userPreferences>();
 
-	var [dummy, setDummy] = useState(false); //FIXME: janky fix to cause rerender
+	var [dummy, setDummy] = useState(false); // FIXME: janky fix to cause rerender
 
 	useEffect(() => {
 		(async () => {

@@ -123,7 +123,7 @@ export function CheckBox(props: {
 	onclick?: (state: boolean) => void;
 }) {
 	return <div
-        onClick={() => props.onclick && props.onclick(!props.state)}
+		onClick={() => props.onclick && props.onclick(!props.state)}
 		id={props.id}
 		className={'checkbox dispinbl ' + (props.state ? 'on' : 'off')}
 	>
