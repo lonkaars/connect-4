@@ -6,7 +6,7 @@
 <img src="https://img.shields.io/github/license/lonkaars/po-4-op-een-rij"/>
 <img src="https://img.shields.io/github/languages/count/lonkaars/po-4-op-een-rij"/>
 <img src="https://img.shields.io/static/v1?label=platform&message=linux"/>
-<a href="https://discord.gg/FnapWQ9P7T"><img src="https://img.shields.io/discord/820763086315061248"/></a>
+<a href="https://discord.gg/FnapWQ9P7T"><img src="https://discordapp.com/api/guilds/820763086315061248/embed.png"/></a>
 <br/>
 <a href="https://discord.gg/FnapWQ9P7T"><strong>Discord invite</strong></a>
 </p>
