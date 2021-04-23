@@ -33,7 +33,7 @@ def get_rating(user_id):
     for game in mapped_games:
         ruleset = resolve_ruleset(game[3])
 
-        if ruleset.ranked == False:
+        if ruleset["ranked"] == False:
             continue
 
         # calculate sum score against user (+1 for win, -1 for lose, 0 for draw game)
