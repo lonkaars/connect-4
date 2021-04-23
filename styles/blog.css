@@ -1,0 +1,27 @@
+.postContent * {
+	line-height: 1.4;
+}
+
+.postContent h2 {
+	margin: 0;
+	margin-top: var(--spacing-large);
+	margin-bottom: var(--spacing-medium);
+}
+
+.postContent a {
+	text-decoration: underline;
+	color: var(--accent);
+}
+
+.postContent li {
+	margin-top: var(--spacing-medium);
+}
+
+.postContent ul {
+	padding-left: var(--spacing-large);
+}
+
+.postContent > *:first-child {
+	margin-top: 0;
+}
+

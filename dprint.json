@@ -33,7 +33,8 @@
 		"**/*-lock.json",
 		"database/SQLiteFuzzySearch/**",
 		"venv/**",
-		".next/**"
+		".next/**",
+		"news/**"
 	],
 	"plugins": [
 		"https://plugins.dprint.dev/typescript-0.44.0.wasm",

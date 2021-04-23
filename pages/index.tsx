@@ -16,6 +16,11 @@ import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import { mdiRobotExcited } from '@mdi/js';
 import Icon from '@mdi/react';
 
+import { ArticleMeta, getStaticProps as getBlogPage, RenderedArticle } from './blog/[post]';
+
+// edit this to change the post displayed on the home page
+var posts = ['cool_test_article'];
+
 function LoginOrRegisterBox() {
 	return <div className='inner'>
 		<span className='registerMessage posabs h0 t0'>
@@ -50,7 +55,14 @@ function AccountBox(props: {
 	</div>;
 }
 
-export default function HomePage() {
+export default function HomePage(props: {
+	posts: Array<{
+		props: {
+			content: string;
+			meta: ArticleMeta;
+		};
+	}>;
+}) {
 	var server = typeof window === 'undefined';
 	var loggedIn = !server && document.cookie.includes('token');
 
@@ -113,15 +125,30 @@ export default function HomePage() {
 						: <LoginOrRegisterBox />}
 				</Vierkant>
 			</div>
-			{loggedIn
-				&& <Vierkant className='w100m2m pad-l bg-800'>
-					<RecentGames games={gameInfo?.games} />
-				</Vierkant>}
-			<Vierkant className='w100m2m pad-l bg-800'>
-				<h2>Nieuws ofzo</h2>
-				<p style={{ margin: '6px 0' }}>Chess.com heeft heel veel troep waar niemand naar kijkt</p>
-			</Vierkant>
+			<>
+				{loggedIn
+					&& <Vierkant className='w100m2m pad-l bg-800'>
+						<RecentGames games={gameInfo?.games} />
+					</Vierkant>}
+			</>
+			<div>
+				{props.posts.map(post => {
+					return <RenderedArticle content={post.props.content} meta={post.props.meta} />;
+				})}
+			</div>
 		</CenteredPage>
 		<Footer />
 	</div>;
+}
+
+export function getStaticProps() {
+	var postsContent = [];
+
+	posts.forEach(post => {
+		postsContent.push(getBlogPage({ params: { post } }));
+	});
+
+	var staticProps = { props: { posts: postsContent } };
+
+	return staticProps;
 }
