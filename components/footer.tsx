@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import Logo from '../components/logo';
 import * as cookie from 'react-cookies';
+import Logo from '../components/logo';
 
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import ExtensionIcon from '@material-ui/icons/Extension';
@@ -24,7 +24,7 @@ function PageLink(props: {
 }
 
 export function Footer() {
-	var loggedIn = !!cookie.load("token");
+	var loggedIn = !!cookie.load('token');
 
 	return <div className='footer'>
 		<div className='header'>
@@ -42,11 +42,11 @@ export function Footer() {
 				<PageLink icon={<LockIcon />} href='/privacy' children='Privacy' />
 				<PageLink icon={<GitHubIcon />} href='https://github.com/lonkaars/connect-4' children='Broncode' />
 			</div>
-			{ loggedIn && <div className='column'>
+			{loggedIn && <div className='column'>
 				<PageLink icon={<SettingsIcon />} href='/settings' children='Instellingen' />
 				<PageLink icon={<PersonIcon />} href='/user' children='Profiel' />
 				<PageLink icon={<ExitToAppOutlinedIcon />} href='/logout' children='Uitloggen' />
-				</div> }
+			</div>}
 		</div>
 	</div>;
 }

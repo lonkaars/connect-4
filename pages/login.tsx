@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { FormEvent, useContext } from 'react';
+import { FormEvent, useContext, useEffect } from 'react';
+import * as cookie from 'react-cookies';
 
 import { NavBar } from '../components/navbar';
 import { CenteredPage } from '../components/page';
@@ -43,6 +44,11 @@ function submitLogin(event?: FormEvent<HTMLFormElement>, toast?: toastType) {
 }
 
 export default function LoginPage() {
+	useEffect(() => {
+		var loggedIn = !!cookie.load('token');
+		if (loggedIn) window.location.href = '/';
+	}, []);
+
 	var { toast } = useContext(ToastContext);
 
 	return (
