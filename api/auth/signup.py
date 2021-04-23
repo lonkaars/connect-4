@@ -70,7 +70,10 @@ def index():
     # write new user to database and commit
     cursor.execute(
         "insert into users values (?, ?, ?, NULL, NULL, ?, ?, \"[]\", FALSE, \"user\", \"{}\", ?) ",
-        (user_id, username, email, password_hash, registered, bcrypt.gensalt())
+        (
+            user_id, username, email, password_hash, registered,
+            bcrypt.gensalt()
+        )
     )
     connection.commit()
 

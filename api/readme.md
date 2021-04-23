@@ -599,7 +599,8 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-  code: string
+	code:
+	string;
 }
 ```
 
