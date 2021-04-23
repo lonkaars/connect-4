@@ -42,7 +42,9 @@ def get_rating(user_id):
             "l": -1,
             "d": 0
         }[game[2]]
-        for opponent in counted_opponents:
-            # apply the cool curve to the sum score and add to the base score of 400
-            score += rating_v1(counted_opponents.get(opponent))
+
+    for opponent in counted_opponents:
+        # apply the cool curve to the sum score and add to the base score of 400
+        score += rating_v1(counted_opponents.get(opponent))
+
     return int(score)

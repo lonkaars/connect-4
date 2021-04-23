@@ -9,4 +9,3 @@ from hierarchy import io_auth_required
 def connect(data, user_id):
     if not user_id: return
     join_room("user-" + user_id)
-
