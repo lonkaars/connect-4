@@ -1,4 +1,5 @@
 from db import cursor
+from ruleset import resolve_ruleset
 
 
 def outcome(outcome_str, player_1):
@@ -12,7 +13,7 @@ def rating_v1(won_games):  # python is a garbage language
 
 
 def get_all_games(user_id):
-    return cursor.execute("select player_1_id, player_2_id, outcome " + \
+    return cursor.execute("select player_1_id, player_2_id, outcome, ruleset " + \
                                              "from games " + \
                                              "where (player_1_id = ? or player_2_id = ?) " + \
                                              "and status = \"finished\" or status = \"resign\"", [user_id, user_id]).fetchall()
@@ -29,6 +30,11 @@ def get_rating(user_id):
     ]
     counted_opponents = {}
     for game in mapped_games:
+        ruleset = resolve_ruleset(game[3])
+
+        if ruleset.ranked == False:
+            continue
+
         # calculate sum score against user (+1 for win, -1 for lose, 0 for draw game)
         counted_opponents[game[1]] = (counted_opponents.get(game[1]) or 0) + {
             "w": 1,
