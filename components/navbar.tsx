@@ -15,7 +15,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 
-export function NavBar() {
+export function NavBar(props: {
+	nolinks?: boolean;
+}) {
 	var [loggedIn, setLoggedIn] = useState(false);
 	var [gotData, setGotData] = useState(false);
 
@@ -58,42 +60,45 @@ export function NavBar() {
 		<div className='item'>
 			<Logo />
 		</div>
-		<a href='/' className='item'>
-			<Home />
-		</a>
-		<a href='/game' className='item'>
-			<VideogameAssetIcon />
-		</a>
-		{false && <a href='/' className='item'>
-			<ExtensionIcon />
-		</a>}
-		<a href='/search' className='item'>
-			<SearchIcon />
-		</a>
+		{!props.nolinks
+			&& <>
+				<a href='/' className='item'>
+					<Home />
+				</a>
+				<a href='/game' className='item'>
+					<VideogameAssetIcon />
+				</a>
+				{false && <a href='/' className='item'>
+					<ExtensionIcon />
+				</a>}
+				<a href='/search' className='item'>
+					<SearchIcon />
+				</a>
 
-		<div className='bg-800 bottomArea'>
-			{loggedIn && <a className='notifications item posrel'>
-				<div
-					className='iconWrapper'
-					onClick={() => setNotificationsAreaVisible(!notificationsAreaVisible)}
-				>
-					<NotificationsIcon />
-					{gotNotifications && <div className='notificationDot posabs' />}
+				<div className='bg-800 bottomArea'>
+					{loggedIn && <a className='notifications item posrel'>
+						<div
+							className='iconWrapper'
+							onClick={() => setNotificationsAreaVisible(!notificationsAreaVisible)}
+						>
+							<NotificationsIcon />
+							{gotNotifications && <div className='notificationDot posabs' />}
+						</div>
+						<NotificationsArea
+							visible={notificationsAreaVisible}
+							friendRequests={friendRequests}
+							rerender={getNotifications}
+						/>
+					</a>}
+					<a href={loggedIn ? '/user' : '/login'} className='item'>
+						{loggedIn
+							? <AccountAvatar size={24} round />
+							: <PersonIcon />}
+					</a>
+					{loggedIn && <a href='/settings' className='item'>
+						<SettingsIcon />
+					</a>}
 				</div>
-				<NotificationsArea
-					visible={notificationsAreaVisible}
-					friendRequests={friendRequests}
-					rerender={getNotifications}
-				/>
-			</a>}
-			<a href={loggedIn ? '/user' : '/login'} className='item'>
-				{loggedIn
-					? <AccountAvatar size={24} round />
-					: <PersonIcon />}
-			</a>
-			{loggedIn && <a href='/settings' className='item'>
-				<SettingsIcon />
-			</a>}
-		</div>
+			</>}
 	</div>;
 }

@@ -67,7 +67,7 @@ function BigSearchBar(props: {
 	</Vierkant>;
 }
 
-export default function HomePage() {
+export default function SearchPage() {
 	var [searched, setSearched] = useState(false);
 	var [results, setResults] = useState<Array<userInfo>>([]);
 	var getSearchResults = (event?: FormEvent<HTMLFormElement>) => {

@@ -119,3 +119,21 @@ html.dark .dialogbox { background-color: var(--gray-700); }
 	border-radius: 9999999px;
 }
 
+.messagePage .button {
+	float: none;
+}
+
+.messagePage > * { margin-bottom: var(--spacing-large); }
+.messagePage > *:last-child { margin-bottom: 0; }
+
+.messagePage .harry {
+	width: 128px;
+	height: 128px;
+}
+
+.messagePage p {
+	max-width: 623px;
+	margin: 0 auto;
+	margin-bottom: var(--spacing-large);
+}
+
