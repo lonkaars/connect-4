@@ -20,4 +20,3 @@ make
 cd ..
 
 sed "s/user nobody/user $(whoami)/" -i ./nginx.conf
-
