@@ -11,3 +11,11 @@
 .centeredForm .input:nth-last-of-type(2) {
 	margin-bottom: var(--spacing-large);
 }
+
+.logout .sidebyside {
+	width: fit-content;
+}
+
+.logout .sidebyside .button {
+	margin: 0;
+}

@@ -50,6 +50,7 @@
 
 .floatr { float: right; }
 .floatl { float: left; }
+.floatn { float: none; }
 
 .w100m2m { width: calc(100% - var(--spacing-medium)); }
 
