@@ -1,6 +1,7 @@
 import axios from 'axios';
 import reduce from 'image-blob-reduce';
 import { useContext, useEffect } from 'react';
+import * as cookie from 'react-cookies';
 
 import { AccountAvatar } from '../components/account';
 import { Footer } from '../components/footer';
@@ -12,7 +13,6 @@ import ThemePicker from '../components/themes';
 import { CheckBox, ColorPicker, IconLabelButton, Vierkant } from '../components/ui';
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 
@@ -42,6 +42,11 @@ async function uploadNewProfileImage() {
 }
 
 export default function SettingsPage() {
+	useEffect(() => {
+		var loggedIn = !!cookie.load('token');
+		if (!loggedIn) window.location.href = '/';
+	}, []);
+
 	var { preferences, updatePreference } = useContext(PreferencesContext);
 
 	return (

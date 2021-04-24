@@ -4,13 +4,14 @@ import { ReactNode, useContext, useEffect, useState } from 'react';
 
 import { userGames, userInfo } from '../api/api';
 import { AccountAvatar } from '../components/account';
+import { DialogBox } from '../components/dialogBox';
 import { Footer } from '../components/footer';
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
 import RecentGames from '../components/recentGames';
 import { SocketContext } from '../components/socketContext';
 import { ToastContext } from '../components/toast';
-import { IconLabelButton, Vierkant } from '../components/ui';
+import { Button, IconLabelButton, Vierkant } from '../components/ui';
 
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
 import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
@@ -65,18 +66,23 @@ export default function AccountPage() {
 	var { io } = useContext(SocketContext);
 
 	async function getUserData(): Promise<userInfo> {
-		var userReq = await axios.request<userInfo>({
-			method: 'post',
-			url: `/api/user/info`,
-			headers: { 'content-type': 'application/json' },
-			data: reqData,
-		});
-		setUser(userReq.data);
-		return userReq.data;
+		try {
+			var userReq = await axios.request<userInfo>({
+				method: 'post',
+				url: `/api/user/info`,
+				headers: { 'content-type': 'application/json' },
+				data: reqData,
+			});
+			setUser(userReq.data);
+			return userReq.data;
+		} catch (err) {
+			toast({ message: 'error', type: 'error', description: err.toString() });
+		}
 	}
 
 	async function getRelationTo(user: userInfo) {
 		var user = await getUserData();
+		if (!user) return;
 		setRelation(user.relation || 'none');
 	}
 
@@ -98,33 +104,51 @@ export default function AccountPage() {
 	}, []);
 
 	useEffect(() => {
-		(async () => {
-			var userReq = await axios.request<userInfo>({
-				method: 'post',
-				url: `/api/user/info`,
-				headers: { 'content-type': 'application/json' },
+		axios.request<userInfo>({
+			method: 'post',
+			url: `/api/user/info`,
+			headers: { 'content-type': 'application/json' },
+		})
+			.then(response => {
+				setOwnPage(ownPage || response.data.id == pageID);
+			})
+			.catch(err => {
+				toast({ message: 'error', type: 'error', description: err.toString() });
 			});
-			setOwnPage(ownPage || userReq.data.id == pageID);
-		})();
 	}, []);
 
 	// Get recent games
 	useEffect(() => {
-		(async () => {
-			var userGamesReq = await axios.request<userGames>({
-				method: 'post',
-				url: `/api/user/games`,
-				headers: { 'content-type': 'application/json' },
-				data: reqData,
+		axios.request<userGames>({
+			method: 'post',
+			url: `/api/user/games`,
+			headers: { 'content-type': 'application/json' },
+			data: reqData,
+		})
+			.then(response => {
+				setGameInfo(response.data);
+			})
+			.catch(err => {
+				toast({ message: 'error', type: 'error', description: err.toString() });
 			});
-			setGameInfo(userGamesReq.data);
-		})();
 	}, []);
 
 	return <div>
 		<NavBar />
 		<CenteredPage width={802}>
 			<PageTitle>Profiel</PageTitle>
+			<div>
+				{!loggedIn && <DialogBox title='Maak een account aan' onclick={() => window.location.href = '/'}>
+					<p className='center'>
+						Om de accounts van andere gebruikers te zien moet je inloggen of een account aanmaken
+					</p>
+					<div className='pad-s'></div>
+					<div className='sidebyside fullwidth'>
+						<Button href='/register' text='Registreren' className='register w1fr' />
+						<Button href='/login' text='Inloggen' className='login w1fr' />
+					</div>
+				</DialogBox>}
+			</div>
 			<Vierkant className='accountHeader w100m2m pad-l bg-800'>
 				<div className='inner posrel'>
 					<AccountAvatar size={128} id={user?.id || ''} />

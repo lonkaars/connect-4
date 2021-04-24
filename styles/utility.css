@@ -52,6 +52,8 @@
 .floatl { float: left; }
 .floatn { float: none; }
 
+.w1fr { width: 1fr; }
+
 .w100m2m { width: calc(100% - var(--spacing-medium)); }
 
 .w100vw { width: 100vw; }

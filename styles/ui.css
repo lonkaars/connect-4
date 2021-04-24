@@ -68,6 +68,7 @@ html.dark .button { color: var(--foreground); }
 .dialogbox {
 	width: 392px;
 	margin: 0;
+	z-index: 1;
 }
 .dialogbox > .title { margin-bottom: var(--spacing-large); }
 .dialogbox .icon.close {
