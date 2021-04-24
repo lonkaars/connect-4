@@ -73,3 +73,7 @@ input::placeholder {
 /* material-ui default state */
 svg.MuiSvgIcon-root { transition: none !important; }
 
+.logo .betaBadge { bottom: -9px; }
+.logo .betaBadge .background { fill: var(--accent); }
+.logo .betaBadge .foreground { fill: var(--gray-900); }
+html.dark .logo .betaBadge .foreground { fill: var(--foreground); }
