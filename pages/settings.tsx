@@ -71,37 +71,39 @@ export default function SettingsPage() {
 							}}
 						/>
 					</div>
-					<div className='subsection'>
-						<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
-						<div className='dispbl'>
-							<h3>Gebruikersnaam</h3>
-							<p>Hier staat hij dan</p>
+					{false && <>
+						<div className='subsection'>
+							<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
+							<div className='dispbl'>
+								<h3>Gebruikersnaam</h3>
+								<p>Hier staat hij dan</p>
+							</div>
 						</div>
-					</div>
-					<div className='subsection'>
-						<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
-						<IconLabelButton text='Onthullen' icon={<VisibilityOutlinedIcon />} />
-						<div className='dispbl'>
-							<h3>Email</h3>
-							<p>******@example.com</p>
+						<div className='subsection'>
+							<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
+							<IconLabelButton text='Onthullen' icon={<VisibilityOutlinedIcon />} />
+							<div className='dispbl'>
+								<h3>Email</h3>
+								<p>******@example.com</p>
+							</div>
 						</div>
-					</div>
-					<div className='subsection'>
-						<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
-						<div className='dispbl'>
-							<h3>Wachtwoord</h3>
+						<div className='subsection'>
+							<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
+							<div className='dispbl'>
+								<h3>Wachtwoord</h3>
+							</div>
 						</div>
-					</div>
+					</>}
 				</Vierkant>
 				<Vierkant className='section colors w100m2m pad-l bg-800'>
 					<h2>Kleuren</h2>
-					<div className='subsection'>
+					{false && <div className='subsection'>
 						<ColorPicker />
 						<ColorPicker />
 						<div className='dispbl'>
 							<h3>Schijfjes</h3>
 						</div>
-					</div>
+					</div>}
 					<div className='subsection'>
 						<div className='floatr'>
 							<CheckBox
@@ -112,6 +114,7 @@ export default function SettingsPage() {
 						<h3>Donkere modus</h3>
 					</div>
 					<div className='subsection'>
+						<h3>Thema's (WIP)</h3>
 						<ThemePicker preferences={preferences} />
 					</div>
 				</Vierkant>
@@ -119,17 +122,6 @@ export default function SettingsPage() {
 					<h2>Standaard spelregels</h2>
 					<div className='subsection'>
 						<CurrentGameSettings />
-					</div>
-				</Vierkant>
-				<Vierkant className='section logout w100m2m pad-l bg-800'>
-					<h2>Uitloggen</h2>
-					<div className='center'>
-						<IconLabelButton
-							className='dispinbl'
-							icon={<ExitToAppOutlinedIcon />}
-							text='Uitloggen'
-							href='/logout'
-						/>
 					</div>
 				</Vierkant>
 			</CenteredPage>
