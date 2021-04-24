@@ -19,7 +19,7 @@ import Icon from '@mdi/react';
 import { ArticleMeta, getStaticProps as getBlogPage, RenderedArticle } from './blog/[post]';
 
 // edit this to change the post displayed on the home page
-var posts = ['cool_test_article'];
+var posts = ['beta'];
 
 function LoginOrRegisterBox() {
 	return <div className='inner'>
