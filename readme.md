@@ -62,16 +62,16 @@ git submodules and compile voerbak and the sql extensions.
 > I haven't figured out how to run this project on Windows, so please install
 > [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) if you want
 > to run this yourself on Windows. The distro you choose doesn't matter, though
-> package names in ./configure may vary if your distro doesn't use the apt
-> package manager.
+> package names in ./config may vary if your distro doesn't use the apt package
+> manager.
 
-### automatic setup using `./configure` (debian/ubuntu)
+### automatic setup using `./config` (debian/ubuntu)
 
 This script might also work on other distro's using the `apt` package manager.
 To start the setup process you only need to run the following command:
 
 ```sh
-./configure
+./config
 ```
 
 The script calls sudo and apt install so some password input/manual confirmation
@@ -89,37 +89,31 @@ project by following these steps:
    installed.
 3. Make sure you have [nginx](https://nginx.org/en/) installed.
 4. Make sure you have [make](https://www.gnu.org/software/make/) and the gnu c
-   compilers [gcc](https://gcc.gnu.org/) installed (most distro's will have
+   compilers ([gcc](https://gcc.gnu.org/)) installed (most distro's will have
    these by default).
-5. Install typescript, react-scripts and yarn:
+5. Install typescript and yarn:
    ```sh
-   npm i -g typescript yarn
+   ./config yarn_install
    ```
 6. Create a new python virtual environment and install pip modules:
    ```sh
-   python -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
+   ./config python_packages
    ```
 7. Install node modules:
    ```sh
-   yarn
+   ./config node_packages
    ```
 8. Build voerbak:
    ```sh
-   cd voerbak
-   make
+   ./config voerbak
    ```
 9. Download submodules:
    ```sh
-   git submodule init
-   git submodule update
+   ./config submodules
    ```
 10. Initialize database and build SQL extensions:
     ```sh
-    cd database
-    ./init_db.sh
-    make
+    ./config database
     ```
 
 ## How to start
@@ -129,8 +123,7 @@ flask server, react server, and nginx seperately:
 
 ```sh
 # term 1
-source venv/bin/activate
-python3 api/main.py
+venv/bin/python3 api/main.py
 
 # term 2
 yarn dev
@@ -139,6 +132,5 @@ yarn dev
 sudo nginx -c $PWD/nginx.conf
 
 # if nginx can't run as the user nobody, try running the following command and restart nginx:
-# this command is also in ./configure
-sed "s/user nobody/user $(whoami)/" -i nginx.conf
+./config customize_config
 ```

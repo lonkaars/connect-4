@@ -1,0 +1,75 @@
+#!/bin/sh
+
+export $(cat .env | xargs)
+
+packages() {
+	sudo apt-get install \
+		nodejs npm \
+		python3 python3-venv python3-pip \
+		make \
+		gcc \
+		sqlite3 libsqlite3-dev \
+		nginx
+}
+
+yarn_install() {
+	sudo npm i -g typescript yarn # install typescript compilers and yarn package manager globally using npm
+}
+
+node_packages() {
+	yarn
+}
+
+python_packages() {
+	python3 -m venv venv # create virtual environment
+	venv/bin/pip install -r requirements.txt # install the dependencies
+}
+
+submodules() {
+	git submodule init
+	git submodule update
+}
+
+database() {
+	cd database
+	sh init_db.sh
+	make
+	cd ..
+}
+
+voerbak() {
+	cd voerbak
+	make
+	cd ..
+}
+
+customize_config() {
+	sed "s/{{ connect4_dir }}/${CONNECT4_WEB_ROOT}/g" -i ./api.systemd.conf
+	sed "s/{{ connect4_user }}/$(whoami)/g" -i ./api.systemd.conf
+	sed "s/user nobody/user $(whoami)/" -i ./nginx.conf
+}
+
+build() {
+	customize_config
+	npx next build
+	npx next export
+	mv out $CONNECT4_WEB_ROOT
+}
+
+all() {
+	packages
+	yarn_install
+	node_packages
+	python_packages
+	submodules
+	database
+	voerbak
+}
+
+if [[ -z $1 ]]; then
+	all
+	exit
+fi
+
+$1
+
