@@ -6,9 +6,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# dotenv
-.env
-
 # virtualenv
 .venv/
 venv/
