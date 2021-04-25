@@ -5,6 +5,7 @@ import { Footer } from '../components/footer';
 import { SocketContext } from '../components/socketContext';
 
 import { AccountAvatar } from '../components/account';
+import { IssueList } from '../components/issues';
 import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
 import RecentGames from '../components/recentGames';
@@ -125,17 +126,21 @@ export default function HomePage(props: {
 						: <LoginOrRegisterBox />}
 				</Vierkant>
 			</div>
-			<>
-				{loggedIn
-					&& <Vierkant className='w100m2m pad-l bg-800'>
-						<RecentGames games={gameInfo?.games} />
-					</Vierkant>}
-			</>
+			{loggedIn
+				&& <Vierkant className='w100m2m pad-l bg-800'>
+					<RecentGames games={gameInfo?.games} />
+				</Vierkant>}
+
 			<div>
 				{props.posts.map(post => {
 					return <RenderedArticle content={post.props.content} meta={post.props.meta} />;
 				})}
 			</div>
+
+			<Vierkant className='w100m2m pad-l bg-800'>
+				<h2>Github Issues</h2>
+				<IssueList />
+			</Vierkant>
 		</CenteredPage>
 		<Footer />
 	</div>;

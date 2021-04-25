@@ -1,0 +1,44 @@
+.github-issue-list .github-issue {
+	margin-top: var(--spacing-medium);
+}
+
+.github-issue-list .github-issue .number {
+	margin-right: var(--spacing-small);
+}
+
+.github-issue-list .github-issue .tags .tag {
+	color: var(--color);
+
+	border-radius: 999999px;
+	box-shadow: inset 0 0 0 2px var(--color);
+
+	position: relative;
+	z-index: 1;
+
+	margin-right: var(--spacing-medium);
+	margin-top: var(--spacing-small);
+
+	padding: var(--spacing-small) var(--spacing-medium);
+}
+
+.github-issue-list .github-issue .tags .tag .label {
+	filter: brightness(0.2) saturate(.8);
+}
+
+body.dark .github-issue-list .github-issue .tags .tag .label {
+	filter: brightness(7) saturate(.5);
+}
+
+.tags .tag::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+
+	border-radius: 999px;
+	background-color: var(--color);
+	opacity: .25;
+}
