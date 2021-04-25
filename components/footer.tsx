@@ -1,5 +1,8 @@
-import { ReactNode } from 'react';
+import axios from 'axios';
+import { ReactNode, useEffect, useState } from 'react';
 import * as cookie from 'react-cookies';
+
+import { serverStatus } from '../api/api';
 import Logo from '../components/logo';
 
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
@@ -25,11 +28,24 @@ function PageLink(props: {
 
 export function Footer() {
 	var loggedIn = !!cookie.load('token');
+	var [status, setStatus] = useState<serverStatus>();
+
+	useEffect(() => {
+		axios.request<serverStatus>({
+			url: '/api/status',
+		}).then(res => {
+			setStatus(res.data);
+		});
+	}, []);
 
 	return <div className='footer'>
-		<div className='header'>
+		<div className='header posrel'>
 			<Logo />
 			<h2>4 op een rij</h2>
+			<span className='versionString subtile posabs abscenterv'>
+				<span className='number'>v{status?.version.number}</span>
+				<span className='commit'>({status?.version.commit.substr(0, 8)})</span>
+			</span>
 		</div>
 		<div className='content'>
 			<div className='column'>
@@ -50,3 +66,6 @@ export function Footer() {
 		</div>
 	</div>;
 }
+
+Footer.getInitialProps = async () => {
+};

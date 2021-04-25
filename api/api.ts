@@ -62,3 +62,11 @@ export interface gameInfo {
 	started: number;
 	status: 'finished' | 'in_progress' | 'resign' | 'wait_for_opponent';
 }
+
+export interface serverStatus {
+	games: number;
+	version: {
+		commit: string;
+		number: string;
+	};
+}

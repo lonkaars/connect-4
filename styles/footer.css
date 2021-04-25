@@ -36,3 +36,13 @@
 	margin-top: 12px;
 	display: block;
 }
+
+.versionString {
+    font-feature-settings: 'tnum' on, 'lnum' on, 'salt' on;
+    margin-left: var(--spacing-small);
+}
+
+.versionString span {
+    margin-left: var(--spacing-small);
+    font-style: normal;
+}

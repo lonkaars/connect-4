@@ -28,7 +28,11 @@ API return type classes are mostly defined in api/api.ts
 ```ts
 {
   users: int,
-  games: int
+  games: int,
+  version: {
+    commit: string,
+    number: string
+  }
 }
 ```
 
