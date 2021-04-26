@@ -8,7 +8,14 @@
 <img src="https://img.shields.io/static/v1?label=platform&message=linux"/>
 <a href="https://discord.gg/FnapWQ9P7T"><img src="https://discordapp.com/api/guilds/820763086315061248/embed.png"/></a>
 <br/>
+<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/lonkaars/connect-4?label=latest">
+<a href="https://connect4.pipeframe.xyz">
+<img alt="Live commit version" src="https://img.shields.io/badge/dynamic/json?color=orange&label=live&query=version.commit_short&url=https%3A%2F%2Fconnect4.pipeframe.xyz%2Fapi%2Fstatus">
+<img alt="Live commit version" src="https://img.shields.io/badge/dynamic/json?color=orange&label=live&prefix=v&query=version.number&url=https%3A%2F%2Fconnect4.pipeframe.xyz%2Fapi%2Fstatus">
+</a>
+<br/>
 <a href="https://discord.gg/FnapWQ9P7T"><strong>Discord invite</strong></a>
+
 </p>
 
 > Some of this project's code is in Dutch (commit messages, documents etc.),
