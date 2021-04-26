@@ -17,4 +17,5 @@ python-dotenv==0.17.0
 python-engineio==4.1.0
 python-socketio==5.2.1
 six==1.15.0
+uWSGI==2.0.19.1
 Werkzeug==1.0.1
