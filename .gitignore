@@ -36,3 +36,6 @@ voerbak/voerbak
 voerbak/*.o
 voerbak/tests/*
 
+# uwsgi
+.uwsgi_plugins_builder/
+

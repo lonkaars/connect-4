@@ -4,9 +4,9 @@ cffi==1.14.5
 click==7.1.2
 colorama==0.4.4
 dnspython==1.16.0
-eventlet==0.30.2
 Flask==1.1.2
 Flask-SocketIO==5.0.1
+gevent==21.1.2
 greenlet==1.0.0
 itsdangerous==1.1.0
 Jinja2==2.11.3
@@ -19,3 +19,5 @@ python-socketio==5.2.1
 six==1.15.0
 uWSGI==2.0.19.1
 Werkzeug==1.0.1
+zope.event==4.5.0
+zope.interface==5.4.0
