@@ -2,9 +2,11 @@ from flask import Blueprint
 from db import cursor
 import json
 
+HEAD = open(".git/HEAD", "r").read().split(" ")[1].strip()
+
 version = {
     "number": json.loads(open("package.json", "r").read())["version"],
-    "commit": open(".git/refs/heads/master", "r").read().strip()
+    "commit": open(".git/" + HEAD, "r").read().strip()
 }
 
 status = Blueprint('server_status', __name__)
