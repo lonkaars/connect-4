@@ -70,8 +70,8 @@ prod() {
 	sed "s/CONNECT4_DEBUG=1/CONNECT4_DEBUG=0/" -i .env
 	npx next build
 	npx next export
-	rm -rfv $CONNECT4_WEB_ROOT
-	mv out $CONNECT4_WEB_ROOT
+	rm -rfv $CONNECT4_WEB_ROOT/*
+	mv out/* $CONNECT4_WEB_ROOT
 }
 
 if [[ -z $1 ]]; then
