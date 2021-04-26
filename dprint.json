@@ -34,7 +34,8 @@
 		"database/SQLiteFuzzySearch/**",
 		"venv/**",
 		".next/**",
-		"news/**"
+		"news/**",
+		"api/readme.md"
 	],
 	"plugins": [
 		"https://plugins.dprint.dev/typescript-0.44.0.wasm",

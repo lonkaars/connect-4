@@ -3,6 +3,7 @@ from db import cursor
 import auth.token as token
 import passwords
 
+
 def login_password(user_id, password):
     passwd_hash = cursor.execute(
         "select password_hash from users where user_id = ?", [user_id]
@@ -10,6 +11,7 @@ def login_password(user_id, password):
     if not passwd_hash: return False
     check = passwords.check_password(password, passwd_hash[0])
     return bool(check)
+
 
 login = Blueprint('login', __name__)
 

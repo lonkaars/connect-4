@@ -16,6 +16,7 @@ def login_and_password(func):
         if not login_password(user_id, password): return "", 401
 
         return func(user_id)
+
     return wrapper
 
 
@@ -29,13 +30,20 @@ def modify_user_info(type):
         if not new_value: return "", 401
 
         # check if already taken
-        taken = cursor.execute(f"select count(user_id) from users where lower({type}) = lower(?)", [new_value]).fetchone()
+        taken = cursor.execute(
+            f"select count(user_id) from users where lower({type}) = lower(?)",
+            [new_value]
+        ).fetchone()
         if taken[0] > 0: return "", 403
 
         # update
-        cursor.execute(f"update users set {type} = ? where user_id = ?", [new_value, user_id])
+        cursor.execute(
+            f"update users set {type} = ? where user_id = ?",
+            [new_value, user_id]
+        )
         connection.commit()
         return "", 200
+
     return index
 
 
@@ -49,8 +57,4 @@ modify_email.add_url_rule(
     '/email', 'route', modify_user_info("email"), methods=["POST"]
 )
 
-
-dynamic_routes = [
-        ["/user", modify_username],
-        ["/user", modify_email]
-        ]
+dynamic_routes = [["/user", modify_username], ["/user", modify_email]]
