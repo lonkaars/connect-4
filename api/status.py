@@ -2,11 +2,11 @@ from flask import Blueprint
 from db import cursor
 import json
 
-HEAD = open(".git/HEAD", "r").read().split(" ")[1].strip()
-commit = open(".git/" + HEAD, "r").read().strip()
+HEAD = open("../.git/HEAD", "r").read().split(" ")[1].strip()
+commit = open("../.git/" + HEAD, "r").read().strip()
 
 version = {
-    "number": json.loads(open("package.json", "r").read())["version"],
+    "number": json.loads(open("../package.json", "r").read())["version"],
     "commit": commit,
     "commit_short": commit[0:8]
 }

@@ -5,7 +5,7 @@ from os.path import exists
 from codecs import decode
 import valid
 
-default_avatar = open("database/avatars/default.png", "rb").read()
+default_avatar = open("../database/avatars/default.png", "rb").read()
 
 avatar = Blueprint('avatar', __name__)
 
@@ -17,7 +17,7 @@ def get_avatar(token_id):
     if not user_id: return "", 400
     if not valid.user_id(user_id): return "", 403
 
-    avatar_path = f"database/avatars/{user_id}.png"
+    avatar_path = f"../database/avatars/{user_id}.png"
     avatar = ""
     if exists(avatar_path):
         avatar = open(avatar_path, "rb").read()
@@ -30,7 +30,7 @@ def get_avatar(token_id):
 def update_avatar(user_id):
     if not request.data: return "", 400
 
-    open(f"database/avatars/{user_id}.png", "wb") \
+    open(f"../database/avatars/{user_id}.png", "wb") \
            .write(decode(request.data, "base64"))
 
     return "", 200
