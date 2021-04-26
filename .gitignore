@@ -38,4 +38,5 @@ voerbak/tests/*
 
 # uwsgi
 .uwsgi_plugins_builder/
+c4api.pid
 
