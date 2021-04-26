@@ -3,10 +3,12 @@ from db import cursor
 import json
 
 HEAD = open(".git/HEAD", "r").read().split(" ")[1].strip()
+commit = open(".git/" + HEAD, "r").read().strip()
 
 version = {
     "number": json.loads(open("package.json", "r").read())["version"],
-    "commit": open(".git/" + HEAD, "r").read().strip()
+    "commit": commit,
+    "commit_short": commit[0:8]
 }
 
 status = Blueprint('server_status', __name__)
