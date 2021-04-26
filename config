@@ -54,7 +54,7 @@ all() {
 }
 
 customize_config() {
-	sed "s#{{ connect4_dir }}#$CONNECT4_WEB_ROOT#g" -i ./api.systemd.conf
+	sed "s#{{ connect4_dir }}#$(pwd)#g" -i ./api.systemd.conf
 	sed "s/{{ connect4_user }}/$(whoami)/g" -i ./api.systemd.conf
 	sed "s/user nobody/user $(whoami)/" -i ./nginx.conf
 }
