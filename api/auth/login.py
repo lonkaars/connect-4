@@ -3,6 +3,14 @@ from db import cursor
 import auth.token as token
 import passwords
 
+def login_password(user_id, password):
+    passwd_hash = cursor.execute(
+        "select password_hash from users where user_id = ?", [user_id]
+    ).fetchone()
+    if not passwd_hash: return False
+    check = passwords.check_password(password, passwd_hash[0])
+    return bool(check)
+
 login = Blueprint('login', __name__)
 
 
@@ -29,11 +37,8 @@ def index():
     if user_id == None: return "", 401
 
     # check the password
-    passwd = cursor.execute(
-        "select password_hash from users where user_id = ?", [user_id[0]]
-    ).fetchone()
-    check = passwords.check_password(password, passwd[0])
-    if not check: return "", 401
+    valid_password = login_password(user_id[0], password)
+    if not valid_password: return "", 401
 
     # generate a new authentication token and add it to the users valid token list
     new_token = token.generate_token()

@@ -84,8 +84,7 @@ API return type classes are mostly defined in api/api.ts
 
 ```ts
 {
-	id:
-	userID;
+	id: userID;
 }
 ```
 
@@ -127,8 +126,7 @@ API return type classes are mostly defined in api/api.ts
 
 ```ts
 {
-	id:
-	userID;
+	id: userID;
 }
 ```
 
@@ -196,8 +194,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	image:
-	base64PNG;
+  image: base64PNG;
 }
 ```
 
@@ -216,8 +213,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	preferences:
-	userPreferences;
+  preferences: userPreferences;
 }
 ```
 
@@ -232,8 +228,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	newPreferences:
-	userPreferences;
+  newPreferences: userPreferences;
 }
 ```
 
@@ -304,8 +299,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	status:
-	string;
+  status: string;
 }
 ```
 
@@ -322,8 +316,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	id:
-	userID;
+  id: userID;
 }
 ```
 
@@ -340,8 +333,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	id:
-	userID;
+  id: userID;
 }
 ```
 
@@ -358,8 +350,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	id:
-	userID;
+  id: userID;
 }
 ```
 
@@ -376,8 +367,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	query:
-	string;
+  query: string;
 }
 ```
 
@@ -386,7 +376,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ results: Array<userInfo> }
+{
+  results: Array<userInfo>
+}
 ```
 
 </td>
@@ -400,8 +392,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	id:
-	userID;
+  id: userID;
 }
 ```
 
@@ -418,8 +409,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	id:
-	userID;
+  id: userID;
 }
 ```
 
@@ -437,7 +427,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ requests: Array<userInfo> }
+{
+  requests: Array<userInfo>
+}
 ```
 
 </td>
@@ -452,7 +444,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ blocks: Array<userInfo> }
+{
+  blocks: Array<userInfo>
+}
 ```
 
 </td>
@@ -467,7 +461,9 @@ returns error when image is not .png or larger than 256x256
 <td>
 
 ```ts
-{ friends: Array<userInfo> }
+{
+  friends: Array<userInfo>
+}
 ```
 
 </td>
@@ -519,8 +515,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	id:
-	gameID;
+  id: gameID;
 }
 ```
 
@@ -530,7 +525,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	gameInfo;
+  gameInfo;
 }
 ```
 
@@ -545,8 +540,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	id:
-	gameID;
+  id: gameID;
 }
 ```
 
@@ -573,8 +567,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	id:
-	gameID;
+  id: gameID;
 }
 ```
 
@@ -603,8 +596,7 @@ returns error when image is not .png or larger than 256x256
 
 ```ts
 {
-	code:
-	string;
+  code: string;
 }
 ```
 
