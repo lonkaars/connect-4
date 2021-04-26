@@ -43,12 +43,6 @@ voerbak() {
 	cd ..
 }
 
-customize_config() {
-	sed "s#{{ connect4_dir }}#$CONNECT4_WEB_ROOT#g" -i ./api.systemd.conf
-	sed "s/{{ connect4_user }}/$(whoami)/g" -i ./api.systemd.conf
-	sed "s/user nobody/user $(whoami)/" -i ./nginx.conf
-}
-
 build() {
 	customize_config
 	npx next build
@@ -64,6 +58,20 @@ all() {
 	submodules
 	database
 	voerbak
+}
+
+customize_config() {
+	sed "s#{{ connect4_dir }}#$CONNECT4_WEB_ROOT#g" -i ./api.systemd.conf
+	sed "s/{{ connect4_user }}/$(whoami)/g" -i ./api.systemd.conf
+	sed "s/user nobody/user $(whoami)/" -i ./nginx.conf
+}
+
+prod() {
+	sed "s/CONNECT4_DEBUG=1/CONNECT4_DEBUG=0/" -i .env
+	npx next build
+	npx next export
+	rm -rfv $CONNECT4_WEB_ROOT
+	mv out $CONNECT4_WEB_ROOT
 }
 
 if [[ -z $1 ]]; then
