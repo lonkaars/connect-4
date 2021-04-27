@@ -67,6 +67,7 @@ export interface serverStatus {
 	games: number;
 	version: {
 		commit: string;
+		commit_short: string;
 		number: string;
 	};
 }

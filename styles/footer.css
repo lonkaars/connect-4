@@ -1,5 +1,8 @@
 .footer {
-	margin-top: 24px;
+	margin-top: var(--spacing-large);
+	margin: 0 auto;
+	max-width: 800px;
+
 	padding: 24px 48px;
 }
 

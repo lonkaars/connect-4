@@ -44,7 +44,7 @@ export function Footer() {
 			<h2>4 op een rij</h2>
 			<span className='versionString subtile posabs abscenterv'>
 				<span className='number'>v{status?.version.number}</span>
-				<span className='commit'>({status?.version.commit.substr(0, 8)})</span>
+				<span className='commit'>({status?.version.commit_short})</span>
 			</span>
 		</div>
 		<div className='content'>

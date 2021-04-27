@@ -31,6 +31,7 @@ API return type classes are mostly defined in api/api.ts
   games: int,
   version: {
     commit: string,
+    commit_short: string,
     number: string
   }
 }
