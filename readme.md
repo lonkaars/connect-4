@@ -130,7 +130,8 @@ flask server, react server, and nginx seperately:
 
 ```sh
 # term 1
-venv/bin/python3 api/main.py
+cd api
+../venv/bin/python3 main.py
 
 # term 2
 yarn dev
