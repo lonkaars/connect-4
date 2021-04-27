@@ -8,7 +8,7 @@ export interface userInfo {
 	friends: number;
 	relation?: 'none' | 'friends' | 'incoming' | 'outgoing' | 'blocked';
 	rating: number;
-    email?: string;
+	email?: string;
 }
 
 export type ruleset = {
