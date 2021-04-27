@@ -30,7 +30,7 @@ def count_friends(user_id):
 
 
 # get user/info of `user_id` as `viewer` (id)
-def format_user(user_id, viewer=''):
+def format_user(user_id, viewer='', private_details=False):
     user = cursor.execute(
         "select " + ", ".join(
             [
@@ -39,6 +39,7 @@ def format_user(user_id, viewer=''):
                 "country",
                 "registered",
                 "status",
+                "email",
             ]
         ) + " from users where user_id = ?", [user_id]
     ).fetchone()
@@ -51,8 +52,10 @@ def format_user(user_id, viewer=''):
         "friends": count_friends(user_id),
         "rating":
         get_rating(user_id),  #TODO: calculate rating based on game analysis
+        "email": None
     }
     if viewer: formatted_user["relation"] = get_relation_to(viewer, user_id)
+    if private_details: formatted_user["email"] = user[5]
     return formatted_user
 
 
@@ -64,7 +67,7 @@ info = Blueprint('info', __name__)
 @info.route('/info', methods=['GET', 'POST'])
 @one_person
 def index(user_id, viewer):
-    user = format_user(user_id, viewer)
+    user = format_user(user_id, viewer, user_id == viewer)
     return user, 200
 
 

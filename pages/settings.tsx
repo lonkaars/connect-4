@@ -1,6 +1,6 @@
 import axios from 'axios';
 import reduce from 'image-blob-reduce';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import * as cookie from 'react-cookies';
 
 import { AccountAvatar } from '../components/account';
@@ -10,7 +10,9 @@ import { NavBar } from '../components/navbar';
 import { CenteredPage, PageTitle } from '../components/page';
 import PreferencesContext from '../components/preferencesContext';
 import ThemePicker from '../components/themes';
-import { CheckBox, ColorPicker, IconLabelButton, Vierkant } from '../components/ui';
+import { CheckBox, ColorPicker, IconLabelButton, Vierkant, Input, Button } from '../components/ui';
+import { userInfo } from '../api/api';
+import { DialogBox } from '../components/dialogBox';
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
@@ -41,6 +43,45 @@ async function uploadNewProfileImage() {
 	};
 }
 
+function EditImportantThingDialog(props: {
+	thing: "username" | "email";
+	hidden?: boolean;
+	setHidden?: () => void;
+}) {
+	var lang = {
+		"username": {
+			name: "Gebruikersnaam",
+			new: "Nieuwe gebruikersnaam",
+		},
+		"email": {
+			name: "Email",
+			new: "Nieuw email-adres",
+		},
+	}[props.thing]
+	var title = lang.name + " aanpassen"
+	return !props.hidden && <DialogBox title={title} onclick={props.setHidden}>
+		<Input className="bg-900 pad-m fullwidth round-t" label={lang.new} id="newThing" autocomplete="off"/>
+		<div className="pad-s"></div>
+		<Input className="bg-900 pad-m fullwidth round-t" label="Huidig wachtwoord" id="currentPassword" type="password" autocomplete="current-password"/>
+		<div className="pad-m"></div>
+		<Button text={title} onclick={() => {
+			var data = {
+				password: (document.getElementById("currentPassword") as HTMLInputElement).value
+			}
+			data[props.thing] = (document.getElementById("newThing") as HTMLInputElement).value
+			axios.request({
+				method: "post",
+				url: "/api/user/" + props.thing,
+				headers: { 'content-type': 'application/json' },
+				data
+			}).then(() => {
+				window.location.reload()
+			})
+			props.setHidden();
+		}}/>
+	</DialogBox>
+}
+
 export default function SettingsPage() {
 	useEffect(() => {
 		var loggedIn = !!cookie.load('token');
@@ -48,6 +89,22 @@ export default function SettingsPage() {
 	}, []);
 
 	var { preferences, updatePreference } = useContext(PreferencesContext);
+
+	var [ userInfo, setUserInfo ] = useState<userInfo>();
+	var [ emailVisible, setEmailVisible ] = useState(false);
+
+	var [ editUsernameDiagVisisble, setEditUsernameDiagVisisble ] = useState(false);
+	var [ editEmailDiagVisisble, setEditEmailDiagVisisble ] = useState(false);
+
+	useEffect(() => {
+		axios.request<userInfo>({
+			url: `/api/user/info`
+		}).then(req => {
+			setUserInfo(req.data);
+		}).catch(err => {
+			console.error(err)
+		})
+	}, []);
 
 	return (
 		<div>
@@ -76,22 +133,31 @@ export default function SettingsPage() {
 							}}
 						/>
 					</div>
+					<div className='subsection'>
+						<EditImportantThingDialog thing="username" hidden={!editUsernameDiagVisisble} setHidden={() => setEditUsernameDiagVisisble(false)}/>
+						<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} onclick={() => setEditUsernameDiagVisisble(true)} />
+						<div className='dispbl'>
+							<h3>Gebruikersnaam</h3>
+							<p>{ userInfo?.username }</p>
+						</div>
+					</div>
+					<div className='subsection'>
+					<EditImportantThingDialog thing="email" hidden={!editEmailDiagVisisble} setHidden={() => setEditEmailDiagVisisble(false)}/>
+						<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} onclick={() => setEditEmailDiagVisisble(true)} />
+						{ emailVisible ?
+							<IconLabelButton text='Verbergen' icon={<VisibilityOutlinedIcon />} onclick={() => setEmailVisible(!emailVisible)} /> :
+							<IconLabelButton text='Onthullen' icon={<VisibilityOutlinedIcon />} onclick={() => setEmailVisible(!emailVisible)} />
+						}
+						<div className='dispbl'>
+							<h3>Email</h3>
+							<p>{ (() => {
+								var email = userInfo?.email;
+								if (email && !emailVisible) email = email.replace(/.+?(?=@)/, "************")
+								return email
+								 })() }</p>
+						</div>
+					</div>
 					{false && <>
-						<div className='subsection'>
-							<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
-							<div className='dispbl'>
-								<h3>Gebruikersnaam</h3>
-								<p>Hier staat hij dan</p>
-							</div>
-						</div>
-						<div className='subsection'>
-							<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
-							<IconLabelButton text='Onthullen' icon={<VisibilityOutlinedIcon />} />
-							<div className='dispbl'>
-								<h3>Email</h3>
-								<p>******@example.com</p>
-							</div>
-						</div>
 						<div className='subsection'>
 							<IconLabelButton text='Bewerken' icon={<EditOutlinedIcon />} />
 							<div className='dispbl'>
